@@ -26,7 +26,7 @@
     header {
       background: #ffffff;
       border-bottom: 1px solid var(--border);
-      padding: 0.9rem 1rem;
+      padding: 0.85rem 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -57,16 +57,32 @@
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.78rem; padding: 0.45rem 0.75rem; border-radius: 8px; }
 
+    /* Super Power Admin Dashboard */
     .admin-bar {
       background: #0f172a;
       color: #fff;
-      padding: 0.75rem 1rem;
+      padding: 1rem;
       display: none;
       flex-direction: column;
+      gap: 12px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: rgba(255,255,255,0.05);
+      padding: 8px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 0.75rem;
+    }
+    .stat-val { font-size: 1.1rem; font-weight: 800; color: #38bdf8; }
+    .admin-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
     }
-    .admin-bar-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
-    .admin-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
     .hero {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -153,13 +169,14 @@
       position: relative;
       cursor: pointer;
       overflow: hidden;
+      background: #e2e8f0;
+      height: 220px;
     }
     .card-img { 
       width: 100%; 
-      height: 220px; 
+      height: 100%; 
       object-fit: cover; 
       display: block; 
-      background: #e2e8f0;
     }
     .img-count-badge {
       position: absolute;
@@ -315,8 +332,8 @@
       justify-content: center;
     }
     .gallery-thumbs img {
-      width: 60px;
-      height: 60px;
+      width: 55px;
+      height: 55px;
       object-fit: cover;
       border-radius: 8px;
       cursor: pointer;
@@ -390,13 +407,21 @@
 
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
-      <span>👑 دۆخی بەڕێوەبەر چالاکە</span>
+      <span>👑 دەسەڵاتی خاوەن ماڵپەڕ (Owner Power Mode)</span>
       <button onclick="logoutAdmin()" style="background:none; border:none; color:#f87171; font-size:0.8rem; cursor:pointer; font-weight:700;">دەرچوون</button>
     </div>
-    <div class="admin-actions">
+
+    <div class="admin-stats-grid">
+      <div>کۆی موڵکەکان<div class="stat-val" id="statTotal">0</div></div>
+      <div>خانووەکان<div class="stat-val" id="statHouses">0</div></div>
+      <div>زەوییەکان<div class="stat-val" id="statLands">0</div></div>
+    </div>
+
+    <div class="admin-actions-grid">
       <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
       <button class="btn btn-edit" onclick="openSettingsModal()">⚙️ ڕێکخستنی سایت</button>
     </div>
+    <button class="btn btn-danger" style="width:100%; padding:0.5rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکە قورسە کۆنەکان (پاککردنەوەی داتابەیس)</button>
   </div>
 
   <section class="hero">
@@ -548,8 +573,9 @@
   <script>
     const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 
-    let properties = [];
-    let siteSettings = {
+    // Instant local cache loading
+    let properties = JSON.parse(localStorage.getItem('cached_props')) || [];
+    let siteSettings = JSON.parse(localStorage.getItem('cached_settings')) || {
       siteName: "عقارات دەشتی دوستەپە",
       heroTitle: "کڕین و فرۆشتنی زەوی و خانوو",
       heroDesc: "باشترین دەرفەتە بازرگانی و نیشتەجێبوونەکان لە ناوچەی دوستەپە",
@@ -572,17 +598,20 @@
 
         if (data && data.settings) {
           siteSettings = { ...siteSettings, ...data.settings };
+          localStorage.setItem('cached_settings', JSON.stringify(siteSettings));
         }
         applySettings();
 
         if (data && data.properties) {
           properties = Object.values(data.properties);
+          localStorage.setItem('cached_props', JSON.stringify(properties));
         } else {
           properties = [];
         }
+        updateAdminStats();
         renderProperties();
       } catch (err) {
-        console.warn("Could not load from Firebase.", err);
+        console.warn("Using instant cache.", err);
       }
     }
 
@@ -590,6 +619,12 @@
       document.getElementById('siteLogo').innerText = siteSettings.siteName;
       document.getElementById('heroTitle').innerText = siteSettings.heroTitle;
       document.getElementById('heroDesc').innerText = siteSettings.heroDesc;
+    }
+
+    function updateAdminStats() {
+      document.getElementById('statTotal').innerText = properties.length;
+      document.getElementById('statHouses').innerText = properties.filter(p => p.category === 'خانوو').length;
+      document.getElementById('statLands').innerText = properties.filter(p => p.category === 'زەوی').length;
     }
 
     function switchMainTab(category, btn) {
@@ -678,8 +713,8 @@
       }
     }
 
-    // پەستاندنی زۆر بەهێز بۆ خێراکردنی سایتەکە (Speed Turbo Optimizer)
-    function compressImageTurbo(file) {
+    // پڕۆسەکردنی کێش-سووک بۆ ئەوپەڕی خێرایی (Super Light-weight Compression)
+    function compressImageUltraFast(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -688,23 +723,23 @@
           img.src = e.target.result;
           img.onload = () => {
             const canvas = document.createElement('canvas');
-            const MAX_SIZE = 750;
+            const MAX_DIM = 600;
             let width = img.width;
             let height = img.height;
 
-            if (width > height && width > MAX_SIZE) {
-              height = Math.round((height * MAX_SIZE) / width);
-              width = MAX_SIZE;
-            } else if (height > MAX_SIZE) {
-              width = Math.round((width * MAX_SIZE) / height);
-              height = MAX_SIZE;
+            if (width > height && width > MAX_DIM) {
+              height = Math.round((height * MAX_DIM) / width);
+              width = MAX_DIM;
+            } else if (height > MAX_DIM) {
+              width = Math.round((width * MAX_DIM) / height);
+              height = MAX_DIM;
             }
 
             canvas.width = width;
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', 0.65));
+            resolve(canvas.toDataURL('image/jpeg', 0.55));
           };
         };
       });
@@ -715,7 +750,7 @@
       if (!files) return;
 
       for (let i = 0; i < files.length; i++) {
-        const compressed = await compressImageTurbo(files[i]);
+        const compressed = await compressImageUltraFast(files[i]);
         uploadedImagesList.push(compressed);
       }
       renderUploadPreviews();
@@ -748,7 +783,6 @@
       renderUploadPreviews();
     }
 
-    // گەلەری وێنەکان
     function openGallery(id) {
       const item = properties.find(p => String(p.id) === String(id));
       if (!item) return;
@@ -816,6 +850,7 @@
         isAdmin = true;
         document.getElementById('adminBar').style.display = 'flex';
         closeModals();
+        updateAdminStats();
         renderProperties();
       } else {
         document.getElementById('loginError').style.display = 'block';
@@ -965,6 +1000,23 @@
       }
     }
 
+    async function clearEntireDatabase() {
+      if (confirm("⚠️ ئاگاداری: ئایا دڵنیایت لە سڕینەوەی هەموو موڵکە کۆن و قورسەکان بۆ خێراکردنی تەواوی ماڵپەڕەکە؟")) {
+        try {
+          await fetch(`${FIREBASE_URL}/properties.json`, {
+            method: 'DELETE'
+          });
+          localStorage.removeItem('cached_props');
+          await loadData();
+          alert("داتابەیس بە تەواوی خاوێنکرایەوە و ماڵپەڕەکە ئێستا بەوپەڕی خێرایی کار دەکات!");
+        } catch (err) {
+          alert("هەڵە لە پاککردنەوە!");
+        }
+      }
+    }
+
+    applySettings();
+    renderProperties();
     loadData();
   </script>
 </body>
