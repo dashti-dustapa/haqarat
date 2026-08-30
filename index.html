@@ -229,12 +229,12 @@
 
   <header>
     <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
-    <button class="btn btn-admin" id="adminToggleBtn" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
+    <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
   </header>
 
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
-      <span>👑 دۆخی بەڕێوەبەر چالاکە (Firebase Cloud)</span>
+      <span>👑 دۆخی بەڕێوەبەر چالاکە</span>
       <button onclick="logoutAdmin()" style="background:none; border:none; color:#f87171; font-size:0.8rem; cursor:pointer; font-weight:700;">دەرچوون</button>
     </div>
     <div class="admin-actions">
@@ -270,7 +270,6 @@
     <a href="https://wa.me/9647500000000" id="waLink" class="btn btn-success">💬 واتسئاپ</a>
   </div>
 
-  <!-- مۆداڵی پاسۆردی بەڕێوەبەر -->
   <div class="modal" id="loginModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">&times;</span>
@@ -286,7 +285,6 @@
     </div>
   </div>
 
-  <!-- مۆداڵی زیادکردن/دەستکاری -->
   <div class="modal" id="propertyModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">&times;</span>
@@ -331,14 +329,13 @@
         </div>
         <div class="form-group">
           <label>ڕوونکردنەوە:</label>
-          <textarea id="desc" rows="3" required placeholder="زانیاری لەسەر ڕووبەر، شوێن، خزمەتگوزاری..."></textarea>
+          <textarea id="desc" rows="3" required placeholder="زانیاری لەسەر ڕووبەر، شوێن..."></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" id="savePropBtn" style="width:100%; padding:0.75rem;">پاشەکەوتکردن لە بنکەدراوە</button>
+        <button type="submit" class="btn btn-primary" id="savePropBtn" style="width:100%; padding:0.75rem;">پاشەکەوتکردن</button>
       </form>
     </div>
   </div>
 
-  <!-- مۆداڵی ڕێکخستنی سایت -->
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">&times;</span>
@@ -376,60 +373,8 @@
   <script>
     const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 
-    const defaultData = {
-      p1: {
-        id: "p1",
-        title: "خانووی مۆدێرنی نیشتەجێبوون",
-        category: "خانوو",
-        subCategory: "",
-        type: "بۆ فرۆشتن",
-        price: "$85,000",
-        image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop",
-        desc: "ڕووبەری ٢٠٠ مەتر، دوو نهۆم، هەموو خزمەتگوزارییەکان ئامادەن."
-      },
-      p2: {
-        id: "p2",
-        title: "زەوی نیشتەجێبوون لە کەرتی ۲",
-        category: "زەوی",
-        subCategory: "نیشتەجێبوون",
-        type: "بۆ فرۆشتن",
-        price: "$35,000",
-        image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&auto=format&fit=crop",
-        desc: "ڕووبەری ٢٥٠ مەتر، تاپۆی نیشتەجێبوون و شوێنێکی زۆر بەرز."
-      },
-      p3: {
-        id: "p3",
-        title: "زەوی زراعی بەپیت بۆ باخ",
-        category: "زەوی",
-        subCategory: "زراعی",
-        type: "بۆ فرۆشتن",
-        price: "$18,000",
-        image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&auto=format&fit=crop",
-        desc: "ڕووبەری ١ دۆنم، گونجاوە بۆ باخ و کشتوکاڵ."
-      },
-      p4: {
-        id: "p4",
-        title: "دوکانی تیجاری لەسەر شەقامی سەرەکی",
-        category: "شوێنی تیجاری",
-        subCategory: "",
-        type: "بۆ بەکرێدان",
-        price: "$500 / مانگانە",
-        image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop",
-        desc: "شوێنێکی ستراتیژی بۆ بازرگانی و کارکردن."
-      },
-      p5: {
-        id: "p5",
-        title: "مەزرەعەی تەواو بە باخ و ڤێلاوە",
-        category: "مەزرەعە",
-        subCategory: "",
-        type: "بۆ فرۆشتن",
-        price: "$120,000",
-        image: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=600&auto=format&fit=crop",
-        desc: "مەزرەعەی تەواو کراو بە بیر و دیواری چواردەور و کارەبا."
-      }
-    };
-
-    const defaultSettings = {
+    let properties = [];
+    let siteSettings = {
       siteName: "عقارات دەشتی دوستەپە",
       heroTitle: "کڕین و فرۆشتنی زەوی و خانوو",
       heroDesc: "باشترین دەرفەتە بازرگانی و نیشتەجێبوونەکان لە ناوچەی دوستەپە",
@@ -438,39 +383,32 @@
       adminPass: "1234"
     };
 
-    let properties = [];
-    let siteSettings = defaultSettings;
     let isAdmin = false;
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
 
-    async function fetchFromFirebase() {
+    async function loadData() {
       try {
         const res = await fetch(`${FIREBASE_URL}/.json`);
+        if (!res.ok) throw new Error("Permission Denied");
         const data = await res.json();
 
         if (data && data.settings) {
-          siteSettings = { ...defaultSettings, ...data.settings };
-        } else {
-          await fetch(`${FIREBASE_URL}/settings.json`, {
-            method: 'PUT',
-            body: JSON.stringify(defaultSettings)
-          });
+          siteSettings = { ...siteSettings, ...data.settings };
         }
         applySettings();
 
         if (data && data.properties) {
           properties = Object.values(data.properties);
         } else {
-          properties = Object.values(defaultData);
-          await fetch(`${FIREBASE_URL}/properties.json`, {
-            method: 'PUT',
-            body: JSON.stringify(defaultData)
-          });
+          properties = [];
         }
         renderProperties();
       } catch (err) {
-        console.error("Firebase connection error:", err);
+        console.warn("Could not load from Firebase. Checking local backup.", err);
+        const localP = localStorage.getItem('local_props');
+        if (localP) properties = JSON.parse(localP);
+        renderProperties();
       }
     }
 
@@ -626,7 +564,7 @@
           const img = new Image();
           img.onload = function() {
             const canvas = document.createElement('canvas');
-            const maxDimension = 600;
+            const maxDimension = 500;
             let width = img.width;
             let height = img.height;
 
@@ -642,7 +580,7 @@
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            document.getElementById('imageData').value = canvas.toDataURL('image/jpeg', 0.6);
+            document.getElementById('imageData').value = canvas.toDataURL('image/jpeg', 0.5);
           };
           img.src = e.target.result;
         };
@@ -653,7 +591,7 @@
     async function handleFormSubmit(e) {
       e.preventDefault();
       const saveBtn = document.getElementById('savePropBtn');
-      saveBtn.innerText = "چاوەڕێبە... خەزن دەکرێت";
+      saveBtn.innerText = "چاوەڕێبە...";
       saveBtn.disabled = true;
 
       const editId = document.getElementById('editId').value;
@@ -669,16 +607,23 @@
       const propObj = { id: propId, title, category, subCategory, type, price, desc, image };
 
       try {
-        await fetch(`${FIREBASE_URL}/properties/${propId}.json`, {
+        const res = await fetch(`${FIREBASE_URL}/properties/${propId}.json`, {
           method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(propObj)
         });
-        await fetchFromFirebase();
+
+        if (!res.ok) {
+          throw new Error("Firebase Rules Denied! Please enable rules.");
+        }
+
+        await loadData();
         closeModals();
+        alert("موڵکەکە بە سەرکەوتوویی زیادکرا و بۆ هەموو ئامێرەکان لایڤ بوو!");
       } catch (err) {
-        alert("کێشەیەک ڕوویدا لە پەیوەندی بە سێرڤەر!");
+        alert("هەڵە ڕوویدا: تکایە دڵنیابە لە بەشی Rules لە Firebase هەردووکیان کردووەتە true.");
       } finally {
-        saveBtn.innerText = "پاشەکەوتکردن لە بنکەدراوە";
+        saveBtn.innerText = "پاشەکەوتکردن";
         saveBtn.disabled = false;
       }
     }
@@ -701,26 +646,26 @@
         });
         applySettings();
         closeModals();
-        alert("زانیارییەکان لەسەر هەموو ئامێرەکان نوێکرانەوە!");
+        alert("ڕێکخستنەکان پاشەکەوت کران!");
       } catch (err) {
-        alert("کێشەیەک ڕوویدا لە کاتی نوێکردنەوە!");
+        alert("نەتوانرا پاشەکەوت بکرێت!");
       }
     }
 
     async function deleteProperty(id) {
-      if (confirm("ئایا دڵنیایت لە سڕینەوەی ئەم موڵکە لە تەواوی ئامێرەکان؟")) {
+      if (confirm("ئایا دڵنیایت لە سڕینەوەی ئەم موڵکە؟")) {
         try {
           await fetch(`${FIREBASE_URL}/properties/${id}.json`, {
             method: 'DELETE'
           });
-          await fetchFromFirebase();
+          await loadData();
         } catch (err) {
           alert("نەتوانرا بسڕدرێتەوە!");
         }
       }
     }
 
-    fetchFromFirebase();
+    loadData();
   </script>
 </body>
 </html>
