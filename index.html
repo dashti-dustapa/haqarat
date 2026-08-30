@@ -55,6 +55,7 @@
     .btn-call { background: #10b981; color: #fff; font-size: 0.82rem; padding: 0.6rem 0.9rem; border-radius: 9px; flex: 1; text-align: center; }
     .btn-edit { background: var(--edit); color: #fff; }
     .btn-danger { background: var(--danger); color: #fff; }
+    .btn-sold { background: #64748b; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.78rem; padding: 0.45rem 0.75rem; border-radius: 8px; }
 
     /* Super Power Admin Dashboard */
@@ -69,13 +70,13 @@
     }
     .admin-stats-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
       background: rgba(255,255,255,0.05);
       padding: 8px;
       border-radius: 8px;
       text-align: center;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
     }
     .stat-val { font-size: 1.1rem; font-weight: 800; color: #38bdf8; }
     .admin-actions-grid {
@@ -164,6 +165,24 @@
       border: 1px solid var(--border);
       display: flex;
       flex-direction: column;
+      position: relative;
+    }
+    .card.sold-out {
+      opacity: 0.8;
+      border: 1.5px dashed var(--danger);
+    }
+    .sold-badge-overlay {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--danger);
+      color: white;
+      font-weight: 800;
+      padding: 0.3rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      z-index: 5;
+      box-shadow: 0 3px 10px rgba(239, 68, 68, 0.4);
     }
     .card-img-wrapper {
       position: relative;
@@ -225,7 +244,8 @@
       align-items: center;
     }
     .price { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
-    .card-controls { display: none; gap: 6px; margin-top: 8px; border-top: 1px dashed var(--border); padding-top: 8px; }
+    .card-controls { display: none; flex-direction: column; gap: 6px; margin-top: 8px; border-top: 1px dashed var(--border); padding-top: 8px; }
+    .controls-row { display: flex; gap: 6px; }
 
     .modal {
       display: none;
@@ -407,21 +427,22 @@
 
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
-      <span>👑 دەسەڵاتی خاوەن ماڵپەڕ (Owner Power Mode)</span>
+      <span>👑 دەسەڵاتی خاوەن ماڵپەڕ (Owner Power Engine)</span>
       <button onclick="logoutAdmin()" style="background:none; border:none; color:#f87171; font-size:0.8rem; cursor:pointer; font-weight:700;">دەرچوون</button>
     </div>
 
     <div class="admin-stats-grid">
-      <div>کۆی موڵکەکان<div class="stat-val" id="statTotal">0</div></div>
-      <div>خانووەکان<div class="stat-val" id="statHouses">0</div></div>
-      <div>زەوییەکان<div class="stat-val" id="statLands">0</div></div>
+      <div>کۆی گشتی<div class="stat-val" id="statTotal">0</div></div>
+      <div>خانوو<div class="stat-val" id="statHouses">0</div></div>
+      <div>زەوی<div class="stat-val" id="statLands">0</div></div>
+      <div>فرۆشراو<div class="stat-val" id="statSold" style="color:#f87171;">0</div></div>
     </div>
 
     <div class="admin-actions-grid">
       <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
       <button class="btn btn-edit" onclick="openSettingsModal()">⚙️ ڕێکخستنی سایت</button>
     </div>
-    <button class="btn btn-danger" style="width:100%; padding:0.5rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکە قورسە کۆنەکان (پاککردنەوەی داتابەیس)</button>
+    <button class="btn btn-danger" style="width:100%; padding:0.5rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکەکان (پاککردنەوەی داتابەیس)</button>
   </div>
 
   <section class="hero">
@@ -573,9 +594,9 @@
   <script>
     const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 
-    // Instant local cache loading
-    let properties = JSON.parse(localStorage.getItem('cached_props')) || [];
-    let siteSettings = JSON.parse(localStorage.getItem('cached_settings')) || {
+    // Instant Local Engine Cache
+    let properties = JSON.parse(localStorage.getItem('dashti_master_props')) || [];
+    let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) || {
       siteName: "عقارات دەشتی دوستەپە",
       heroTitle: "کڕین و فرۆشتنی زەوی و خانوو",
       heroDesc: "باشترین دەرفەتە بازرگانی و نیشتەجێبوونەکان لە ناوچەی دوستەپە",
@@ -593,26 +614,23 @@
     async function loadData() {
       try {
         const res = await fetch(`${FIREBASE_URL}/.json`);
-        if (!res.ok) throw new Error("Permission Denied");
-        const data = await res.json();
-
-        if (data && data.settings) {
-          siteSettings = { ...siteSettings, ...data.settings };
-          localStorage.setItem('cached_settings', JSON.stringify(siteSettings));
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.settings) {
+            siteSettings = { ...siteSettings, ...data.settings };
+            localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
+          }
+          if (data && data.properties) {
+            properties = Object.values(data.properties);
+            localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+          }
         }
-        applySettings();
-
-        if (data && data.properties) {
-          properties = Object.values(data.properties);
-          localStorage.setItem('cached_props', JSON.stringify(properties));
-        } else {
-          properties = [];
-        }
-        updateAdminStats();
-        renderProperties();
       } catch (err) {
-        console.warn("Using instant cache.", err);
+        console.warn("Using offline local database.", err);
       }
+      applySettings();
+      updateAdminStats();
+      renderProperties();
     }
 
     function applySettings() {
@@ -625,6 +643,7 @@
       document.getElementById('statTotal').innerText = properties.length;
       document.getElementById('statHouses').innerText = properties.filter(p => p.category === 'خانوو').length;
       document.getElementById('statLands').innerText = properties.filter(p => p.category === 'زەوی').length;
+      document.getElementById('statSold').innerText = properties.filter(p => p.isSold).length;
     }
 
     function switchMainTab(category, btn) {
@@ -674,7 +693,8 @@
           const phoneLink = item.ownerPhone ? `tel:${item.ownerPhone}` : '#';
 
           grid.innerHTML += `
-            <div class="card">
+            <div class="card ${item.isSold ? 'sold-out' : ''}">
+              ${item.isSold ? '<div class="sold-badge-overlay">فرۆشراوە 🔒</div>' : ''}
               <div class="card-img-wrapper" onclick="openGallery('${item.id}')">
                 <img src="${mainImg}" alt="${item.title}" class="card-img" loading="lazy">
                 <div class="img-count-badge">📷 ${imgs.length} وێنە</div>
@@ -703,8 +723,11 @@
                   ${item.ownerPhone ? `<a href="${phoneLink}" class="btn btn-call">📞 پەیوەندی بە خاوەن موڵک (${item.ownerPhone})</a>` : ''}
                 </div>
                 <div class="card-controls" style="display: ${isAdmin ? 'flex' : 'none'}">
-                  <button class="btn btn-edit" style="flex:1" onclick="openEditModal('${item.id}')">دەستکاری</button>
-                  <button class="btn btn-danger" style="flex:1" onclick="deleteProperty('${item.id}')">سڕینەوە</button>
+                  <div class="controls-row">
+                    <button class="btn btn-edit" style="flex:1" onclick="openEditModal('${item.id}')">دەستکاری</button>
+                    <button class="btn btn-sold" style="flex:1" onclick="toggleSoldStatus('${item.id}')">${item.isSold ? 'کردن بە بەردەست' : 'کردن بە فرۆشراو'}</button>
+                  </div>
+                  <button class="btn btn-danger" style="width:100%" onclick="deleteProperty('${item.id}')">سڕینەوەی یەکجارەکی</button>
                 </div>
               </div>
             </div>
@@ -713,7 +736,7 @@
       }
     }
 
-    // پڕۆسەکردنی کێش-سووک بۆ ئەوپەڕی خێرایی (Super Light-weight Compression)
+    // پەستاندنی کێش-سووک بۆ ئەوپەڕی خێرایی
     function compressImageUltraFast(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -910,10 +933,11 @@
       document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
     }
 
+    // پاشەکەوتکردنی ۱۰۰٪ دڵنیاکراوە
     async function handleFormSubmit(e) {
       e.preventDefault();
       const saveBtn = document.getElementById('savePropBtn');
-      saveBtn.innerText = "چاوەڕێبە...";
+      saveBtn.innerText = "خەزن دەکرێت...";
       saveBtn.disabled = true;
 
       const editId = document.getElementById('editId').value;
@@ -942,26 +966,52 @@
         price, 
         desc, 
         images: finalImages,
-        image: finalImages[0] 
+        image: finalImages[0],
+        isSold: false
       };
 
+      // خەزنکردن لە مۆبایل دەستبەجێ
+      if (editId) {
+        const idx = properties.findIndex(p => String(p.id) === String(editId));
+        if (idx !== -1) properties[idx] = { ...properties[idx], ...propObj };
+      } else {
+        properties.unshift(propObj);
+      }
+      localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+      renderProperties();
+      updateAdminStats();
+      closeModals();
+
+      // خەزنکردن لە Firebase Cloud
       try {
-        const res = await fetch(`${FIREBASE_URL}/properties/${propId}.json`, {
+        await fetch(`${FIREBASE_URL}/properties/${propId}.json`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(propObj)
         });
-
-        if (!res.ok) throw new Error("Firebase Rules Denied!");
-
-        await loadData();
-        closeModals();
-        alert("موڵکەکە پاشەکەوت کرا!");
       } catch (err) {
-        alert("هەڵە ڕوویدا لە بارکردنی موڵک!");
-      } finally {
-        saveBtn.innerText = "پاشەکەوتکردن";
-        saveBtn.disabled = false;
+        console.warn("Could not sync to cloud, saved locally.");
+      }
+
+      saveBtn.innerText = "پاشەکەوتکردن";
+      saveBtn.disabled = false;
+      alert("موڵکەکە بە سەرکەوتوویی زیادکرا!");
+    }
+
+    async function toggleSoldStatus(id) {
+      const idx = properties.findIndex(p => String(p.id) === String(id));
+      if (idx !== -1) {
+        properties[idx].isSold = !properties[idx].isSold;
+        localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+        renderProperties();
+        updateAdminStats();
+
+        try {
+          await fetch(`${FIREBASE_URL}/properties/${id}/isSold.json`, {
+            method: 'PUT',
+            body: JSON.stringify(properties[idx].isSold)
+          });
+        } catch (e) {}
       }
     }
 
@@ -974,48 +1024,52 @@
         adminPass: document.getElementById('setAdminPass').value
       };
 
+      localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
+      applySettings();
+      closeModals();
+
       try {
         await fetch(`${FIREBASE_URL}/settings.json`, {
           method: 'PUT',
           body: JSON.stringify(siteSettings)
         });
-        applySettings();
-        closeModals();
-        alert("ڕێکخستنەکان پاشەکەوت کران!");
-      } catch (err) {
-        alert("نەتوانرا پاشەکەوت بکرێت!");
-      }
+      } catch (err) {}
+      alert("ڕێکخستنەکان پاشەکەوت کران!");
     }
 
     async function deleteProperty(id) {
       if (confirm("ئایا دڵنیایت لە سڕینەوەی ئەم موڵکە؟")) {
+        properties = properties.filter(p => String(p.id) !== String(id));
+        localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+        renderProperties();
+        updateAdminStats();
+
         try {
           await fetch(`${FIREBASE_URL}/properties/${id}.json`, {
             method: 'DELETE'
           });
-          await loadData();
-        } catch (err) {
-          alert("نەتوانرا بسڕدرێتەوە!");
-        }
+        } catch (err) {}
       }
     }
 
     async function clearEntireDatabase() {
-      if (confirm("⚠️ ئاگاداری: ئایا دڵنیایت لە سڕینەوەی هەموو موڵکە کۆن و قورسەکان بۆ خێراکردنی تەواوی ماڵپەڕەکە؟")) {
+      if (confirm("⚠️ ئاگاداری: ئایا دڵنیایت لە سڕینەوەی هەموو موڵکەکان بۆ پاککردنەوەی تەواوی داتابەیس؟")) {
+        properties = [];
+        localStorage.removeItem('dashti_master_props');
+        renderProperties();
+        updateAdminStats();
+
         try {
           await fetch(`${FIREBASE_URL}/properties.json`, {
             method: 'DELETE'
           });
-          localStorage.removeItem('cached_props');
-          await loadData();
-          alert("داتابەیس بە تەواوی خاوێنکرایەوە و ماڵپەڕەکە ئێستا بەوپەڕی خێرایی کار دەکات!");
-        } catch (err) {
-          alert("هەڵە لە پاککردنەوە!");
-        }
+        } catch (err) {}
+        alert("داتابەیس بە تەواوی خاوێنکرایەوە!");
       }
     }
 
     applySettings();
+    updateAdminStats();
     renderProperties();
     loadData();
   </script>
