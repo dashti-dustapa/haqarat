@@ -78,7 +78,6 @@
 
     .container { max-width: 1100px; margin: auto; padding: 1.2rem 1rem; }
 
-    /* بەشی تابەکان */
     .tabs-wrapper {
       display: flex;
       gap: 8px;
@@ -109,7 +108,6 @@
       box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
     }
 
-    /* تابە لاوەکییەکانی زەوی */
     .sub-tabs-container {
       display: none;
       background: #e2e8f0;
@@ -137,7 +135,6 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.08);
     }
 
-    /* گرێدی کارتەکان */
     .grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; }
     @media(min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
     @media(min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
@@ -232,13 +229,13 @@
 
   <header>
     <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
-    <button class="btn btn-admin" onclick="toggleAdmin()">پنێڵی بەڕێوەبەر</button>
+    <button class="btn btn-admin" id="adminToggleBtn" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
   </header>
 
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
       <span>👑 دۆخی بەڕێوەبەر چالاکە</span>
-      <button onclick="toggleAdmin()" style="background:none; border:none; color:#f87171; font-size:0.8rem; cursor:pointer;">داخستن</button>
+      <button onclick="logoutAdmin()" style="background:none; border:none; color:#f87171; font-size:0.8rem; cursor:pointer; font-weight:700;">دەرچوون</button>
     </div>
     <div class="admin-actions">
       <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
@@ -252,7 +249,6 @@
   </section>
 
   <div class="container">
-    <!-- تابە سەرەکییەکان -->
     <div class="tabs-wrapper">
       <button class="tab-btn active" onclick="switchMainTab('خانوو', this)">خانوو</button>
       <button class="tab-btn" onclick="switchMainTab('شوێنی تیجاری', this)">شوێنی تیجاری</button>
@@ -260,7 +256,6 @@
       <button class="tab-btn" onclick="switchMainTab('مەزرەعە', this)">مەزرەعە</button>
     </div>
 
-    <!-- ژێر-تابی بەشی زەوی -->
     <div class="sub-tabs-container" id="landSubTabs">
       <button class="sub-tab-btn active" onclick="switchSubTab('نیشتەجێبوون', this)">نیشتەجێبوون</button>
       <button class="sub-tab-btn" onclick="switchSubTab('زراعی', this)">زراعی</button>
@@ -273,6 +268,22 @@
   <div class="mobile-contact-bar">
     <a href="tel:07500000000" id="callLink" class="btn btn-primary">📞 پەیوەندی</a>
     <a href="https://wa.me/9647500000000" id="waLink" class="btn btn-success">💬 واتسئاپ</a>
+  </div>
+
+  <!-- مۆداڵی پاسۆردی بەڕێوەبەر -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModals()">&times;</span>
+      <h3 class="modal-title">چوونەژوورەوەی بەڕێوەبەر</h3>
+      <form onsubmit="verifyPassword(event)">
+        <div class="form-group">
+          <label>تێپەڕەوشە بنووسە:</label>
+          <input type="password" id="adminPassInput" required placeholder="تێپەڕەوشە (1234)">
+        </div>
+        <p id="loginError" style="color:var(--danger); font-size:0.8rem; margin-bottom:8px; display:none;">تێپەڕەوشە هەڵەیە!</p>
+        <button type="submit" class="btn btn-primary" style="width:100%; padding:0.75rem;">چوونەژوورەوە</button>
+      </form>
+    </div>
   </div>
 
   <!-- مۆداڵی زیادکردن/دەستکاری -->
@@ -314,7 +325,7 @@
           <input type="text" id="price" required placeholder="وەک: $85,000">
         </div>
         <div class="form-group">
-          <label>وێنە لە گەلەری / فایل:</label>
+          <label>وێنەی موڵک:</label>
           <input type="file" id="imageFile" accept="image/*" onchange="processImage(event)">
           <input type="hidden" id="imageData">
         </div>
@@ -352,6 +363,10 @@
         <div class="form-group">
           <label>ژمارەی واتسئاپ:</label>
           <input type="text" id="setWa" required placeholder="964750xxxxxxx">
+        </div>
+        <div class="form-group">
+          <label>تێپەڕەوشەی نوێی پنێڵ:</label>
+          <input type="text" id="setAdminPass" required placeholder="تێپەڕەوشەی بەڕێوەبەر">
         </div>
         <button type="submit" class="btn btn-success" style="width:100%; padding:0.75rem;">پاشەکەوتکردن</button>
       </form>
@@ -417,7 +432,8 @@
       heroTitle: "کڕین و فرۆشتنی زەوی و خانوو",
       heroDesc: "باشترین دەرفەتە بازرگانی و نیشتەجێبوونەکان لە ناوچەی دوستەپە",
       phone: "07500000000",
-      whatsapp: "9647500000000"
+      whatsapp: "9647500000000",
+      adminPass: "1234"
     };
 
     let properties = JSON.parse(localStorage.getItem('dashti_final_props')) || defaultData;
@@ -440,12 +456,7 @@
       btn.classList.add('active');
 
       const subTabs = document.getElementById('landSubTabs');
-      if (category === 'زەوی') {
-        subTabs.style.display = 'flex';
-      } else {
-        subTabs.style.display = 'none';
-      }
-
+      subTabs.style.display = (category === 'زەوی') ? 'flex' : 'none';
       renderProperties();
     }
 
@@ -503,19 +514,34 @@
       subGroup.style.display = (cat === 'زەوی') ? 'block' : 'none';
     }
 
-    function toggleAdmin() {
-      if (!isAdmin) {
-        const pass = prompt("تێپەڕەوشەی بەڕێوەبەر (تێپەڕەوشە: 1234):");
-        if (pass === "1234") {
-          isAdmin = true;
-          document.getElementById('adminBar').style.display = 'flex';
-        } else if (pass !== null) {
-          alert("تێپەڕەوشە هەڵەیە!");
-        }
+    function handleAdminBtnClick() {
+      if (isAdmin) {
+        logoutAdmin();
       } else {
-        isAdmin = false;
-        document.getElementById('adminBar').style.display = 'none';
+        document.getElementById('adminPassInput').value = '';
+        document.getElementById('loginError').style.display = 'none';
+        document.getElementById('loginModal').style.display = 'flex';
       }
+    }
+
+    function verifyPassword(e) {
+      e.preventDefault();
+      const enteredPass = document.getElementById('adminPassInput').value;
+      const actualPass = siteSettings.adminPass || "1234";
+
+      if (enteredPass === actualPass) {
+        isAdmin = true;
+        document.getElementById('adminBar').style.display = 'flex';
+        closeModals();
+        renderProperties();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+
+    function logoutAdmin() {
+      isAdmin = false;
+      document.getElementById('adminBar').style.display = 'none';
       renderProperties();
     }
 
@@ -552,12 +578,12 @@
       document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setPhone').value = siteSettings.phone;
       document.getElementById('setWa').value = siteSettings.whatsapp;
+      document.getElementById('setAdminPass').value = siteSettings.adminPass || "1234";
       document.getElementById('settingsModal').style.display = 'flex';
     }
 
     function closeModals() {
-      document.getElementById('propertyModal').style.display = 'none';
-      document.getElementById('settingsModal').style.display = 'none';
+      document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
     }
 
     function processImage(event) {
@@ -568,7 +594,7 @@
           const img = new Image();
           img.onload = function() {
             const canvas = document.createElement('canvas');
-            const maxDimension = 800;
+            const maxDimension = 600;
             let width = img.width;
             let height = img.height;
 
@@ -584,7 +610,7 @@
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            document.getElementById('imageData').value = canvas.toDataURL('image/jpeg', 0.7);
+            document.getElementById('imageData').value = canvas.toDataURL('image/jpeg', 0.6);
           };
           img.src = e.target.result;
         };
@@ -622,13 +648,13 @@
         heroTitle: document.getElementById('setHeroTitle').value,
         heroDesc: document.getElementById('setHeroDesc').value,
         phone: document.getElementById('setPhone').value,
-        whatsapp: document.getElementById('setWa').value
+        whatsapp: document.getElementById('setWa').value,
+        adminPass: document.getElementById('setAdminPass').value
       };
 
       localStorage.setItem('dashti_settings', JSON.stringify(siteSettings));
       applySettings();
       closeModals();
-      alert("زانیارییەکان بە سەرکەوتوویی نوێکرانەوە!");
     }
 
     function deleteProperty(id) {
