@@ -52,13 +52,14 @@
     }
     .btn-admin { background: var(--dark); color: #fff; }
     .btn-primary { background: var(--primary); color: #fff; }
-    .btn-call { background: #10b981; color: #fff; font-size: 0.82rem; padding: 0.6rem 0.9rem; border-radius: 9px; flex: 1; text-align: center; }
+    .btn-success { background: var(--accent); color: #fff; }
     .btn-edit { background: var(--edit); color: #fff; }
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-sold { background: #64748b; color: #fff; }
+    .btn-backup { background: #334155; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.78rem; padding: 0.45rem 0.75rem; border-radius: 8px; }
 
-    /* Super Power Admin Dashboard */
+    /* Ultra Power Owner Panel */
     .admin-bar {
       background: #0f172a;
       color: #fff;
@@ -66,11 +67,13 @@
       display: none;
       flex-direction: column;
       gap: 12px;
-      border-bottom: 2px solid var(--primary);
+      border-bottom: 3px solid var(--primary);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
+    .admin-bar-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
     .admin-stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 6px;
       background: rgba(255,255,255,0.05);
       padding: 8px;
@@ -78,12 +81,14 @@
       text-align: center;
       font-size: 0.7rem;
     }
+    @media(min-width: 640px) { .admin-stats-grid { grid-template-columns: repeat(6, 1fr); } }
     .stat-val { font-size: 1.1rem; font-weight: 800; color: #38bdf8; }
     .admin-actions-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 8px;
     }
+    @media(min-width: 640px) { .admin-actions-grid { grid-template-columns: repeat(4, 1fr); } }
 
     .hero {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -168,7 +173,7 @@
       position: relative;
     }
     .card.sold-out {
-      opacity: 0.8;
+      opacity: 0.78;
       border: 1.5px dashed var(--danger);
     }
     .sold-badge-overlay {
@@ -231,6 +236,26 @@
     
     .map-row { margin-bottom: 0.8rem; }
 
+    /* دێڕی ژمارەی تەلەفۆن بە دەقی سادە */
+    .owner-phone-display {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: all;
+    }
+    .phone-text {
+      color: var(--primary);
+      letter-spacing: 0.5px;
+      direction: ltr;
+    }
+
     .card-footer {
       display: flex;
       flex-direction: column;
@@ -244,6 +269,8 @@
       align-items: center;
     }
     .price { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
+    
+    /* کۆنتڕۆڵەکانی بەڕێوەبەر لەسەر کارت */
     .card-controls { display: none; flex-direction: column; gap: 6px; margin-top: 8px; border-top: 1px dashed var(--border); padding-top: 8px; }
     .controls-row { display: flex; gap: 6px; }
 
@@ -427,20 +454,25 @@
 
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
-      <span>👑 دەسەڵاتی خاوەن ماڵپەڕ (Owner Power Engine)</span>
+      <span>👑 دەسەڵاتی تەواوی بەڕێوەبەر (Master Owner Panel)</span>
       <button onclick="logoutAdmin()" style="background:none; border:none; color:#f87171; font-size:0.8rem; cursor:pointer; font-weight:700;">دەرچوون</button>
     </div>
 
     <div class="admin-stats-grid">
       <div>کۆی گشتی<div class="stat-val" id="statTotal">0</div></div>
       <div>خانوو<div class="stat-val" id="statHouses">0</div></div>
+      <div>تیجاری<div class="stat-val" id="statCommercial">0</div></div>
       <div>زەوی<div class="stat-val" id="statLands">0</div></div>
+      <div>مەزرەعە<div class="stat-val" id="statFarms">0</div></div>
       <div>فرۆشراو<div class="stat-val" id="statSold" style="color:#f87171;">0</div></div>
     </div>
 
     <div class="admin-actions-grid">
       <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
       <button class="btn btn-edit" onclick="openSettingsModal()">⚙️ ڕێکخستنی سایت</button>
+      <button class="btn btn-backup" onclick="exportDataBackup()">💾 کۆپی یەدەگ (Backup)</button>
+      <button class="btn btn-backup" onclick="document.getElementById('restoreInput').click()">📥 هێنانەوەی فایل</button>
+      <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="importDataBackup(event)">
     </div>
     <button class="btn btn-danger" style="width:100%; padding:0.5rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکەکان (پاککردنەوەی داتابەیس)</button>
   </div>
@@ -594,7 +626,6 @@
   <script>
     const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 
-    // Instant Local Engine Cache
     let properties = JSON.parse(localStorage.getItem('dashti_master_props')) || [];
     let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) || {
       siteName: "عقارات دەشتی دوستەپە",
@@ -626,7 +657,7 @@
           }
         }
       } catch (err) {
-        console.warn("Using offline local database.", err);
+        console.warn("Using offline master engine.", err);
       }
       applySettings();
       updateAdminStats();
@@ -642,7 +673,9 @@
     function updateAdminStats() {
       document.getElementById('statTotal').innerText = properties.length;
       document.getElementById('statHouses').innerText = properties.filter(p => p.category === 'خانوو').length;
+      document.getElementById('statCommercial').innerText = properties.filter(p => p.category === 'شوێنی تیجاری').length;
       document.getElementById('statLands').innerText = properties.filter(p => p.category === 'زەوی').length;
+      document.getElementById('statFarms').innerText = properties.filter(p => p.category === 'مەزرەعە').length;
       document.getElementById('statSold').innerText = properties.filter(p => p.isSold).length;
     }
 
@@ -690,7 +723,6 @@
           const imgs = (item.images && item.images.length > 0) ? item.images : [item.image || "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop"];
           const mainImg = imgs[0];
           const mapHref = formatMapUrl(item.mapLink, item.location);
-          const phoneLink = item.ownerPhone ? `tel:${item.ownerPhone}` : '#';
 
           grid.innerHTML += `
             <div class="card ${item.isSold ? 'sold-out' : ''}">
@@ -715,13 +747,20 @@
                   </a>
                 </div>
 
+                ${item.ownerPhone ? `
+                  <div class="owner-phone-display" style="margin-bottom:0.6rem;">
+                    <span>📞 ژمارەی خاوەن موڵک:</span>
+                    <span class="phone-text">${item.ownerPhone}</span>
+                  </div>
+                ` : ''}
+
                 <div class="card-footer">
                   <div class="card-footer-top">
                     <span class="price">${item.price}</span>
                     <button class="btn btn-primary" style="padding:0.4rem 0.8rem; font-size:0.75rem;" onclick="openGallery('${item.id}')">بینینی وێنەکان</button>
                   </div>
-                  ${item.ownerPhone ? `<a href="${phoneLink}" class="btn btn-call">📞 پەیوەندی بە خاوەن موڵک (${item.ownerPhone})</a>` : ''}
                 </div>
+
                 <div class="card-controls" style="display: ${isAdmin ? 'flex' : 'none'}">
                   <div class="controls-row">
                     <button class="btn btn-edit" style="flex:1" onclick="openEditModal('${item.id}')">دەستکاری</button>
@@ -736,7 +775,7 @@
       }
     }
 
-    // پەستاندنی کێش-سووک بۆ ئەوپەڕی خێرایی
+    // پەستاندنی خێرای وێنە
     function compressImageUltraFast(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -933,7 +972,7 @@
       document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
     }
 
-    // پاشەکەوتکردنی ۱۰۰٪ دڵنیاکراوە
+    // پاشەکەوتکردنی دڵنیاکراوە لە هەر دوو داتابەیس
     async function handleFormSubmit(e) {
       e.preventDefault();
       const saveBtn = document.getElementById('savePropBtn');
@@ -970,7 +1009,6 @@
         isSold: false
       };
 
-      // خەزنکردن لە مۆبایل دەستبەجێ
       if (editId) {
         const idx = properties.findIndex(p => String(p.id) === String(editId));
         if (idx !== -1) properties[idx] = { ...properties[idx], ...propObj };
@@ -982,7 +1020,6 @@
       updateAdminStats();
       closeModals();
 
-      // خەزنکردن لە Firebase Cloud
       try {
         await fetch(`${FIREBASE_URL}/properties/${propId}.json`, {
           method: 'PUT',
@@ -990,7 +1027,7 @@
           body: JSON.stringify(propObj)
         });
       } catch (err) {
-        console.warn("Could not sync to cloud, saved locally.");
+        console.warn("Saved to local engine.");
       }
 
       saveBtn.innerText = "پاشەکەوتکردن";
@@ -1050,6 +1087,51 @@
           });
         } catch (err) {}
       }
+    }
+
+    // دەرهێنانی کۆپی یەدەگی هەموو موڵکەکان (Backup)
+    function exportDataBackup() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ settings: siteSettings, properties: properties }));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `dashti_backup_${Date.now()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    // هێنانەوەی فایل و موڵکەکان (Restore)
+    function importDataBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported.properties) {
+            properties = imported.properties;
+            localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+          }
+          if (imported.settings) {
+            siteSettings = imported.settings;
+            localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
+          }
+          renderProperties();
+          updateAdminStats();
+          applySettings();
+
+          // Sync back to Firebase
+          await fetch(`${FIREBASE_URL}/properties.json`, {
+            method: 'PUT',
+            body: JSON.stringify(properties)
+          });
+          alert("تەواوی داتاکان بە سەرکەوتوویی گەڕێنرانەوە!");
+        } catch (err) {
+          alert("فایلەکە هەڵەیە!");
+        }
+      };
+      reader.readAsText(file);
     }
 
     async function clearEntireDatabase() {
