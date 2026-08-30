@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>عقارات دەشتی دوستەپە</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
+  <style id="customThemeStyles">
     :root {
       --primary: #0284c7;
       --primary-dark: #0369a1;
@@ -18,13 +18,15 @@
       --danger: #ef4444;
       --edit: #f59e0b;
       --border: #e2e8f0;
+      --hero-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     }
-
+  </style>
+  <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Kufi Arabic', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: var(--bg); color: var(--text); padding-bottom: 40px; }
 
     header {
-      background: #ffffff;
+      background: var(--card-bg);
       border-bottom: 1px solid var(--border);
       padding: 0.85rem 1rem;
       display: flex;
@@ -91,7 +93,7 @@
     @media(min-width: 640px) { .admin-actions-grid { grid-template-columns: repeat(4, 1fr); } }
 
     .hero {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      background: var(--hero-bg);
       color: #fff;
       text-align: center;
       padding: 2rem 1rem;
@@ -113,7 +115,7 @@
     
     .tab-btn {
       padding: 0.65rem 1.2rem;
-      background: #ffffff;
+      background: var(--card-bg);
       border: 1.5px solid var(--border);
       border-radius: 12px;
       font-size: 0.9rem;
@@ -153,7 +155,7 @@
       text-align: center;
     }
     .sub-tab-btn.active {
-      background: #ffffff;
+      background: var(--card-bg);
       color: var(--dark);
       box-shadow: 0 2px 5px rgba(0,0,0,0.08);
     }
@@ -236,7 +238,6 @@
     
     .map-row { margin-bottom: 0.8rem; }
 
-    /* دێڕی ژمارەی تەلەفۆن بە دەقی سادە */
     .owner-phone-display {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -270,7 +271,6 @@
     }
     .price { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
     
-    /* کۆنتڕۆڵەکانی بەڕێوەبەر لەسەر کارت */
     .card-controls { display: none; flex-direction: column; gap: 6px; margin-top: 8px; border-top: 1px dashed var(--border); padding-top: 8px; }
     .controls-row { display: flex; gap: 6px; }
 
@@ -309,6 +309,32 @@
       font-size: 0.85rem;
       outline: none;
     }
+    .color-pickers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 12px;
+    }
+    .color-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .color-field label { font-size: 0.75rem; font-weight: 700; color: #475569; }
+    .color-field input[type="color"] {
+      width: 100%;
+      height: 38px;
+      padding: 2px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #fff;
+    }
+
     .close-btn { position: absolute; left: 1rem; top: 1rem; cursor: pointer; font-size: 1.4rem; font-weight: 800; color: #94a3b8; }
     .empty-state { text-align: center; color: var(--muted); padding: 3.5rem 1rem; font-size: 0.95rem; font-weight: 600; }
 
@@ -469,7 +495,7 @@
 
     <div class="admin-actions-grid">
       <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
-      <button class="btn btn-edit" onclick="openSettingsModal()">⚙️ ڕێکخستنی سایت</button>
+      <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت و ڕەنگەکان</button>
       <button class="btn btn-backup" onclick="exportDataBackup()">💾 کۆپی یەدەگ (Backup)</button>
       <button class="btn btn-backup" onclick="document.getElementById('restoreInput').click()">📥 هێنانەوەی فایل</button>
       <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="importDataBackup(event)">
@@ -477,7 +503,7 @@
     <button class="btn btn-danger" style="width:100%; padding:0.5rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکەکان (پاککردنەوەی داتابەیس)</button>
   </div>
 
-  <section class="hero">
+  <section class="hero" id="heroSection">
     <h1 id="heroTitle">کڕین و فرۆشتنی زەوی و خانوو</h1>
     <p id="heroDesc">باشترین دەرفەتە بازرگانی و نیشتەجێبوونەکان لە ناوچەی دوستەپە</p>
   </section>
@@ -600,7 +626,7 @@
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
-      <h3 class="modal-title">ڕێکخستنی سەردێڕی سایت</h3>
+      <h3 class="modal-title">ڕێکخستنی زانیارییەکان و ڕەنگی سایت</h3>
       <form onsubmit="handleSettingsSubmit(event)">
         <div class="form-group">
           <label>ناوی نوسینگە / ماڵپەڕ:</label>
@@ -614,11 +640,32 @@
           <label>دەقی ژێر سەردێڕ:</label>
           <textarea id="setHeroDesc" rows="2" required></textarea>
         </div>
+
+        <label style="font-size:0.8rem; font-weight:800; color:var(--dark); margin-bottom:6px; display:block;">🎨 کۆنتڕۆڵی ڕەنگەکانی ماڵپەڕ:</label>
+        <div class="color-pickers-grid">
+          <div class="color-field">
+            <label>ڕەنگی سەرەکی (Theme Color):</label>
+            <input type="color" id="setPrimaryColor" value="#0284c7">
+          </div>
+          <div class="color-field">
+            <label>ڕەنگی باکگراوند (Background):</label>
+            <input type="color" id="setBgColor" value="#f8fafc">
+          </div>
+          <div class="color-field">
+            <label>ڕەنگی بەشی سەرەوە (Hero):</label>
+            <input type="color" id="setHeroColor" value="#0f172a">
+          </div>
+          <div class="color-field">
+            <label>ڕەنگی کارتەکان (Card BG):</label>
+            <input type="color" id="setCardColor" value="#ffffff">
+          </div>
+        </div>
+
         <div class="form-group">
           <label>تێپەڕەوشەی نوێی پنێڵ:</label>
           <input type="text" id="setAdminPass" required placeholder="تێپەڕەوشەی بەڕێوەبەر">
         </div>
-        <button type="submit" class="btn btn-success" style="width:100%; padding:0.75rem;">پاشەکەوتکردن</button>
+        <button type="submit" class="btn btn-success" style="width:100%; padding:0.75rem;">پاشەکەوتکردنی هەموو ڕێکخستنەکان</button>
       </form>
     </div>
   </div>
@@ -631,7 +678,11 @@
       siteName: "عقارات دەشتی دوستەپە",
       heroTitle: "کڕین و فرۆشتنی زەوی و خانوو",
       heroDesc: "باشترین دەرفەتە بازرگانی و نیشتەجێبوونەکان لە ناوچەی دوستەپە",
-      adminPass: "1234"
+      adminPass: "1234",
+      primaryColor: "#0284c7",
+      bgColor: "#f8fafc",
+      heroColor: "#0f172a",
+      cardColor: "#ffffff"
     };
 
     let uploadedImagesList = [];
@@ -641,6 +692,18 @@
     let isAdmin = false;
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
+
+    function applyThemeColors() {
+      const primary = siteSettings.primaryColor || "#0284c7";
+      const bg = siteSettings.bgColor || "#f8fafc";
+      const hero = siteSettings.heroColor || "#0f172a";
+      const card = siteSettings.cardColor || "#ffffff";
+
+      document.documentElement.style.setProperty('--primary', primary);
+      document.documentElement.style.setProperty('--bg', bg);
+      document.documentElement.style.setProperty('--card-bg', card);
+      document.documentElement.style.setProperty('--hero-bg', hero);
+    }
 
     async function loadData() {
       try {
@@ -660,6 +723,7 @@
         console.warn("Using offline master engine.", err);
       }
       applySettings();
+      applyThemeColors();
       updateAdminStats();
       renderProperties();
     }
@@ -775,7 +839,6 @@
       }
     }
 
-    // پەستاندنی خێرای وێنە
     function compressImageUltraFast(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -965,6 +1028,13 @@
       document.getElementById('setHeroTitle').value = siteSettings.heroTitle;
       document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setAdminPass').value = siteSettings.adminPass || "1234";
+
+      // پڕکردنەوەی هەڵبژاردەی ڕەنگەکان
+      document.getElementById('setPrimaryColor').value = siteSettings.primaryColor || "#0284c7";
+      document.getElementById('setBgColor').value = siteSettings.bgColor || "#f8fafc";
+      document.getElementById('setHeroColor').value = siteSettings.heroColor || "#0f172a";
+      document.getElementById('setCardColor').value = siteSettings.cardColor || "#ffffff";
+
       document.getElementById('settingsModal').style.display = 'flex';
     }
 
@@ -972,7 +1042,6 @@
       document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
     }
 
-    // پاشەکەوتکردنی دڵنیاکراوە لە هەر دوو داتابەیس
     async function handleFormSubmit(e) {
       e.preventDefault();
       const saveBtn = document.getElementById('savePropBtn');
@@ -1058,11 +1127,16 @@
         siteName: document.getElementById('setSiteName').value,
         heroTitle: document.getElementById('setHeroTitle').value,
         heroDesc: document.getElementById('setHeroDesc').value,
-        adminPass: document.getElementById('setAdminPass').value
+        adminPass: document.getElementById('setAdminPass').value,
+        primaryColor: document.getElementById('setPrimaryColor').value,
+        bgColor: document.getElementById('setBgColor').value,
+        heroColor: document.getElementById('setHeroColor').value,
+        cardColor: document.getElementById('setCardColor').value
       };
 
       localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
       applySettings();
+      applyThemeColors();
       closeModals();
 
       try {
@@ -1071,7 +1145,7 @@
           body: JSON.stringify(siteSettings)
         });
       } catch (err) {}
-      alert("ڕێکخستنەکان پاشەکەوت کران!");
+      alert("ڕێکخستنەکان و ڕەنگەکانی ماڵپەڕ نوێکرانەوە!");
     }
 
     async function deleteProperty(id) {
@@ -1089,7 +1163,6 @@
       }
     }
 
-    // دەرهێنانی کۆپی یەدەگی هەموو موڵکەکان (Backup)
     function exportDataBackup() {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ settings: siteSettings, properties: properties }));
       const downloadAnchor = document.createElement('a');
@@ -1100,7 +1173,6 @@
       downloadAnchor.remove();
     }
 
-    // هێنانەوەی فایل و موڵکەکان (Restore)
     function importDataBackup(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -1120,8 +1192,8 @@
           renderProperties();
           updateAdminStats();
           applySettings();
+          applyThemeColors();
 
-          // Sync back to Firebase
           await fetch(`${FIREBASE_URL}/properties.json`, {
             method: 'PUT',
             body: JSON.stringify(properties)
@@ -1151,6 +1223,7 @@
     }
 
     applySettings();
+    applyThemeColors();
     updateAdminStats();
     renderProperties();
     loadData();
