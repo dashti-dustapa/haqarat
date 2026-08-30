@@ -71,65 +71,73 @@
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #fff;
       text-align: center;
-      padding: 2.2rem 1rem;
+      padding: 2rem 1rem;
     }
-    .hero h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.3; }
+    .hero h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem; }
     .hero p { color: #94a3b8; font-size: 0.85rem; max-width: 500px; margin: auto; }
 
     .container { max-width: 1100px; margin: auto; padding: 1.2rem 1rem; }
 
-    /* تابە سەرەکییەکان */
+    /* بەشی تابەکان */
     .tabs-wrapper {
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
       scrollbar-width: none;
     }
     .tabs-wrapper::-webkit-scrollbar { display: none; }
+    
     .tab-btn {
-      padding: 0.6rem 1.1rem;
+      padding: 0.65rem 1.2rem;
       background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 0.85rem;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.9rem;
       font-weight: 700;
       color: var(--muted);
       cursor: pointer;
       white-space: nowrap;
-      transition: 0.2s;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
     }
     .tab-btn.active {
       background: var(--primary);
       color: #ffffff;
       border-color: var(--primary);
+      box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
     }
 
-    /* تابە لاوەکییەکان بۆ زەوی */
-    .sub-tabs-wrapper {
+    /* تابە لاوەکییەکانی زەوی */
+    .sub-tabs-container {
       display: none;
-      gap: 6px;
+      background: #e2e8f0;
+      padding: 5px;
+      border-radius: 10px;
       margin-bottom: 15px;
-      padding-bottom: 5px;
+      gap: 5px;
     }
     .sub-tab-btn {
-      padding: 0.4rem 0.85rem;
-      background: #e2e8f0;
+      flex: 1;
+      padding: 0.5rem;
+      background: transparent;
       border: none;
-      border-radius: 15px;
-      font-size: 0.78rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--text);
       cursor: pointer;
       transition: 0.2s;
+      text-align: center;
     }
     .sub-tab-btn.active {
-      background: var(--dark);
-      color: #ffffff;
+      background: #ffffff;
+      color: var(--dark);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
     }
 
-    /* کارتەکان */
+    /* گرێدی کارتەکان */
     .grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; }
     @media(min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
     @media(min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
@@ -143,14 +151,14 @@
     }
     .card-img { width: 100%; height: 210px; object-fit: cover; display: block; background: #e2e8f0; }
     .card-body { padding: 1rem; }
-    .badge-group { display: flex; gap: 5px; margin-bottom: 0.4rem; }
+    .badge-group { display: flex; gap: 5px; margin-bottom: 0.5rem; }
     .badge {
       display: inline-block;
-      padding: 0.2rem 0.5rem;
+      padding: 0.25rem 0.6rem;
       background: #e0f2fe;
       color: var(--primary);
       border-radius: 6px;
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       font-weight: 700;
     }
     .badge-sub { background: #fef3c7; color: #b45309; }
@@ -217,7 +225,7 @@
       outline: none;
     }
     .close-btn { position: absolute; left: 1rem; top: 1rem; cursor: pointer; font-size: 1.4rem; font-weight: 800; color: #94a3b8; }
-    .empty-state { text-align: center; color: var(--muted); padding: 3rem 1rem; font-size: 0.9rem; }
+    .empty-state { text-align: center; color: var(--muted); padding: 3.5rem 1rem; font-size: 0.95rem; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -229,8 +237,8 @@
 
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
-      <span>👑 دۆخی خاوەن موڵک چالاکە</span>
-      <button onclick="toggleAdmin()" style="background:none; border:none; color:#f87171; font-size:0.8rem; cursor:pointer;">دەرچوون</button>
+      <span>👑 دۆخی بەڕێوەبەر چالاکە</span>
+      <button onclick="toggleAdmin()" style="background:none; border:none; color:#f87171; font-size:0.8rem; cursor:pointer;">داخستن</button>
     </div>
     <div class="admin-actions">
       <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
@@ -246,18 +254,16 @@
   <div class="container">
     <!-- تابە سەرەکییەکان -->
     <div class="tabs-wrapper">
-      <button class="tab-btn active" onclick="setMainTab('هەموو', this)">هەموو</button>
-      <button class="tab-btn" onclick="setMainTab('خانوو', this)">خانوو</button>
-      <button class="tab-btn" onclick="setMainTab('شوێنی تیجاری', this)">شوێنی تیجاری</button>
-      <button class="tab-btn" onclick="setMainTab('زەوی', this)">زەوی</button>
-      <button class="tab-btn" onclick="setMainTab('مەزرەعە', this)">مەزرەعە</button>
+      <button class="tab-btn active" onclick="switchMainTab('خانوو', this)">خانوو</button>
+      <button class="tab-btn" onclick="switchMainTab('شوێنی تیجاری', this)">شوێنی تیجاری</button>
+      <button class="tab-btn" onclick="switchMainTab('زەوی', this)">زەوی</button>
+      <button class="tab-btn" onclick="switchMainTab('مەزرەعە', this)">مەزرەعە</button>
     </div>
 
-    <!-- تابە لاوەکییەکانی زەوی -->
-    <div class="sub-tabs-wrapper" id="landSubTabs">
-      <button class="sub-tab-btn active" onclick="setSubTab('هەموو', this)">هەموو جۆرەکانی زەوی</button>
-      <button class="sub-tab-btn" onclick="setSubTab('نیشتەجێبوون', this)">نیشتەجێبوون</button>
-      <button class="sub-tab-btn" onclick="setSubTab('زراعی', this)">زراعی</button>
+    <!-- ژێر-تابی بەشی زەوی -->
+    <div class="sub-tabs-container" id="landSubTabs">
+      <button class="sub-tab-btn active" onclick="switchSubTab('نیشتەجێبوون', this)">نیشتەجێبوون</button>
+      <button class="sub-tab-btn" onclick="switchSubTab('زراعی', this)">زراعی</button>
     </div>
 
     <div class="grid" id="propertiesGrid"></div>
@@ -269,7 +275,7 @@
     <a href="https://wa.me/9647500000000" id="waLink" class="btn btn-success">💬 واتسئاپ</a>
   </div>
 
-  <!-- مۆداڵی زیادکردن/دەستکاریی موڵک -->
+  <!-- مۆداڵی زیادکردن/دەستکاری -->
   <div class="modal" id="propertyModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">&times;</span>
@@ -278,10 +284,10 @@
         <input type="hidden" id="editId">
         <div class="form-group">
           <label>ناوی موڵک:</label>
-          <input type="text" id="title" required placeholder="وەک: زەوی ٢٥٠م دوستەپە">
+          <input type="text" id="title" required placeholder="وەک: خانووی مۆدێرن ٢٠٠ مەتر">
         </div>
         <div class="form-group">
-          <label>جۆری موڵک (بەشی سەرەکی):</label>
+          <label>بەش (تاب):</label>
           <select id="category" onchange="toggleFormSubCategory()">
             <option value="خانوو">خانوو</option>
             <option value="شوێنی تیجاری">شوێنی تیجاری</option>
@@ -305,16 +311,16 @@
         </div>
         <div class="form-group">
           <label>نرخ ($):</label>
-          <input type="text" id="price" required placeholder="وەک: $45,000">
+          <input type="text" id="price" required placeholder="وەک: $85,000">
         </div>
         <div class="form-group">
-          <label>وێنە لە مۆبایل/کۆمپیوتەر:</label>
+          <label>وێنە لە گەلەری / فایل:</label>
           <input type="file" id="imageFile" accept="image/*" onchange="processImage(event)">
           <input type="hidden" id="imageData">
         </div>
         <div class="form-group">
           <label>ڕوونکردنەوە:</label>
-          <textarea id="desc" rows="3" required placeholder="ڕووبەر، پێگە، تایبەتمەندی..."></textarea>
+          <textarea id="desc" rows="3" required placeholder="زانیاری لەسەر ڕووبەر، شوێن، خزمەتگوزاری..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" style="width:100%; padding:0.75rem;">پاشەکەوتکردن</button>
       </form>
@@ -325,14 +331,14 @@
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">&times;</span>
-      <h3 class="modal-title">دەستکاریکردنی زانیارییەکانی سایت</h3>
+      <h3 class="modal-title">ڕێکخستنی زانیارییەکان</h3>
       <form onsubmit="handleSettingsSubmit(event)">
         <div class="form-group">
           <label>ناوی نوسینگە / ماڵپەڕ:</label>
           <input type="text" id="setSiteName" required>
         </div>
         <div class="form-group">
-          <label>سەردێڕی سەرەکی (Hero):</label>
+          <label>سەردێڕی سەرەکی:</label>
           <input type="text" id="setHeroTitle" required>
         </div>
         <div class="form-group">
@@ -340,14 +346,14 @@
           <textarea id="setHeroDesc" rows="2" required></textarea>
         </div>
         <div class="form-group">
-          <label>ژمارەی تەلەفۆن بۆ پەیوەندی:</label>
+          <label>ژمارەی تەلەفۆن:</label>
           <input type="text" id="setPhone" required placeholder="0750xxxxxxx">
         </div>
         <div class="form-group">
-          <label>ژمارەی واتسئاپ (بە کۆدی وڵاتەوە):</label>
+          <label>ژمارەی واتسئاپ:</label>
           <input type="text" id="setWa" required placeholder="964750xxxxxxx">
         </div>
-        <button type="submit" class="btn btn-success" style="width:100%; padding:0.75rem;">پاشەکەوتکردنی گۆڕانکارییەکان</button>
+        <button type="submit" class="btn btn-success" style="width:100%; padding:0.75rem;">پاشەکەوتکردن</button>
       </form>
     </div>
   </div>
@@ -362,47 +368,47 @@
         type: "بۆ فرۆشتن",
         price: "$85,000",
         image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop",
-        desc: "ڕووبەری ٢٠٠ مەتر، دوو نهۆم، هەموو خزمەتگوزارییەکانی ئاو و کارەبای هەیە."
+        desc: "ڕووبەری ٢٠٠ مەتر، دوو نهۆم، هەموو خزمەتگوزارییەکان ئامادەن."
       },
       {
         id: 2,
-        title: "پارچە زەوی نیشتەجێبوون",
+        title: "زەوی نیشتەجێبوون لە کەرتی ۲",
         category: "زەوی",
         subCategory: "نیشتەجێبوون",
         type: "بۆ فرۆشتن",
-        price: "$32,000",
+        price: "$35,000",
         image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&auto=format&fit=crop",
-        desc: "ڕووبەری ٢٥٠ مەتر لە کەرتی نیشتەجێبوونی دوستەپە."
+        desc: "ڕووبەری ٢٥٠ مەتر، تاپۆی نیشتەجێبوون و شوێنێکی زۆر بەرز."
       },
       {
         id: 3,
-        title: "زەوی زراعی بەپیت",
+        title: "زەوی زراعی بەپیت بۆ باخ",
         category: "زەوی",
         subCategory: "زراعی",
         type: "بۆ فرۆشتن",
-        price: "$20,000",
+        price: "$18,000",
         image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&auto=format&fit=crop",
-        desc: "زەوی گونجاو بۆ باخ و کشتوکاڵ بە ڕووبەری ١ دۆنم."
+        desc: "ڕووبەری ١ دۆنم، گونجاوە بۆ باخ و کشتوکاڵ."
       },
       {
         id: 4,
-        title: "دوکانی تیجاری لەسەر شەقام",
+        title: "دوکانی تیجاری لەسەر شەقامی سەرەکی",
         category: "شوێنی تیجاری",
         subCategory: "",
         type: "بۆ بەکرێدان",
-        price: "$600 / مانگانە",
+        price: "$500 / مانگانە",
         image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop",
         desc: "شوێنێکی ستراتیژی بۆ بازرگانی و کارکردن."
       },
       {
         id: 5,
-        title: "مەزرەعە و باخی ئامادەکراو",
+        title: "مەزرەعەی تەواو بە باخ و ڤێلاوە",
         category: "مەزرەعە",
         subCategory: "",
         type: "بۆ فرۆشتن",
-        price: "$110,000",
+        price: "$120,000",
         image: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=600&auto=format&fit=crop",
-        desc: "مەزرەعەی تەواو بە باخ و خانووی پشوودانەوە."
+        desc: "مەزرەعەی تەواو کراو بە بیر و دیواری چواردەور و کارەبا."
       }
     ];
 
@@ -414,11 +420,11 @@
       whatsapp: "9647500000000"
     };
 
-    let properties = JSON.parse(localStorage.getItem('dashti_v2_props')) || defaultData;
+    let properties = JSON.parse(localStorage.getItem('dashti_final_props')) || defaultData;
     let siteSettings = JSON.parse(localStorage.getItem('dashti_settings')) || defaultSettings;
     let isAdmin = false;
-    let currentMainTab = 'هەموو';
-    let currentSubTab = 'هەموو';
+    let activeMainTab = 'خانوو';
+    let activeSubTab = 'نیشتەجێبوون';
 
     function applySettings() {
       document.getElementById('siteLogo').innerText = siteSettings.siteName;
@@ -428,20 +434,14 @@
       document.getElementById('waLink').href = `https://wa.me/${siteSettings.whatsapp.replace(/\+/g, '')}`;
     }
 
-    function setMainTab(category, el) {
-      currentMainTab = category;
-      currentSubTab = 'هەموو';
-
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      el.classList.add('active');
+    function switchMainTab(category, btn) {
+      activeMainTab = category;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
       const subTabs = document.getElementById('landSubTabs');
       if (category === 'زەوی') {
         subTabs.style.display = 'flex';
-        document.querySelectorAll('.sub-tab-btn').forEach((btn, idx) => {
-          if (idx === 0) btn.classList.add('active');
-          else btn.classList.remove('active');
-        });
       } else {
         subTabs.style.display = 'none';
       }
@@ -449,10 +449,10 @@
       renderProperties();
     }
 
-    function setSubTab(subCat, el) {
-      currentSubTab = subCat;
-      document.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-      el.classList.add('active');
+    function switchSubTab(subCategory, btn) {
+      activeSubTab = subCategory;
+      document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
       renderProperties();
     }
 
@@ -461,60 +461,51 @@
       const emptyState = document.getElementById('emptyState');
       grid.innerHTML = '';
 
-      let filtered = properties;
+      let list = properties.filter(p => p.category === activeMainTab);
 
-      if (currentMainTab !== 'هەموو') {
-        filtered = filtered.filter(p => p.category === currentMainTab);
+      if (activeMainTab === 'زەوی') {
+        list = list.filter(p => p.subCategory === activeSubTab);
       }
 
-      if (currentMainTab === 'زەوی' && currentSubTab !== 'هەموو') {
-        filtered = filtered.filter(p => p.subCategory === currentSubTab);
-      }
-
-      if (filtered.length === 0) {
+      if (list.length === 0) {
         emptyState.style.display = 'block';
       } else {
         emptyState.style.display = 'none';
-      }
-
-      filtered.forEach(item => {
-        grid.innerHTML += `
-          <div class="card">
-            <img src="${item.image}" alt="${item.title}" class="card-img">
-            <div class="card-body">
-              <div class="badge-group">
-                <span class="badge">${item.type}</span>
-                <span class="badge">${item.category}</span>
-                ${item.subCategory ? `<span class="badge badge-sub">${item.subCategory}</span>` : ''}
-              </div>
-              <h3 class="card-title">${item.title}</h3>
-              <p class="card-desc">${item.desc}</p>
-              <div class="card-footer">
-                <span class="price">${item.price}</span>
-              </div>
-              <div class="card-controls" style="display: ${isAdmin ? 'flex' : 'none'}">
-                <button class="btn btn-edit" style="flex:1" onclick="openEditModal(${item.id})">دەستکاری</button>
-                <button class="btn btn-danger" style="flex:1" onclick="deleteProperty(${item.id})">سڕینەوە</button>
+        list.forEach(item => {
+          grid.innerHTML += `
+            <div class="card">
+              <img src="${item.image}" alt="${item.title}" class="card-img">
+              <div class="card-body">
+                <div class="badge-group">
+                  <span class="badge">${item.type}</span>
+                  <span class="badge">${item.category}</span>
+                  ${item.subCategory ? `<span class="badge badge-sub">${item.subCategory}</span>` : ''}
+                </div>
+                <h3 class="card-title">${item.title}</h3>
+                <p class="card-desc">${item.desc}</p>
+                <div class="card-footer">
+                  <span class="price">${item.price}</span>
+                </div>
+                <div class="card-controls" style="display: ${isAdmin ? 'flex' : 'none'}">
+                  <button class="btn btn-edit" style="flex:1" onclick="openEditModal(${item.id})">دەستکاری</button>
+                  <button class="btn btn-danger" style="flex:1" onclick="deleteProperty(${item.id})">سڕینەوە</button>
+                </div>
               </div>
             </div>
-          </div>
-        `;
-      });
+          `;
+        });
+      }
     }
 
     function toggleFormSubCategory() {
       const cat = document.getElementById('category').value;
       const subGroup = document.getElementById('formSubCatGroup');
-      if (cat === 'زەوی') {
-        subGroup.style.display = 'block';
-      } else {
-        subGroup.style.display = 'none';
-      }
+      subGroup.style.display = (cat === 'زەوی') ? 'block' : 'none';
     }
 
     function toggleAdmin() {
       if (!isAdmin) {
-        const pass = prompt("تێپەڕەوشەی خاوەن ماڵپەڕ (تێپەڕەوشە: 1234):");
+        const pass = prompt("تێپەڕەوشەی بەڕێوەبەر (تێپەڕەوشە: 1234):");
         if (pass === "1234") {
           isAdmin = true;
           document.getElementById('adminBar').style.display = 'flex';
@@ -533,6 +524,7 @@
       document.getElementById('propForm').reset();
       document.getElementById('editId').value = "";
       document.getElementById('imageData').value = "";
+      document.getElementById('category').value = activeMainTab;
       toggleFormSubCategory();
       document.getElementById('propertyModal').style.display = 'flex';
     }
@@ -605,7 +597,7 @@
       const editId = document.getElementById('editId').value;
       const title = document.getElementById('title').value;
       const category = document.getElementById('category').value;
-      const subCategory = category === 'زەوی' ? document.getElementById('subCategory').value : '';
+      const subCategory = (category === 'زەوی') ? document.getElementById('subCategory').value : '';
       const type = document.getElementById('type').value;
       const price = document.getElementById('price').value;
       const desc = document.getElementById('desc').value;
@@ -618,7 +610,7 @@
         properties.unshift({ id: Date.now(), title, category, subCategory, type, price, desc, image });
       }
 
-      localStorage.setItem('dashti_v2_props', JSON.stringify(properties));
+      localStorage.setItem('dashti_final_props', JSON.stringify(properties));
       renderProperties();
       closeModals();
     }
@@ -642,7 +634,7 @@
     function deleteProperty(id) {
       if (confirm("ئایا دڵنیایت لە سڕینەوەی ئەم موڵکە؟")) {
         properties = properties.filter(item => item.id !== id);
-        localStorage.setItem('dashti_v2_props', JSON.stringify(properties));
+        localStorage.setItem('dashti_final_props', JSON.stringify(properties));
         renderProperties();
       }
     }
