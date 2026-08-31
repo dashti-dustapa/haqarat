@@ -19,19 +19,19 @@
       --edit: #f59e0b;
       --border: #e2e8f0;
       --hero-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      --base-font-size: 16px;
-      --card-img-height: 220px;
+      --base-font-size: 13.5px;
+      --card-img-height: 180px;
     }
   </style>
   <style>
     html { font-size: var(--base-font-size); }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Kufi Arabic', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 40px; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 35px; }
 
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
-      padding: 0.85rem 1rem;
+      padding: 0.75rem 0.9rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -40,12 +40,12 @@
       z-index: 100;
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
-    .logo { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
+    .logo { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
     .btn {
-      padding: 0.55rem 0.9rem;
-      border-radius: 10px;
+      padding: 0.45rem 0.8rem;
+      border-radius: 8px;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       cursor: pointer;
       border: none;
       transition: 0.2s;
@@ -62,36 +62,36 @@
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-sold { background: #64748b; color: #fff; }
     .btn-backup { background: #334155; color: #fff; }
-    .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.78rem; padding: 0.45rem 0.75rem; border-radius: 8px; }
+    .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
 
     /* Ultra Power Owner Panel */
     .admin-bar {
       background: #0f172a;
       color: #fff;
-      padding: 1rem;
+      padding: 0.85rem;
       display: none;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       border-bottom: 3px solid var(--primary);
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
-    .admin-bar-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+    .admin-bar-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; }
     .admin-stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      gap: 5px;
       background: rgba(255,255,255,0.05);
-      padding: 8px;
+      padding: 6px;
       border-radius: 8px;
       text-align: center;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
     }
     @media(min-width: 640px) { .admin-stats-grid { grid-template-columns: repeat(7, 1fr); } }
-    .stat-val { font-size: 1.1rem; font-weight: 800; color: #38bdf8; }
+    .stat-val { font-size: 1rem; font-weight: 800; color: #38bdf8; }
     .admin-actions-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+      gap: 6px;
     }
     @media(min-width: 640px) { .admin-actions-grid { grid-template-columns: repeat(5, 1fr); } }
 
@@ -99,29 +99,29 @@
       background: var(--hero-bg);
       color: #fff;
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 1.6rem 0.9rem;
     }
-    .hero h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem; }
-    .hero p { color: #94a3b8; font-size: 0.85rem; max-width: 500px; margin: auto; }
+    .hero h1 { font-size: 1.35rem; font-weight: 800; margin-bottom: 0.3rem; }
+    .hero p { color: #94a3b8; font-size: 0.8rem; max-width: 500px; margin: auto; }
 
-    .container { max-width: 1100px; margin: auto; padding: 1.2rem 1rem; }
+    .container { max-width: 1100px; margin: auto; padding: 0.9rem 0.8rem; }
 
     .tabs-wrapper {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 12px;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
       scrollbar-width: none;
     }
     .tabs-wrapper::-webkit-scrollbar { display: none; }
     
     .tab-btn {
-      padding: 0.65rem 1.2rem;
+      padding: 0.5rem 0.95rem;
       background: var(--card-bg);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.82rem;
       font-weight: 700;
       color: var(--muted);
       cursor: pointer;
@@ -133,7 +133,7 @@
       background: var(--primary);
       color: #ffffff;
       border-color: var(--primary);
-      box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
+      box-shadow: 0 3px 8px rgba(2, 132, 199, 0.25);
     }
     .tab-btn.tab-want {
       border-color: #f59e0b;
@@ -143,24 +143,24 @@
       background: #f59e0b;
       color: #fff;
       border-color: #f59e0b;
-      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.25);
+      box-shadow: 0 3px 8px rgba(245, 158, 11, 0.25);
     }
 
     .sub-tabs-container {
       display: none;
       background: #e2e8f0;
-      padding: 5px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      gap: 5px;
+      padding: 4px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      gap: 4px;
     }
     .sub-tab-btn {
       flex: 1;
-      padding: 0.5rem;
+      padding: 0.4rem;
       background: transparent;
       border: none;
-      border-radius: 8px;
-      font-size: 0.8rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--text);
       cursor: pointer;
@@ -170,18 +170,18 @@
     .sub-tab-btn.active {
       background: var(--card-bg);
       color: var(--dark);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     }
 
-    .grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 0.9rem; }
     @media(min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
     @media(min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
 
     .card {
       background: var(--card-bg);
-      border-radius: 14px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
       border: 1px solid var(--border);
       display: flex;
       flex-direction: column;
@@ -193,22 +193,21 @@
     }
     .sold-badge-overlay {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 10px;
+      right: 10px;
       background: var(--danger);
       color: white;
       font-weight: 800;
-      padding: 0.3rem 0.8rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
       z-index: 5;
-      box-shadow: 0 3px 10px rgba(239, 68, 68, 0.4);
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
     }
 
-    /* کارتی داواکارییەکان (بێ وێنە) */
     .card-want {
-      border-top: 4px solid #f59e0b;
-      padding: 0.4rem;
+      border-top: 3px solid #f59e0b;
+      padding: 0.3rem;
     }
 
     .card-img-wrapper {
@@ -226,45 +225,45 @@
     }
     .img-count-badge {
       position: absolute;
-      bottom: 10px;
-      left: 10px;
+      bottom: 8px;
+      left: 8px;
       background: rgba(15, 23, 42, 0.75);
       color: #ffffff;
-      padding: 0.25rem 0.6rem;
-      border-radius: 8px;
-      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
       font-weight: 700;
       backdrop-filter: blur(2px);
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
     }
 
-    .card-body { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
-    .badge-group { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 0.5rem; }
+    .card-body { padding: 0.8rem; flex: 1; display: flex; flex-direction: column; }
+    .badge-group { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 0.4rem; }
     .badge {
       display: inline-block;
-      padding: 0.25rem 0.6rem;
+      padding: 0.2rem 0.5rem;
       background: #e0f2fe;
       color: var(--primary);
-      border-radius: 6px;
-      font-size: 0.75rem;
+      border-radius: 5px;
+      font-size: 0.7rem;
       font-weight: 700;
     }
     .badge-sub { background: #fef3c7; color: #b45309; }
     .badge-want { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
     .badge-location { background: #f1f5f9; color: var(--dark); border: 1px solid #cbd5e1; }
-    .card-title { font-size: 1.05rem; font-weight: 700; color: var(--dark); margin-bottom: 0.4rem; cursor: pointer; }
-    .card-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.8rem; line-height: 1.5; flex: 1; }
+    .card-title { font-size: 0.95rem; font-weight: 700; color: var(--dark); margin-bottom: 0.3rem; cursor: pointer; }
+    .card-desc { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.6rem; line-height: 1.45; flex: 1; }
     
-    .map-row { margin-bottom: 0.8rem; }
+    .map-row { margin-bottom: 0.6rem; }
 
     .owner-phone-display {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
-      padding: 0.55rem 0.75rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
       font-weight: 700;
       color: #0f172a;
       display: flex;
@@ -281,19 +280,19 @@
     .card-footer {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       border-top: 1px solid #f1f5f9;
-      padding-top: 0.75rem;
+      padding-top: 0.6rem;
     }
     .card-footer-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .price { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
+    .price { font-size: 1rem; font-weight: 800; color: var(--primary); }
     
-    .card-controls { display: none; flex-direction: column; gap: 6px; margin-top: 8px; border-top: 1px dashed var(--border); padding-top: 8px; }
-    .controls-row { display: flex; gap: 6px; }
+    .card-controls { display: none; flex-direction: column; gap: 5px; margin-top: 6px; border-top: 1px dashed var(--border); padding-top: 6px; }
+    .controls-row { display: flex; gap: 5px; }
 
     .modal {
       display: none;
@@ -309,55 +308,55 @@
 
     .modal-content {
       background: #fff;
-      padding: 1.3rem;
-      border-radius: 20px 20px 0 0;
+      padding: 1.1rem;
+      border-radius: 16px 16px 0 0;
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
       position: relative;
       max-height: 85vh;
       overflow-y: auto;
     }
-    @media(min-width: 640px) { .modal-content { border-radius: 16px; } }
+    @media(min-width: 640px) { .modal-content { border-radius: 14px; } }
 
-    .modal-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 1rem; }
-    .form-group { margin-bottom: 0.85rem; }
-    .form-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .modal-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.8rem; }
+    .form-group { margin-bottom: 0.75rem; }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem; }
     .form-group input, .form-group textarea, .form-group select {
       width: 100%;
-      padding: 0.65rem;
+      padding: 0.55rem;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 0.85rem;
+      border-radius: 7px;
+      font-size: 0.8rem;
       outline: none;
     }
     .color-pickers-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
       background: #f8fafc;
-      padding: 10px;
-      border-radius: 10px;
+      padding: 8px;
+      border-radius: 8px;
       border: 1px solid #e2e8f0;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .color-field {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
-    .color-field label { font-size: 0.75rem; font-weight: 700; color: #475569; }
+    .color-field label { font-size: 0.72rem; font-weight: 700; color: #475569; }
     .color-field input[type="color"] {
       width: 100%;
-      height: 38px;
+      height: 34px;
       padding: 2px;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       background: #fff;
     }
 
-    .close-btn { position: absolute; left: 1rem; top: 1rem; cursor: pointer; font-size: 1.4rem; font-weight: 800; color: #94a3b8; }
-    .empty-state { text-align: center; color: var(--muted); padding: 3.5rem 1rem; font-size: 0.95rem; font-weight: 600; }
+    .close-btn { position: absolute; left: 0.9rem; top: 0.9rem; cursor: pointer; font-size: 1.3rem; font-weight: 800; color: #94a3b8; }
+    .empty-state { text-align: center; color: var(--muted); padding: 3rem 1rem; font-size: 0.88rem; font-weight: 600; }
 
     /* گەلەری Modal */
     .gallery-modal {
@@ -369,7 +368,7 @@
       z-index: 300;
       flex-direction: column;
       justify-content: space-between;
-      padding: 1rem;
+      padding: 0.8rem;
     }
     .gallery-header {
       display: flex;
@@ -394,16 +393,16 @@
       max-width: 100%;
       max-height: 60vh;
       object-fit: contain;
-      border-radius: 12px;
+      border-radius: 10px;
     }
     .gallery-nav-btn {
       background: rgba(255, 255, 255, 0.2);
       color: white;
       border: none;
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -413,23 +412,23 @@
       transform: translateY(-50%);
       z-index: 10;
     }
-    .gallery-prev { right: 10px; }
-    .gallery-next { left: 10px; }
+    .gallery-prev { right: 8px; }
+    .gallery-next { left: 8px; }
     .gallery-thumbs {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       overflow-x: auto;
-      padding: 10px 0;
+      padding: 8px 0;
       max-width: 800px;
       width: 100%;
       margin: 0 auto;
       justify-content: center;
     }
     .gallery-thumbs img {
-      width: 55px;
-      height: 55px;
+      width: 50px;
+      height: 50px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       opacity: 0.5;
       border: 2px solid transparent;
@@ -444,14 +443,14 @@
     .images-preview-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 6px;
+      margin-top: 6px;
     }
     .img-preview-box {
       position: relative;
-      width: 65px;
-      height: 65px;
-      border-radius: 8px;
+      width: 55px;
+      height: 55px;
+      border-radius: 6px;
       overflow: hidden;
       border: 1px solid var(--border);
     }
@@ -467,25 +466,25 @@
       background: rgba(239, 68, 68, 0.9);
       color: white;
       border: none;
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      font-size: 10px;
+      font-size: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
     }
     .add-more-img-btn {
-      width: 65px;
-      height: 65px;
-      border: 2px dashed #94a3b8;
-      border-radius: 8px;
+      width: 55px;
+      height: 55px;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 6px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       color: #64748b;
       cursor: pointer;
       font-weight: 700;
@@ -499,11 +498,10 @@
     <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
   </header>
 
-  <!-- داشبۆردی بەهێزی خاوەن موڵک -->
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
       <span>👑 دەسەڵاتی تەواوی بەڕێوەبەر (Master Owner Panel)</span>
-      <button onclick="logoutAdmin()" style="background:none; border:none; color:#f87171; font-size:0.8rem; cursor:pointer; font-weight:700;">دەرچوون</button>
+      <button onclick="logoutAdmin()" style="background:none; border:none; color:#f87171; font-size:0.78rem; cursor:pointer; font-weight:700;">دەرچوون</button>
     </div>
 
     <div class="admin-stats-grid">
@@ -518,13 +516,13 @@
 
     <div class="admin-actions-grid">
       <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
-      <button class="btn btn-success" style="background:#f59e0b;" onclick="openAddWantModal()">+ زیادکردنی داواکاری (خوازیار)</button>
-      <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت و ڕەنگەکان</button>
-      <button class="btn btn-backup" onclick="exportDataBackup()">💾 کۆپی یەدەگ (Backup)</button>
+      <button class="btn btn-success" style="background:#f59e0b;" onclick="openAddWantModal()">+ زیادکردنی داواکاری</button>
+      <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت، ڕەنگ و قەبارە</button>
+      <button class="btn btn-backup" onclick="exportDataBackup()">💾 کۆپی یەدەگ</button>
       <button class="btn btn-backup" onclick="document.getElementById('restoreInput').click()">📥 هێنانەوەی فایل</button>
       <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="importDataBackup(event)">
     </div>
-    <button class="btn btn-danger" style="width:100%; padding:0.5rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکەکان (پاککردنەوەی داتابەیس)</button>
+    <button class="btn btn-danger" style="width:100%; padding:0.45rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکەکان (پاککردنەوەی داتابەیس)</button>
   </div>
 
   <section class="hero" id="heroSection">
@@ -550,11 +548,10 @@
     <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
   </div>
 
-  <!-- مۆداڵی پێشاندانی وێنەکان -->
   <div class="gallery-modal" id="galleryModal">
     <div class="gallery-header">
       <span id="galleryCounter" style="font-weight:700;">1 / 1</span>
-      <span style="font-size:1.8rem; cursor:pointer;" onclick="closeGallery()">×</span>
+      <span style="font-size:1.6rem; cursor:pointer;" onclick="closeGallery()">×</span>
     </div>
     <div class="gallery-main">
       <button class="gallery-nav-btn gallery-prev" onclick="changeGallerySlide(-1)">❯</button>
@@ -564,7 +561,6 @@
     <div class="gallery-thumbs" id="galleryThumbs"></div>
   </div>
 
-  <!-- مۆداڵی پاسۆرد -->
   <div class="modal" id="loginModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -574,13 +570,12 @@
           <label>تێپەڕەوشە بنووسە:</label>
           <input type="password" id="adminPassInput" required placeholder="تێپەڕەوشە (1234)">
         </div>
-        <p id="loginError" style="color:var(--danger); font-size:0.8rem; margin-bottom:8px; display:none;">تێپەڕەوشە هەڵەیە!</p>
-        <button type="submit" class="btn btn-primary" style="width:100%; padding:0.75rem;">چوونەژوورەوە</button>
+        <p id="loginError" style="color:var(--danger); font-size:0.75rem; margin-bottom:6px; display:none;">تێپەڕەوشە هەڵەیە!</p>
+        <button type="submit" class="btn btn-primary" style="width:100%; padding:0.65rem;">چوونەژوورەوە</button>
       </form>
     </div>
   </div>
 
-  <!-- مۆداڵی زیادکردن/دەستکاری موڵکی ئاسایی -->
   <div class="modal" id="propertyModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -631,13 +626,12 @@
           <input type="text" id="price" required placeholder="وەک: $85,000">
         </div>
         
-        <!-- وێنەکان -->
         <div class="form-group">
           <label>وێنەکانی موڵک:</label>
           <input type="file" id="hiddenFileInput" accept="image/*" multiple style="display:none;" onchange="handleFileSelection(event)">
           <div class="images-preview-grid" id="imgPreviewGrid">
             <div class="add-more-img-btn" onclick="document.getElementById('hiddenFileInput').click()">
-              <span style="font-size:1.3rem;">+</span>
+              <span style="font-size:1.1rem;">+</span>
               <span>زیادکردن</span>
             </div>
           </div>
@@ -647,12 +641,11 @@
           <label>ڕوونکردنەوە:</label>
           <textarea id="desc" rows="3" required placeholder="زانیاری لەسەر ڕووبەر، پێگە، خزمەتگوزاری..."></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" id="savePropBtn" style="width:100%; padding:0.75rem;">پاشەکەوتکردن</button>
+        <button type="submit" class="btn btn-primary" id="savePropBtn" style="width:100%; padding:0.65rem;">پاشەکەوتکردن</button>
       </form>
     </div>
   </div>
 
-  <!-- مۆداڵی زیادکردن/دەستکاری داواکاری (خوازیار) -->
   <div class="modal" id="wantModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -675,7 +668,7 @@
         </div>
         <div class="form-group">
           <label>بوودجەی دیاریکراو ($ یان دینار):</label>
-          <input type="text" id="wantPrice" required placeholder="وەک: دەوروبەری $40,000 یان 400 هەزار مانگانە">
+          <input type="text" id="wantPrice" required placeholder="وەک: دەوروبەری $40,000">
         </div>
         <div class="form-group">
           <label>ژمارەی مۆبایلی خوازیار / داواکار:</label>
@@ -685,12 +678,11 @@
           <label>ڕوونکردنەوە و مەرجەکانی داواکاری:</label>
           <textarea id="wantDesc" rows="3" required placeholder="ڕووبەر، گەڕەک یان شوێنی داواکراو بنووسە..."></textarea>
         </div>
-        <button type="submit" class="btn btn-success" id="saveWantBtn" style="width:100%; padding:0.75rem; background:#f59e0b;">پاشەکەوتکردنی داواکاری</button>
+        <button type="submit" class="btn btn-success" id="saveWantBtn" style="width:100%; padding:0.65rem; background:#f59e0b;">پاشەکەوتکردنی داواکاری</button>
       </form>
     </div>
   </div>
 
-  <!-- مۆداڵی ڕێکخستنی سایت و ڕەنگەکان و قەبارە -->
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -710,15 +702,16 @@
         </div>
 
         <div class="form-group">
-          <label style="color:var(--primary); font-weight:800;">📱 قەبارەی دیزاین (بۆ مۆبایل):</label>
+          <label style="color:var(--primary); font-weight:800;">📱 قەبارەی دیزاین و کارتەکان (UI Size):</label>
           <select id="setUiSize">
-            <option value="compact">بچووک و کۆکراوە (گونجاو بۆ مۆبایل)</option>
-            <option value="normal">ئاسایی</option>
-            <option value="large">گەورە</option>
+            <option value="ultra-compact">زۆر زۆر بچووک (Ultra Compact - باشترین و سووکترین بۆ مۆبایل)</option>
+            <option value="compact">بچووک و کۆکراوە (Compact)</option>
+            <option value="normal">ئاسایی (Normal)</option>
+            <option value="large">گەورە (Large)</option>
           </select>
         </div>
 
-        <label style="font-size:0.8rem; font-weight:800; color:var(--dark); margin-bottom:6px; display:block;">🎨 کۆنتڕۆڵی ڕەنگەکانی ماڵپەڕ:</label>
+        <label style="font-size:0.75rem; font-weight:800; color:var(--dark); margin-bottom:5px; display:block;">🎨 کۆنتڕۆڵی ڕەنگەکانی ماڵپەڕ:</label>
         <div class="color-pickers-grid">
           <div class="color-field">
             <label>ڕەنگی سەرەکی (Theme Color):</label>
@@ -742,7 +735,7 @@
           <label>تێپەڕەوشەی نوێی پنێڵ:</label>
           <input type="text" id="setAdminPass" required placeholder="تێپەڕەوشەی بەڕێوەبەر">
         </div>
-        <button type="submit" class="btn btn-success" style="width:100%; padding:0.75rem;">پاشەکەوتکردنی هەموو ڕێکخستنەکان</button>
+        <button type="submit" class="btn btn-success" style="width:100%; padding:0.65rem;">پاشەکەوتکردنی هەموو ڕێکخستنەکان</button>
       </form>
     </div>
   </div>
@@ -760,7 +753,7 @@
       bgColor: "#f8fafc",
       heroColor: "#0f172a",
       cardColor: "#ffffff",
-      uiSize: "normal"
+      uiSize: "ultra-compact"
     };
 
     let uploadedImagesList = [];
@@ -776,22 +769,25 @@
       const bg = siteSettings.bgColor || "#f8fafc";
       const hero = siteSettings.heroColor || "#0f172a";
       const card = siteSettings.cardColor || "#ffffff";
-      const uiSize = siteSettings.uiSize || "normal";
+      const uiSize = siteSettings.uiSize || "ultra-compact";
 
       document.documentElement.style.setProperty('--primary', primary);
       document.documentElement.style.setProperty('--bg', bg);
       document.documentElement.style.setProperty('--card-bg', card);
       document.documentElement.style.setProperty('--hero-bg', hero);
 
-      if (uiSize === 'compact') {
+      if (uiSize === 'ultra-compact') {
+        document.documentElement.style.setProperty('--base-font-size', '11.5px');
+        document.documentElement.style.setProperty('--card-img-height', '140px');
+      } else if (uiSize === 'compact') {
         document.documentElement.style.setProperty('--base-font-size', '13.5px');
         document.documentElement.style.setProperty('--card-img-height', '180px');
       } else if (uiSize === 'large') {
-        document.documentElement.style.setProperty('--base-font-size', '18px');
-        document.documentElement.style.setProperty('--card-img-height', '260px');
+        document.documentElement.style.setProperty('--base-font-size', '17px');
+        document.documentElement.style.setProperty('--card-img-height', '250px');
       } else {
-        document.documentElement.style.setProperty('--base-font-size', '16px');
-        document.documentElement.style.setProperty('--card-img-height', '220px');
+        document.documentElement.style.setProperty('--base-font-size', '15px');
+        document.documentElement.style.setProperty('--card-img-height', '210px');
       }
     }
 
@@ -888,7 +884,7 @@
                   <p class="card-desc">${item.desc}</p>
 
                   ${item.ownerPhone ? `
-                    <div class="owner-phone-display" style="margin-bottom:0.6rem;">
+                    <div class="owner-phone-display" style="margin-bottom:0.5rem;">
                       <span>📞 ژمارەی داواکار:</span>
                       <span class="phone-text">${item.ownerPhone}</span>
                     </div>
@@ -939,7 +935,7 @@
                   </div>
 
                   ${item.ownerPhone ? `
-                    <div class="owner-phone-display" style="margin-bottom:0.6rem;">
+                    <div class="owner-phone-display" style="margin-bottom:0.5rem;">
                       <span>📞 ژمارەی خاوەن موڵک:</span>
                       <span class="phone-text">${item.ownerPhone}</span>
                     </div>
@@ -948,7 +944,7 @@
                   <div class="card-footer">
                     <div class="card-footer-top">
                       <span class="price">${item.price}</span>
-                      <button class="btn btn-primary" style="padding:0.4rem 0.8rem; font-size:0.75rem;" onclick="openGallery('${item.id}')">بینینی وێنەکان</button>
+                      <button class="btn btn-primary" style="padding:0.35rem 0.65rem; font-size:0.72rem;" onclick="openGallery('${item.id}')">بینینی وێنەکان</button>
                     </div>
                   </div>
 
@@ -976,7 +972,7 @@
           img.src = e.target.result;
           img.onload = () => {
             const canvas = document.createElement('canvas');
-            const MAX_DIM = 600;
+            const MAX_DIM = 550;
             let width = img.width;
             let height = img.height;
 
@@ -992,7 +988,7 @@
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', 0.55));
+            resolve(canvas.toDataURL('image/jpeg', 0.5));
           };
         };
       });
@@ -1027,7 +1023,7 @@
       const addBtn = document.createElement('div');
       addBtn.className = 'add-more-img-btn';
       addBtn.onclick = () => document.getElementById('hiddenFileInput').click();
-      addBtn.innerHTML = '<span style="font-size:1.3rem;">+</span><span>زیادکردن</span>';
+      addBtn.innerHTML = '<span style="font-size:1.1rem;">+</span><span>زیادکردن</span>';
       grid.appendChild(addBtn);
     }
 
@@ -1178,8 +1174,7 @@
       document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setAdminPass').value = siteSettings.adminPass || "1234";
 
-      // پڕکردنەوەی قەبارە و ڕەنگەکان
-      document.getElementById('setUiSize').value = siteSettings.uiSize || "normal";
+      document.getElementById('setUiSize').value = siteSettings.uiSize || "ultra-compact";
       document.getElementById('setPrimaryColor').value = siteSettings.primaryColor || "#0284c7";
       document.getElementById('setBgColor').value = siteSettings.bgColor || "#f8fafc";
       document.getElementById('setHeroColor').value = siteSettings.heroColor || "#0f172a";
