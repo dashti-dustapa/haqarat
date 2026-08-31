@@ -83,14 +83,14 @@
       text-align: center;
       font-size: 0.7rem;
     }
-    @media(min-width: 640px) { .admin-stats-grid { grid-template-columns: repeat(6, 1fr); } }
+    @media(min-width: 640px) { .admin-stats-grid { grid-template-columns: repeat(7, 1fr); } }
     .stat-val { font-size: 1.1rem; font-weight: 800; color: #38bdf8; }
     .admin-actions-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;
     }
-    @media(min-width: 640px) { .admin-actions-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media(min-width: 640px) { .admin-actions-grid { grid-template-columns: repeat(5, 1fr); } }
 
     .hero {
       background: var(--hero-bg);
@@ -131,6 +131,16 @@
       color: #ffffff;
       border-color: var(--primary);
       box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
+    }
+    .tab-btn.tab-want {
+      border-color: #f59e0b;
+      color: #d97706;
+    }
+    .tab-btn.tab-want.active {
+      background: #f59e0b;
+      color: #fff;
+      border-color: #f59e0b;
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.25);
     }
 
     .sub-tabs-container {
@@ -191,6 +201,13 @@
       z-index: 5;
       box-shadow: 0 3px 10px rgba(239, 68, 68, 0.4);
     }
+
+    /* کارتی داواکارییەکان (بێ وێنە) */
+    .card-want {
+      border-top: 4px solid #f59e0b;
+      padding: 0.4rem;
+    }
+
     .card-img-wrapper {
       position: relative;
       cursor: pointer;
@@ -232,6 +249,7 @@
       font-weight: 700;
     }
     .badge-sub { background: #fef3c7; color: #b45309; }
+    .badge-want { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
     .badge-location { background: #f1f5f9; color: var(--dark); border: 1px solid #cbd5e1; }
     .card-title { font-size: 1.05rem; font-weight: 700; color: var(--dark); margin-bottom: 0.4rem; cursor: pointer; }
     .card-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.8rem; line-height: 1.5; flex: 1; }
@@ -490,11 +508,13 @@
       <div>تیجاری<div class="stat-val" id="statCommercial">0</div></div>
       <div>زەوی<div class="stat-val" id="statLands">0</div></div>
       <div>مەزرەعە<div class="stat-val" id="statFarms">0</div></div>
+      <div>خوازیار<div class="stat-val" id="statWants" style="color:#f59e0b;">0</div></div>
       <div>فرۆشراو<div class="stat-val" id="statSold" style="color:#f87171;">0</div></div>
     </div>
 
     <div class="admin-actions-grid">
       <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
+      <button class="btn btn-success" style="background:#f59e0b;" onclick="openAddWantModal()">+ زیادکردنی داواکاری (خوازیار)</button>
       <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت و ڕەنگەکان</button>
       <button class="btn btn-backup" onclick="exportDataBackup()">💾 کۆپی یەدەگ (Backup)</button>
       <button class="btn btn-backup" onclick="document.getElementById('restoreInput').click()">📥 هێنانەوەی فایل</button>
@@ -514,6 +534,7 @@
       <button class="tab-btn" onclick="switchMainTab('شوێنی تیجاری', this)">شوێنی تیجاری</button>
       <button class="tab-btn" onclick="switchMainTab('زەوی', this)">زەوی</button>
       <button class="tab-btn" onclick="switchMainTab('مەزرەعە', this)">مەزرەعە</button>
+      <button class="tab-btn tab-want" onclick="switchMainTab('خوازیار / پێویستە', this)">🔍 خوازیار / پێویستە</button>
     </div>
 
     <div class="sub-tabs-container" id="landSubTabs">
@@ -522,7 +543,7 @@
     </div>
 
     <div class="grid" id="propertiesGrid"></div>
-    <div class="empty-state" id="emptyState" style="display:none;">هیچ موڵکێک لەم بەشەدا بەردەست نییە.</div>
+    <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
   </div>
 
   <div class="gallery-modal" id="galleryModal">
@@ -619,6 +640,43 @@
           <textarea id="desc" rows="3" required placeholder="زانیاری لەسەر ڕووبەر، پێگە، خزمەتگوزاری..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" id="savePropBtn" style="width:100%; padding:0.75rem;">پاشەکەوتکردن</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="wantModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModals()">×</span>
+      <h3 class="modal-title" id="wantModalTitle">زیادکردنی داواکاری (خوازیار)</h3>
+      <form id="wantForm" onsubmit="handleWantFormSubmit(event)">
+        <input type="hidden" id="editWantId">
+        <div class="form-group">
+          <label>سەردێڕی داواکاری:</label>
+          <input type="text" id="wantTitle" required placeholder="وەک: پێویستم بە خانووی کرێیە یان زەوی بۆ کڕین">
+        </div>
+        <div class="form-group">
+          <label>جۆری موڵکی داواکراو:</label>
+          <select id="wantPropertyType">
+            <option value="خانوو بۆ کڕین">خانوو بۆ کڕین</option>
+            <option value="خانوو بۆ کرێ">خانوو بۆ کرێ</option>
+            <option value="زەوی بۆ کڕین">زەوی بۆ کڕین</option>
+            <option value="شوێنی تیجاری بۆ کڕین/کرێ">شوێنی تیجاری بۆ کڕین/کرێ</option>
+            <option value="مەزرەعە بۆ کڕین">مەزرەعە بۆ کڕین</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>بوودجەی دیاریکراو ($ یان دینار):</label>
+          <input type="text" id="wantPrice" required placeholder="وەک: دەوروبەری $40,000 یان 400 هەزار مانگانە">
+        </div>
+        <div class="form-group">
+          <label>ژمارەی مۆبایلی خوازیار / داواکار:</label>
+          <input type="text" id="wantPhone" required placeholder="0750xxxxxxx">
+        </div>
+        <div class="form-group">
+          <label>ڕوونکردنەوە و مەرجەکانی داواکاری:</label>
+          <textarea id="wantDesc" rows="3" required placeholder="ڕووبەر، گەڕەک یان شوێنی داواکراو بنووسە..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-success" id="saveWantBtn" style="width:100%; padding:0.75rem; background:#f59e0b;">پاشەکەوتکردنی داواکاری</button>
       </form>
     </div>
   </div>
@@ -740,6 +798,7 @@
       document.getElementById('statCommercial').innerText = properties.filter(p => p.category === 'شوێنی تیجاری').length;
       document.getElementById('statLands').innerText = properties.filter(p => p.category === 'زەوی').length;
       document.getElementById('statFarms').innerText = properties.filter(p => p.category === 'مەزرەعە').length;
+      document.getElementById('statWants').innerText = properties.filter(p => p.category === 'خوازیار / پێویستە').length;
       document.getElementById('statSold').innerText = properties.filter(p => p.isSold).length;
     }
 
@@ -784,57 +843,96 @@
       } else {
         emptyState.style.display = 'none';
         list.forEach(item => {
-          const imgs = (item.images && item.images.length > 0) ? item.images : [item.image || "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop"];
-          const mainImg = imgs[0];
-          const mapHref = formatMapUrl(item.mapLink, item.location);
-
-          grid.innerHTML += `
-            <div class="card ${item.isSold ? 'sold-out' : ''}">
-              ${item.isSold ? '<div class="sold-badge-overlay">فرۆشراوە 🔒</div>' : ''}
-              <div class="card-img-wrapper" onclick="openGallery('${item.id}')">
-                <img src="${mainImg}" alt="${item.title}" class="card-img" loading="lazy">
-                <div class="img-count-badge">📷 ${imgs.length} وێنە</div>
-              </div>
-              <div class="card-body">
-                <div class="badge-group">
-                  <span class="badge">${item.type}</span>
-                  <span class="badge">${item.category}</span>
-                  ${item.subCategory ? `<span class="badge badge-sub">${item.subCategory}</span>` : ''}
-                  ${item.location ? `<span class="badge badge-location">📍 ${item.location}</span>` : ''}
-                </div>
-                <h3 class="card-title" onclick="openGallery('${item.id}')">${item.title}</h3>
-                <p class="card-desc">${item.desc}</p>
-                
-                <div class="map-row">
-                  <a href="${mapHref}" target="_blank" rel="noopener noreferrer" class="btn btn-map">
-                    🗺️ کردنەوە لە Google Maps
-                  </a>
-                </div>
-
-                ${item.ownerPhone ? `
-                  <div class="owner-phone-display" style="margin-bottom:0.6rem;">
-                    <span>📞 ژمارەی خاوەن موڵک:</span>
-                    <span class="phone-text">${item.ownerPhone}</span>
+          // ئەگەر جۆری کارتەکە داواکاری بێت (خوازیار) -> بێ وێنە و نەخشە پیشان دەدرێت
+          if (item.category === 'خوازیار / پێویستە') {
+            grid.innerHTML += `
+              <div class="card card-want ${item.isSold ? 'sold-out' : ''}">
+                ${item.isSold ? '<div class="sold-badge-overlay">دابینکرا / دۆزرایەوە ✅</div>' : ''}
+                <div class="card-body">
+                  <div class="badge-group">
+                    <span class="badge badge-want">🔍 داواکاری کڕیار</span>
+                    <span class="badge">${item.type || 'پێویستە'}</span>
                   </div>
-                ` : ''}
+                  <h3 class="card-title">${item.title}</h3>
+                  <p class="card-desc">${item.desc}</p>
 
-                <div class="card-footer">
-                  <div class="card-footer-top">
-                    <span class="price">${item.price}</span>
-                    <button class="btn btn-primary" style="padding:0.4rem 0.8rem; font-size:0.75rem;" onclick="openGallery('${item.id}')">بینینی وێنەکان</button>
-                  </div>
-                </div>
+                  ${item.ownerPhone ? `
+                    <div class="owner-phone-display" style="margin-bottom:0.6rem;">
+                      <span>📞 ژمارەی داواکار:</span>
+                      <span class="phone-text">${item.ownerPhone}</span>
+                    </div>
+                  ` : ''}
 
-                <div class="card-controls" style="display: ${isAdmin ? 'flex' : 'none'}">
-                  <div class="controls-row">
-                    <button class="btn btn-edit" style="flex:1" onclick="openEditModal('${item.id}')">دەستکاری</button>
-                    <button class="btn btn-sold" style="flex:1" onclick="toggleSoldStatus('${item.id}')">${item.isSold ? 'کردن بە بەردەست' : 'کردن بە فرۆشراو'}</button>
+                  <div class="card-footer">
+                    <div class="card-footer-top">
+                      <span class="price" style="color:#d97706;">بوودجە: ${item.price}</span>
+                    </div>
                   </div>
-                  <button class="btn btn-danger" style="width:100%" onclick="deleteProperty('${item.id}')">سڕینەوەی یەکجارەکی</button>
+
+                  <div class="card-controls" style="display: ${isAdmin ? 'flex' : 'none'}">
+                    <div class="controls-row">
+                      <button class="btn btn-edit" style="flex:1" onclick="openEditWantModal('${item.id}')">دەستکاری</button>
+                      <button class="btn btn-sold" style="flex:1" onclick="toggleSoldStatus('${item.id}')">${item.isSold ? 'کردن بە چالاک' : 'کردن بە دابینکراو'}</button>
+                    </div>
+                    <button class="btn btn-danger" style="width:100%" onclick="deleteProperty('${item.id}')">سڕینەوەی داواکاری</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          `;
+            `;
+          } else {
+            // کارتی موڵکی ئاسایی بە وێنە و نەخشەوە
+            const imgs = (item.images && item.images.length > 0) ? item.images : [item.image || "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop"];
+            const mainImg = imgs[0];
+            const mapHref = formatMapUrl(item.mapLink, item.location);
+
+            grid.innerHTML += `
+              <div class="card ${item.isSold ? 'sold-out' : ''}">
+                ${item.isSold ? '<div class="sold-badge-overlay">فرۆشراوە 🔒</div>' : ''}
+                <div class="card-img-wrapper" onclick="openGallery('${item.id}')">
+                  <img src="${mainImg}" alt="${item.title}" class="card-img" loading="lazy">
+                  <div class="img-count-badge">📷 ${imgs.length} وێنە</div>
+                </div>
+                <div class="card-body">
+                  <div class="badge-group">
+                    <span class="badge">${item.type}</span>
+                    <span class="badge">${item.category}</span>
+                    ${item.subCategory ? `<span class="badge badge-sub">${item.subCategory}</span>` : ''}
+                    ${item.location ? `<span class="badge badge-location">📍 ${item.location}</span>` : ''}
+                  </div>
+                  <h3 class="card-title" onclick="openGallery('${item.id}')">${item.title}</h3>
+                  <p class="card-desc">${item.desc}</p>
+                  
+                  <div class="map-row">
+                    <a href="${mapHref}" target="_blank" rel="noopener noreferrer" class="btn btn-map">
+                      🗺️ کردنەوە لە Google Maps
+                    </a>
+                  </div>
+
+                  ${item.ownerPhone ? `
+                    <div class="owner-phone-display" style="margin-bottom:0.6rem;">
+                      <span>📞 ژمارەی خاوەن موڵک:</span>
+                      <span class="phone-text">${item.ownerPhone}</span>
+                    </div>
+                  ` : ''}
+
+                  <div class="card-footer">
+                    <div class="card-footer-top">
+                      <span class="price">${item.price}</span>
+                      <button class="btn btn-primary" style="padding:0.4rem 0.8rem; font-size:0.75rem;" onclick="openGallery('${item.id}')">بینینی وێنەکان</button>
+                    </div>
+                  </div>
+
+                  <div class="card-controls" style="display: ${isAdmin ? 'flex' : 'none'}">
+                    <div class="controls-row">
+                      <button class="btn btn-edit" style="flex:1" onclick="openEditModal('${item.id}')">دەستکاری</button>
+                      <button class="btn btn-sold" style="flex:1" onclick="toggleSoldStatus('${item.id}')">${item.isSold ? 'کردن بە بەردەست' : 'کردن بە فرۆشراو'}</button>
+                    </div>
+                    <button class="btn btn-danger" style="width:100%" onclick="deleteProperty('${item.id}')">سڕینەوەی یەکجارەکی</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
         });
       }
     }
@@ -997,7 +1095,7 @@
       document.getElementById('ownerPhone').value = "";
       document.getElementById('location').value = "";
       document.getElementById('mapLink').value = "";
-      document.getElementById('category').value = activeMainTab;
+      document.getElementById('category').value = activeMainTab === 'خوازیار / پێویستە' ? 'خانوو' : activeMainTab;
       toggleFormSubCategory();
       document.getElementById('propertyModal').style.display = 'flex';
     }
@@ -1023,13 +1121,34 @@
       document.getElementById('propertyModal').style.display = 'flex';
     }
 
+    // بەشی زیادکردن و دەستکاریکردنی داواکاری (خوازیار)
+    function openAddWantModal() {
+      document.getElementById('wantModalTitle').innerText = "زیادکردنی داواکاری (خوازیار)";
+      document.getElementById('wantForm').reset();
+      document.getElementById('editWantId').value = "";
+      document.getElementById('wantModal').style.display = 'flex';
+    }
+
+    function openEditWantModal(id) {
+      const item = properties.find(p => String(p.id) === String(id));
+      if (!item) return;
+
+      document.getElementById('wantModalTitle').innerText = "دەستکاریکردنی داواکاری";
+      document.getElementById('editWantId').value = item.id;
+      document.getElementById('wantTitle').value = item.title;
+      document.getElementById('wantPropertyType').value = item.type || 'خانوو بۆ کڕین';
+      document.getElementById('wantPrice').value = item.price;
+      document.getElementById('wantPhone').value = item.ownerPhone || '';
+      document.getElementById('wantDesc').value = item.desc;
+      document.getElementById('wantModal').style.display = 'flex';
+    }
+
     function openSettingsModal() {
       document.getElementById('setSiteName').value = siteSettings.siteName;
       document.getElementById('setHeroTitle').value = siteSettings.heroTitle;
       document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setAdminPass').value = siteSettings.adminPass || "1234";
 
-      // پڕکردنەوەی هەڵبژاردەی ڕەنگەکان
       document.getElementById('setPrimaryColor').value = siteSettings.primaryColor || "#0284c7";
       document.getElementById('setBgColor').value = siteSettings.bgColor || "#f8fafc";
       document.getElementById('setHeroColor').value = siteSettings.heroColor || "#0f172a";
@@ -1042,6 +1161,7 @@
       document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
     }
 
+    // پاشەکەوتکردنی موڵکی ئاسایی
     async function handleFormSubmit(e) {
       e.preventDefault();
       const saveBtn = document.getElementById('savePropBtn');
@@ -1104,6 +1224,64 @@
       alert("موڵکەکە بە سەرکەوتوویی زیادکرا!");
     }
 
+    // پاشەکەوتکردنی داواکاری (خوازیار)
+    async function handleWantFormSubmit(e) {
+      e.preventDefault();
+      const saveBtn = document.getElementById('saveWantBtn');
+      saveBtn.innerText = "خەزن دەکرێت...";
+      saveBtn.disabled = true;
+
+      const editId = document.getElementById('editWantId').value;
+      const title = document.getElementById('wantTitle').value;
+      const type = document.getElementById('wantPropertyType').value;
+      const price = document.getElementById('wantPrice').value;
+      const ownerPhone = document.getElementById('wantPhone').value;
+      const desc = document.getElementById('wantDesc').value;
+
+      const propId = editId ? editId : 'want_' + Date.now();
+      const wantObj = {
+        id: propId,
+        title,
+        type,
+        price,
+        ownerPhone,
+        desc,
+        category: 'خوازیار / پێویستە',
+        subCategory: '',
+        location: '',
+        mapLink: '',
+        images: [],
+        image: '',
+        isSold: false
+      };
+
+      if (editId) {
+        const idx = properties.findIndex(p => String(p.id) === String(editId));
+        if (idx !== -1) properties[idx] = { ...properties[idx], ...wantObj };
+      } else {
+        properties.unshift(wantObj);
+      }
+
+      localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+      renderProperties();
+      updateAdminStats();
+      closeModals();
+
+      try {
+        await fetch(`${FIREBASE_URL}/properties/${propId}.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(wantObj)
+        });
+      } catch (err) {
+        console.warn("Saved locally.");
+      }
+
+      saveBtn.innerText = "پاشەکەوتکردنی داواکاری";
+      saveBtn.disabled = false;
+      alert("داواکارییەکە بە سەرکەوتوویی لە بەشی خوازیار زیادکرا!");
+    }
+
     async function toggleSoldStatus(id) {
       const idx = properties.findIndex(p => String(p.id) === String(id));
       if (idx !== -1) {
@@ -1149,7 +1327,7 @@
     }
 
     async function deleteProperty(id) {
-      if (confirm("ئایا دڵنیایت لە سڕینەوەی ئەم موڵکە؟")) {
+      if (confirm("ئایا دڵنیایت لە سڕینەوە؟")) {
         properties = properties.filter(p => String(p.id) !== String(id));
         localStorage.setItem('dashti_master_props', JSON.stringify(properties));
         renderProperties();
