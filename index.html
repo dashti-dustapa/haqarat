@@ -5,11 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>عقارات دەشتی دوستەپە</title>
   
+  <!-- بەستنەوەی فەرمیی ئەپ (PWA Real App Manifest) -->
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" id="appFavicon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <link rel="apple-touch-icon" id="appAppleIcon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="عقارات دەشتی">
+  <meta name="theme-color" content="#0284c7">
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style id="customThemeStyles">
@@ -823,6 +826,13 @@
   <script>
     const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 
+    // چاڵاککردنی Service Worker بۆ ئەپی ڕاستەقینە
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(err => console.log('SW reg failed: ', err));
+      });
+    }
+
     let properties = JSON.parse(localStorage.getItem('dashti_master_props')) || [];
     let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) || {
       siteName: "عقارات دەشتی دوستەپە",
@@ -847,7 +857,6 @@
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
 
-    // سیستمی PWA و داگرتنی یەکجاری
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
@@ -860,11 +869,11 @@
     window.addEventListener('load', () => {
       setTimeout(() => {
         const isDismissed = localStorage.getItem('app_install_dismissed');
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
         if (!isDismissed && !isStandalone) {
           document.getElementById('appInstallPrompt').style.display = 'flex';
         }
-      }, 1200);
+      }, 1000);
     });
 
     function triggerAppInstall() {
@@ -877,7 +886,7 @@
           deferredPrompt = null;
         });
       } else {
-        alert("تکایە لە لیستی براوسەرەکەت (٣ خاڵەکە) پەنجە لەسەر 'Add to Home Screen' بنێ.");
+        alert("تکایە لە لیستی مۆبایلەکەت (سێ خاڵ یان Share) پەنجە لەسەر 'Add to Home Screen' بنێ.");
         localStorage.setItem('app_install_dismissed', 'true');
       }
       document.getElementById('appInstallPrompt').style.display = 'none';
