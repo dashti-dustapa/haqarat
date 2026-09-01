@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<html lang="ckb" dir="rtl">
+<html lang="ckb" dir="rtl" style="background-color: #000000;">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>عقارات دەشتی دوستەپە</title>
   
+  <!-- ڕێکخستنی خێرای ڕەنگی سەرەتا پێش بارکردن -->
+  <style>
+    html, body { background-color: #000000 !important; margin: 0; padding: 0; }
+  </style>
+
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" id="appFavicon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <link rel="apple-touch-icon" id="appAppleIcon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
+  
+  <!-- ڕێکخستنی فول شاشە و ئایکۆنی ویندۆز -->
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="عقارات دەشتی">
   <meta name="theme-color" content="#000000">
+  <meta name="msapplication-navbutton-color" content="#000000">
+  <meta name="msapplication-TileColor" content="#000000">
+  <meta name="msapplication-TileImage" id="winTileIcon" content="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style id="customThemeStyles">
@@ -44,53 +55,42 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: #000000;
+      background: #000000 !important;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 99999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
+      z-index: 999999;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
     .splash-logo {
-      width: 130px;
-      height: 130px;
+      width: 120px;
+      height: 120px;
       object-fit: contain;
-      animation: splashPop 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     .splash-title {
       color: #d4af37;
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       font-weight: 800;
-      margin-top: 16px;
-      letter-spacing: 0.5px;
+      margin-top: 14px;
       text-align: center;
-      animation: splashFade 1s ease forwards;
     }
     .splash-sub {
       color: #94a3b8;
-      font-size: 0.8rem;
-      margin-top: 6px;
-      animation: splashFade 1.2s ease forwards;
+      font-size: 0.75rem;
+      margin-top: 4px;
+      letter-spacing: 0.5px;
     }
     .splash-spinner {
-      margin-top: 25px;
-      width: 24px;
-      height: 24px;
-      border: 2.5px solid rgba(212, 175, 55, 0.2);
+      margin-top: 20px;
+      width: 22px;
+      height: 22px;
+      border: 2px solid rgba(212, 175, 55, 0.2);
       border-top-color: #d4af37;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin 0.6s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes splashPop {
-      0% { transform: scale(0.7); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    @keyframes splashFade {
-      0% { opacity: 0; transform: translateY(8px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
 
     header {
       background: var(--card-bg);
@@ -588,9 +588,9 @@
     }
   </style>
 </head>
-<body>
+<body style="background-color: #000000;">
 
-  <!-- شاشەی دەستپێکی ڕەش بە لۆگۆ و ناوی کۆمپانیا -->
+  <!-- شاشەی ڕەشی خێرا بە لۆگۆ و ناوی کۆمپانیا -->
   <div id="customSplashScreen">
     <img id="splashLogoImg" class="splash-logo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
     <div id="splashTitleText" class="splash-title">عقارات دەشتی دوستەپە</div>
@@ -833,7 +833,7 @@
 
         <div class="form-group">
           <label>لینکی فایلی ویندۆز (Windows App URL - ئیختیاری):</label>
-          <input type="text" id="setWindowsUrl" placeholder="لینکی بەرنامەی کۆمپیوتەر (.exe یان .msix)">
+          <input type="text" id="setWindowsUrl" placeholder="لینکی بەرنامەی کۆمپیوتەر (.exe یان .bat)">
         </div>
 
         <div class="form-group">
@@ -933,13 +933,28 @@
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
 
+    // لابردنی شریتی سەرەوە و پاتری بە تەواوی لە کاتی دەستپێکردن
+    function triggerSystemFullscreen() {
+      const docElm = document.documentElement;
+      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+        if (docElm.requestFullscreen) {
+          docElm.requestFullscreen().catch(() => {});
+        } else if (docElm.webkitRequestFullscreen) {
+          docElm.webkitRequestFullscreen();
+        }
+      }
+    }
+    window.addEventListener('click', triggerSystemFullscreen, { once: true });
+    window.addEventListener('touchstart', triggerSystemFullscreen, { once: true });
+
     function hideSplashScreen() {
       const splash = document.getElementById('customSplashScreen');
       if (splash) {
         splash.style.opacity = '0';
         setTimeout(() => {
           splash.style.display = 'none';
-        }, 500);
+          document.body.style.backgroundColor = 'var(--bg)';
+        }, 200);
       }
     }
 
@@ -1034,7 +1049,8 @@
       renderProperties();
       checkStandaloneMode();
 
-      setTimeout(hideSplashScreen, 600);
+      // کەمکردنەوەی کاتی چاوەڕوانی بۆ کرانەوەی زۆر خێرا
+      setTimeout(hideSplashScreen, 300);
     }
 
     function applySettings() {
@@ -1047,6 +1063,9 @@
       document.getElementById('appFavicon').href = logo;
       document.getElementById('appAppleIcon').href = logo;
       
+      const winTile = document.getElementById('winTileIcon');
+      if (winTile) winTile.content = logo;
+
       const splashLogo = document.getElementById('splashLogoImg');
       if (splashLogo) splashLogo.src = logo;
       const splashTitle = document.getElementById('splashTitleText');
@@ -1286,10 +1305,10 @@
           img.src = e.target.result;
           img.onload = () => {
             const canvas = document.createElement('canvas');
-            canvas.width = 192;
-            canvas.height = 192;
+            canvas.width = 512;
+            canvas.height = 512;
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, 192, 192);
+            ctx.drawImage(img, 0, 0, 512, 512);
             const dataUrl = canvas.toDataURL('image/png');
             document.getElementById('setLogoData').value = dataUrl;
             document.getElementById('logoPreview').src = dataUrl;
