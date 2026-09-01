@@ -9,9 +9,9 @@
   <link rel="icon" id="appFavicon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <link rel="apple-touch-icon" id="appAppleIcon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="عقارات دەشتی">
-  <meta name="theme-color" content="#0284c7">
+  <meta name="theme-color" content="#000000">
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style id="customThemeStyles">
@@ -38,13 +38,67 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Kufi Arabic', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: var(--bg); color: var(--text); padding-bottom: 35px; }
 
+    #customSplashScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .splash-logo {
+      width: 130px;
+      height: 130px;
+      object-fit: contain;
+      animation: splashPop 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .splash-title {
+      color: #d4af37;
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-top: 16px;
+      letter-spacing: 0.5px;
+      text-align: center;
+      animation: splashFade 1s ease forwards;
+    }
+    .splash-sub {
+      color: #94a3b8;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      animation: splashFade 1.2s ease forwards;
+    }
+    .splash-spinner {
+      margin-top: 25px;
+      width: 24px;
+      height: 24px;
+      border: 2.5px solid rgba(212, 175, 55, 0.2);
+      border-top-color: #d4af37;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes splashPop {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes splashFade {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
       padding: 0.75rem 0.9rem;
       display: flex;
       justify-content: space-between;
-      align-center: center;
+      align-items: center;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -536,6 +590,14 @@
 </head>
 <body>
 
+  <!-- شاشەی دەستپێکی ڕەش بە لۆگۆ و ناوی کۆمپانیا -->
+  <div id="customSplashScreen">
+    <img id="splashLogoImg" class="splash-logo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
+    <div id="splashTitleText" class="splash-title">عقارات دەشتی دوستەپە</div>
+    <div class="splash-sub">DASHTI DUSTAPA REAL ESTATE</div>
+    <div class="splash-spinner"></div>
+  </div>
+
   <header>
     <div class="logo-wrapper">
       <img id="siteLogoIcon" class="logo-icon" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
@@ -871,9 +933,20 @@
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
 
+    function hideSplashScreen() {
+      const splash = document.getElementById('customSplashScreen');
+      if (splash) {
+        splash.style.opacity = '0';
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 500);
+      }
+    }
+
     function checkStandaloneMode() {
       const ua = navigator.userAgent || "";
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
+                        || window.matchMedia('(display-mode: fullscreen)').matches
                         || window.navigator.standalone 
                         || document.referrer.includes('android-app://')
                         || ua.includes('wv') 
@@ -960,6 +1033,8 @@
       updateAdminStats();
       renderProperties();
       checkStandaloneMode();
+
+      setTimeout(hideSplashScreen, 600);
     }
 
     function applySettings() {
@@ -971,6 +1046,12 @@
       document.getElementById('siteLogoIcon').src = logo;
       document.getElementById('appFavicon').href = logo;
       document.getElementById('appAppleIcon').href = logo;
+      
+      const splashLogo = document.getElementById('splashLogoImg');
+      if (splashLogo) splashLogo.src = logo;
+      const splashTitle = document.getElementById('splashTitleText');
+      if (splashTitle) splashTitle.innerText = siteSettings.siteName;
+
       const preview = document.getElementById('logoPreview');
       if (preview) preview.src = logo;
 
