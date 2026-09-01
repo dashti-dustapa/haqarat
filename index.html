@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>عقارات دەشتی دوستەپە</title>
   
-  <!-- ئایکۆنی سەر شاشەی مۆبایل و براوسەر -->
   <link rel="icon" id="appFavicon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <link rel="apple-touch-icon" id="appAppleIcon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -49,7 +48,7 @@
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .logo-wrapper { display: flex; align-items: center; gap: 6px; }
-    .logo-icon { width: 24px; height: 24px; object-fit: contain; }
+    .logo-icon { width: 24px; height: 24px; object-fit: contain; border-radius: 4px; }
     .logo { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
     .btn {
       padding: 0.45rem 0.8rem;
@@ -74,7 +73,6 @@
     .btn-backup { background: #334155; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
 
-    /* Ultra Power Owner Panel */
     .admin-bar {
       background: #0f172a;
       color: #fff;
@@ -368,7 +366,6 @@
     .close-btn { position: absolute; left: 0.9rem; top: 0.9rem; cursor: pointer; font-size: 1.3rem; font-weight: 800; color: #94a3b8; }
     .empty-state { text-align: center; color: var(--muted); padding: 3rem 1rem; font-size: 0.88rem; font-weight: 600; }
 
-    /* گەلەری Modal */
     .gallery-modal {
       display: none;
       position: fixed;
@@ -449,7 +446,6 @@
       border-color: var(--primary);
     }
 
-    /* وێنۆکەکانی بارکردن */
     .images-preview-grid {
       display: flex;
       flex-wrap: wrap;
@@ -511,7 +507,6 @@
     <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
   </header>
 
-  <!-- داشبۆردی بەهێزی خاوەن موڵک -->
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
       <span>👑 دەسەڵاتی تەواوی بەڕێوەبەر (Master Owner Panel)</span>
@@ -562,7 +557,6 @@
     <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
   </div>
 
-  <!-- مۆداڵی پێشاندانی وێنەکان -->
   <div class="gallery-modal" id="galleryModal">
     <div class="gallery-header">
       <span id="galleryCounter" style="font-weight:700;">1 / 1</span>
@@ -576,7 +570,6 @@
     <div class="gallery-thumbs" id="galleryThumbs"></div>
   </div>
 
-  <!-- مۆداڵی پاسۆرد -->
   <div class="modal" id="loginModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -592,7 +585,6 @@
     </div>
   </div>
 
-  <!-- مۆداڵی زیادکردن/دەستکاری موڵکی ئاسایی -->
   <div class="modal" id="propertyModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -663,7 +655,6 @@
     </div>
   </div>
 
-  <!-- مۆداڵی زیادکردن/دەستکاری داواکاری (خوازیار) -->
   <div class="modal" id="wantModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -701,7 +692,7 @@
     </div>
   </div>
 
-  <!-- مۆداڵی ڕێکخستنی سایت، لۆگۆ و ڕەنگەکان -->
+  <!-- مۆداڵی ڕێکخستنی سایت بە بارکردنی ڕاستەوخۆی وێنەی لۆگۆ -->
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -711,10 +702,18 @@
           <label>ناوی نوسینگە / ماڵپەڕ:</label>
           <input type="text" id="setSiteName" required>
         </div>
+
+        <!-- بارکردنی وێنەی لۆگۆ لە مۆبایلەوە -->
         <div class="form-group">
-          <label>لینکی لۆگۆی ماڵپەڕ (ئایکۆنی سەر شاشەی مۆبایل):</label>
-          <input type="text" id="setLogoUrl" placeholder="لینکی وێنە وەک https://.../icon.png">
+          <label>وێنەی لۆگۆی ماڵپەڕ (ئایکۆنی سەر شاشەی مۆبایل):</label>
+          <input type="file" id="logoFileInput" accept="image/*" onchange="processLogoUpload(event)">
+          <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+            <img id="logoPreview" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" style="width:36px; height:36px; object-fit:contain; border-radius:6px; border:1px solid #cbd5e1;">
+            <span style="font-size:0.75rem; color:#64748b;">پێشبینینی ئایکۆن</span>
+          </div>
+          <input type="hidden" id="setLogoData">
         </div>
+
         <div class="form-group">
           <label>سەردێڕی سەرەکی:</label>
           <input type="text" id="setHeroTitle" required>
@@ -851,6 +850,8 @@
       document.getElementById('siteLogoIcon').src = logo;
       document.getElementById('appFavicon').href = logo;
       document.getElementById('appAppleIcon').href = logo;
+      const preview = document.getElementById('logoPreview');
+      if (preview) preview.src = logo;
     }
 
     function updateAdminStats() {
@@ -1065,6 +1066,28 @@
       renderUploadPreviews();
     }
 
+    function processLogoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = 192;
+            canvas.height = 192;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, 192, 192);
+            const dataUrl = canvas.toDataURL('image/png');
+            document.getElementById('setLogoData').value = dataUrl;
+            document.getElementById('logoPreview').src = dataUrl;
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
     function openGallery(id) {
       const item = properties.find(p => String(p.id) === String(id));
       if (!item) return;
@@ -1206,7 +1229,8 @@
       document.getElementById('setHeroTitle').value = siteSettings.heroTitle;
       document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setAdminPass').value = siteSettings.adminPass || "1234";
-      document.getElementById('setLogoUrl').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
+      document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
+      document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
 
       document.getElementById('setUiSize').value = siteSettings.uiSize || "ultra-compact";
       document.getElementById('setPrimaryColor').value = siteSettings.primaryColor || "#0284c7";
@@ -1363,7 +1387,7 @@
         heroDesc: document.getElementById('setHeroDesc').value,
         adminPass: document.getElementById('setAdminPass').value,
         uiSize: document.getElementById('setUiSize').value,
-        logoUrl: document.getElementById('setLogoUrl').value || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
+        logoUrl: document.getElementById('setLogoData').value || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         primaryColor: document.getElementById('setPrimaryColor').value,
         bgColor: document.getElementById('setBgColor').value,
         heroColor: document.getElementById('setHeroColor').value,
