@@ -498,6 +498,7 @@
     <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
   </header>
 
+  <!-- داشبۆردی بەهێزی خاوەن موڵک -->
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
       <span>👑 دەسەڵاتی تەواوی بەڕێوەبەر (Master Owner Panel)</span>
@@ -548,6 +549,7 @@
     <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
   </div>
 
+  <!-- مۆداڵی پێشاندانی وێنەکان -->
   <div class="gallery-modal" id="galleryModal">
     <div class="gallery-header">
       <span id="galleryCounter" style="font-weight:700;">1 / 1</span>
@@ -561,6 +563,7 @@
     <div class="gallery-thumbs" id="galleryThumbs"></div>
   </div>
 
+  <!-- مۆداڵی پاسۆرد -->
   <div class="modal" id="loginModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -576,6 +579,7 @@
     </div>
   </div>
 
+  <!-- مۆداڵی زیادکردن/دەستکاری موڵکی ئاسایی -->
   <div class="modal" id="propertyModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -646,6 +650,7 @@
     </div>
   </div>
 
+  <!-- مۆداڵی زیادکردن/دەستکاری داواکاری (خوازیار) -->
   <div class="modal" id="wantModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -683,6 +688,7 @@
     </div>
   </div>
 
+  <!-- مۆداڵی ڕێکخستنی سایت و ڕەنگەکان و قەبارە -->
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -704,7 +710,8 @@
         <div class="form-group">
           <label style="color:var(--primary); font-weight:800;">📱 قەبارەی دیزاین و کارتەکان (UI Size):</label>
           <select id="setUiSize">
-            <option value="ultra-compact">زۆر زۆر بچووک (Ultra Compact - باشترین و سووکترین بۆ مۆبایل)</option>
+            <option value="nano-compact">زۆر زۆر زۆر بچووک (Nano Micro Size - بچووکترین)</option>
+            <option value="ultra-compact">زۆر زۆر بچووک (Ultra Compact)</option>
             <option value="compact">بچووک و کۆکراوە (Compact)</option>
             <option value="normal">ئاسایی (Normal)</option>
             <option value="large">گەورە (Large)</option>
@@ -776,7 +783,10 @@
       document.documentElement.style.setProperty('--card-bg', card);
       document.documentElement.style.setProperty('--hero-bg', hero);
 
-      if (uiSize === 'ultra-compact') {
+      if (uiSize === 'nano-compact') {
+        document.documentElement.style.setProperty('--base-font-size', '10px');
+        document.documentElement.style.setProperty('--card-img-height', '110px');
+      } else if (uiSize === 'ultra-compact') {
         document.documentElement.style.setProperty('--base-font-size', '11.5px');
         document.documentElement.style.setProperty('--card-img-height', '140px');
       } else if (uiSize === 'compact') {
