@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>عقارات دەشتی دوستەپە</title>
   
+  <link rel="manifest" href="/manifest.json">
   <link rel="icon" id="appFavicon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <link rel="apple-touch-icon" id="appAppleIcon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="عقارات دەشتی">
+  <meta name="theme-color" content="#0284c7">
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style id="customThemeStyles">
@@ -595,7 +597,6 @@
     <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
   </div>
 
-  <!-- مۆداڵی هەڵبژاردنی ئەندرۆید یان ویندۆز -->
   <div class="modal" id="downloadAppModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -870,7 +871,6 @@
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
 
-    // شاردنەوەی دوگمەی داگرتن لەناو خودی ئەپەکە
     function checkStandaloneMode() {
       const ua = navigator.userAgent || "";
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
@@ -899,7 +899,6 @@
 
     function handleWindowsDownload(e) {
       if (siteSettings.windowsUrl && siteSettings.windowsUrl.trim() !== "") {
-        // ئەگەر لینکی فایلی دانابێت ڕاستەوخۆ دەیکاتەوە
         return;
       } else {
         e.preventDefault();
@@ -975,7 +974,6 @@
       const preview = document.getElementById('logoPreview');
       if (preview) preview.src = logo;
 
-      // دانانی لینکەکان لە مۆداڵی داگرتن
       const androidLink = document.getElementById('modalAndroidLink');
       if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
         androidLink.href = siteSettings.apkUrl;
@@ -1629,6 +1627,13 @@
     renderProperties();
     checkStandaloneMode();
     loadData();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(function(err) {
+        console.warn('SW registration failed: ', err);
+      });
+    }
   </script>
 </body>
 </html>
