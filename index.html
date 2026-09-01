@@ -77,6 +77,35 @@
     .btn-backup { background: #334155; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
 
+    .download-modal-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .download-opt-card {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f8fafc;
+    }
+    .download-opt-card:hover {
+      border-color: var(--primary);
+      background: #f0f9ff;
+      transform: translateY(-2px);
+    }
+    .download-opt-icon { font-size: 2rem; margin-bottom: 6px; }
+    .download-opt-title { font-weight: 800; font-size: 1rem; color: var(--dark); }
+    .download-opt-sub { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
     .admin-bar {
       background: #0f172a;
       color: #fff;
@@ -511,7 +540,7 @@
       <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
     </div>
     <div class="header-btns">
-      <a id="apkDownloadDirectBtn" href="#" class="btn btn-install">📲 داگرتنی ئەپ</a>
+      <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="openDownloadModal()">📲 داگرتنی ئەپ</button>
       <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
     </div>
   </header>
@@ -564,6 +593,29 @@
 
     <div class="grid" id="propertiesGrid"></div>
     <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
+  </div>
+
+  <!-- مۆداڵی هەڵبژاردنی ئەندرۆید یان ویندۆز -->
+  <div class="modal" id="downloadAppModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModals()">×</span>
+      <h3 class="modal-title" style="text-align:center;">داگرتنی بەرنامە</h3>
+      <p style="text-align:center; font-size:0.8rem; color:var(--muted); margin-bottom:10px;">جۆری ئامێرەکەت هەڵبژێرە بۆ داگرتن:</p>
+      
+      <div class="download-modal-grid">
+        <a id="modalAndroidLink" href="#" target="_blank" class="download-opt-card" onclick="handleAndroidDownload(event)">
+          <div class="download-opt-icon">🤖</div>
+          <div class="download-opt-title">مۆبایلی ئەندرۆید (Android)</div>
+          <div class="download-opt-sub">داگرتنی ڕاستەوخۆی فایلی .APK</div>
+        </a>
+
+        <a id="modalWindowsLink" href="#" target="_blank" class="download-opt-card" onclick="handleWindowsDownload(event)">
+          <div class="download-opt-icon">💻</div>
+          <div class="download-opt-title">کۆمپیوتەر و لاپتۆپ (Windows)</div>
+          <div class="download-opt-sub">داگرتنی فایلی ویندۆز یان دامەزراندن</div>
+        </a>
+      </div>
+    </div>
   </div>
 
   <div class="gallery-modal" id="galleryModal">
@@ -704,7 +756,7 @@
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
-      <h3 class="modal-title">ڕێکخستنی سایت، لۆگۆ و ڕەنگەکان</h3>
+      <h3 class="modal-title">ڕێکخستنی سایت، لۆگۆ و ئەپ</h3>
       <form onsubmit="handleSettingsSubmit(event)">
         <div class="form-group">
           <label>ناوی نوسینگە / ماڵپەڕ:</label>
@@ -712,12 +764,17 @@
         </div>
 
         <div class="form-group">
-          <label>لینکی ڕاستەوخۆی فایلی ئەپ (APK Download Link):</label>
-          <input type="text" id="setApkUrl" placeholder="وەک: https://drive.google.com/... یان فایلی APK">
+          <label>لینکی فایلی ئەندرۆید (Android APK URL):</label>
+          <input type="text" id="setApkUrl" placeholder="لینکی داگرتنی APK">
         </div>
 
         <div class="form-group">
-          <label>وێنەی لۆگۆی ماڵپەڕ (ئایکۆنی سەر شاشەی مۆبایل):</label>
+          <label>لینکی فایلی ویندۆز (Windows App URL - ئیختیاری):</label>
+          <input type="text" id="setWindowsUrl" placeholder="لینکی بەرنامەی کۆمپیوتەر (.exe یان .msix)">
+        </div>
+
+        <div class="form-group">
+          <label>وێنەی لۆگۆی ماڵپەڕ:</label>
           <input type="file" id="logoFileInput" accept="image/*" onchange="processLogoUpload(event)">
           <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
             <img id="logoPreview" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" style="width:36px; height:36px; object-fit:contain; border-radius:6px; border:1px solid #cbd5e1;">
@@ -801,6 +858,7 @@
       uiSize: "ultra-compact",
       gridCols: "2",
       apkUrl: "",
+      windowsUrl: "",
       logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png"
     };
 
@@ -812,7 +870,7 @@
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
 
-    // شاردنەوەی یەکجارەکی دوگمەی داگرتن لەناو ئەپەکەی مۆبایل
+    // شاردنەوەی دوگمەی داگرتن لەناو خودی ئەپەکە
     function checkStandaloneMode() {
       const ua = navigator.userAgent || "";
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
@@ -824,7 +882,28 @@
 
       const installBtn = document.getElementById('apkDownloadDirectBtn');
       if (isStandalone && installBtn) {
-        installBtn.remove(); // ڕاستەوخۆ دەیسڕێتەوە تا هەرگیز دەرنەکەوێت
+        installBtn.remove();
+      }
+    }
+
+    function openDownloadModal() {
+      document.getElementById('downloadAppModal').style.display = 'flex';
+    }
+
+    function handleAndroidDownload(e) {
+      if (!siteSettings.apkUrl || siteSettings.apkUrl.trim() === "") {
+        e.preventDefault();
+        alert("تکایە سەرەتا لینکی APK لە ڕێکخستنی سایت لەلایەن بەڕێوەبەرەوە دابنێ.");
+      }
+    }
+
+    function handleWindowsDownload(e) {
+      if (siteSettings.windowsUrl && siteSettings.windowsUrl.trim() !== "") {
+        // ئەگەر لینکی فایلی دانابێت ڕاستەوخۆ دەیکاتەوە
+        return;
+      } else {
+        e.preventDefault();
+        alert("دەتوانیت لە ڕێگەی براوسەری Chrome یان Edge بە کلیک لەسەر ئایکۆنی Install لە لای URL، ڕاستەوخۆ وەک بەرنامەی ویندۆز دایبمەزرێنیت.");
       }
     }
 
@@ -896,17 +975,15 @@
       const preview = document.getElementById('logoPreview');
       if (preview) preview.src = logo;
 
-      const downloadBtn = document.getElementById('apkDownloadDirectBtn');
-      if (downloadBtn) {
-        if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
-          downloadBtn.href = siteSettings.apkUrl;
-          downloadBtn.setAttribute('target', '_blank');
-        } else {
-          downloadBtn.onclick = function(e) {
-            e.preventDefault();
-            alert("تکایە سەرەتا لینکی داگرتنی APK لە ڕێکخستنی سایت لەلایەن بەڕێوەبەرەوە دابنێ.");
-          };
-        }
+      // دانانی لینکەکان لە مۆداڵی داگرتن
+      const androidLink = document.getElementById('modalAndroidLink');
+      if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
+        androidLink.href = siteSettings.apkUrl;
+      }
+
+      const windowsLink = document.getElementById('modalWindowsLink');
+      if (siteSettings.windowsUrl && siteSettings.windowsUrl.trim() !== "") {
+        windowsLink.href = siteSettings.windowsUrl;
       }
     }
 
@@ -1285,6 +1362,7 @@
       document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setAdminPass').value = siteSettings.adminPass || "1234";
       document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
+      document.getElementById('setWindowsUrl').value = siteSettings.windowsUrl || "";
       document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
 
@@ -1446,6 +1524,7 @@
         gridCols: document.getElementById('setGridCols').value,
         uiSize: document.getElementById('setUiSize').value,
         apkUrl: document.getElementById('setApkUrl').value || "",
+        windowsUrl: document.getElementById('setWindowsUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         primaryColor: document.getElementById('setPrimaryColor').value,
         bgColor: document.getElementById('setBgColor').value,
