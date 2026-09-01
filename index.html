@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>عقارات دەشتی دوستەپە</title>
+  
+  <!-- ئایکۆنی سەر شاشەی مۆبایل و براوسەر -->
+  <link rel="icon" id="appFavicon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
+  <link rel="apple-touch-icon" id="appAppleIcon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="عقارات دەشتی">
+
   <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style id="customThemeStyles">
     :root {
@@ -40,6 +48,8 @@
       z-index: 100;
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
+    .logo-wrapper { display: flex; align-items: center; gap: 6px; }
+    .logo-icon { width: 24px; height: 24px; object-fit: contain; }
     .logo { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
     .btn {
       padding: 0.45rem 0.8rem;
@@ -494,7 +504,10 @@
 <body>
 
   <header>
-    <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
+    <div class="logo-wrapper">
+      <img id="siteLogoIcon" class="logo-icon" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
+      <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
+    </div>
     <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
   </header>
 
@@ -518,7 +531,7 @@
     <div class="admin-actions-grid">
       <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
       <button class="btn btn-success" style="background:#f59e0b;" onclick="openAddWantModal()">+ زیادکردنی داواکاری</button>
-      <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت، ڕەنگ و قەبارە</button>
+      <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت، ڕەنگ و لۆگۆ</button>
       <button class="btn btn-backup" onclick="exportDataBackup()">💾 کۆپی یەدەگ</button>
       <button class="btn btn-backup" onclick="document.getElementById('restoreInput').click()">📥 هێنانەوەی فایل</button>
       <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="importDataBackup(event)">
@@ -688,15 +701,19 @@
     </div>
   </div>
 
-  <!-- مۆداڵی ڕێکخستنی سایت و ڕەنگەکان و قەبارە -->
+  <!-- مۆداڵی ڕێکخستنی سایت، لۆگۆ و ڕەنگەکان -->
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
-      <h3 class="modal-title">ڕێکخستنی زانیارییەکان، ڕەنگ و قەبارە</h3>
+      <h3 class="modal-title">ڕێکخستنی سایت، لۆگۆ و ڕەنگەکان</h3>
       <form onsubmit="handleSettingsSubmit(event)">
         <div class="form-group">
           <label>ناوی نوسینگە / ماڵپەڕ:</label>
           <input type="text" id="setSiteName" required>
+        </div>
+        <div class="form-group">
+          <label>لینکی لۆگۆی ماڵپەڕ (ئایکۆنی سەر شاشەی مۆبایل):</label>
+          <input type="text" id="setLogoUrl" placeholder="لینکی وێنە وەک https://.../icon.png">
         </div>
         <div class="form-group">
           <label>سەردێڕی سەرەکی:</label>
@@ -760,7 +777,8 @@
       bgColor: "#f8fafc",
       heroColor: "#0f172a",
       cardColor: "#ffffff",
-      uiSize: "ultra-compact"
+      uiSize: "ultra-compact",
+      logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png"
     };
 
     let uploadedImagesList = [];
@@ -828,6 +846,11 @@
       document.getElementById('siteLogo').innerText = siteSettings.siteName;
       document.getElementById('heroTitle').innerText = siteSettings.heroTitle;
       document.getElementById('heroDesc').innerText = siteSettings.heroDesc;
+
+      const logo = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
+      document.getElementById('siteLogoIcon').src = logo;
+      document.getElementById('appFavicon').href = logo;
+      document.getElementById('appAppleIcon').href = logo;
     }
 
     function updateAdminStats() {
@@ -1183,6 +1206,7 @@
       document.getElementById('setHeroTitle').value = siteSettings.heroTitle;
       document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setAdminPass').value = siteSettings.adminPass || "1234";
+      document.getElementById('setLogoUrl').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
 
       document.getElementById('setUiSize').value = siteSettings.uiSize || "ultra-compact";
       document.getElementById('setPrimaryColor').value = siteSettings.primaryColor || "#0284c7";
@@ -1339,6 +1363,7 @@
         heroDesc: document.getElementById('setHeroDesc').value,
         adminPass: document.getElementById('setAdminPass').value,
         uiSize: document.getElementById('setUiSize').value,
+        logoUrl: document.getElementById('setLogoUrl').value || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         primaryColor: document.getElementById('setPrimaryColor').value,
         bgColor: document.getElementById('setBgColor').value,
         heroColor: document.getElementById('setHeroColor').value,
@@ -1356,7 +1381,7 @@
           body: JSON.stringify(siteSettings)
         });
       } catch (err) {}
-      alert("ڕێکخستنەکان، ڕەنگەکان و قەبارەی ماڵپەڕ نوێکرانەوە!");
+      alert("ڕێکخستنەکان، لۆگۆ و ڕەنگەکانی ماڵپەڕ نوێکرانەوە!");
     }
 
     async function deleteProperty(id) {
