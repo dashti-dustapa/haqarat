@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>عقارات دەشتی دوستەپە</title>
   
-  <!-- بەستنەوەی فەرمیی ئەپ (PWA Real App Manifest) -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" id="appFavicon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <link rel="apple-touch-icon" id="appAppleIcon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
@@ -54,6 +53,8 @@
     .logo-wrapper { display: flex; align-items: center; gap: 6px; }
     .logo-icon { width: 24px; height: 24px; object-fit: contain; border-radius: 4px; }
     .logo { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+    .header-btns { display: flex; align-items: center; gap: 6px; }
+
     .btn {
       padding: 0.45rem 0.8rem;
       border-radius: 8px;
@@ -70,6 +71,7 @@
     }
     .btn-admin { background: var(--dark); color: #fff; }
     .btn-primary { background: var(--primary); color: #fff; }
+    .btn-install { background: #10b981; color: #fff; font-size: 0.74rem; padding: 0.4rem 0.7rem; }
     .btn-success { background: var(--accent); color: #fff; }
     .btn-edit { background: var(--edit); color: #fff; }
     .btn-danger { background: var(--danger); color: #fff; }
@@ -542,7 +544,7 @@
       <img id="promptAppIcon" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="App">
       <div class="app-prompt-info">
         <div class="app-prompt-title" id="promptAppName">عقارات دەشتی دوستەپە</div>
-        <div class="app-prompt-desc">دەتەوێت ئەپەکە دابەزێنیت بۆ سەر شاشە یان ماڵپەڕ بکەیتەوە؟</div>
+        <div class="app-prompt-desc">دەتەوێت ئەپەکە دابەزێنیت بۆ سەر شاشەی مۆبایلەکەت؟</div>
       </div>
     </div>
     <div class="app-prompt-actions">
@@ -556,7 +558,10 @@
       <img id="siteLogoIcon" class="logo-icon" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
       <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
     </div>
-    <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
+    <div class="header-btns">
+      <button class="btn btn-install" onclick="showInstallHelp()">📲 داگرتنی ئەپ</button>
+      <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
+    </div>
   </header>
 
   <div class="admin-bar" id="adminBar">
@@ -826,10 +831,9 @@
   <script>
     const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 
-    // چاڵاککردنی Service Worker بۆ ئەپی ڕاستەقینە
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(err => console.log('SW reg failed: ', err));
+        navigator.serviceWorker.register('sw.js').catch(() => {});
       });
     }
 
@@ -860,17 +864,13 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      const isDismissed = localStorage.getItem('app_install_dismissed');
-      if (!isDismissed) {
-        document.getElementById('appInstallPrompt').style.display = 'flex';
-      }
+      document.getElementById('appInstallPrompt').style.display = 'flex';
     });
 
     window.addEventListener('load', () => {
       setTimeout(() => {
-        const isDismissed = localStorage.getItem('app_install_dismissed');
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-        if (!isDismissed && !isStandalone) {
+        if (!isStandalone) {
           document.getElementById('appInstallPrompt').style.display = 'flex';
         }
       }, 1000);
@@ -880,20 +880,28 @@
       if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            localStorage.setItem('app_install_dismissed', 'true');
-          }
           deferredPrompt = null;
         });
       } else {
-        alert("تکایە لە لیستی مۆبایلەکەت (سێ خاڵ یان Share) پەنجە لەسەر 'Add to Home Screen' بنێ.");
-        localStorage.setItem('app_install_dismissed', 'true');
+        showInstallHelp();
       }
       document.getElementById('appInstallPrompt').style.display = 'none';
     }
 
+    function showInstallHelp() {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (isIOS) {
+        alert("📲 بۆ دابەزاندن لەسەر iPhone:\nلە خوارەوە پەنجە بنێ بە دوگمەی Share (نیشانەی تیرەکە) و دواتر 'Add to Home Screen' هەڵبژێرە.");
+      } else {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+        } else {
+          alert("📲 بۆ دابەزاندن لەسەر Android:\nلە سەرەوە لە لیستی سێ خاڵەکەی براوسەر پەنجە بنێ بە 'Install app' یان 'Add to Home screen'.");
+        }
+      }
+    }
+
     function dismissAppInstall() {
-      localStorage.setItem('app_install_dismissed', 'true');
       document.getElementById('appInstallPrompt').style.display = 'none';
     }
 
