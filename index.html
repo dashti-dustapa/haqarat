@@ -5,8 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>عقارات دەشتی دوستەپە</title>
   
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" id="appFavicon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <link rel="apple-touch-icon" id="appAppleIcon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="عقارات دەشتی">
+  <meta name="theme-color" content="#0284c7">
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style id="customThemeStyles">
@@ -809,6 +814,15 @@
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
 
+    // شاردنەوەی دوگمەی داگرتن ئەگەر لەناو خودی ئەپەکەدا بێت
+    function checkStandaloneMode() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone || document.referrer.includes('android-app://');
+      const installBtn = document.getElementById('apkDownloadDirectBtn');
+      if (isStandalone && installBtn) {
+        installBtn.style.display = 'none';
+      }
+    }
+
     function applyThemeSettings() {
       const primary = siteSettings.primaryColor || "#0284c7";
       const bg = siteSettings.bgColor || "#f8fafc";
@@ -862,6 +876,7 @@
       applyThemeSettings();
       updateAdminStats();
       renderProperties();
+      checkStandaloneMode();
     }
 
     function applySettings() {
@@ -1435,6 +1450,7 @@
       applySettings();
       applyThemeSettings();
       renderProperties();
+      checkStandaloneMode();
       closeModals();
 
       try {
@@ -1491,6 +1507,7 @@
           updateAdminStats();
           applySettings();
           applyThemeSettings();
+          checkStandaloneMode();
 
           await fetch(`${FIREBASE_URL}/properties.json`, {
             method: 'PUT',
@@ -1524,6 +1541,7 @@
     applyThemeSettings();
     updateAdminStats();
     renderProperties();
+    checkStandaloneMode();
     loadData();
   </script>
 </body>
