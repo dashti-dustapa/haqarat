@@ -5,13 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>عقارات دەشتی دوستەپە</title>
   
-  <link rel="manifest" href="manifest.json">
   <link rel="icon" id="appFavicon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <link rel="apple-touch-icon" id="appAppleIcon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="عقارات دەشتی">
-  <meta name="theme-color" content="#0284c7">
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style id="customThemeStyles">
@@ -78,37 +73,6 @@
     .btn-sold { background: #64748b; color: #fff; }
     .btn-backup { background: #334155; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
-
-    /* پەنجەرەی پێشنیاری داگرتنی ئەپ لە براوسەر */
-    .app-prompt-overlay {
-      position: fixed;
-      bottom: 12px;
-      left: 12px;
-      right: 12px;
-      margin: auto;
-      max-width: 450px;
-      background: #0f172a;
-      color: #fff;
-      padding: 0.9rem 1rem;
-      border-radius: 14px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.35);
-      z-index: 500;
-      display: none;
-      flex-direction: column;
-      gap: 8px;
-      animation: slideUpPrompt 0.3s ease;
-      border: 1.5px solid rgba(255,255,255,0.1);
-    }
-    @keyframes slideUpPrompt {
-      from { transform: translateY(100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    .app-prompt-header { display: flex; align-items: center; gap: 10px; }
-    .app-prompt-header img { width: 38px; height: 38px; border-radius: 8px; object-fit: contain; }
-    .app-prompt-info { flex: 1; }
-    .app-prompt-title { font-size: 0.88rem; font-weight: 800; color: #fff; }
-    .app-prompt-desc { font-size: 0.72rem; color: #94a3b8; }
-    .app-prompt-actions { display: flex; gap: 8px; margin-top: 4px; }
 
     .admin-bar {
       background: #0f172a;
@@ -538,28 +502,13 @@
 </head>
 <body>
 
-  <!-- پەنجەرەی پێشنیاری داگرتنی ئەپ لە براوسەر -->
-  <div class="app-prompt-overlay" id="appInstallPrompt">
-    <div class="app-prompt-header">
-      <img id="promptAppIcon" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="App">
-      <div class="app-prompt-info">
-        <div class="app-prompt-title" id="promptAppName">عقارات دەشتی دوستەپە</div>
-        <div class="app-prompt-desc">دەتەوێت ئەپەکە دابەزێنیت بۆ سەر شاشەی مۆبایلەکەت؟</div>
-      </div>
-    </div>
-    <div class="app-prompt-actions">
-      <button class="btn btn-primary" style="flex:1;" onclick="triggerAppInstall()">📲 داگرتنی ئەپ</button>
-      <button class="btn btn-backup" style="flex:1;" onclick="dismissAppInstall()">🌐 سەردانی سایت</button>
-    </div>
-  </div>
-
   <header>
     <div class="logo-wrapper">
       <img id="siteLogoIcon" class="logo-icon" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
       <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
     </div>
     <div class="header-btns">
-      <button class="btn btn-install" onclick="showInstallHelp()">📲 داگرتنی ئەپ</button>
+      <a id="apkDownloadDirectBtn" href="#" class="btn btn-install">📲 داگرتنی ئەپ</a>
       <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
     </div>
   </header>
@@ -583,7 +532,7 @@
     <div class="admin-actions-grid">
       <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
       <button class="btn btn-success" style="background:#f59e0b;" onclick="openAddWantModal()">+ زیادکردنی داواکاری</button>
-      <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت، ڕەنگ و ڕیزبەندی</button>
+      <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت، ڕەنگ و ئەپ</button>
       <button class="btn btn-backup" onclick="exportDataBackup()">💾 کۆپی یەدەگ</button>
       <button class="btn btn-backup" onclick="document.getElementById('restoreInput').click()">📥 هێنانەوەی فایل</button>
       <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="importDataBackup(event)">
@@ -760,6 +709,11 @@
         </div>
 
         <div class="form-group">
+          <label>لینکی ڕاستەوخۆی فایلی ئەپ (APK Download Link):</label>
+          <input type="text" id="setApkUrl" placeholder="وەک: https://drive.google.com/... یان فایلی APK">
+        </div>
+
+        <div class="form-group">
           <label>وێنەی لۆگۆی ماڵپەڕ (ئایکۆنی سەر شاشەی مۆبایل):</label>
           <input type="file" id="logoFileInput" accept="image/*" onchange="processLogoUpload(event)">
           <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
@@ -831,12 +785,6 @@
   <script>
     const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
-      });
-    }
-
     let properties = JSON.parse(localStorage.getItem('dashti_master_props')) || [];
     let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) || {
       siteName: "عقارات دەشتی دوستەپە",
@@ -849,61 +797,17 @@
       cardColor: "#ffffff",
       uiSize: "ultra-compact",
       gridCols: "2",
+      apkUrl: "",
       logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png"
     };
 
     let uploadedImagesList = [];
     let currentGalleryImages = [];
     let currentGalleryIndex = 0;
-    let deferredPrompt = null;
 
     let isAdmin = false;
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('appInstallPrompt').style.display = 'flex';
-    });
-
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-        if (!isStandalone) {
-          document.getElementById('appInstallPrompt').style.display = 'flex';
-        }
-      }, 1000);
-    });
-
-    function triggerAppInstall() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          deferredPrompt = null;
-        });
-      } else {
-        showInstallHelp();
-      }
-      document.getElementById('appInstallPrompt').style.display = 'none';
-    }
-
-    function showInstallHelp() {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      if (isIOS) {
-        alert("📲 بۆ دابەزاندن لەسەر iPhone:\nلە خوارەوە پەنجە بنێ بە دوگمەی Share (نیشانەی تیرەکە) و دواتر 'Add to Home Screen' هەڵبژێرە.");
-      } else {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-        } else {
-          alert("📲 بۆ دابەزاندن لەسەر Android:\nلە سەرەوە لە لیستی سێ خاڵەکەی براوسەر پەنجە بنێ بە 'Install app' یان 'Add to Home screen'.");
-        }
-      }
-    }
-
-    function dismissAppInstall() {
-      document.getElementById('appInstallPrompt').style.display = 'none';
-    }
 
     function applyThemeSettings() {
       const primary = siteSettings.primaryColor || "#0284c7";
@@ -964,15 +868,24 @@
       document.getElementById('siteLogo').innerText = siteSettings.siteName;
       document.getElementById('heroTitle').innerText = siteSettings.heroTitle;
       document.getElementById('heroDesc').innerText = siteSettings.heroDesc;
-      document.getElementById('promptAppName').innerText = siteSettings.siteName;
 
       const logo = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('siteLogoIcon').src = logo;
-      document.getElementById('promptAppIcon').src = logo;
       document.getElementById('appFavicon').href = logo;
       document.getElementById('appAppleIcon').href = logo;
       const preview = document.getElementById('logoPreview');
       if (preview) preview.src = logo;
+
+      const downloadBtn = document.getElementById('apkDownloadDirectBtn');
+      if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
+        downloadBtn.href = siteSettings.apkUrl;
+        downloadBtn.setAttribute('target', '_blank');
+      } else {
+        downloadBtn.onclick = function(e) {
+          e.preventDefault();
+          alert("تکایە سەرەتا لینکی داگرتنی APK لە ڕێکخستنی سایت لەلایەن بەڕێوەبەرەوە دابنێ.");
+        };
+      }
     }
 
     function updateAdminStats() {
@@ -1349,6 +1262,7 @@
       document.getElementById('setHeroTitle').value = siteSettings.heroTitle;
       document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setAdminPass').value = siteSettings.adminPass || "1234";
+      document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
       document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
 
@@ -1509,6 +1423,7 @@
         adminPass: document.getElementById('setAdminPass').value,
         gridCols: document.getElementById('setGridCols').value,
         uiSize: document.getElementById('setUiSize').value,
+        apkUrl: document.getElementById('setApkUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         primaryColor: document.getElementById('setPrimaryColor').value,
         bgColor: document.getElementById('setBgColor').value,
@@ -1528,7 +1443,7 @@
           body: JSON.stringify(siteSettings)
         });
       } catch (err) {}
-      alert("ڕێکخستنەکان، ڕیزبەندی کارتەکان و لۆگۆی ماڵپەڕ نوێکرانەوە!");
+      alert("ڕێکخستنەکان، ڕیزبەندی کارتەکان و فایلی APK نوێکرانەوە!");
     }
 
     async function deleteProperty(id) {
