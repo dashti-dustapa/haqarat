@@ -44,7 +44,7 @@
       padding: 0.75rem 0.9rem;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-center: center;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -104,7 +104,7 @@
       background: #f0f9ff;
       transform: translateY(-2px);
     }
-    .download-opt-icon { font-size: 2rem; margin-bottom: 6px; }
+    .download-opt-icon { width: 44px; height: 44px; object-fit: contain; margin-bottom: 6px; }
     .download-opt-title { font-weight: 800; font-size: 1rem; color: var(--dark); }
     .download-opt-sub { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 
@@ -605,13 +605,13 @@
       
       <div class="download-modal-grid">
         <a id="modalAndroidLink" href="#" target="_blank" class="download-opt-card" onclick="handleAndroidDownload(event)">
-          <div class="download-opt-icon">🤖</div>
+          <img class="download-opt-icon" src="https://cdn-icons-png.flaticon.com/512/226/226770.png" alt="Android">
           <div class="download-opt-title">مۆبایلی ئەندرۆید (Android)</div>
           <div class="download-opt-sub">داگرتنی ڕاستەوخۆی فایلی .APK</div>
         </a>
 
         <a id="modalWindowsLink" href="#" target="_blank" class="download-opt-card" onclick="handleWindowsDownload(event)">
-          <div class="download-opt-icon">💻</div>
+          <img class="download-opt-icon" src="https://cdn-icons-png.flaticon.com/512/732/732225.png" alt="Windows">
           <div class="download-opt-title">کۆمپیوتەر و لاپتۆپ (Windows)</div>
           <div class="download-opt-sub">داگرتنی فایلی ویندۆز یان دامەزراندن</div>
         </a>
