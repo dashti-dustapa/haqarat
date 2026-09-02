@@ -9,14 +9,10 @@
   <link rel="icon" id="appFavicon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   <link rel="apple-touch-icon" id="appAppleIcon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
   
-  <!-- ڕێکخستنی سیستەم، پاتری و ئایکۆنی ویندۆز -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0f172a">
-  <meta name="msapplication-navbutton-color" content="#0f172a">
-  <meta name="msapplication-TileColor" content="#0f172a">
-  <meta name="msapplication-TileImage" id="winTileIcon" content="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style id="customThemeStyles">
@@ -126,35 +122,6 @@
     .btn-sold { background: #64748b; color: #fff; }
     .btn-backup { background: #334155; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
-
-    .download-modal-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 15px;
-    }
-    .download-opt-card {
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: #f8fafc;
-    }
-    .download-opt-card:hover {
-      border-color: var(--primary);
-      background: #f0f9ff;
-      transform: translateY(-2px);
-    }
-    .download-opt-icon { width: 44px; height: 44px; object-fit: contain; margin-bottom: 6px; }
-    .download-opt-title { font-weight: 800; font-size: 1rem; color: var(--dark); }
-    .download-opt-sub { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 
     .admin-bar {
       background: #0f172a;
@@ -585,7 +552,6 @@
 </head>
 <body>
 
-  <!-- شاشەی ڕەشی دەستپێک بۆ نەهێشتنی تروسکەی سپی لە دەستپێکدا -->
   <div id="customSplashScreen">
     <img id="splashLogoImg" class="splash-logo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
     <div id="splashTitleText" class="splash-title">عقارات دەشتی دوستەپە</div>
@@ -599,7 +565,7 @@
       <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
     </div>
     <div class="header-btns">
-      <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="openDownloadModal()">📲 داگرتنی ئەپ</button>
+      <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="triggerDirectDownload()">📲 داگرتنی ئەپ (APK)</button>
       <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
     </div>
   </header>
@@ -652,28 +618,6 @@
 
     <div class="grid" id="propertiesGrid"></div>
     <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
-  </div>
-
-  <div class="modal" id="downloadAppModal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModals()">×</span>
-      <h3 class="modal-title" style="text-align:center;">داگرتنی بەرنامە</h3>
-      <p style="text-align:center; font-size:0.8rem; color:var(--muted); margin-bottom:10px;">جۆری ئامێرەکەت هەڵبژێرە بۆ داگرتن:</p>
-      
-      <div class="download-modal-grid">
-        <a id="modalAndroidLink" href="#" target="_blank" class="download-opt-card" onclick="handleAndroidDownload(event)">
-          <img class="download-opt-icon" src="https://cdn-icons-png.flaticon.com/512/226/226770.png" alt="Android">
-          <div class="download-opt-title">مۆبایلی ئەندرۆید (Android)</div>
-          <div class="download-opt-sub">داگرتنی ڕاستەوخۆی فایلی .APK</div>
-        </a>
-
-        <a id="modalWindowsLink" href="#" target="_blank" class="download-opt-card" onclick="handleWindowsDownload(event)">
-          <img class="download-opt-icon" src="https://cdn-icons-png.flaticon.com/512/732/732225.png" alt="Windows">
-          <div class="download-opt-title">کۆمپیوتەر و لاپتۆپ (Windows)</div>
-          <div class="download-opt-sub">داگرتنی فایلی ویندۆز یان دامەزراندن</div>
-        </a>
-      </div>
-    </div>
   </div>
 
   <div class="gallery-modal" id="galleryModal">
@@ -822,13 +766,8 @@
         </div>
 
         <div class="form-group">
-          <label>لینکی فایلی ئەندرۆید (Android APK URL):</label>
-          <input type="text" id="setApkUrl" placeholder="لینکی داگرتنی APK">
-        </div>
-
-        <div class="form-group">
-          <label>لینکی فایلی ویندۆز (Windows App URL - ئیختیاری):</label>
-          <input type="text" id="setWindowsUrl" placeholder="لینکی بەرنامەی کۆمپیوتەر (.exe یان .bat)">
+          <label>لینکی ڕاستەوخۆی فایلی ئەندرۆید (Android APK Direct URL):</label>
+          <input type="text" id="setApkUrl" placeholder="لینکی داگرتنی APK لە GitHub Releases">
         </div>
 
         <div class="form-group">
@@ -916,7 +855,6 @@
       uiSize: "ultra-compact",
       gridCols: "2",
       apkUrl: "",
-      windowsUrl: "",
       logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png"
     };
 
@@ -928,20 +866,13 @@
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
 
-    // کردن بە فول شاشە بەبێ پاتری و کاتژمێر لە ئەندرۆید
-    function triggerSystemFullscreen() {
-      const docElm = document.documentElement;
-      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-        if (docElm.requestFullscreen) {
-          docElm.requestFullscreen().catch(() => {});
-        } else if (docElm.webkitRequestFullscreen) {
-          docElm.webkitRequestFullscreen();
-        }
+    function triggerDirectDownload() {
+      if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
+        window.location.href = siteSettings.apkUrl;
+      } else {
+        alert("تکایە سەرەتا لینکی داگرتنی ڕاستەوخۆی APK لە پنێڵی ڕێکخستنی سایت دابنێ.");
       }
     }
-    document.addEventListener('DOMContentLoaded', triggerSystemFullscreen);
-    window.addEventListener('click', triggerSystemFullscreen, { once: true });
-    window.addEventListener('touchstart', triggerSystemFullscreen, { once: true });
 
     function hideSplashScreen() {
       const splash = document.getElementById('customSplashScreen');
@@ -966,26 +897,6 @@
       const installBtn = document.getElementById('apkDownloadDirectBtn');
       if (isStandalone && installBtn) {
         installBtn.remove();
-      }
-    }
-
-    function openDownloadModal() {
-      document.getElementById('downloadAppModal').style.display = 'flex';
-    }
-
-    function handleAndroidDownload(e) {
-      if (!siteSettings.apkUrl || siteSettings.apkUrl.trim() === "") {
-        e.preventDefault();
-        alert("تکایە سەرەتا لینکی APK لە ڕێکخستنی سایت لەلایەن بەڕێوەبەرەوە دابنێ.");
-      }
-    }
-
-    function handleWindowsDownload(e) {
-      if (siteSettings.windowsUrl && siteSettings.windowsUrl.trim() !== "") {
-        return;
-      } else {
-        e.preventDefault();
-        alert("دەتوانیت لە ڕێگەی براوسەری Chrome یان Edge بە کلیک لەسەر ئایکۆنی Install لە لای URL، ڕاستەوخۆ وەک بەرنامەی ویندۆز دایبمەزرێنیت.");
       }
     }
 
@@ -1044,7 +955,6 @@
       renderProperties();
       checkStandaloneMode();
 
-      // بە خێرایی کەم شاشەی لۆگۆکە لادەبرێت
       setTimeout(hideSplashScreen, 150);
     }
 
@@ -1057,9 +967,6 @@
       document.getElementById('siteLogoIcon').src = logo;
       document.getElementById('appFavicon').href = logo;
       document.getElementById('appAppleIcon').href = logo;
-      
-      const winTile = document.getElementById('winTileIcon');
-      if (winTile) winTile.content = logo;
 
       const splashLogo = document.getElementById('splashLogoImg');
       if (splashLogo) splashLogo.src = logo;
@@ -1068,16 +975,6 @@
 
       const preview = document.getElementById('logoPreview');
       if (preview) preview.src = logo;
-
-      const androidLink = document.getElementById('modalAndroidLink');
-      if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
-        androidLink.href = siteSettings.apkUrl;
-      }
-
-      const windowsLink = document.getElementById('modalWindowsLink');
-      if (siteSettings.windowsUrl && siteSettings.windowsUrl.trim() !== "") {
-        windowsLink.href = siteSettings.windowsUrl;
-      }
     }
 
     function updateAdminStats() {
@@ -1455,7 +1352,6 @@
       document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setAdminPass').value = siteSettings.adminPass || "1234";
       document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
-      document.getElementById('setWindowsUrl').value = siteSettings.windowsUrl || "";
       document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
 
@@ -1617,7 +1513,6 @@
         gridCols: document.getElementById('setGridCols').value,
         uiSize: document.getElementById('setUiSize').value,
         apkUrl: document.getElementById('setApkUrl').value || "",
-        windowsUrl: document.getElementById('setWindowsUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         primaryColor: document.getElementById('setPrimaryColor').value,
         bgColor: document.getElementById('setBgColor').value,
