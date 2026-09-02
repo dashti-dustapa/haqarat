@@ -31,8 +31,8 @@
       --edit: #f59e0b;
       --border: #e2e8f0;
       --base-font-size: 13.5px;
-      --card-img-height: 180px;
-      --grid-cols: repeat(2, 1fr);
+      --card-img-height: 160px;
+      --grid-cols: repeat(1, 1fr);
     }
   </style>
   <style>
@@ -135,18 +135,18 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 0.7rem 0.5rem;
-      margin-bottom: 12px;
+      padding: 0.6rem 0.4rem;
+      margin-bottom: 10px;
     }
     .public-stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      gap: 4px;
       text-align: center;
     }
     @media(min-width: 640px) { .public-stats-grid { grid-template-columns: repeat(6, 1fr); } }
-    .stat-item { padding: 4px; font-size: 0.72rem; color: var(--muted); font-weight: 700; }
-    .stat-val { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-top: 2px; }
+    .stat-item { padding: 3px; font-size: 0.68rem; color: var(--muted); font-weight: 700; }
+    .stat-val { font-size: 0.95rem; font-weight: 800; color: var(--primary); margin-top: 1px; }
 
     #adminViewContainer {
       display: none;
@@ -179,20 +179,22 @@
       border-radius: 12px;
     }
 
-    .container { max-width: 1100px; margin: auto; padding: 0.9rem 0.8rem; }
+    .container { max-width: 1100px; margin: auto; padding: 0.7rem 0.6rem; }
 
-    #homeCategoryScreen { display: block; padding-top: 4px; }
-    .categories-hub { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    #homeCategoryScreen { display: block; padding-top: 2px; }
+    .categories-hub { display: flex; flex-direction: column; gap: 7px; }
     .cat-card-btn {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px;
-      padding: 1.2rem 0.8rem; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; text-align: center; cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03); transition: transform 0.15s;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 0.75rem 1rem; display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.02); transition: transform 0.15s;
     }
-    .cat-card-btn:active { transform: scale(0.97); }
-    .cat-card-icon { font-size: 2.2rem; margin-bottom: 8px; }
-    .cat-card-title { font-weight: 800; font-size: 0.95rem; color: var(--text); }
-    .cat-card-sub { font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
+    .cat-card-btn:active { transform: scale(0.98); }
+    .cat-card-left { display: flex; align-items: center; gap: 10px; }
+    .cat-card-icon { font-size: 1.5rem; }
+    .cat-card-info { display: flex; flex-direction: column; }
+    .cat-card-title { font-weight: 800; font-size: 0.88rem; color: var(--text); }
+    .cat-card-sub { font-size: 0.66rem; color: var(--muted); margin-top: 1px; }
+    .cat-card-arrow { font-size: 0.9rem; color: var(--muted); font-weight: 700; transform: rotate(180deg); }
 
     #propertiesScreen { display: none; }
     .category-back-bar {
@@ -206,15 +208,15 @@
     .category-title-header { font-size: 0.95rem; font-weight: 800; color: var(--text); }
 
     .sub-tabs-container {
-      display: flex; background: #e2e8f0; padding: 4px; border-radius: 8px; margin-bottom: 12px; gap: 4px;
+      display: flex; background: #e2e8f0; padding: 4px; border-radius: 8px; margin-bottom: 10px; gap: 4px;
     }
     .sub-tab-btn {
-      flex: 1; padding: 0.45rem; background: transparent; border: none; border-radius: 6px;
-      font-size: 0.78rem; font-weight: 700; color: var(--text); cursor: pointer; transition: 0.2s; text-align: center;
+      flex: 1; padding: 0.4rem; background: transparent; border: none; border-radius: 6px;
+      font-size: 0.75rem; font-weight: 700; color: var(--text); cursor: pointer; transition: 0.2s; text-align: center;
     }
     .sub-tab-btn.active { background: #ffffff; color: var(--dark); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
 
-    .grid { display: grid; grid-template-columns: var(--grid-cols); gap: 0.75rem; }
+    .grid { display: grid; grid-template-columns: var(--grid-cols); gap: 0.65rem; }
 
     .card {
       background: var(--card-bg); border-radius: 12px; overflow: hidden;
@@ -240,46 +242,46 @@
       font-weight: 700; backdrop-filter: blur(2px); display: flex; align-items: center; gap: 3px;
     }
 
-    .card-body { padding: 0.8rem; flex: 1; display: flex; flex-direction: column; }
-    .badge-group { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 0.4rem; }
+    .card-body { padding: 0.7rem; flex: 1; display: flex; flex-direction: column; }
+    .badge-group { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 0.35rem; }
     .badge {
-      display: inline-block; padding: 0.2rem 0.5rem; background: #e0f2fe;
-      color: var(--primary); border-radius: 5px; font-size: 0.7rem; font-weight: 700;
+      display: inline-block; padding: 0.18rem 0.45rem; background: #e0f2fe;
+      color: var(--primary); border-radius: 5px; font-size: 0.68rem; font-weight: 700;
     }
     .badge-sub { background: #fef3c7; color: #b45309; }
     .badge-want { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
     .badge-location { background: #f1f5f9; color: var(--dark); border: 1px solid #cbd5e1; }
-    .card-title { font-size: 0.95rem; font-weight: 700; color: var(--dark); margin-bottom: 0.3rem; cursor: pointer; }
-    .card-desc { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.6rem; line-height: 1.45; flex: 1; }
+    .card-title { font-size: 0.9rem; font-weight: 700; color: var(--dark); margin-bottom: 0.25rem; cursor: pointer; }
+    .card-desc { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.5rem; line-height: 1.4; flex: 1; }
     
-    .map-row { margin-bottom: 0.6rem; }
+    .map-row { margin-bottom: 0.5rem; }
 
     .owner-phone-display {
-      background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.45rem 0.65rem;
-      border-radius: 6px; font-size: 0.78rem; font-weight: 700; color: #0f172a;
+      background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.4rem 0.6rem;
+      border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #0f172a;
       display: flex; align-items: center; justify-content: space-between; text-decoration: none;
       cursor: pointer; transition: background 0.2s;
     }
     .owner-phone-display:active { background: #f1f5f9; }
     .phone-text { color: var(--primary); letter-spacing: 0.5px; direction: ltr; }
 
-    .card-footer { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid #f1f5f9; padding-top: 0.6rem; }
+    .card-footer { display: flex; flex-direction: column; gap: 5px; border-top: 1px solid #f1f5f9; padding-top: 0.5rem; }
     .card-footer-top { display: flex; justify-content: space-between; align-items: center; }
-    .price { font-size: 1rem; font-weight: 800; color: var(--primary); }
+    .price { font-size: 0.95rem; font-weight: 800; color: var(--primary); }
 
     .card-add-slot {
       background: #ffffff; border: 2px dashed #94a3b8; border-radius: 12px;
-      min-height: 220px; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; cursor: pointer; text-align: center; padding: 1rem;
+      min-height: 120px; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; cursor: pointer; text-align: center; padding: 0.8rem;
       transition: all 0.2s ease;
     }
     .card-add-slot:active { transform: scale(0.97); border-color: var(--primary); }
     .card-add-slot-icon {
-      width: 48px; height: 48px; border-radius: 50%; background: #e0f2fe;
+      width: 36px; height: 36px; border-radius: 50%; background: #e0f2fe;
       color: var(--primary); display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;
+      font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;
     }
-    .card-add-slot-text { font-size: 0.85rem; font-weight: 800; color: #334155; }
+    .card-add-slot-text { font-size: 0.8rem; font-weight: 800; color: #334155; }
 
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -313,7 +315,7 @@
     }
 
     .close-btn { position: absolute; left: 0.9rem; top: 0.9rem; cursor: pointer; font-size: 1.3rem; font-weight: 800; color: #94a3b8; }
-    .empty-state { text-align: center; color: var(--muted); padding: 3rem 1rem; font-size: 0.88rem; font-weight: 600; }
+    .empty-state { text-align: center; color: var(--muted); padding: 3rem 1rem; font-size: 0.85rem; font-weight: 600; }
 
     .gallery-modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -440,37 +442,62 @@
       </div>
     </div>
 
-    <!-- لاپەڕەی هەڵبژاردنی سەرەکی (چوارگۆشەکان) -->
+    <!-- لاپەڕەی هەڵبژاردنی سەرەکی (لیستی هێڵی) -->
     <div id="homeCategoryScreen">
       <div class="categories-hub" id="categoriesHubGrid">
         <div class="cat-card-btn" onclick="navigateToCategory('خانوو')">
-          <div class="cat-card-icon">🏠</div>
-          <div class="cat-card-title">خانوو</div>
-          <div class="cat-card-sub">بۆ فرۆشتن و بۆ کرێ</div>
+          <div class="cat-card-left">
+            <div class="cat-card-icon">🏠</div>
+            <div class="cat-card-info">
+              <div class="cat-card-title">خانوو</div>
+              <div class="cat-card-sub">بۆ فرۆشتن و بۆ کرێ</div>
+            </div>
+          </div>
+          <div class="cat-card-arrow">➔</div>
         </div>
 
         <div class="cat-card-btn" onclick="navigateToCategory('شوێنی تیجاری')">
-          <div class="cat-card-icon">🏢</div>
-          <div class="cat-card-title">شوێنی تیجاری</div>
-          <div class="cat-card-sub">دوکان، کۆگا و پێشانگە</div>
+          <div class="cat-card-left">
+            <div class="cat-card-icon">🏢</div>
+            <div class="cat-card-info">
+              <div class="cat-card-title">شوێنی تیجاری</div>
+              <div class="cat-card-sub">دوکان، کۆگا و پێشانگە</div>
+            </div>
+          </div>
+          <div class="cat-card-arrow">➔</div>
         </div>
 
         <div class="cat-card-btn" onclick="navigateToCategory('زەوی')">
-          <div class="cat-card-icon">📐</div>
-          <div class="cat-card-title">زەوی</div>
-          <div class="cat-card-sub">نیشتەجێبوون و زراعی</div>
+          <div class="cat-card-left">
+            <div class="cat-card-icon">📐</div>
+            <div class="cat-card-info">
+              <div class="cat-card-title">زەوی</div>
+              <div class="cat-card-sub">نیشتەجێبوون و زراعی</div>
+            </div>
+          </div>
+          <div class="cat-card-arrow">➔</div>
         </div>
 
         <div class="cat-card-btn" onclick="navigateToCategory('مەزرەعە')">
-          <div class="cat-card-icon">🌳</div>
-          <div class="cat-card-title">مەزرەعە</div>
-          <div class="cat-card-sub">باخ و ڤێلای گەشتیاری</div>
+          <div class="cat-card-left">
+            <div class="cat-card-icon">🌳</div>
+            <div class="cat-card-info">
+              <div class="cat-card-title">مەزرەعە</div>
+              <div class="cat-card-sub">باخ و ڤێلای گەشتیاری</div>
+            </div>
+          </div>
+          <div class="cat-card-arrow">➔</div>
         </div>
 
-        <div class="cat-card-btn" id="wantsCardBtn" style="grid-column: span 2; border-color: #fde68a; background: #fffbeb;" onclick="navigateToCategory('خوازیار / پێویستە')">
-          <div class="cat-card-icon">🔍</div>
-          <div class="cat-card-title" style="color:#d97706;">خوازیار / پێویستە</div>
-          <div class="cat-card-sub">داواکاری کڕین و بەکرێگرتن</div>
+        <div class="cat-card-btn" id="wantsCardBtn" style="border-color: #fde68a; background: #fffbeb;" onclick="navigateToCategory('خوازیار / پێویستە')">
+          <div class="cat-card-left">
+            <div class="cat-card-icon">🔍</div>
+            <div class="cat-card-info">
+              <div class="cat-card-title" style="color:#d97706;">خوازیار / پێویستە</div>
+              <div class="cat-card-sub">داواکاری کڕین و بەکرێگرتن</div>
+            </div>
+          </div>
+          <div class="cat-card-arrow" style="color:#d97706;">➔</div>
         </div>
       </div>
     </div>
@@ -490,6 +517,11 @@
       <div class="sub-tabs-container" id="landSubTabs" style="display:none;">
         <button class="sub-tab-btn active" onclick="switchLandSubTab('نیشتەجێبوون', this)">نیشتەجێبوون</button>
         <button class="sub-tab-btn" onclick="switchLandSubTab('زراعی', this)">زراعی</button>
+      </div>
+
+      <div class="sub-tabs-container" id="wantSubTabs" style="display:none;">
+        <button class="sub-tab-btn active" onclick="switchWantSubTab('بۆ کڕین', this)">داواکاری بۆ کڕین</button>
+        <button class="sub-tab-btn" onclick="switchWantSubTab('بۆ کرێ', this)">داواکاری بۆ کرێ</button>
       </div>
 
       <div class="grid" id="propertiesGrid"></div>
@@ -602,13 +634,10 @@
           <input type="text" id="wantTitle" required placeholder="وەک: پێویستم بە خانووی کرێیە یان زەوی بۆ کڕین">
         </div>
         <div class="form-group">
-          <label>جۆری موڵکی داواکراو:</label>
+          <label>جۆری مامەڵەی داواکراو:</label>
           <select id="wantPropertyType">
-            <option value="خانوو بۆ کڕین">خانوو بۆ کڕین</option>
-            <option value="خانوو بۆ کرێ">خانوو بۆ کرێ</option>
-            <option value="زەوی بۆ کڕین">زەوی بۆ کڕین</option>
-            <option value="شوێنی تیجاری بۆ کڕین/کرێ">شوێنی تیجاری بۆ کڕین/کرێ</option>
-            <option value="مەزرەعە بۆ کڕین">مەزرەعە بۆ کڕین</option>
+            <option value="بۆ کڕین">بۆ کڕین</option>
+            <option value="بۆ کرێ">بۆ کرێ</option>
           </select>
         </div>
         <div class="form-group">
@@ -677,14 +706,8 @@
           <input type="hidden" id="setLogoData">
         </div>
 
-        <div class="form-group">
-          <label style="color:var(--primary); font-weight:800;">📐 ژمارەی کارتەکان لە تەنیشت یەکتر:</label>
-          <select id="setGridCols">
-            <option value="2">۲ کارت لە تەنیشت یەکتر</option>
-            <option value="1">۱ کارت لە هەر دێڕێکدا</option>
-            <option value="3">۳ کارت لە تەنیشت یەکتر</option>
-            <option value="4">٤ کارت لە تەنیشت یەکتر</option>
-          </select>
+        <div class="form-group" style="display:none;">
+          <input type="hidden" id="setGridCols" value="1">
         </div>
 
         <label style="font-size:0.75rem; font-weight:800; color:var(--dark); margin-bottom:5px; display:block;">🎨 کۆنتڕۆڵی ڕەنگەکانی ماڵپەڕ و بەڕێوەبەر:</label>
@@ -730,7 +753,7 @@
       bgColor: "#f8fafc",
       cardColor: "#ffffff",
       uiSize: "ultra-compact",
-      gridCols: "2",
+      gridCols: "1",
       apkUrl: "",
       logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png"
     };
@@ -745,6 +768,7 @@
     let activeMainTab = 'خانوو';
     let activeHouseSubTab = 'بۆ فرۆشتن';
     let activeLandSubTab = 'نیشتەجێبوون';
+    let activeWantSubTab = 'بۆ کڕین';
 
     let holdTimer = null;
     let selectedHoldItemId = null;
@@ -756,7 +780,7 @@
         setTimeout(() => {
           input.focus();
           input.click();
-        }, 150);
+        }, 100);
       }
     }
 
@@ -815,6 +839,7 @@
 
       document.getElementById('houseSubTabs').style.display = (cat === 'خانوو') ? 'flex' : 'none';
       document.getElementById('landSubTabs').style.display = (cat === 'زەوی') ? 'flex' : 'none';
+      document.getElementById('wantSubTabs').style.display = (cat === 'خوازیار / پێویستە') ? 'flex' : 'none';
 
       window.history.pushState({ screen: 'category', cat }, "", "");
       renderProperties();
@@ -839,6 +864,13 @@
     function switchLandSubTab(subCategory, btn) {
       activeLandSubTab = subCategory;
       document.querySelectorAll('#landSubTabs .sub-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProperties();
+    }
+
+    function switchWantSubTab(type, btn) {
+      activeWantSubTab = type;
+      document.querySelectorAll('#wantSubTabs .sub-tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderProperties();
     }
@@ -971,14 +1003,13 @@
       const adminBg = siteSettings.adminBgColor || "#0f172a";
       const bg = siteSettings.bgColor || "#f8fafc";
       const card = siteSettings.cardColor || "#ffffff";
-      const cols = siteSettings.gridCols || "2";
 
       document.documentElement.style.setProperty('--primary', primary);
       document.documentElement.style.setProperty('--header-bg', headerBg);
       document.documentElement.style.setProperty('--admin-bg', adminBg);
       document.documentElement.style.setProperty('--bg', bg);
       document.documentElement.style.setProperty('--card-bg', card);
-      document.documentElement.style.setProperty('--grid-cols', `repeat(${cols}, 1fr)`);
+      document.documentElement.style.setProperty('--grid-cols', `repeat(1, 1fr)` );
     }
 
     async function loadData() {
@@ -1045,9 +1076,14 @@
         div.className = 'cat-card-btn dynamically-added-cat';
         div.onclick = () => navigateToCategory(cat.title);
         div.innerHTML = `
-          <div class="cat-card-icon">📁</div>
-          <div class="cat-card-title">${cat.title}</div>
-          <div class="cat-card-sub">بەشی تایبەت</div>
+          <div class="cat-card-left">
+            <div class="cat-card-icon">📁</div>
+            <div class="cat-card-info">
+              <div class="cat-card-title">${cat.title}</div>
+              <div class="cat-card-sub">بەشی تایبەت</div>
+            </div>
+          </div>
+          <div class="cat-card-arrow">➔</div>
         `;
         hub.insertBefore(div, wantsCard);
 
@@ -1163,6 +1199,8 @@
         list = list.filter(p => p.type === activeHouseSubTab);
       } else if (activeMainTab === 'زەوی') {
         list = list.filter(p => p.subCategory === activeLandSubTab);
+      } else if (activeMainTab === 'خوازیار / پێویستە') {
+        list = list.filter(p => p.type === activeWantSubTab);
       }
 
       list.forEach(item => {
@@ -1175,13 +1213,13 @@
               <div class="card-body">
                 <div class="badge-group">
                   <span class="badge badge-want">🔍 داواکاری</span>
-                  <span class="badge">${item.type || 'پێویستە'}</span>
+                  <span class="badge">${item.type || 'بۆ کڕین'}</span>
                 </div>
                 <h3 class="card-title">${item.title}</h3>
                 <p class="card-desc">${item.desc}</p>
 
                 ${item.ownerPhone ? `
-                  <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.5rem;">
+                  <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.4rem;">
                     <span>📞 داواکار:</span>
                     <span class="phone-text">${item.ownerPhone}</span>
                   </a>
@@ -1226,7 +1264,7 @@
                 </div>
 
                 ${item.ownerPhone ? `
-                  <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.5rem;">
+                  <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.4rem;">
                     <span>📞 خاوەن موڵک:</span>
                     <span class="phone-text">${item.ownerPhone}</span>
                   </a>
@@ -1456,7 +1494,7 @@
       document.getElementById('wantModalTitle').innerText = "دەستکاریکردنی داواکاری";
       document.getElementById('editWantId').value = item.id;
       document.getElementById('wantTitle').value = item.title;
-      document.getElementById('wantPropertyType').value = item.type || 'خانوو بۆ کڕین';
+      document.getElementById('wantPropertyType').value = item.type || 'بۆ کڕین';
       document.getElementById('wantPrice').value = item.price;
       document.getElementById('wantPhone').value = item.ownerPhone || '';
       document.getElementById('wantDesc').value = item.desc;
@@ -1471,7 +1509,7 @@
       document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
 
-      document.getElementById('setGridCols').value = siteSettings.gridCols || "2";
+      document.getElementById('setGridCols').value = "1";
       document.getElementById('setPrimaryColor').value = siteSettings.primaryColor || "#0284c7";
       document.getElementById('setHeaderBgColor').value = siteSettings.headerBgColor || "#ffffff";
       document.getElementById('setAdminBgColor').value = siteSettings.adminBgColor || "#0f172a";
@@ -1625,7 +1663,7 @@
         ...siteSettings,
         siteName: document.getElementById('setSiteName').value,
         appPass: document.getElementById('setAppPass').value || "0000",
-        gridCols: document.getElementById('setGridCols').value,
+        gridCols: "1",
         apkUrl: document.getElementById('setApkUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         primaryColor: document.getElementById('setPrimaryColor').value,
