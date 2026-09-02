@@ -59,7 +59,6 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* مۆداڵی قفڵی سەرەتایی ئەپڵیکەیشن */
     #appLockModal {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -73,7 +72,7 @@
     .lock-card {
       background: #ffffff;
       width: 100%;
-      max-width: 360px;
+      max-width: 340px;
       border-radius: 20px;
       padding: 2rem 1.4rem;
       text-align: center;
@@ -91,6 +90,20 @@
       font-size: 2rem;
       margin: 0 auto 12px auto;
     }
+    .lock-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      text-align: center;
+      letter-spacing: 6px;
+      outline: none;
+      direction: ltr;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .lock-input:focus { border-color: var(--primary); }
 
     header {
       background: var(--header-bg);
@@ -120,7 +133,6 @@
     .btn-backup { background: #334155; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
 
-    /* پیشاندانی زانیارییەکان لە شوێنی گشتی */
     .public-stats-section {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -134,7 +146,7 @@
       gap: 6px;
       text-align: center;
     }
-    @media(min-width: 640px) { .public-stats-grid { grid-template-columns: repeat(5, 1fr); } }
+    @media(min-width: 640px) { .public-stats-grid { grid-template-columns: repeat(6, 1fr); } }
     .stat-item { padding: 4px; font-size: 0.72rem; color: var(--muted); font-weight: 700; }
     .stat-val { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-top: 2px; }
 
@@ -145,8 +157,17 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .admin-bar-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; }
-    .admin-actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
-    @media(min-width: 640px) { .admin-actions-grid { grid-template-columns: repeat(4, 1fr); } }
+    .admin-actions-stacked {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .admin-stacked-btn {
+      width: 100%;
+      padding: 0.65rem;
+      font-size: 0.85rem;
+      border-radius: 9px;
+    }
 
     .container { max-width: 1100px; margin: auto; padding: 0.9rem 0.8rem; }
 
@@ -350,7 +371,6 @@
       font-size: 0.85rem; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 6px;
     }
 
-    /* بەشی بەڕێوەبردنی تابەکان */
     .tab-manage-item {
       display: flex; align-items: center; justify-content: space-between;
       padding: 0.6rem; border-radius: 8px; background: #f8fafc; border: 1px solid var(--border); margin-bottom: 6px;
@@ -366,18 +386,13 @@
     <div class="splash-spinner"></div>
   </div>
 
-  <!-- قفڵی ئەپڵیکەیشن بە کۆد -->
+  <!-- قفڵی ئەپ بە کیبۆردی ژمارە و چوونەژوورەوەی ڕاستەوخۆ -->
   <div id="appLockModal">
     <div class="lock-card">
       <div class="lock-icon-circle">🔒</div>
       <h3 style="font-size:1.1rem; font-weight:800; margin-bottom:6px; color:#0f172a;">ماڵپەڕ پارێزراوە</h3>
-      <p style="font-size:0.75rem; color:#64748b; margin-bottom:16px;">تکایە کۆدی چوونەژوورەوە بنووسە بۆ بەکارهێنانی ئەپ</p>
-      <form onsubmit="verifyAppUnlock(event)">
-        <div class="form-group">
-          <input type="password" id="appLockPassInput" required placeholder="کۆد بنووسە..." style="text-align:center; font-size:1.1rem; letter-spacing:2px;">
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:100%; padding:0.65rem;">کردنەوەی ئەپ</button>
-      </form>
+      <p style="font-size:0.75rem; color:#64748b; margin-bottom:16px;">تکایە کۆدی چوونەژوورەوە بنووسە</p>
+      <input type="password" id="appLockPassInput" class="lock-input" inputmode="numeric" pattern="[0-9]*" maxlength="10" autofocus placeholder="••••" oninput="handleInstantUnlock(this.value)">
     </div>
   </div>
 
@@ -395,21 +410,17 @@
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
       <span>👑 پنێڵی خاوەن و بەڕێوەبەر</span>
-      <button onclick="logoutAdmin()" style="background:none; border:none; color:#f87171; font-size:0.78rem; cursor:pointer; font-weight:700;">داخستنی پنێڵ</button>
+      <button onclick="closeAdminBar()" style="background:none; border:none; color:#f87171; font-size:0.78rem; cursor:pointer; font-weight:700;">داخستنی پنێڵ</button>
     </div>
 
-    <div class="admin-actions-grid">
-      <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت و ڕەنگەکان</button>
-      <button class="btn btn-primary" onclick="openManageTabsModal()">📑 بەڕێوەبردنی تابەکان</button>
-      <button class="btn btn-backup" onclick="exportDataBackup()">💾 کۆپی یەدەگ</button>
-      <button class="btn btn-backup" onclick="document.getElementById('restoreInput').click()">📥 هێنانەوەی فایل</button>
-      <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="importDataBackup(event)">
+    <!-- تەنها ئەم دوو دوگمەیە ماون لەسەرو خواری یەکتر -->
+    <div class="admin-actions-stacked">
+      <button class="btn btn-edit admin-stacked-btn" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت و ڕەنگەکان</button>
+      <button class="btn btn-primary admin-stacked-btn" onclick="openManageTabsModal()">📑 بەڕێوەبردنی تابەکان</button>
     </div>
-    <button class="btn btn-danger" style="width:100%; padding:0.45rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکەکان</button>
   </div>
 
   <div class="container">
-    <!-- بەشی ئامارەکان لە شوێنی ئاسایی (بەبێ کۆی گشتی و داواکاری لە ئاخیر) -->
     <div class="public-stats-section">
       <div class="public-stats-grid">
         <div class="stat-item">خانوو (فرۆشتن)<div class="stat-val" id="statHousesSale">0</div></div>
@@ -606,7 +617,6 @@
     </div>
   </div>
 
-  <!-- مۆداڵی بەڕێوەبردنی تابەکان (زیادکردن، دەستکاری، سڕینەوە) -->
   <div class="modal" id="manageTabsModal">
     <div class="modal-content" style="max-width:420px;">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -646,7 +656,7 @@
 
         <div class="form-group">
           <label style="color:var(--primary); font-weight:800;">🔑 کۆدی چوونەژوورەوەی ئەپ (App Unlock Code):</label>
-          <input type="text" id="setAppPass" required placeholder="کۆدی نوێ بنووسە">
+          <input type="text" id="setAppPass" required placeholder="کۆدی نوێ بنووسە" inputmode="numeric">
         </div>
 
         <div class="form-group">
@@ -736,31 +746,61 @@
     let holdTimer = null;
     let selectedHoldItemId = null;
 
-    // پشکنینی قفڵی ئەپ
-    function verifyAppUnlock(e) {
-      e.preventDefault();
-      const entered = document.getElementById('appLockPassInput').value.trim();
+    // چوونەژوورەوەی یەکسەر بە تەواوبوونی ژمارەکان
+    function handleInstantUnlock(val) {
+      const entered = String(val).trim();
       const actual = String(siteSettings.appPass || "0000").trim();
 
-      if (entered === actual) {
-        isAppUnlocked = true;
-        document.getElementById('appLockModal').style.display = 'none';
-      } else {
-        alert("کۆدەکە هەڵەیە!");
+      if (entered.length >= actual.length) {
+        if (entered === actual) {
+          isAppUnlocked = true;
+          document.getElementById('appLockModal').style.display = 'none';
+        } else {
+          alert("کۆدەکە هەڵەیە!");
+          document.getElementById('appLockPassInput').value = '';
+        }
       }
     }
 
-    // کۆنتڕۆڵی دوگمەی Back لە مۆبایل بەبێ پرسیار
+    // کۆنتڕۆڵی تەواوەتی دوگمەی Back لە مۆبایل بۆ هەموو پەنجەرەکان
     window.addEventListener('load', function() {
       window.history.pushState({ screen: 'home' }, "", "");
     });
 
     window.addEventListener('popstate', function(e) {
+      // 1. داخستنی پێشانگەی وێنە ئەگەر کرابێتەوە
+      if (document.getElementById('galleryModal').style.display === 'flex') {
+        closeGallery(false);
+        return;
+      }
+
+      // 2. داخستنی لیستی Hold
+      if (document.getElementById('actionSheetModal').style.display === 'flex') {
+        closeActionSheet(false);
+        return;
+      }
+
+      // 3. داخستنی هەر مۆداڵێکی کراوە
+      const openModal = Array.from(document.querySelectorAll('.modal')).find(m => m.style.display === 'flex');
+      if (openModal) {
+        closeModals(false);
+        return;
+      }
+
+      // 4. داخستنی پانێڵی بەڕێوەبەر و گەڕانەوە بۆ شوێنی ئاسایی
+      if (isAdmin) {
+        closeAdminBar(false);
+        return;
+      }
+
+      // 5. گەڕانەوە لە بەشەکان بۆ لاپەڕەی سەرەکی
       if (currentScreen === 'category') {
         navigateBackToHome(false);
-      } else {
-        window.history.back();
+        return;
       }
+
+      // گەر هیچ شتێک نەبوو، گەڕانەوەی ئاسایی
+      window.history.back();
     });
 
     function navigateToCategory(cat) {
@@ -803,11 +843,17 @@
     function toggleAdminBar() {
       isAdmin = !isAdmin;
       document.getElementById('adminBar').style.display = isAdmin ? 'flex' : 'none';
+      if (isAdmin) {
+        window.history.pushState({ admin: true }, "", "");
+      }
     }
 
-    function logoutAdmin() {
+    function closeAdminBar(doPush = true) {
       isAdmin = false;
       document.getElementById('adminBar').style.display = 'none';
+      if (doPush) {
+        window.history.pushState({ screen: currentScreen }, "", "");
+      }
     }
 
     // کرداری Hold
@@ -818,6 +864,7 @@
         if (item) {
           document.getElementById('actionSheetPropTitle').innerText = item.title;
           document.getElementById('actionSheetModal').style.display = 'flex';
+          window.history.pushState({ holdMenu: true }, "", "");
         }
       }, 600);
     }
@@ -829,14 +876,17 @@
       }
     }
 
-    function closeActionSheet() {
+    function closeActionSheet(doPush = true) {
       document.getElementById('actionSheetModal').style.display = 'none';
       selectedHoldItemId = null;
+      if (doPush) {
+        window.history.pushState({ screen: currentScreen }, "", "");
+      }
     }
 
     function handleHoldEdit() {
       const id = selectedHoldItemId;
-      closeActionSheet();
+      closeActionSheet(false);
       const item = properties.find(p => String(p.id) === String(id));
       if (!item) return;
       if (item.category === 'خوازیار / پێویستە') {
@@ -848,13 +898,13 @@
 
     async function handleHoldSold() {
       const id = selectedHoldItemId;
-      closeActionSheet();
+      closeActionSheet(false);
       await toggleSoldStatus(id);
     }
 
     async function handleHoldDelete() {
       const id = selectedHoldItemId;
-      closeActionSheet();
+      closeActionSheet(false);
       await deleteProperty(id);
     }
 
@@ -992,6 +1042,7 @@
       document.getElementById('saveCatBtn').innerText = '+ زیادکردنی تاب';
       renderCustomTabsManageList();
       document.getElementById('manageTabsModal').style.display = 'flex';
+      window.history.pushState({ modal: 'manageTabs' }, "", "");
     }
 
     function renderCustomTabsManageList() {
@@ -1308,6 +1359,7 @@
       currentGalleryIndex = 0;
       updateGalleryView();
       document.getElementById('galleryModal').style.display = 'flex';
+      window.history.pushState({ modal: 'gallery' }, "", "");
     }
 
     function updateGalleryView() {
@@ -1338,8 +1390,11 @@
       updateGalleryView();
     }
 
-    function closeGallery() {
+    function closeGallery(doPush = true) {
       document.getElementById('galleryModal').style.display = 'none';
+      if (doPush) {
+        window.history.pushState({ screen: currentScreen }, "", "");
+      }
     }
 
     function toggleFormSubCategory() {
@@ -1360,6 +1415,7 @@
       document.getElementById('category').value = activeMainTab === 'خوازیار / پێویستە' ? 'خانوو' : activeMainTab;
       toggleFormSubCategory();
       document.getElementById('propertyModal').style.display = 'flex';
+      window.history.pushState({ modal: 'property' }, "", "");
     }
 
     function openEditModal(id) {
@@ -1381,6 +1437,7 @@
       uploadedImagesList = (item.images && item.images.length > 0) ? [...item.images] : [item.image];
       renderUploadPreviews();
       document.getElementById('propertyModal').style.display = 'flex';
+      window.history.pushState({ modal: 'property' }, "", "");
     }
 
     function openAddWantModal() {
@@ -1388,6 +1445,7 @@
       document.getElementById('wantForm').reset();
       document.getElementById('editWantId').value = "";
       document.getElementById('wantModal').style.display = 'flex';
+      window.history.pushState({ modal: 'want' }, "", "");
     }
 
     function openEditWantModal(id) {
@@ -1402,6 +1460,7 @@
       document.getElementById('wantPhone').value = item.ownerPhone || '';
       document.getElementById('wantDesc').value = item.desc;
       document.getElementById('wantModal').style.display = 'flex';
+      window.history.pushState({ modal: 'want' }, "", "");
     }
 
     function openSettingsModal() {
@@ -1419,10 +1478,14 @@
       document.getElementById('setCardColor').value = siteSettings.cardColor || "#ffffff";
 
       document.getElementById('settingsModal').style.display = 'flex';
+      window.history.pushState({ modal: 'settings' }, "", "");
     }
 
-    function closeModals() {
+    function closeModals(doPush = true) {
       document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+      if (doPush) {
+        window.history.pushState({ screen: currentScreen }, "", "");
+      }
     }
 
     async function handleFormSubmit(e) {
@@ -1597,69 +1660,6 @@
         try {
           await fetch(`${FIREBASE_URL}/properties/${id}.json`, { method: 'DELETE' });
         } catch (err) {}
-      }
-    }
-
-    function exportDataBackup() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ settings: siteSettings, properties: properties, customCategories: customCategories }));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `dashti_backup_${Date.now()}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-    }
-
-    function importDataBackup(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = async function(e) {
-        try {
-          const imported = JSON.parse(e.target.result);
-          if (imported.properties) {
-            properties = imported.properties;
-            localStorage.setItem('dashti_master_props', JSON.stringify(properties));
-          }
-          if (imported.settings) {
-            siteSettings = imported.settings;
-            localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
-          }
-          if (imported.customCategories) {
-            customCategories = imported.customCategories;
-            localStorage.setItem('dashti_custom_cats', JSON.stringify(customCategories));
-            renderCustomCategoriesHub();
-          }
-          renderProperties();
-          updatePublicStats();
-          applySettings();
-          applyThemeSettings();
-          checkStandaloneMode();
-
-          await fetch(`${FIREBASE_URL}/.json`, {
-            method: 'PUT',
-            body: JSON.stringify({ properties, settings: siteSettings, customCategories })
-          });
-          alert("داتاکان گەڕێنرانەوە!");
-        } catch (err) {
-          alert("فایلەکە هەڵەیە!");
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    async function clearEntireDatabase() {
-      if (confirm("ئایا دڵنیایت لە سڕینەوەی هەموو موڵکەکان؟")) {
-        properties = [];
-        localStorage.removeItem('dashti_master_props');
-        renderProperties();
-        updatePublicStats();
-
-        try {
-          await fetch(`${FIREBASE_URL}/properties.json`, { method: 'DELETE' });
-        } catch (err) {}
-        alert("داتابەیس خاوێنکرایەوە!");
       }
     }
 
