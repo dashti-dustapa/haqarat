@@ -153,15 +153,6 @@
     }
     @media(min-width: 640px) { .admin-actions-grid { grid-template-columns: repeat(5, 1fr); } }
 
-    .hero {
-      background: var(--hero-bg);
-      color: #fff;
-      text-align: center;
-      padding: 1.6rem 0.9rem;
-    }
-    .hero h1 { font-size: 1.35rem; font-weight: 800; margin-bottom: 0.3rem; }
-    .hero p { color: #94a3b8; font-size: 0.8rem; max-width: 500px; margin: auto; }
-
     .container { max-width: 1100px; margin: auto; padding: 0.9rem 0.8rem; }
 
     .tabs-wrapper {
@@ -330,7 +321,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      user-select: all;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .owner-phone-display:active {
+      background: #f1f5f9;
     }
     .phone-text {
       color: var(--primary);
@@ -615,11 +611,6 @@
     <button class="btn btn-danger" style="width:100%; padding:0.45rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکەکان (پاککردنەوەی داتابەیس)</button>
   </div>
 
-  <section class="hero" id="heroSection">
-    <h1 id="heroTitle">کڕین و فرۆشتنی زەوی و خانوو</h1>
-    <p id="heroDesc">باشترین دەرفەتە بازرگانی و نیشتەجێبوونەکان لە ناوچەی دوستەپە</p>
-  </section>
-
   <div class="container">
     <div class="tabs-wrapper">
       <button class="tab-btn active" onclick="switchMainTab('خانوو', this)">خانوو</button>
@@ -789,16 +780,6 @@
         </div>
 
         <div class="form-group">
-          <label>سەردێڕی پەنجەرەی چوونەدەرەوە (Exit Popup Title):</label>
-          <input type="text" id="setExitPromptTitle" required placeholder="وەک: ئاگاداری چوونەدەرەوە">
-        </div>
-
-        <div class="form-group">
-          <label>دەقی ئاگاداری کاتی چوونەدەرەوە (Exit Prompt Text):</label>
-          <input type="text" id="setExitPromptText" required placeholder="Are you sure want to go out there?">
-        </div>
-
-        <div class="form-group">
           <label>وێنەی لۆگۆی ماڵپەڕ:</label>
           <input type="file" id="logoFileInput" accept="image/*" onchange="processLogoUpload(event)">
           <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
@@ -806,15 +787,6 @@
             <span style="font-size:0.75rem; color:#64748b;">پێشبینینی ئایکۆن</span>
           </div>
           <input type="hidden" id="setLogoData">
-        </div>
-
-        <div class="form-group">
-          <label>سەردێڕی سەرەکی:</label>
-          <input type="text" id="setHeroTitle" required>
-        </div>
-        <div class="form-group">
-          <label>دەقی ژێر سەردێڕ:</label>
-          <textarea id="setHeroDesc" rows="2" required></textarea>
         </div>
 
         <div class="form-group">
@@ -849,10 +821,6 @@
             <input type="color" id="setBgColor" value="#f8fafc">
           </div>
           <div class="color-field">
-            <label>ڕەنگی بەشی سەرەوە (Hero):</label>
-            <input type="color" id="setHeroColor" value="#0f172a">
-          </div>
-          <div class="color-field">
             <label>ڕەنگی کارتەکان (Card BG):</label>
             <input type="color" id="setCardColor" value="#ffffff">
           </div>
@@ -867,37 +835,20 @@
     </div>
   </div>
 
-  <div class="modal" id="customExitModal" style="z-index: 99999; align-items: center;">
-    <div class="modal-content" style="max-width: 360px; text-align: center; border-radius: 16px; padding: 1.5rem 1.2rem;">
-      <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">⚠️</div>
-      <h3 id="customExitTitle" style="font-size: 1.1rem; font-weight: 800; margin-bottom: 0.6rem; color: var(--dark);">ئاگاداری</h3>
-      <p id="customExitDesc" style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1.2rem; line-height: 1.5;">Are you sure want to go out there?</p>
-      <div style="display: flex; gap: 8px;">
-        <button class="btn btn-danger" style="flex: 1; padding: 0.65rem;" onclick="confirmUserExit()">بەڵێ، دەربچۆ</button>
-        <button class="btn btn-backup" style="flex: 1; padding: 0.65rem; background: #94a3b8;" onclick="cancelUserExit()">نەخێر، بمێنەوە</button>
-      </div>
-    </div>
-  </div>
-
   <script>
     const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 
     let properties = JSON.parse(localStorage.getItem('dashti_master_props')) || [];
     let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) || {
       siteName: "عقارات دەشتی دوستەپە",
-      heroTitle: "کڕین و فرۆشتنی زەوی و خانوو",
-      heroDesc: "باشترین دەرفەتە بازرگانی و نیشتەجێبوونەکان لە ناوچەی دوستەپە",
       adminPass: "123321",
       primaryColor: "#0284c7",
       bgColor: "#f8fafc",
-      heroColor: "#0f172a",
       cardColor: "#ffffff",
       uiSize: "ultra-compact",
       gridCols: "2",
       apkUrl: "",
-      logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png",
-      exitPromptTitle: "ئاگاداری چوونەدەرەوە",
-      exitPromptText: "Are you sure want to go out there?"
+      logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png"
     };
 
     let uploadedImagesList = [];
@@ -907,42 +858,6 @@
     let isAdmin = false;
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
-    let allowPageExit = false;
-
-    function showExitModal() {
-      document.getElementById('customExitTitle').innerText = siteSettings.exitPromptTitle || "ئاگاداری چوونەدەرەوە";
-      document.getElementById('customExitDesc').innerText = siteSettings.exitPromptText || "Are you sure want to go out there?";
-      document.getElementById('customExitModal').style.display = 'flex';
-    }
-
-    function confirmUserExit() {
-      allowPageExit = true;
-      document.getElementById('customExitModal').style.display = 'none';
-      window.history.back();
-    }
-
-    function cancelUserExit() {
-      document.getElementById('customExitModal').style.display = 'none';
-      window.history.pushState({ page: 1 }, "", "");
-    }
-
-    window.addEventListener('load', function() {
-      window.history.pushState({ page: 1 }, "", "");
-    });
-
-    window.addEventListener('popstate', function(e) {
-      if (!allowPageExit) {
-        showExitModal();
-      }
-    });
-
-    window.addEventListener('beforeunload', function (e) {
-      if (!allowPageExit) {
-        e.preventDefault();
-        e.returnValue = siteSettings.exitPromptText || "Are you sure want to go out there?";
-        return e.returnValue;
-      }
-    });
 
     function triggerDirectDownload() {
       if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
@@ -981,7 +896,6 @@
     function applyThemeSettings() {
       const primary = siteSettings.primaryColor || "#0284c7";
       const bg = siteSettings.bgColor || "#f8fafc";
-      const hero = siteSettings.heroColor || "#0f172a";
       const card = siteSettings.cardColor || "#ffffff";
       const uiSize = siteSettings.uiSize || "ultra-compact";
       const cols = siteSettings.gridCols || "2";
@@ -989,7 +903,6 @@
       document.documentElement.style.setProperty('--primary', primary);
       document.documentElement.style.setProperty('--bg', bg);
       document.documentElement.style.setProperty('--card-bg', card);
-      document.documentElement.style.setProperty('--hero-bg', hero);
       document.documentElement.style.setProperty('--grid-cols', `repeat(${cols}, 1fr)`);
 
       if (uiSize === 'nano-compact') {
@@ -1018,8 +931,6 @@
           if (data && data.settings) {
             siteSettings = { ...siteSettings, ...data.settings };
             if (!siteSettings.adminPass) siteSettings.adminPass = "123321";
-            if (!siteSettings.exitPromptTitle) siteSettings.exitPromptTitle = "ئاگاداری چوونەدەرەوە";
-            if (!siteSettings.exitPromptText) siteSettings.exitPromptText = "Are you sure want to go out there?";
             localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
           }
           if (data && data.properties) {
@@ -1041,8 +952,6 @@
 
     function applySettings() {
       document.getElementById('siteLogo').innerText = siteSettings.siteName;
-      document.getElementById('heroTitle').innerText = siteSettings.heroTitle;
-      document.getElementById('heroDesc').innerText = siteSettings.heroDesc;
 
       const logo = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('siteLogoIcon').src = logo;
@@ -1122,10 +1031,10 @@
                   <p class="card-desc">${item.desc}</p>
 
                   ${item.ownerPhone ? `
-                    <div class="owner-phone-display" style="margin-bottom:0.5rem;">
+                    <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.5rem;">
                       <span>📞 داواکار:</span>
                       <span class="phone-text">${item.ownerPhone}</span>
-                    </div>
+                    </a>
                   ` : ''}
 
                   <div class="card-footer">
@@ -1173,10 +1082,10 @@
                   </div>
 
                   ${item.ownerPhone ? `
-                    <div class="owner-phone-display" style="margin-bottom:0.5rem;">
+                    <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.5rem;">
                       <span>📞 خاوەن موڵک:</span>
                       <span class="phone-text">${item.ownerPhone}</span>
-                    </div>
+                    </a>
                   ` : ''}
 
                   <div class="card-footer">
@@ -1430,12 +1339,8 @@
 
     function openSettingsModal() {
       document.getElementById('setSiteName').value = siteSettings.siteName;
-      document.getElementById('setHeroTitle').value = siteSettings.heroTitle;
-      document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setAdminPass').value = siteSettings.adminPass || "123321";
       document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
-      document.getElementById('setExitPromptTitle').value = siteSettings.exitPromptTitle || "ئاگاداری چوونەدەرەوە";
-      document.getElementById('setExitPromptText').value = siteSettings.exitPromptText || "Are you sure want to go out there?";
       document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
 
@@ -1443,7 +1348,6 @@
       document.getElementById('setUiSize').value = siteSettings.uiSize || "ultra-compact";
       document.getElementById('setPrimaryColor').value = siteSettings.primaryColor || "#0284c7";
       document.getElementById('setBgColor').value = siteSettings.bgColor || "#f8fafc";
-      document.getElementById('setHeroColor').value = siteSettings.heroColor || "#0f172a";
       document.getElementById('setCardColor').value = siteSettings.cardColor || "#ffffff";
 
       document.getElementById('settingsModal').style.display = 'flex';
@@ -1591,18 +1495,13 @@
       e.preventDefault();
       siteSettings = {
         siteName: document.getElementById('setSiteName').value,
-        heroTitle: document.getElementById('setHeroTitle').value,
-        heroDesc: document.getElementById('setHeroDesc').value,
         adminPass: document.getElementById('setAdminPass').value || "123321",
         gridCols: document.getElementById('setGridCols').value,
         uiSize: document.getElementById('setUiSize').value,
         apkUrl: document.getElementById('setApkUrl').value || "",
-        exitPromptTitle: document.getElementById('setExitPromptTitle').value || "ئاگاداری چوونەدەرەوە",
-        exitPromptText: document.getElementById('setExitPromptText').value || "Are you sure want to go out there?",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         primaryColor: document.getElementById('setPrimaryColor').value,
         bgColor: document.getElementById('setBgColor').value,
-        heroColor: document.getElementById('setHeroColor').value,
         cardColor: document.getElementById('setCardColor').value
       };
 
