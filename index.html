@@ -131,7 +131,25 @@
     .btn-sold { background: #64748b; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
 
-    /* شاشەی بەڕێوەبەر - تەنها و تەنها دوو تابەکە */
+    /* بەشی زانیارییەکان لە شوێنی ئاسایی */
+    .public-stats-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.7rem 0.5rem;
+      margin-bottom: 12px;
+    }
+    .public-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      text-align: center;
+    }
+    @media(min-width: 640px) { .public-stats-grid { grid-template-columns: repeat(6, 1fr); } }
+    .stat-item { padding: 4px; font-size: 0.72rem; color: var(--muted); font-weight: 700; }
+    .stat-val { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-top: 2px; }
+
+    /* شاشەی بەڕێوەبەر */
     #adminViewContainer {
       display: none;
       background: var(--admin-bg);
@@ -165,8 +183,7 @@
 
     .container { max-width: 1100px; margin: auto; padding: 0.9rem 0.8rem; }
 
-    /* بەشی هەڵبژاردنی سەرەکیی بەشەکان */
-    #homeCategoryScreen { display: block; padding-top: 10px; }
+    #homeCategoryScreen { display: block; padding-top: 4px; }
     .categories-hub { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .cat-card-btn {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px;
@@ -179,7 +196,6 @@
     .cat-card-title { font-weight: 800; font-size: 0.95rem; color: var(--text); }
     .cat-card-sub { font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
 
-    /* بەشی پیشاندانی موڵکەکان */
     #propertiesScreen { display: none; }
     .category-back-bar {
       display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
@@ -402,7 +418,7 @@
     </div>
   </header>
 
-  <!-- شاشەی تایبەتی بەڕێوەبەر (کاتێک دەکرێتەوە موڵکەکان دەشارێتەوە) -->
+  <!-- شاشەی تایبەتی بەڕێوەبەر -->
   <div id="adminViewContainer">
     <div class="admin-status-indicator">👑 تۆ ئێستا لە بەشی بەڕێوەبەری</div>
     <div class="admin-actions-stacked">
@@ -411,10 +427,22 @@
     </div>
   </div>
 
-  <!-- بەشی گشتی کە لاپەڕەی هەڵبژاردنی سەرەکی و موڵکەکانی تێدایە -->
+  <!-- بەشی گشتی ماڵپەڕ -->
   <div class="container" id="publicMainContainer">
     
-    <!-- ١. لاپەڕەی هەڵبژاردنی سەرەکی (وەک پێشوو لە سەرەتادا ئەمە دیار دەبێت) -->
+    <!-- بەشی ئامار و ژمارەی موڵکەکان و داواکاری لە کۆتایی -->
+    <div class="public-stats-section">
+      <div class="public-stats-grid">
+        <div class="stat-item">خانوو (فرۆشتن)<div class="stat-val" id="statHousesSale">0</div></div>
+        <div class="stat-item">خانوو (کرێ)<div class="stat-val" id="statHousesRent">0</div></div>
+        <div class="stat-item">شوێنی تیجاری<div class="stat-val" id="statCommercial">0</div></div>
+        <div class="stat-item">زەوی<div class="stat-val" id="statLands">0</div></div>
+        <div class="stat-item">مەزرەعە<div class="stat-val" id="statFarms">0</div></div>
+        <div class="stat-item" style="color:#d97706;">داواکاری<div class="stat-val" id="statWants" style="color:#d97706;">0</div></div>
+      </div>
+    </div>
+
+    <!-- لاپەڕەی هەڵبژاردنی سەرەکی (چوارگۆشەکان) -->
     <div id="homeCategoryScreen">
       <div class="categories-hub" id="categoriesHubGrid">
         <div class="cat-card-btn" onclick="navigateToCategory('خانوو')">
@@ -449,7 +477,7 @@
       </div>
     </div>
 
-    <!-- ٢. لاپەڕەی پیشاندانی لیستەکان کاتێک کلیک لەسەر یەکێک لە بەشەکان دەکەیت -->
+    <!-- لاپەڕەی پیشاندانی لیستەکان کاتێک دەچیتە ناو بەشێک -->
     <div id="propertiesScreen">
       <div class="category-back-bar">
         <button class="back-btn-ui" onclick="navigateBackToHome()">➔</button>
@@ -715,7 +743,7 @@
 
     let isAppUnlocked = false;
     let isAdmin = false;
-    let currentScreen = 'home'; // 'home' یان 'category'
+    let currentScreen = 'home';
     let activeMainTab = 'خانوو';
     let activeHouseSubTab = 'بۆ فرۆشتن';
     let activeLandSubTab = 'نیشتەجێبوون';
@@ -831,6 +859,15 @@
         adminContainer.style.display = 'none';
         publicContainer.style.display = 'block';
       }
+    }
+
+    function updatePublicStats() {
+      document.getElementById('statHousesSale').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ فرۆشتن').length;
+      document.getElementById('statHousesRent').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ بەکرێدان').length;
+      document.getElementById('statCommercial').innerText = properties.filter(p => p.category === 'شوێنی تیجاری').length;
+      document.getElementById('statLands').innerText = properties.filter(p => p.category === 'زەوی').length;
+      document.getElementById('statFarms').innerText = properties.filter(p => p.category === 'مەزرەعە').length;
+      document.getElementById('statWants').innerText = properties.filter(p => p.category === 'خوازیار / پێویستە').length;
     }
 
     function startHold(id) {
@@ -955,6 +992,7 @@
       applySettings();
       applyThemeSettings();
       renderCustomCategoriesHub();
+      updatePublicStats();
       checkStandaloneMode();
 
       setTimeout(hideSplashScreen, 150);
@@ -972,9 +1010,6 @@
       if (splashLogo) splashLogo.src = logo;
       const splashTitle = document.getElementById('splashTitleText');
       if (splashTitle) splashTitle.innerText = siteSettings.siteName;
-
-      const preview = document.getElementById('logoPreview');
-      if (preview) preview.src = logo;
     }
 
     function renderCustomCategoriesHub() {
@@ -996,9 +1031,9 @@
         div.className = 'cat-card-btn dynamically-added-cat';
         div.onclick = () => navigateToCategory(cat.title);
         div.innerHTML = `
-          <div class="cat-card-icon">${cat.icon || '📁'}</div>
+          <div class="cat-card-icon">📁</div>
           <div class="cat-card-title">${cat.title}</div>
-          <div class="cat-card-sub">${cat.sub || 'بەشی تایبەت'}</div>
+          <div class="cat-card-sub">بەشی تایبەت</div>
         `;
         hub.insertBefore(div, wantsCard);
 
@@ -1060,7 +1095,7 @@
           customCategories[idx] = { ...customCategories[idx], title };
         }
       } else {
-        const newCat = { id: 'cat_' + Date.now(), title, icon: '📁', sub: '' };
+        const newCat = { id: 'cat_' + Date.now(), title };
         customCategories.push(newCat);
       }
 
@@ -1484,6 +1519,7 @@
       }
       localStorage.setItem('dashti_master_props', JSON.stringify(properties));
       renderProperties();
+      updatePublicStats();
       closeModals();
 
       try {
@@ -1537,6 +1573,7 @@
 
       localStorage.setItem('dashti_master_props', JSON.stringify(properties));
       renderProperties();
+      updatePublicStats();
       closeModals();
 
       try {
@@ -1557,6 +1594,7 @@
         properties[idx].isSold = !properties[idx].isSold;
         localStorage.setItem('dashti_master_props', JSON.stringify(properties));
         renderProperties();
+        updatePublicStats();
 
         try {
           await fetch(`${FIREBASE_URL}/properties/${id}/isSold.json`, {
@@ -1604,6 +1642,7 @@
         properties = properties.filter(p => String(p.id) !== String(id));
         localStorage.setItem('dashti_master_props', JSON.stringify(properties));
         renderProperties();
+        updatePublicStats();
 
         try {
           await fetch(`${FIREBASE_URL}/properties/${id}.json`, { method: 'DELETE' });
