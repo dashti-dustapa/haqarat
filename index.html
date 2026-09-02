@@ -68,6 +68,7 @@
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
+      cursor: pointer;
     }
     .lock-card {
       background: #ffffff;
@@ -77,6 +78,7 @@
       padding: 2rem 1.4rem;
       text-align: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      cursor: default;
     }
     .lock-icon-circle {
       width: 65px;
@@ -399,11 +401,11 @@
   </div>
 
   <div id="appLockModal">
-    <div class="lock-card">
+    <div class="lock-card" onclick="event.stopPropagation()">
       <div class="lock-icon-circle">🔒</div>
       <h3 style="font-size:1.1rem; font-weight:800; margin-bottom:6px; color:#0f172a;">ماڵپەڕ پارێزراوە</h3>
       <p style="font-size:0.75rem; color:#64748b; margin-bottom:16px;">تکایە کۆدی چوونەژوورەوە بنووسە</p>
-      <input type="password" id="appLockPassInput" class="lock-input" inputmode="numeric" pattern="[0-9]*" maxlength="10" autofocus placeholder="••••" oninput="handleInstantUnlock(this.value)">
+      <input type="tel" id="appLockPassInput" class="lock-input" inputmode="numeric" pattern="[0-9]*" maxlength="10" autofocus placeholder="••••" autocomplete="one-time-code" oninput="handleInstantUnlock(this.value)">
     </div>
   </div>
 
@@ -773,16 +775,31 @@
     let holdTimer = null;
     let selectedHoldItemId = null;
 
-    // هێنانی ئۆتۆماتیکی کیبۆرد لە کاتی کردنەوەی ئەپ
     function triggerAutoKeyboardFocus() {
       const input = document.getElementById('appLockPassInput');
       if (input && !isAppUnlocked) {
-        setTimeout(() => {
-          input.focus();
-          input.click();
-        }, 100);
+        input.focus();
+        input.click();
       }
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const lockModal = document.getElementById('appLockModal');
+      const lockInput = document.getElementById('appLockPassInput');
+      
+      const activateKeyboard = () => {
+        if (!isAppUnlocked && lockInput) {
+          lockInput.focus();
+        }
+      };
+
+      if (lockModal) {
+        lockModal.addEventListener('touchstart', activateKeyboard, { passive: true });
+        lockModal.addEventListener('click', activateKeyboard);
+      }
+      document.body.addEventListener('touchstart', activateKeyboard, { once: true, passive: true });
+      document.body.addEventListener('click', activateKeyboard, { once: true });
+    });
 
     function handleInstantUnlock(val) {
       const entered = String(val).trim();
@@ -1009,7 +1026,7 @@
       document.documentElement.style.setProperty('--admin-bg', adminBg);
       document.documentElement.style.setProperty('--bg', bg);
       document.documentElement.style.setProperty('--card-bg', card);
-      document.documentElement.style.setProperty('--grid-cols', `repeat(1, 1fr)` );
+      document.documentElement.style.setProperty('--grid-cols', `repeat(1, 1fr)`);
     }
 
     async function loadData() {
