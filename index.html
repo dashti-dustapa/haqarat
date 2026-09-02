@@ -130,7 +130,6 @@
     .btn-edit { background: var(--edit); color: #fff; }
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-sold { background: #64748b; color: #fff; }
-    .btn-backup { background: #334155; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
 
     .public-stats-section {
@@ -153,10 +152,9 @@
     .admin-bar {
       background: var(--admin-bg);
       color: #fff; padding: 0.85rem; display: none;
-      flex-direction: column; gap: 10px; border-bottom: 3px solid var(--primary);
+      flex-direction: column; gap: 8px; border-bottom: 3px solid var(--primary);
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
-    .admin-bar-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; }
     .admin-actions-stacked {
       display: flex;
       flex-direction: column;
@@ -386,7 +384,6 @@
     <div class="splash-spinner"></div>
   </div>
 
-  <!-- قفڵی ئەپ بە کیبۆردی ژمارە و چوونەژوورەوەی ڕاستەوخۆ -->
   <div id="appLockModal">
     <div class="lock-card">
       <div class="lock-icon-circle">🔒</div>
@@ -407,13 +404,8 @@
     </div>
   </header>
 
+  <!-- پانێڵی بەڕێوەبەر تەنها بەم دوو دوگمەیە -->
   <div class="admin-bar" id="adminBar">
-    <div class="admin-bar-top">
-      <span>👑 پنێڵی خاوەن و بەڕێوەبەر</span>
-      <button onclick="closeAdminBar()" style="background:none; border:none; color:#f87171; font-size:0.78rem; cursor:pointer; font-weight:700;">داخستنی پنێڵ</button>
-    </div>
-
-    <!-- تەنها ئەم دوو دوگمەیە ماون لەسەرو خواری یەکتر -->
     <div class="admin-actions-stacked">
       <button class="btn btn-edit admin-stacked-btn" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت و ڕەنگەکان</button>
       <button class="btn btn-primary admin-stacked-btn" onclick="openManageTabsModal()">📑 بەڕێوەبردنی تابەکان</button>
@@ -746,7 +738,6 @@
     let holdTimer = null;
     let selectedHoldItemId = null;
 
-    // چوونەژوورەوەی یەکسەر بە تەواوبوونی ژمارەکان
     function handleInstantUnlock(val) {
       const entered = String(val).trim();
       const actual = String(siteSettings.appPass || "0000").trim();
@@ -762,44 +753,32 @@
       }
     }
 
-    // کۆنتڕۆڵی تەواوەتی دوگمەی Back لە مۆبایل بۆ هەموو پەنجەرەکان
     window.addEventListener('load', function() {
       window.history.pushState({ screen: 'home' }, "", "");
     });
 
     window.addEventListener('popstate', function(e) {
-      // 1. داخستنی پێشانگەی وێنە ئەگەر کرابێتەوە
       if (document.getElementById('galleryModal').style.display === 'flex') {
         closeGallery(false);
         return;
       }
-
-      // 2. داخستنی لیستی Hold
       if (document.getElementById('actionSheetModal').style.display === 'flex') {
         closeActionSheet(false);
         return;
       }
-
-      // 3. داخستنی هەر مۆداڵێکی کراوە
       const openModal = Array.from(document.querySelectorAll('.modal')).find(m => m.style.display === 'flex');
       if (openModal) {
         closeModals(false);
         return;
       }
-
-      // 4. داخستنی پانێڵی بەڕێوەبەر و گەڕانەوە بۆ شوێنی ئاسایی
       if (isAdmin) {
         closeAdminBar(false);
         return;
       }
-
-      // 5. گەڕانەوە لە بەشەکان بۆ لاپەڕەی سەرەکی
       if (currentScreen === 'category') {
         navigateBackToHome(false);
         return;
       }
-
-      // گەر هیچ شتێک نەبوو، گەڕانەوەی ئاسایی
       window.history.back();
     });
 
@@ -856,7 +835,6 @@
       }
     }
 
-    // کرداری Hold
     function startHold(id) {
       holdTimer = setTimeout(() => {
         selectedHoldItemId = id;
