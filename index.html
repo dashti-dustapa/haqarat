@@ -38,19 +38,13 @@
   <style>
     html { font-size: var(--base-font-size); background-color: var(--bg); }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Kufi Arabic', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 75px; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 35px; }
 
     #customSplashScreen {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0; width: 100vw; height: 100vh;
       background: #0f172a;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
       z-index: 999999;
       transition: opacity 0.2s ease, visibility 0.2s ease;
     }
@@ -58,12 +52,9 @@
     .splash-title { color: #d4af37; font-size: 1.25rem; font-weight: 800; margin-top: 12px; text-align: center; }
     .splash-sub { color: #94a3b8; font-size: 0.72rem; margin-top: 4px; letter-spacing: 0.5px; }
     .splash-spinner {
-      margin-top: 15px;
-      width: 20px;
-      height: 20px;
+      margin-top: 15px; width: 20px; height: 20px;
       border: 2px solid rgba(212, 175, 55, 0.2);
-      border-top-color: #d4af37;
-      border-radius: 50%;
+      border-top-color: #d4af37; border-radius: 50%;
       animation: spin 0.5s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -72,12 +63,8 @@
       background: var(--header-bg);
       border-bottom: 1px solid var(--border);
       padding: 0.75rem 0.9rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 100;
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .logo-wrapper { display: flex; align-items: center; gap: 6px; }
@@ -86,20 +73,11 @@
     .header-btns { display: flex; align-items: center; gap: 6px; }
 
     .btn {
-      padding: 0.45rem 0.8rem;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.78rem;
-      cursor: pointer;
-      border: none;
-      transition: 0.2s;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
+      padding: 0.45rem 0.8rem; border-radius: 8px; font-weight: 700;
+      font-size: 0.78rem; cursor: pointer; border: none; transition: 0.2s;
+      text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px;
     }
-    .btn-admin { background: var(--dark); color: #fff; }
+    .btn-admin { background: transparent; color: var(--dark); font-size: 1.25rem; padding: 0.35rem; }
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-install { background: #10b981; color: #fff; font-size: 0.74rem; padding: 0.4rem 0.7rem; }
     .btn-success { background: var(--accent); color: #fff; }
@@ -111,201 +89,86 @@
 
     .admin-bar {
       background: var(--admin-bg);
-      color: #fff;
-      padding: 0.85rem;
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      border-bottom: 3px solid var(--primary);
+      color: #fff; padding: 0.85rem; display: none;
+      flex-direction: column; gap: 10px; border-bottom: 3px solid var(--primary);
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
     .admin-bar-top { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; }
     .admin-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 5px;
-      background: rgba(255,255,255,0.05);
-      padding: 6px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 0.68rem;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;
+      background: rgba(255,255,255,0.05); padding: 6px; border-radius: 8px; text-align: center; font-size: 0.68rem;
     }
-    @media(min-width: 640px) { .admin-stats-grid { grid-template-columns: repeat(7, 1fr); } }
+    @media(min-width: 640px) { .admin-stats-grid { grid-template-columns: repeat(6, 1fr); } }
     .stat-val { font-size: 1rem; font-weight: 800; color: #38bdf8; }
-    .admin-actions-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-    }
+    .admin-actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
     @media(min-width: 640px) { .admin-actions-grid { grid-template-columns: repeat(4, 1fr); } }
 
     .container { max-width: 1100px; margin: auto; padding: 0.9rem 0.8rem; }
 
-    /* بەشی هەڵبژاردنی سەرەکی */
-    #homeCategoryScreen {
-      display: block;
-      padding-top: 10px;
-    }
-    .categories-hub {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
+    #homeCategoryScreen { display: block; padding-top: 10px; }
+    .categories-hub { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .cat-card-btn {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.2rem 0.8rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-      transition: transform 0.15s, border-color 0.15s;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.2rem 0.8rem; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; text-align: center; cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03); transition: transform 0.15s;
     }
     .cat-card-btn:active { transform: scale(0.97); }
     .cat-card-icon { font-size: 2.2rem; margin-bottom: 8px; }
     .cat-card-title { font-weight: 800; font-size: 0.95rem; color: var(--text); }
     .cat-card-sub { font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
 
-    /* بەشی موڵکەکان */
-    #propertiesScreen {
-      display: none;
-    }
+    #propertiesScreen { display: none; }
     .category-back-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-      background: var(--card-bg);
-      padding: 0.5rem 0.8rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+      background: var(--card-bg); padding: 0.5rem 0.8rem; border-radius: 10px; border: 1px solid var(--border);
     }
     .back-btn-ui {
-      background: transparent;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: transparent; border: none; font-size: 1.2rem; cursor: pointer;
+      color: var(--primary); display: flex; align-items: center; justify-content: center;
     }
-    .category-title-header {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: var(--text);
-    }
+    .category-title-header { font-size: 0.95rem; font-weight: 800; color: var(--text); }
 
     .sub-tabs-container {
-      display: flex;
-      background: #e2e8f0;
-      padding: 4px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      gap: 4px;
+      display: flex; background: #e2e8f0; padding: 4px; border-radius: 8px; margin-bottom: 12px; gap: 4px;
     }
     .sub-tab-btn {
-      flex: 1;
-      padding: 0.45rem;
-      background: transparent;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--text);
-      cursor: pointer;
-      transition: 0.2s;
-      text-align: center;
+      flex: 1; padding: 0.45rem; background: transparent; border: none; border-radius: 6px;
+      font-size: 0.78rem; font-weight: 700; color: var(--text); cursor: pointer; transition: 0.2s; text-align: center;
     }
-    .sub-tab-btn.active {
-      background: #ffffff;
-      color: var(--dark);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    }
+    .sub-tab-btn.active { background: #ffffff; color: var(--dark); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
 
-    .grid { 
-      display: grid; 
-      grid-template-columns: var(--grid-cols); 
-      gap: 0.75rem; 
-    }
+    .grid { display: grid; grid-template-columns: var(--grid-cols); gap: 0.75rem; }
 
     .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      border: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      user-select: none;
+      background: var(--card-bg); border-radius: 12px; overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border);
+      display: flex; flex-direction: column; position: relative; user-select: none;
     }
-    .card.sold-out {
-      opacity: 0.78;
-      border: 1.5px dashed var(--danger);
-    }
+    .card.sold-out { opacity: 0.78; border: 1.5px dashed var(--danger); }
     .sold-badge-overlay {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: var(--danger);
-      color: white;
-      font-weight: 800;
-      padding: 0.25rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      z-index: 5;
-      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+      position: absolute; top: 10px; right: 10px; background: var(--danger);
+      color: white; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 6px;
+      font-size: 0.75rem; z-index: 5; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
     }
 
-    .card-want {
-      border-top: 3px solid #f59e0b;
-      padding: 0.3rem;
-    }
+    .card-want { border-top: 3px solid #f59e0b; padding: 0.3rem; }
 
     .card-img-wrapper {
-      position: relative;
-      cursor: pointer;
-      overflow: hidden;
-      background: #e2e8f0;
-      height: var(--card-img-height);
+      position: relative; cursor: pointer; overflow: hidden; background: #e2e8f0; height: var(--card-img-height);
     }
-    .card-img { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
-      display: block; 
-    }
+    .card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .img-count-badge {
-      position: absolute;
-      bottom: 8px;
-      left: 8px;
-      background: rgba(15, 23, 42, 0.75);
-      color: #ffffff;
-      padding: 0.2rem 0.5rem;
-      border-radius: 6px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      backdrop-filter: blur(2px);
-      display: flex;
-      align-items: center;
-      gap: 3px;
+      position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.75);
+      color: #ffffff; padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem;
+      font-weight: 700; backdrop-filter: blur(2px); display: flex; align-items: center; gap: 3px;
     }
 
     .card-body { padding: 0.8rem; flex: 1; display: flex; flex-direction: column; }
     .badge-group { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 0.4rem; }
     .badge {
-      display: inline-block;
-      padding: 0.2rem 0.5rem;
-      background: #e0f2fe;
-      color: var(--primary);
-      border-radius: 5px;
-      font-size: 0.7rem;
-      font-weight: 700;
+      display: inline-block; padding: 0.2rem 0.5rem; background: #e0f2fe;
+      color: var(--primary); border-radius: 5px; font-size: 0.7rem; font-weight: 700;
     }
     .badge-sub { background: #fef3c7; color: #b45309; }
     .badge-want { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
@@ -316,85 +179,43 @@
     .map-row { margin-bottom: 0.6rem; }
 
     .owner-phone-display {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      padding: 0.45rem 0.65rem;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #0f172a;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.2s;
+      background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.45rem 0.65rem;
+      border-radius: 6px; font-size: 0.78rem; font-weight: 700; color: #0f172a;
+      display: flex; align-items: center; justify-content: space-between; text-decoration: none;
+      cursor: pointer; transition: background 0.2s;
     }
     .owner-phone-display:active { background: #f1f5f9; }
-    .phone-text {
-      color: var(--primary);
-      letter-spacing: 0.5px;
-      direction: ltr;
-    }
+    .phone-text { color: var(--primary); letter-spacing: 0.5px; direction: ltr; }
 
-    .card-footer {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      border-top: 1px solid #f1f5f9;
-      padding-top: 0.6rem;
-    }
-    .card-footer-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .card-footer { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid #f1f5f9; padding-top: 0.6rem; }
+    .card-footer-top { display: flex; justify-content: space-between; align-items: center; }
     .price { font-size: 1rem; font-weight: 800; color: var(--primary); }
 
-    /* دوگمەی سەرشاشەی سپی FAB */
-    .fab-add-btn {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 54px;
-      height: 54px;
-      background: #ffffff;
-      color: var(--primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      font-weight: 800;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      z-index: 150;
-      transition: transform 0.2s;
+    /* کارتی زیادکردنی موڵک لە تەنیشت موڵکەکانی تر */
+    .card-add-slot {
+      background: #ffffff; border: 2px dashed #94a3b8; border-radius: 12px;
+      min-height: 220px; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; cursor: pointer; text-align: center; padding: 1rem;
+      transition: all 0.2s ease;
     }
-    .fab-add-btn:active { transform: scale(0.92); }
+    .card-add-slot:active { transform: scale(0.97); border-color: var(--primary); }
+    .card-add-slot-icon {
+      width: 48px; height: 48px; border-radius: 50%; background: #e0f2fe;
+      color: var(--primary); display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;
+    }
+    .card-add-slot-text { font-size: 0.85rem; font-weight: 800; color: #334155; }
 
     .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.65);
-      backdrop-filter: blur(4px);
-      z-index: 200;
-      align-items: flex-end;
-      justify-content: center;
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); z-index: 200;
+      align-items: flex-end; justify-content: center;
     }
     @media(min-width: 640px) { .modal { align-items: center; } }
 
     .modal-content {
-      background: #fff;
-      padding: 1.1rem;
-      border-radius: 16px 16px 0 0;
-      width: 100%;
-      max-width: 480px;
-      position: relative;
-      max-height: 85vh;
-      overflow-y: auto;
+      background: #fff; padding: 1.1rem; border-radius: 16px 16px 0 0;
+      width: 100%; max-width: 480px; position: relative; max-height: 85vh; overflow-y: auto;
     }
     @media(min-width: 640px) { .modal-content { border-radius: 14px; } }
 
@@ -402,212 +223,99 @@
     .form-group { margin-bottom: 0.75rem; }
     .form-group label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem; }
     .form-group input, .form-group textarea, .form-group select {
-      width: 100%;
-      padding: 0.55rem;
-      border: 1px solid #cbd5e1;
-      border-radius: 7px;
-      font-size: 0.8rem;
-      outline: none;
+      width: 100%; padding: 0.55rem; border: 1px solid #cbd5e1;
+      border-radius: 7px; font-size: 0.8rem; outline: none;
     }
     .color-pickers-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      background: #f8fafc;
-      padding: 8px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 10px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      background: #f8fafc; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px;
     }
     .color-field { display: flex; flex-direction: column; gap: 3px; }
     .color-field label { font-size: 0.72rem; font-weight: 700; color: #475569; }
     .color-field input[type="color"] {
-      width: 100%;
-      height: 34px;
-      padding: 2px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      cursor: pointer;
-      background: #fff;
+      width: 100%; height: 34px; padding: 2px; border: 1px solid #cbd5e1;
+      border-radius: 6px; cursor: pointer; background: #fff;
     }
 
     .close-btn { position: absolute; left: 0.9rem; top: 0.9rem; cursor: pointer; font-size: 1.3rem; font-weight: 800; color: #94a3b8; }
     .empty-state { text-align: center; color: var(--muted); padding: 3rem 1rem; font-size: 0.88rem; font-weight: 600; }
 
     .gallery-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.92);
-      backdrop-filter: blur(8px);
-      z-index: 300;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 0.8rem;
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(8px); z-index: 300;
+      flex-direction: column; justify-content: space-between; padding: 0.8rem;
     }
     .gallery-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #fff;
-      width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center; color: #fff; width: 100%; max-width: 800px; margin: 0 auto;
     }
     .gallery-close-btn {
-      font-size: 2.3rem;
-      font-weight: 800;
-      cursor: pointer;
-      color: #ffffff;
-      padding: 0.2rem 0.6rem;
-      line-height: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s, color 0.2s;
-      user-select: none;
-      border-radius: 8px;
+      font-size: 2.3rem; font-weight: 800; cursor: pointer; color: #ffffff;
+      padding: 0.2rem 0.6rem; line-height: 1; display: inline-flex; align-items: center;
+      justify-content: center; transition: transform 0.2s, color 0.2s; user-select: none; border-radius: 8px;
     }
     .gallery-close-btn:active { transform: scale(0.9); color: #ef4444; }
     .gallery-main {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      max-width: 800px;
-      width: 100%;
-      margin: auto;
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      position: relative; max-width: 800px; width: 100%; margin: auto;
     }
-    .gallery-main img {
-      max-width: 100%;
-      max-height: 60vh;
-      object-fit: contain;
-      border-radius: 10px;
-    }
+    .gallery-main img { max-width: 100%; max-height: 60vh; object-fit: contain; border-radius: 10px; }
     .gallery-nav-btn {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
+      background: rgba(255, 255, 255, 0.2); color: white; border: none;
+      width: 40px; height: 40px; border-radius: 50%; font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
     }
     .gallery-prev { right: 8px; }
     .gallery-next { left: 8px; }
     .gallery-thumbs {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding: 8px 0;
-      max-width: 800px;
-      width: 100%;
-      margin: 0 auto;
-      justify-content: center;
+      display: flex; gap: 6px; overflow-x: auto; padding: 8px 0; max-width: 800px; width: 100%; margin: 0 auto; justify-content: center;
     }
     .gallery-thumbs img {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 6px;
-      cursor: pointer;
-      opacity: 0.5;
-      border: 2px solid transparent;
-      transition: 0.2s;
+      width: 50px; height: 50px; object-fit: cover; border-radius: 6px;
+      cursor: pointer; opacity: 0.5; border: 2px solid transparent; transition: 0.2s;
     }
     .gallery-thumbs img.active-thumb { opacity: 1; border-color: var(--primary); }
 
     .images-preview-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
     .img-preview-box {
-      position: relative;
-      width: 55px;
-      height: 55px;
-      border-radius: 6px;
-      overflow: hidden;
-      border: 1px solid var(--border);
+      position: relative; width: 55px; height: 55px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border);
     }
     .img-preview-box img { width: 100%; height: 100%; object-fit: cover; }
     .img-delete-btn {
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      background: rgba(239, 68, 68, 0.9);
-      color: white;
-      border: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      font-size: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      position: absolute; top: 2px; right: 2px; background: rgba(239, 68, 68, 0.9);
+      color: white; border: none; width: 16px; height: 16px; border-radius: 50%;
+      font-size: 9px; display: flex; align-items: center; justify-content: center; cursor: pointer;
     }
     .add-more-img-btn {
-      width: 55px;
-      height: 55px;
-      border: 1.5px dashed #94a3b8;
-      border-radius: 6px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.62rem;
-      color: #64748b;
-      cursor: pointer;
-      font-weight: 700;
+      width: 55px; height: 55px; border: 1.5px dashed #94a3b8; border-radius: 6px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 0.62rem; color: #64748b; cursor: pointer; font-weight: 700;
     }
 
-    /* مینیوی Hold بۆ دەستکاری و سڕینەوە */
     .action-sheet-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(3px);
-      z-index: 500;
-      align-items: flex-end;
-      justify-content: center;
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); z-index: 500;
+      align-items: flex-end; justify-content: center;
     }
     .action-sheet-box {
-      background: #ffffff;
-      width: 100%;
-      max-width: 450px;
-      border-radius: 20px 20px 0 0;
-      padding: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      background: #ffffff; width: 100%; max-width: 450px; border-radius: 20px 20px 0 0;
+      padding: 1.2rem; display: flex; flex-direction: column; gap: 8px;
     }
-    .action-sheet-title {
-      font-size: 0.85rem;
-      font-weight: 800;
-      color: var(--muted);
-      text-align: center;
-      margin-bottom: 6px;
-    }
+    .action-sheet-title { font-size: 0.85rem; font-weight: 800; color: var(--muted); text-align: center; margin-bottom: 6px; }
     .action-sheet-btn {
-      width: 100%;
-      padding: 0.75rem;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      width: 100%; padding: 0.75rem; border-radius: 10px; font-weight: 700;
+      font-size: 0.85rem; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 6px;
     }
+
+    /* مۆداڵی پەنجەمۆر و کۆد */
+    .biometric-box {
+      text-align: center; padding: 1rem 0; display: flex; flex-direction: column; align-items: center;
+    }
+    .biometric-sensor-icon {
+      width: 72px; height: 72px; border-radius: 50%; background: #e0f2fe; color: var(--primary);
+      display: flex; align-items: center; justify-content: center; font-size: 2.2rem; cursor: pointer;
+      margin-bottom: 12px; transition: transform 0.2s, background 0.2s; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+    }
+    .biometric-sensor-icon:active { transform: scale(0.92); background: #bae6fd; }
   </style>
 </head>
 <body>
@@ -626,13 +334,13 @@
     </div>
     <div class="header-btns">
       <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="triggerDirectDownload()">📲 داگرتنی ئەپ (APK)</button>
-      <button class="btn btn-admin" onclick="requestAdminAccess()">🔑 بەڕێوەبەر</button>
+      <button class="btn btn-admin" onclick="openAdminAuthModal()" title="ڕێکخستن و بەڕێوەبەر">⚙️</button>
     </div>
   </header>
 
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
-      <span>👑 دەسەڵاتی بەڕێوەبەر (پارێزراو بە پەنجەمۆر)</span>
+      <span>👑 پنێڵی خاوەن و بەڕێوەبەر</span>
       <button onclick="logoutAdmin()" style="background:none; border:none; color:#f87171; font-size:0.78rem; cursor:pointer; font-weight:700;">دەرچوون</button>
     </div>
 
@@ -643,12 +351,11 @@
       <div>شوێنی تیجاری<div class="stat-val" id="statCommercial">0</div></div>
       <div>زەوی<div class="stat-val" id="statLands">0</div></div>
       <div>مەزرەعە<div class="stat-val" id="statFarms">0</div></div>
-      <div>خوازیار<div class="stat-val" id="statWants" style="color:#f59e0b;">0</div></div>
     </div>
 
     <div class="admin-actions-grid">
       <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت و ڕەنگەکان</button>
-      <button class="btn btn-primary" onclick="registerNewFingerprintDevice()">👆 تۆمارکردنی پەنجەمۆری نوێ</button>
+      <button class="btn btn-primary" onclick="openAddCustomCategoryModal()">➕ دروستکردنی تابی نوێ</button>
       <button class="btn btn-backup" onclick="exportDataBackup()">💾 کۆپی یەدەگ</button>
       <button class="btn btn-backup" onclick="document.getElementById('restoreInput').click()">📥 هێنانەوەی فایل</button>
       <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="importDataBackup(event)">
@@ -657,9 +364,8 @@
   </div>
 
   <div class="container">
-    <!-- لاپەڕەی هەڵبژاردنی سەرەکی بەشەکان -->
     <div id="homeCategoryScreen">
-      <div class="categories-hub">
+      <div class="categories-hub" id="categoriesHubGrid">
         <div class="cat-card-btn" onclick="navigateToCategory('خانوو')">
           <div class="cat-card-icon">🏠</div>
           <div class="cat-card-title">خانوو</div>
@@ -692,20 +398,17 @@
       </div>
     </div>
 
-    <!-- لاپەڕەی پیشاندانی لیستەکان -->
     <div id="propertiesScreen">
       <div class="category-back-bar">
         <button class="back-btn-ui" onclick="navigateBackToHome()">➔</button>
         <span class="category-title-header" id="currentCategoryTitle">خانوو</span>
       </div>
 
-      <!-- ژێرپۆلی خانوو (فرۆشتن / کرێ) -->
       <div class="sub-tabs-container" id="houseSubTabs" style="display:none;">
         <button class="sub-tab-btn active" onclick="switchHouseSubTab('بۆ فرۆشتن', this)">خانوو بۆ فرۆشتن</button>
         <button class="sub-tab-btn" onclick="switchHouseSubTab('بۆ بەکرێدان', this)">خانوو بۆ کرێ</button>
       </div>
 
-      <!-- ژێرپۆلی زەوی (نیشتەجێبوون / زراعی) -->
       <div class="sub-tabs-container" id="landSubTabs" style="display:none;">
         <button class="sub-tab-btn active" onclick="switchLandSubTab('نیشتەجێبوون', this)">نیشتەجێبوون</button>
         <button class="sub-tab-btn" onclick="switchLandSubTab('زراعی', this)">زراعی</button>
@@ -716,10 +419,6 @@
     </div>
   </div>
 
-  <!-- دوگمەی سپی بۆ زیادکردنی ڕاستەوخۆ -->
-  <div class="fab-add-btn" onclick="triggerFabAdd()">+</div>
-
-  <!-- مینیوی Hold بۆ دەستکاری و سڕینەوە -->
   <div class="action-sheet-modal" id="actionSheetModal" onclick="closeActionSheet(event)">
     <div class="action-sheet-box" onclick="event.stopPropagation()">
       <div class="action-sheet-title" id="actionSheetPropTitle">هەڵبژاردنی کردار</div>
@@ -727,6 +426,28 @@
       <button class="action-sheet-btn btn-sold" onclick="handleHoldSold()">🔒 گۆڕینی دۆخ (بەردەست / فرۆشراو)</button>
       <button class="action-sheet-btn btn-danger" onclick="handleHoldDelete()">🗑️ سڕینەوە</button>
       <button class="action-sheet-btn" style="background:#e2e8f0; color:#334155; margin-top:4px;" onclick="closeActionSheet()">داخستن</button>
+    </div>
+  </div>
+
+  <!-- مۆداڵی چوونەژوورەوەی بەڕێوەبەر بە پەنجەمۆر یان کۆد -->
+  <div class="modal" id="adminAuthModal">
+    <div class="modal-content" style="max-width:380px;">
+      <span class="close-btn" onclick="closeModals()">×</span>
+      <h3 class="modal-title" style="text-align:center;">چوونەژوورەوەی بەڕێوەبەر</h3>
+      
+      <div class="biometric-box">
+        <div class="biometric-sensor-icon" onclick="authenticateWithFingerprint()">👆</div>
+        <span style="font-size:0.75rem; color:var(--muted);">دەست لە ئایکۆنەکە بنێ بۆ بەکارهێنانی پەنجەمۆر</span>
+      </div>
+
+      <div style="text-align:center; margin:10px 0; font-size:0.75rem; color:#94a3b8;">— یان نووسینی کۆد —</div>
+
+      <form onsubmit="authenticateWithCode(event)">
+        <div class="form-group">
+          <input type="password" id="adminCustomCodeInput" placeholder="کۆدی بەڕێوەبەر لێبدە">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; padding:0.6rem;">چوونەژوورەوە</button>
+      </form>
     </div>
   </div>
 
@@ -850,6 +571,29 @@
     </div>
   </div>
 
+  <!-- مۆداڵی زیادکردنی تابی دڵخواز لە لایەن خاوەن -->
+  <div class="modal" id="customCatModal">
+    <div class="modal-content" style="max-width:380px;">
+      <span class="close-btn" onclick="closeModals()">×</span>
+      <h3 class="modal-title">دروستکردنی تابی نوێ</h3>
+      <form onsubmit="handleCreateCustomCategory(event)">
+        <div class="form-group">
+          <label>ناوی بەش / تاب:</label>
+          <input type="text" id="newCatTitle" required placeholder="وەک: شوقە، ڤێلا...">
+        </div>
+        <div class="form-group">
+          <label>ئایکۆن یان ئیمۆجی:</label>
+          <input type="text" id="newCatIcon" required placeholder="وەک: 🏢 یان 🏘️" value="🏢">
+        </div>
+        <div class="form-group">
+          <label>دەقی ژێرەوە:</label>
+          <input type="text" id="newCatSub" placeholder="وەک: تایبەت بە شوقەکانی هەولێر">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; padding:0.65rem;">زیادکردنی تاب</button>
+      </form>
+    </div>
+  </div>
+
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -858,6 +602,11 @@
         <div class="form-group">
           <label>ناوی نوسینگە / ماڵپەڕ:</label>
           <input type="text" id="setSiteName" required>
+        </div>
+
+        <div class="form-group">
+          <label>کۆدی نوێی بەڕێوەبەر:</label>
+          <input type="text" id="setCustomCode" placeholder="کۆدی بەڕێوەبەر">
         </div>
 
         <div class="form-group">
@@ -892,7 +641,7 @@
             <input type="color" id="setPrimaryColor" value="#0284c7">
           </div>
           <div class="color-field">
-            <label>ڕەنگی باکگراوندی دەقی سەرەوە:</label>
+            <label>ڕەنگی باکگراوندی سەرەوە:</label>
             <input type="color" id="setHeaderBgColor" value="#ffffff">
           </div>
           <div class="color-field">
@@ -918,8 +667,10 @@
     const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 
     let properties = JSON.parse(localStorage.getItem('dashti_master_props')) || [];
+    let customCategories = JSON.parse(localStorage.getItem('dashti_custom_cats')) || [];
     let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) || {
       siteName: "عقارات دەشتی دوستەپە",
+      adminCode: "0000",
       primaryColor: "#0284c7",
       headerBgColor: "#ffffff",
       adminBgColor: "#0f172a",
@@ -929,7 +680,7 @@
       gridCols: "2",
       apkUrl: "",
       logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png",
-      fingerprintKeys: []
+      fingerprintRegistered: false
     };
 
     let uploadedImagesList = [];
@@ -937,7 +688,7 @@
     let currentGalleryIndex = 0;
 
     let isAdmin = false;
-    let currentScreen = 'home'; // 'home' یان 'category'
+    let currentScreen = 'home';
     let activeMainTab = 'خانوو';
     let activeHouseSubTab = 'بۆ فرۆشتن';
     let activeLandSubTab = 'نیشتەجێبوون';
@@ -945,7 +696,7 @@
     let holdTimer = null;
     let selectedHoldItemId = null;
 
-    // کۆنتڕۆڵی دوگمەی Back لە مۆبایل
+    // کۆنتڕۆڵی دوگمەی Back لە مۆبایل بەبێ پرسیار
     window.addEventListener('load', function() {
       window.history.pushState({ screen: 'home' }, "", "");
     });
@@ -954,11 +705,7 @@
       if (currentScreen === 'category') {
         navigateBackToHome(false);
       } else {
-        if (confirm("ئایا دڵنیایت لە دەرچوون لە بەرنامە؟")) {
-          window.history.back();
-        } else {
-          window.history.pushState({ screen: 'home' }, "", "");
-        }
+        window.history.back();
       }
     });
 
@@ -999,91 +746,83 @@
       renderProperties();
     }
 
-    // سیستەمی WebAuthn بۆ پەنجەمۆر
-    async function requestAdminAccess() {
+    function openAdminAuthModal() {
       if (isAdmin) {
         logoutAdmin();
-        return;
-      }
-
-      if (!window.PublicKeyCredential) {
-        alert("ئەم وێبگەڕە پشتگیری لە پەنجەمۆر ناکات.");
-        return;
-      }
-
-      if (!siteSettings.fingerprintKeys || siteSettings.fingerprintKeys.length === 0) {
-        if (confirm("تا ئێستا هیچ پەنجەمۆرێک تۆمار نەکراوە. دەتەوێت پەنجەمۆری ئەم ئامێرە تۆمار بکەیت؟")) {
-          await registerNewFingerprintDevice();
-        }
-        return;
-      }
-
-      try {
-        const challenge = new Uint8Array(32);
-        window.crypto.getRandomValues(challenge);
-
-        const assertion = await navigator.credentials.get({
-          publicKey: {
-            challenge,
-            timeout: 60000,
-            userVerification: "required"
-          }
-        });
-
-        if (assertion) {
-          isAdmin = true;
-          document.getElementById('adminBar').style.display = 'flex';
-          updateAdminStats();
-          alert("پەنجەمۆر پەسەندکرا! دەسەڵاتی بەڕێوەبەر چالاک بوو.");
-        }
-      } catch (err) {
-        alert("پەنجەمۆر نەناسرا یان ڕەتکرایەوە.");
+      } else {
+        document.getElementById('adminCustomCodeInput').value = '';
+        document.getElementById('adminAuthModal').style.display = 'flex';
       }
     }
 
-    async function registerNewFingerprintDevice() {
+    // پەنجەمۆری مۆبایل
+    async function authenticateWithFingerprint() {
+      if (!window.PublicKeyCredential) {
+        alert("ئەم مۆبایلە یان وێبگەڕە پشتگیری لە پەنجەمۆر ناکات، تکایە کۆد بنووسە.");
+        return;
+      }
+
       try {
         const challenge = new Uint8Array(32);
         window.crypto.getRandomValues(challenge);
-        const userId = new Uint8Array(16);
-        window.crypto.getRandomValues(userId);
 
-        const credential = await navigator.credentials.create({
-          publicKey: {
-            challenge,
-            rp: { name: siteSettings.siteName || "دەشتی دوستەپە" },
-            user: {
-              id: userId,
-              name: "admin_" + Date.now(),
-              displayName: "بەڕێوەبەری ماڵپەڕ"
-            },
-            pubKeyCredParams: [{ alg: -7, type: "public-key" }],
-            authenticatorSelection: {
-              authenticatorAttachment: "platform",
-              userVerification: "required"
-            },
-            timeout: 60000
+        if (!siteSettings.fingerprintRegistered) {
+          const userId = new Uint8Array(16);
+          window.crypto.getRandomValues(userId);
+
+          const credential = await navigator.credentials.create({
+            publicKey: {
+              challenge,
+              rp: { name: siteSettings.siteName || "دەشتی دوستەپە" },
+              user: { id: userId, name: "admin", displayName: "بەڕێوەبەر" },
+              pubKeyCredParams: [{ alg: -7, type: "public-key" }],
+              authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" },
+              timeout: 60000
+            }
+          });
+
+          if (credential) {
+            siteSettings.fingerprintRegistered = true;
+            localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
+            isAdmin = true;
+            document.getElementById('adminBar').style.display = 'flex';
+            closeModals();
+            updateAdminStats();
+            alert("پەنجەمۆرەکەت بە سەرکەوتوویی تۆمارکرا و چوویتە ژوورەوە!");
           }
-        });
+        } else {
+          const assertion = await navigator.credentials.get({
+            publicKey: {
+              challenge,
+              timeout: 60000,
+              userVerification: "required"
+            }
+          });
 
-        if (credential) {
-          if (!siteSettings.fingerprintKeys) siteSettings.fingerprintKeys = [];
-          siteSettings.fingerprintKeys.push(credential.id);
-          localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
-
-          try {
-            await fetch(`${FIREBASE_URL}/settings/fingerprintKeys.json`, {
-              method: 'PUT',
-              body: JSON.stringify(siteSettings.fingerprintKeys)
-            });
-          } catch (e) {}
-
-          isAdmin = true;
-          document.getElementById('adminBar').style.display = 'flex';
-          alert("پەنجەمۆری نوێ بە سەرکەوتوویی زیاد کرا!");
+          if (assertion) {
+            isAdmin = true;
+            document.getElementById('adminBar').style.display = 'flex';
+            closeModals();
+            updateAdminStats();
+          }
         }
       } catch (err) {
-        alert("پەنجەمۆر تۆمار نەکرا: " + err.message);
+        alert("پەنجەمۆر نەسەلمێندرا. دەتوانیت لە خوارەوە کۆدەکەت بنووسیت.");
+      }
+    }
+
+    function authenticateWithCode(e) {
+      e.preventDefault();
+      const code = document.getElementById('adminCustomCodeInput').value.trim();
+      const actualCode = siteSettings.adminCode || "0000";
+
+      if (code === actualCode) {
+        isAdmin = true;
+        document.getElementById('adminBar').style.display = 'flex';
+        closeModals();
+        updateAdminStats();
+      } else {
+        alert("کۆدەکە هەڵەیە!");
       }
     }
 
@@ -1093,7 +832,7 @@
       renderProperties();
     }
 
-    // کرداری Long Press / Hold لەسەر کارتەکان
+    // کرداری Hold
     function startHold(id) {
       holdTimer = setTimeout(() => {
         selectedHoldItemId = id;
@@ -1102,7 +841,7 @@
           document.getElementById('actionSheetPropTitle').innerText = item.title;
           document.getElementById('actionSheetModal').style.display = 'flex';
         }
-      }, 650);
+      }, 600);
     }
 
     function cancelHold() {
@@ -1117,14 +856,9 @@
       selectedHoldItemId = null;
     }
 
-    async function handleHoldEdit() {
+    function handleHoldEdit() {
       const id = selectedHoldItemId;
       closeActionSheet();
-      if (!isAdmin) {
-        alert("تکایە سەرەتا پەنجەمۆر بەکاربهێنە.");
-        await requestAdminAccess();
-        if (!isAdmin) return;
-      }
       const item = properties.find(p => String(p.id) === String(id));
       if (!item) return;
       if (item.category === 'خوازیار / پێویستە') {
@@ -1137,37 +871,13 @@
     async function handleHoldSold() {
       const id = selectedHoldItemId;
       closeActionSheet();
-      if (!isAdmin) {
-        alert("تکایە سەرەتا پەنجەمۆر بەکاربهێنە.");
-        await requestAdminAccess();
-        if (!isAdmin) return;
-      }
       await toggleSoldStatus(id);
     }
 
     async function handleHoldDelete() {
       const id = selectedHoldItemId;
       closeActionSheet();
-      if (!isAdmin) {
-        alert("تکایە سەرەتا پەنجەمۆر بەکاربهێنە.");
-        await requestAdminAccess();
-        if (!isAdmin) return;
-      }
       await deleteProperty(id);
-    }
-
-    // دوگمەی سەرشاشەی سپی (+)
-    async function triggerFabAdd() {
-      if (!isAdmin) {
-        alert("بۆ زیادکردنی موڵک، تکایە پەنجەمۆر دابنێ.");
-        await requestAdminAccess();
-        if (!isAdmin) return;
-      }
-      if (activeMainTab === 'خوازیار / پێویستە') {
-        openAddWantModal();
-      } else {
-        openAddModal();
-      }
     }
 
     function triggerDirectDownload() {
@@ -1182,9 +892,7 @@
       const splash = document.getElementById('customSplashScreen');
       if (splash) {
         splash.style.opacity = '0';
-        setTimeout(() => {
-          splash.style.display = 'none';
-        }, 120);
+        setTimeout(() => { splash.style.display = 'none'; }, 120);
       }
     }
 
@@ -1194,9 +902,7 @@
                         || window.matchMedia('(display-mode: fullscreen)').matches
                         || window.navigator.standalone 
                         || document.referrer.includes('android-app://')
-                        || ua.includes('wv') 
-                        || ua.includes('WebIntoApp') 
-                        || ua.includes('Version/4.0');
+                        || ua.includes('wv') || ua.includes('WebIntoApp');
 
       const installBtn = document.getElementById('apkDownloadDirectBtn');
       if (isStandalone && installBtn) {
@@ -1233,12 +939,17 @@
             properties = Object.values(data.properties);
             localStorage.setItem('dashti_master_props', JSON.stringify(properties));
           }
+          if (data && data.customCategories) {
+            customCategories = Object.values(data.customCategories);
+            localStorage.setItem('dashti_custom_cats', JSON.stringify(customCategories));
+          }
         }
       } catch (err) {
         console.warn("Using offline master engine.", err);
       }
       applySettings();
       applyThemeSettings();
+      renderCustomCategoriesHub();
       updateAdminStats();
       checkStandaloneMode();
 
@@ -1262,6 +973,57 @@
       if (preview) preview.src = logo;
     }
 
+    function renderCustomCategoriesHub() {
+      const hub = document.getElementById('categoriesHubGrid');
+      const staticWantsBtn = hub.querySelector('[onclick*="خوازیار"]');
+
+      customCategories.forEach(cat => {
+        if (!document.getElementById(`custom_cat_${cat.id}`)) {
+          const div = document.createElement('div');
+          div.id = `custom_cat_${cat.id}`;
+          div.className = 'cat-card-btn';
+          div.onclick = () => navigateToCategory(cat.title);
+          div.innerHTML = `
+            <div class="cat-card-icon">${cat.icon || '📁'}</div>
+            <div class="cat-card-title">${cat.title}</div>
+            <div class="cat-card-sub">${cat.sub || 'بەشی تایبەت'}</div>
+          `;
+          hub.insertBefore(div, staticWantsBtn);
+
+          // زیادکردن بۆ لیستی هەڵبژاردنی ناو فۆڕم
+          const opt = document.createElement('option');
+          opt.value = cat.title;
+          opt.innerText = cat.title;
+          document.getElementById('category').appendChild(opt);
+        }
+      });
+    }
+
+    function openAddCustomCategoryModal() {
+      document.getElementById('customCatModal').style.display = 'flex';
+    }
+
+    async function handleCreateCustomCategory(e) {
+      e.preventDefault();
+      const title = document.getElementById('newCatTitle').value.trim();
+      const icon = document.getElementById('newCatIcon').value.trim() || '📁';
+      const sub = document.getElementById('newCatSub').value.trim();
+
+      const newCat = { id: 'cat_' + Date.now(), title, icon, sub };
+      customCategories.push(newCat);
+      localStorage.setItem('dashti_custom_cats', JSON.stringify(customCategories));
+      renderCustomCategoriesHub();
+      closeModals();
+
+      try {
+        await fetch(`${FIREBASE_URL}/customCategories/${newCat.id}.json`, {
+          method: 'PUT',
+          body: JSON.stringify(newCat)
+        });
+      } catch (err) {}
+      alert("تابی نوێ دروستکرا!");
+    }
+
     function updateAdminStats() {
       document.getElementById('statTotal').innerText = properties.length;
       document.getElementById('statHousesSale').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ فرۆشتن').length;
@@ -1269,13 +1031,10 @@
       document.getElementById('statCommercial').innerText = properties.filter(p => p.category === 'شوێنی تیجاری').length;
       document.getElementById('statLands').innerText = properties.filter(p => p.category === 'زەوی').length;
       document.getElementById('statFarms').innerText = properties.filter(p => p.category === 'مەزرەعە').length;
-      document.getElementById('statWants').innerText = properties.filter(p => p.category === 'خوازیار / پێویستە').length;
     }
 
     function formatMapUrl(link, loc) {
-      if (link && (link.startsWith('http://') || link.startsWith('https://'))) {
-        return link;
-      }
+      if (link && (link.startsWith('http://') || link.startsWith('https://'))) return link;
       const query = encodeURIComponent(link || loc || 'Dustapa');
       return `https://www.google.com/maps/search/?api=1&query=${query}`;
     }
@@ -1293,88 +1052,101 @@
         list = list.filter(p => p.subCategory === activeLandSubTab);
       }
 
-      if (list.length === 0) {
-        emptyState.style.display = 'block';
-      } else {
-        emptyState.style.display = 'none';
-        list.forEach(item => {
-          if (item.category === 'خوازیار / پێویستە') {
-            grid.innerHTML += `
-              <div class="card card-want ${item.isSold ? 'sold-out' : ''}" 
-                   onmousedown="startHold('${item.id}')" onmouseup="cancelHold()" onmouseleave="cancelHold()" 
-                   ontouchstart="startHold('${item.id}')" ontouchend="cancelHold()">
-                ${item.isSold ? '<div class="sold-badge-overlay">دابینکرا / دۆزرایەوە ✅</div>' : ''}
-                <div class="card-body">
-                  <div class="badge-group">
-                    <span class="badge badge-want">🔍 داواکاری</span>
-                    <span class="badge">${item.type || 'پێویستە'}</span>
-                  </div>
-                  <h3 class="card-title">${item.title}</h3>
-                  <p class="card-desc">${item.desc}</p>
+      list.forEach(item => {
+        if (item.category === 'خوازیار / پێویستە') {
+          grid.innerHTML += `
+            <div class="card card-want ${item.isSold ? 'sold-out' : ''}" 
+                 onmousedown="startHold('${item.id}')" onmouseup="cancelHold()" onmouseleave="cancelHold()" 
+                 ontouchstart="startHold('${item.id}')" ontouchend="cancelHold()">
+              ${item.isSold ? '<div class="sold-badge-overlay">دابینکرا / دۆزرایەوە ✅</div>' : ''}
+              <div class="card-body">
+                <div class="badge-group">
+                  <span class="badge badge-want">🔍 داواکاری</span>
+                  <span class="badge">${item.type || 'پێویستە'}</span>
+                </div>
+                <h3 class="card-title">${item.title}</h3>
+                <p class="card-desc">${item.desc}</p>
 
-                  ${item.ownerPhone ? `
-                    <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.5rem;">
-                      <span>📞 داواکار:</span>
-                      <span class="phone-text">${item.ownerPhone}</span>
-                    </a>
-                  ` : ''}
+                ${item.ownerPhone ? `
+                  <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.5rem;">
+                    <span>📞 داواکار:</span>
+                    <span class="phone-text">${item.ownerPhone}</span>
+                  </a>
+                ` : ''}
 
-                  <div class="card-footer">
-                    <div class="card-footer-top">
-                      <span class="price" style="color:#d97706;">بوودجە: ${item.price}</span>
-                    </div>
+                <div class="card-footer">
+                  <div class="card-footer-top">
+                    <span class="price" style="color:#d97706;">بوودجە: ${item.price}</span>
                   </div>
                 </div>
               </div>
-            `;
-          } else {
-            const imgs = (item.images && item.images.length > 0) ? item.images : [item.image || "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop"];
-            const mainImg = imgs[0];
-            const mapHref = formatMapUrl(item.mapLink, item.location);
+            </div>
+          `;
+        } else {
+          const imgs = (item.images && item.images.length > 0) ? item.images : [item.image || "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop"];
+          const mainImg = imgs[0];
+          const mapHref = formatMapUrl(item.mapLink, item.location);
 
-            grid.innerHTML += `
-              <div class="card ${item.isSold ? 'sold-out' : ''}" 
-                   onmousedown="startHold('${item.id}')" onmouseup="cancelHold()" onmouseleave="cancelHold()" 
-                   ontouchstart="startHold('${item.id}')" ontouchend="cancelHold()">
-                ${item.isSold ? '<div class="sold-badge-overlay">فرۆشراوە 🔒</div>' : ''}
-                <div class="card-img-wrapper" onclick="openGallery('${item.id}')">
-                  <img src="${mainImg}" alt="${item.title}" class="card-img" loading="lazy">
-                  <div class="img-count-badge">📷 ${imgs.length} وێنە</div>
+          grid.innerHTML += `
+            <div class="card ${item.isSold ? 'sold-out' : ''}" 
+                 onmousedown="startHold('${item.id}')" onmouseup="cancelHold()" onmouseleave="cancelHold()" 
+                 ontouchstart="startHold('${item.id}')" ontouchend="cancelHold()">
+              ${item.isSold ? '<div class="sold-badge-overlay">فرۆشراوە 🔒</div>' : ''}
+              <div class="card-img-wrapper" onclick="openGallery('${item.id}')">
+                <img src="${mainImg}" alt="${item.title}" class="card-img" loading="lazy">
+                <div class="img-count-badge">📷 ${imgs.length} وێنە</div>
+              </div>
+              <div class="card-body">
+                <div class="badge-group">
+                  <span class="badge">${item.type}</span>
+                  <span class="badge">${item.category}</span>
+                  ${item.subCategory ? `<span class="badge badge-sub">${item.subCategory}</span>` : ''}
+                  ${item.location ? `<span class="badge badge-location">📍 ${item.location}</span>` : ''}
                 </div>
-                <div class="card-body">
-                  <div class="badge-group">
-                    <span class="badge">${item.type}</span>
-                    <span class="badge">${item.category}</span>
-                    ${item.subCategory ? `<span class="badge badge-sub">${item.subCategory}</span>` : ''}
-                    ${item.location ? `<span class="badge badge-location">📍 ${item.location}</span>` : ''}
-                  </div>
-                  <h3 class="card-title" onclick="openGallery('${item.id}')">${item.title}</h3>
-                  <p class="card-desc">${item.desc}</p>
-                  
-                  <div class="map-row">
-                    <a href="${mapHref}" target="_blank" rel="noopener noreferrer" class="btn btn-map">
-                      🗺️ کردنەوە لە Google Maps
-                    </a>
-                  </div>
+                <h3 class="card-title" onclick="openGallery('${item.id}')">${item.title}</h3>
+                <p class="card-desc">${item.desc}</p>
+                
+                <div class="map-row">
+                  <a href="${mapHref}" target="_blank" rel="noopener noreferrer" class="btn btn-map">
+                    🗺️ کردنەوە لە Google Maps
+                  </a>
+                </div>
 
-                  ${item.ownerPhone ? `
-                    <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.5rem;">
-                      <span>📞 خاوەن موڵک:</span>
-                      <span class="phone-text">${item.ownerPhone}</span>
-                    </a>
-                  ` : ''}
+                ${item.ownerPhone ? `
+                  <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.5rem;">
+                    <span>📞 خاوەن موڵک:</span>
+                    <span class="phone-text">${item.ownerPhone}</span>
+                  </a>
+                ` : ''}
 
-                  <div class="card-footer">
-                    <div class="card-footer-top">
-                      <span class="price">${item.price}</span>
-                    </div>
+                <div class="card-footer">
+                  <div class="card-footer-top">
+                    <span class="price">${item.price}</span>
                   </div>
                 </div>
               </div>
-            `;
-          }
-        });
-      }
+            </div>
+          `;
+        }
+      });
+
+      // کارتی زیادکردن لە تەنیشت موڵکەکان
+      const addSlotCard = document.createElement('div');
+      addSlotCard.className = 'card-add-slot';
+      addSlotCard.onclick = () => {
+        if (activeMainTab === 'خوازیار / پێویستە') {
+          openAddWantModal();
+        } else {
+          openAddModal();
+        }
+      };
+      addSlotCard.innerHTML = `
+        <div class="card-add-slot-icon">+</div>
+        <div class="card-add-slot-text">زیادکردنی بابەت لەم بەشەدا</div>
+      `;
+      grid.appendChild(addSlotCard);
+
+      emptyState.style.display = 'none';
     }
 
     function compressImageUltraFast(file) {
@@ -1574,6 +1346,7 @@
 
     function openSettingsModal() {
       document.getElementById('setSiteName').value = siteSettings.siteName;
+      document.getElementById('setCustomCode').value = siteSettings.adminCode || "0000";
       document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
       document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
@@ -1649,7 +1422,6 @@
 
       saveBtn.innerText = "پاشەکەوتکردن";
       saveBtn.disabled = false;
-      alert("موڵکەکە بە سەرکەوتوویی زیادکرا!");
     }
 
     async function handleWantFormSubmit(e) {
@@ -1704,7 +1476,6 @@
 
       saveBtn.innerText = "پاشەکەوتکردنی داواکاری";
       saveBtn.disabled = false;
-      alert("داواکارییەکە بە سەرکەوتوویی زیادکرا!");
     }
 
     async function toggleSoldStatus(id) {
@@ -1729,6 +1500,7 @@
       siteSettings = {
         ...siteSettings,
         siteName: document.getElementById('setSiteName').value,
+        adminCode: document.getElementById('setCustomCode').value || "0000",
         gridCols: document.getElementById('setGridCols').value,
         apkUrl: document.getElementById('setApkUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
@@ -1763,15 +1535,13 @@
         updateAdminStats();
 
         try {
-          await fetch(`${FIREBASE_URL}/properties/${id}.json`, {
-            method: 'DELETE'
-          });
+          await fetch(`${FIREBASE_URL}/properties/${id}.json`, { method: 'DELETE' });
         } catch (err) {}
       }
     }
 
     function exportDataBackup() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ settings: siteSettings, properties: properties }));
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ settings: siteSettings, properties: properties, customCategories: customCategories }));
       const downloadAnchor = document.createElement('a');
       downloadAnchor.setAttribute("href", dataStr);
       downloadAnchor.setAttribute("download", `dashti_backup_${Date.now()}.json`);
@@ -1796,15 +1566,20 @@
             siteSettings = imported.settings;
             localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
           }
+          if (imported.customCategories) {
+            customCategories = imported.customCategories;
+            localStorage.setItem('dashti_custom_cats', JSON.stringify(customCategories));
+            renderCustomCategoriesHub();
+          }
           renderProperties();
           updateAdminStats();
           applySettings();
           applyThemeSettings();
           checkStandaloneMode();
 
-          await fetch(`${FIREBASE_URL}/properties.json`, {
+          await fetch(`${FIREBASE_URL}/.json`, {
             method: 'PUT',
-            body: JSON.stringify(properties)
+            body: JSON.stringify({ properties, settings: siteSettings, customCategories })
           });
           alert("داتاکان گەڕێنرانەوە!");
         } catch (err) {
@@ -1822,11 +1597,9 @@
         updateAdminStats();
 
         try {
-          await fetch(`${FIREBASE_URL}/properties.json`, {
-            method: 'DELETE'
-          });
+          await fetch(`${FIREBASE_URL}/properties.json`, { method: 'DELETE' });
         } catch (err) {}
-        alert("داتابەیس بە تەواوی خاوێنکرایەوە!");
+        alert("داتابەیس خاوێنکرایەوە!");
       }
     }
 
