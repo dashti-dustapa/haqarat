@@ -44,29 +44,51 @@
     }
   </style>
   <style>
-    html { font-size: var(--base-font-size); background-color: var(--bg); }
+    html { font-size: var(--base-font-size); background-color: var(--bg); scroll-behavior: smooth; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Kufi Arabic', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 35px; transition: background-color 0.25s, color 0.25s; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 35px; transition: background-color 0.3s ease, color 0.3s ease; }
 
+    /* ئەنیمەیشنی دەسپێک و پەردەی سپلاش */
     #customSplashScreen {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: #0f172a;
+      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       z-index: 999999;
-      transition: opacity 0.2s ease, visibility 0.2s ease;
+      transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.45s ease;
     }
-    .splash-logo { width: 110px; height: 110px; object-fit: contain; }
-    .splash-title { color: #d4af37; font-size: 1.25rem; font-weight: 800; margin-top: 12px; text-align: center; }
-    .splash-sub { color: #94a3b8; font-size: 0.72rem; margin-top: 4px; letter-spacing: 0.5px; }
+    .splash-logo {
+      width: 115px; height: 115px; object-fit: contain;
+      animation: splashLogoEntrance 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+    }
+    .splash-title {
+      color: #d4af37; font-size: 1.35rem; font-weight: 800; margin-top: 14px; text-align: center;
+      animation: splashFadeUp 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+      letter-spacing: 0.5px;
+    }
+    .splash-sub {
+      color: #94a3b8; font-size: 0.75rem; margin-top: 5px; letter-spacing: 1.5px;
+      animation: splashFadeUp 0.8s 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
     .splash-spinner {
-      margin-top: 15px; width: 20px; height: 20px;
-      border: 2px solid rgba(212, 175, 55, 0.2);
+      margin-top: 22px; width: 24px; height: 24px;
+      border: 2.5px solid rgba(212, 175, 55, 0.18);
       border-top-color: #d4af37; border-radius: 50%;
-      animation: spin 0.5s linear infinite;
+      animation: spin 0.65s linear infinite;
+    }
+
+    @keyframes splashLogoEntrance {
+      0% { opacity: 0; transform: scale(0.6) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes splashFadeUp {
+      0% { opacity: 0; transform: translateY(18px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ئەنیمەیشنی قفڵ */
     #appLockModal {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -77,6 +99,7 @@
       justify-content: center;
       padding: 1.5rem;
       cursor: pointer;
+      transition: opacity 0.35s ease;
     }
     .lock-card {
       background: #ffffff;
@@ -85,8 +108,9 @@
       border-radius: 20px;
       padding: 2rem 1.4rem;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.35);
       cursor: default;
+      animation: modalPopupSmooth 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     .lock-icon-circle {
       width: 65px;
@@ -99,6 +123,11 @@
       justify-content: center;
       font-size: 2rem;
       margin: 0 auto 12px auto;
+      animation: floatSmooth 3s ease-in-out infinite alternate;
+    }
+    @keyframes floatSmooth {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-6px); }
     }
     .lock-input {
       width: 100%;
@@ -113,8 +142,9 @@
       font-weight: 800;
       color: #0f172a;
       -webkit-text-security: disc;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
-    .lock-input:focus { border-color: var(--primary); }
+    .lock-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15); }
 
     header {
       background: var(--header-bg);
@@ -123,6 +153,7 @@
       display: flex; justify-content: space-between; align-items: center;
       position: sticky; top: 0; z-index: 100;
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     .logo-wrapper { display: flex; align-items: center; gap: 6px; }
     .logo-icon { width: 26px; height: 26px; object-fit: contain; border-radius: 6px; }
@@ -131,11 +162,13 @@
 
     .btn {
       padding: 0.45rem 0.8rem; border-radius: 8px; font-weight: 700;
-      font-size: 0.78rem; cursor: pointer; border: none; transition: 0.2s;
+      font-size: 0.78rem; cursor: pointer; border: none; transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, opacity 0.2s ease;
       text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px;
     }
+    .btn:active { transform: scale(0.95); }
     .btn-admin { background: transparent; color: var(--text); font-size: 1.25rem; padding: 0.35rem; }
-    .btn-dark-toggle { background: transparent; color: var(--text); font-size: 1.2rem; padding: 0.35rem; cursor: pointer; border: none; }
+    .btn-dark-toggle { background: transparent; color: var(--text); font-size: 1.2rem; padding: 0.35rem; cursor: pointer; border: none; transition: transform 0.3s ease; }
+    .btn-dark-toggle:active { transform: rotate(30deg) scale(0.9); }
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-install { background: #10b981; color: #fff; font-size: 0.74rem; padding: 0.4rem 0.7rem; }
     .btn-edit { background: var(--edit); color: #fff; }
@@ -150,6 +183,8 @@
       border-radius: 12px;
       padding: 0.6rem 0.4rem;
       margin-bottom: 10px;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+      animation: contentFadeIn 0.5s ease both;
     }
     .public-stats-grid {
       display: grid;
@@ -169,6 +204,7 @@
       flex-direction: column;
       gap: 12px;
       min-height: calc(100vh - 65px);
+      animation: contentFadeIn 0.35s ease both;
     }
     .admin-status-indicator {
       font-size: 1rem;
@@ -199,8 +235,11 @@
     .cat-card-btn {
       background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
       padding: 0.75rem 1rem; display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.02); transition: transform 0.15s;
+      cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background-color 0.3s ease, border-color 0.3s ease;
+      animation: cardEntranceSlide 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
+    .cat-card-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.05); }
     .cat-card-btn:active { transform: scale(0.98); }
     .cat-card-left { display: flex; align-items: center; gap: 10px; }
     .cat-card-icon { font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
@@ -208,27 +247,36 @@
     .cat-card-info { display: flex; flex-direction: column; }
     .cat-card-title { font-weight: 800; font-size: 0.88rem; color: var(--text); }
     .cat-card-sub { font-size: 0.66rem; color: var(--muted); margin-top: 1px; }
-    .cat-card-arrow { font-size: 0.9rem; color: var(--muted); font-weight: 700; transform: rotate(180deg); }
+    .cat-card-arrow { font-size: 0.9rem; color: var(--muted); font-weight: 700; transform: rotate(180deg); transition: transform 0.25s ease; }
+    .cat-card-btn:hover .cat-card-arrow { transform: rotate(180deg) translateX(4px); color: var(--primary); }
 
     #propertiesScreen { display: none; }
     .category-back-bar {
       display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
       background: var(--card-bg); padding: 0.5rem 0.8rem; border-radius: 10px; border: 1px solid var(--border);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+      animation: contentFadeIn 0.3s ease both;
     }
     .back-btn-ui {
       background: transparent; border: none; font-size: 1.2rem; cursor: pointer;
       color: var(--primary); display: flex; align-items: center; justify-content: center;
+      transition: transform 0.25s ease;
     }
+    .back-btn-ui:active { transform: scale(0.85); }
     .category-title-header { font-size: 0.95rem; font-weight: 800; color: var(--text); }
 
     .sub-tabs-container {
       display: flex; background: var(--border); padding: 4px; border-radius: 8px; margin-bottom: 10px; gap: 4px;
+      transition: background-color 0.3s ease;
+      animation: contentFadeIn 0.35s ease both;
     }
     .sub-tab-btn {
       flex: 1; padding: 0.4rem; background: transparent; border: none; border-radius: 6px;
-      font-size: 0.75rem; font-weight: 700; color: var(--text); cursor: pointer; transition: 0.2s; text-align: center;
+      font-size: 0.75rem; font-weight: 700; color: var(--text); cursor: pointer;
+      transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease, box-shadow 0.25s ease;
+      text-align: center;
     }
-    .sub-tab-btn.active { background: var(--card-bg); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .sub-tab-btn.active { background: var(--card-bg); color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,0.07); }
 
     .grid { display: grid; grid-template-columns: var(--grid-cols); gap: 0.65rem; }
 
@@ -236,12 +284,20 @@
       background: var(--card-bg); border-radius: 12px; overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border);
       display: flex; flex-direction: column; position: relative; user-select: none;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.3s ease, background-color 0.3s ease;
+      animation: cardEntranceSlide 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.07); }
     .card.sold-out { opacity: 0.78; border: 1.5px dashed var(--danger); }
     .sold-badge-overlay {
       position: absolute; top: 10px; right: 10px; background: var(--danger);
       color: white; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 6px;
       font-size: 0.75rem; z-index: 5; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+      animation: badgePop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes badgePop {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
 
     .card-want { border-top: 3px solid #f59e0b; padding: 0.3rem; }
@@ -249,11 +305,12 @@
     .card-img-wrapper {
       position: relative; cursor: pointer; overflow: hidden; background: #e2e8f0; height: var(--card-img-height);
     }
-    .card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    .card-img-wrapper:hover .card-img { transform: scale(1.04); }
     .img-count-badge {
       position: absolute; bottom: 8px; left: 8px; background: rgba(15, 23, 42, 0.75);
       color: #ffffff; padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem;
-      font-weight: 700; backdrop-filter: blur(2px); display: flex; align-items: center; gap: 3px;
+      font-weight: 700; backdrop-filter: blur(4px); display: flex; align-items: center; gap: 3px;
     }
 
     .card-body { padding: 0.7rem; flex: 1; display: flex; flex-direction: column; }
@@ -261,6 +318,7 @@
     .badge {
       display: inline-block; padding: 0.18rem 0.45rem; background: #e0f2fe;
       color: var(--primary); border-radius: 5px; font-size: 0.68rem; font-weight: 700;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
     body.dark-mode .badge { background: #075985; color: #e0f2fe; }
     .badge-sub { background: #fef3c7; color: #b45309; }
@@ -274,7 +332,8 @@
       font-size: 0.65rem; color: var(--muted); display: inline-flex; align-items: center; gap: 3px; margin-right: auto;
     }
 
-    .card-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; cursor: pointer; }
+    .card-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; cursor: pointer; transition: color 0.2s ease; }
+    .card-title:hover { color: var(--primary); }
     .card-desc { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.5rem; line-height: 1.4; flex: 1; }
     
     .map-row { margin-bottom: 0.5rem; }
@@ -283,8 +342,9 @@
       background: var(--bg); border: 1px solid var(--border); padding: 0.4rem 0.6rem;
       border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: var(--text);
       display: flex; align-items: center; justify-content: space-between; text-decoration: none;
-      cursor: pointer; transition: background 0.2s;
+      cursor: pointer; transition: background 0.2s ease, transform 0.2s ease;
     }
+    .owner-phone-display:active { transform: scale(0.98); }
     .phone-text { color: var(--primary); letter-spacing: 0.5px; direction: ltr; }
 
     .card-footer { display: flex; flex-direction: column; gap: 5px; border-top: 1px solid var(--border); padding-top: 0.5rem; }
@@ -295,29 +355,39 @@
       background: var(--card-bg); border: 2px dashed #94a3b8; border-radius: 12px;
       min-height: 120px; display: flex; flex-direction: column; align-items: center;
       justify-content: center; cursor: pointer; text-align: center; padding: 0.8rem;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: cardEntranceSlide 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
-    .card-add-slot:active { transform: scale(0.97); border-color: var(--primary); }
+    .card-add-slot:hover { border-color: var(--primary); transform: translateY(-2px); }
+    .card-add-slot:active { transform: scale(0.97); }
     .card-add-slot-icon {
       width: 36px; height: 36px; border-radius: 50%; background: #e0f2fe;
       color: var(--primary); display: flex; align-items: center; justify-content: center;
       font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;
+      transition: transform 0.25s ease;
     }
+    .card-add-slot:hover .card-add-slot-icon { transform: scale(1.1); }
     body.dark-mode .card-add-slot-icon { background: #075985; color: #e0f2fe; }
     .card-add-slot-text { font-size: 0.8rem; font-weight: 800; color: var(--text); }
 
+    /* مۆداڵ و ئەنیمەیشنەکانی */
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); z-index: 200;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(5px); z-index: 200;
       align-items: flex-end; justify-content: center;
+      animation: overlayFade 0.25s ease forwards;
     }
     @media(min-width: 640px) { .modal { align-items: center; } }
 
     .modal-content {
-      background: var(--card-bg); color: var(--text); padding: 1.1rem; border-radius: 16px 16px 0 0;
+      background: var(--card-bg); color: var(--text); padding: 1.1rem; border-radius: 18px 18px 0 0;
       width: 100%; max-width: 480px; position: relative; max-height: 85vh; overflow-y: auto;
+      animation: modalSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      box-shadow: 0 -8px 24px rgba(0,0,0,0.2);
     }
-    @media(min-width: 640px) { .modal-content { border-radius: 14px; } }
+    @media(min-width: 640px) {
+      .modal-content { border-radius: 16px; animation: modalPopupSmooth 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    }
 
     .modal-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.8rem; color: var(--text); }
     .form-group { margin-bottom: 0.75rem; }
@@ -325,6 +395,10 @@
     .form-group input, .form-group textarea, .form-group select {
       width: 100%; padding: 0.55rem; border: 1px solid var(--border); background: var(--bg); color: var(--text);
       border-radius: 7px; font-size: 0.8rem; outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--primary); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
     }
     .color-pickers-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
@@ -337,13 +411,15 @@
       border-radius: 6px; cursor: pointer; background: var(--card-bg);
     }
 
-    .close-btn { position: absolute; left: 0.9rem; top: 0.9rem; cursor: pointer; font-size: 1.3rem; font-weight: 800; color: #94a3b8; }
-    .empty-state { text-align: center; color: var(--muted); padding: 3rem 1rem; font-size: 0.85rem; font-weight: 600; }
+    .close-btn { position: absolute; left: 0.9rem; top: 0.9rem; cursor: pointer; font-size: 1.3rem; font-weight: 800; color: #94a3b8; transition: color 0.2s, transform 0.2s; }
+    .close-btn:hover { color: var(--danger); transform: scale(1.1); }
+    .empty-state { text-align: center; color: var(--muted); padding: 3rem 1rem; font-size: 0.85rem; font-weight: 600; animation: contentFadeIn 0.3s ease both; }
 
     .gallery-modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(8px); z-index: 300;
+      background: rgba(0, 0, 0, 0.94); backdrop-filter: blur(8px); z-index: 300;
       flex-direction: column; justify-content: space-between; padding: 0.8rem;
+      animation: overlayFade 0.25s ease forwards;
     }
     .gallery-header {
       display: flex; justify-content: space-between; align-items: center; color: #fff; width: 100%; max-width: 800px; margin: 0 auto;
@@ -358,12 +434,18 @@
       flex: 1; display: flex; align-items: center; justify-content: center;
       position: relative; max-width: 800px; width: 100%; margin: auto;
     }
-    .gallery-main img { max-width: 100%; max-height: 60vh; object-fit: contain; border-radius: 10px; }
+    .gallery-main img {
+      max-width: 100%; max-height: 60vh; object-fit: contain; border-radius: 10px;
+      animation: modalPopupSmooth 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
     .gallery-nav-btn {
       background: rgba(255, 255, 255, 0.2); color: white; border: none;
       width: 40px; height: 40px; border-radius: 50%; font-size: 1.1rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center; position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+      transition: background 0.2s, transform 0.2s;
     }
+    .gallery-nav-btn:hover { background: rgba(255, 255, 255, 0.35); }
+    .gallery-nav-btn:active { transform: translateY(-50%) scale(0.9); }
     .gallery-prev { right: 8px; }
     .gallery-next { left: 8px; }
     .gallery-thumbs {
@@ -371,44 +453,78 @@
     }
     .gallery-thumbs img {
       width: 50px; height: 50px; object-fit: cover; border-radius: 6px;
-      cursor: pointer; opacity: 0.5; border: 2px solid transparent; transition: 0.2s;
+      cursor: pointer; opacity: 0.5; border: 2px solid transparent; transition: opacity 0.25s, border-color 0.25s, transform 0.25s;
     }
-    .gallery-thumbs img.active-thumb { opacity: 1; border-color: var(--primary); }
+    .gallery-thumbs img:hover { transform: scale(1.05); }
+    .gallery-thumbs img.active-thumb { opacity: 1; border-color: var(--primary); transform: scale(1.08); }
 
     .images-preview-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
     .img-preview-box {
       position: relative; width: 55px; height: 55px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border);
+      animation: badgePop 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
     .img-preview-box img { width: 100%; height: 100%; object-fit: cover; }
     .img-delete-btn {
       position: absolute; top: 2px; right: 2px; background: rgba(239, 68, 68, 0.9);
       color: white; border: none; width: 16px; height: 16px; border-radius: 50%;
       font-size: 9px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+      transition: transform 0.2s;
     }
+    .img-delete-btn:active { transform: scale(0.8); }
     .add-more-img-btn {
       width: 55px; height: 55px; border: 1.5px dashed #94a3b8; border-radius: 6px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       font-size: 0.62rem; color: #64748b; cursor: pointer; font-weight: 700;
+      transition: border-color 0.2s, transform 0.2s;
     }
+    .add-more-img-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .add-more-img-btn:active { transform: scale(0.95); }
 
     .action-sheet-modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); z-index: 500;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 500;
       align-items: flex-end; justify-content: center;
+      animation: overlayFade 0.25s ease forwards;
     }
     .action-sheet-box {
       background: var(--card-bg); width: 100%; max-width: 450px; border-radius: 20px 20px 0 0;
       padding: 1.2rem; display: flex; flex-direction: column; gap: 8px;
+      animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     .action-sheet-title { font-size: 0.85rem; font-weight: 800; color: var(--muted); text-align: center; margin-bottom: 6px; }
     .action-sheet-btn {
       width: 100%; padding: 0.75rem; border-radius: 10px; font-weight: 700;
       font-size: 0.85rem; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 6px;
+      transition: transform 0.2s ease, filter 0.2s ease;
     }
+    .action-sheet-btn:active { transform: scale(0.98); }
 
     .tab-manage-item {
       display: flex; align-items: center; justify-content: space-between;
       padding: 0.6rem; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); margin-bottom: 6px;
+      animation: contentFadeIn 0.3s ease both;
+    }
+
+    /* بنەمای کلیل-فڕەیمە نەرمەکان (Smooth Keyframes) */
+    @keyframes overlayFade {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes modalSlideUp {
+      0% { transform: translateY(100%); opacity: 0.6; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes modalPopupSmooth {
+      0% { transform: scale(0.92) translateY(14px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    @keyframes contentFadeIn {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes cardEntranceSlide {
+      0% { opacity: 0; transform: translateY(16px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -932,7 +1048,9 @@
       if (entered.length >= actual.length) {
         if (entered === actual) {
           isAppUnlocked = true;
-          document.getElementById('appLockModal').style.display = 'none';
+          const lockEl = document.getElementById('appLockModal');
+          lockEl.style.opacity = '0';
+          setTimeout(() => { lockEl.style.display = 'none'; }, 350);
         } else {
           alert("کۆدەکە هەڵەیە!");
           document.getElementById('appLockPassInput').value = '';
@@ -1184,7 +1302,7 @@
         setTimeout(() => { 
           splash.style.display = 'none';
           triggerAutoKeyboardFocus();
-        }, 120);
+        }, 450);
       }
     }
 
@@ -1259,7 +1377,7 @@
       updatePublicStats();
       checkStandaloneMode();
 
-      setTimeout(hideSplashScreen, 150);
+      setTimeout(hideSplashScreen, 300);
     }
 
     function applySettings() {
@@ -1290,9 +1408,10 @@
         <option value="مەزرەعە">مەزرەعە</option>
       `;
 
-      customCategories.forEach(cat => {
+      customCategories.forEach((cat, idx) => {
         const div = document.createElement('div');
         div.className = 'cat-card-btn dynamically-added-cat';
+        div.style.animationDelay = `${(idx + 5) * 0.06}s`;
         div.onclick = () => navigateToCategory(cat.title);
 
         let iconContent = '📁';
@@ -1515,12 +1634,13 @@
         });
       }
 
-      list.forEach(item => {
+      list.forEach((item, index) => {
         const timeStr = formatTimeAgo(item.createdAt || (item.id && item.id.startsWith('p_') ? item.id.replace('p_','') : ''));
+        const animDelay = `style="animation-delay: ${index * 0.05}s;"`;
 
         if (item.category === 'خوازیار / پێویستە') {
           grid.innerHTML += `
-            <div class="card card-want ${item.isSold ? 'sold-out' : ''}" 
+            <div class="card card-want ${item.isSold ? 'sold-out' : ''}" ${animDelay}
                  onmousedown="startHold('${item.id}')" onmouseup="cancelHold()" onmouseleave="cancelHold()" 
                  ontouchstart="startHold('${item.id}')" ontouchend="cancelHold()">
               ${item.isSold ? '<div class="sold-badge-overlay">دابینکرا / دۆزرایەوە ✅</div>' : ''}
@@ -1554,7 +1674,7 @@
           const mapHref = formatMapUrl(item.mapLink, item.location);
 
           grid.innerHTML += `
-            <div class="card ${item.isSold ? 'sold-out' : ''}" 
+            <div class="card ${item.isSold ? 'sold-out' : ''}" ${animDelay}
                  onmousedown="startHold('${item.id}')" onmouseup="cancelHold()" onmouseleave="cancelHold()" 
                  ontouchstart="startHold('${item.id}')" ontouchend="cancelHold()">
               ${item.isSold ? '<div class="sold-badge-overlay">فرۆشراوە 🔒</div>' : ''}
@@ -1599,6 +1719,7 @@
 
       const addSlotCard = document.createElement('div');
       addSlotCard.className = 'card-add-slot';
+      addSlotCard.style.animationDelay = `${list.length * 0.05}s`;
       addSlotCard.onclick = () => {
         if (activeMainTab === 'خوازیار / پێویستە') {
           openAddWantModal();
