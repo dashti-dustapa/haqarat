@@ -390,7 +390,6 @@
       100% { background-position: -200% 0; }
     }
 
-    /* پۆستەری ستۆری */
     #storyPosterWrapper {
       position: fixed; left: -9999px; top: 0;
       width: 540px; height: 960px;
@@ -446,35 +445,69 @@
     .story-footer-text { font-size: 1.05rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; }
     .story-footer-num { font-size: 1.35rem; font-weight: 800; color: #fef08a; letter-spacing: 1px; direction: ltr; }
 
-    /* مینی گەیم */
-    .game-menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-    .game-menu-card {
-      background: var(--bg); border: 2px solid var(--border); border-radius: 14px;
-      padding: 1.2rem 0.8rem; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;
+    /* فوول سکرین مینی گەیم سێلێکشەن و یارییەکان */
+    .fullscreen-game-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: var(--bg); z-index: 999999; flex-direction: column;
+      padding: 1.2rem; overflow-y: auto; box-sizing: border-box;
     }
-    .game-menu-card:active { transform: scale(0.96); border-color: var(--primary); }
-    
-    .tictactoe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 240px; margin: 15px auto; }
+    .game-header-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem;
+    }
+    .game-back-btn {
+      background: var(--primary); color: #fff; border: none; padding: 0.5rem 1rem;
+      border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.85rem;
+    }
+    .game-menu-grid { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 400px; margin: 0 auto; width: 100%; }
+    @media(min-width: 640px) { .game-menu-grid { grid-template-columns: 1fr 1fr; max-width: 600px; } }
+    .game-menu-card {
+      background: var(--card-bg); border: 2px solid var(--border); border-radius: 16px;
+      padding: 1.8rem 1rem; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .game-menu-card:active { transform: scale(0.97); border-color: var(--primary); }
+
+    .game-screen-box {
+      display: none; flex-direction: column; align-items: center; width: 100%; max-width: 450px; margin: auto; text-align: center;
+    }
+
+    /* تختی دامە (Checkers) */
+    .checkers-board {
+      display: grid; grid-template-columns: repeat(8, 1fr); width: 340px; height: 340px;
+      border: 4px solid #334155; border-radius: 8px; margin: 15px auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    @media(min-width: 400px) { .checkers-board { width: 380px; height: 380px; } }
+    .checkers-cell {
+      display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative;
+    }
+    .cell-light { background: #f1f5f9; }
+    body.dark-mode .cell-light { background: #334155; }
+    .cell-dark { background: #475569; }
+    body.dark-mode .cell-dark { background: #1e293b; }
+    .checker-piece {
+      width: 78%; height: 78%; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.75rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.2s;
+    }
+    .piece-red { background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; border: 2px solid #fca5a5; }
+    .piece-black { background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff; border: 2px solid #64748b; }
+    .piece-king::after { content: '👑'; font-size: 0.8rem; position: absolute; }
+    .checkers-cell.selected { background: rgba(16, 185, 129, 0.4) !important; }
+    .checkers-cell.highlight { background: rgba(59, 130, 246, 0.4) !important; }
+
+    /* تختی Tic-Tac-Toe */
+    .tictactoe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 320px; width: 100%; margin: 20px auto; }
     .tictactoe-cell {
-      width: 75px; height: 75px; background: var(--bg); border: 2px solid var(--border);
-      border-radius: 10px; font-size: 2rem; font-weight: 800; display: flex; align-items: center;
-      justify-content: center; cursor: pointer; color: var(--primary);
+      width: 100%; aspect-ratio: 1; background: var(--card-bg); border: 2px solid var(--border);
+      border-radius: 12px; font-size: 2.8rem; font-weight: 800; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; color: var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
     .tictactoe-cell:active { background: #e0f2fe; }
 
-    .clicker-board {
-      width: 100%; height: 240px; background: #020617; border-radius: 14px;
-      position: relative; overflow: hidden; margin: 12px 0; border: 1px solid var(--border);
-      cursor: crosshair;
+    .game-settings-bar {
+      display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 340px; margin-bottom: 15px; background: var(--card-bg); padding: 12px; border-radius: 12px; border: 1px solid var(--border);
     }
-    .clicker-target {
-      width: 50px; height: 50px; background: #10b981; border-radius: 50%;
-      position: absolute; display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.6);
-      animation: targetPulse 0.8s infinite alternate;
-    }
-    @keyframes targetPulse { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
 
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -656,7 +689,7 @@
       <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
     </div>
     <div class="header-btns">
-      <button class="btn-game" onclick="openGameMenu()" title="سەنتەری یارییەکان">🎮</button>
+      <button class="btn-game" onclick="openGameFullscreenMenu()" title="سەنتەری یارییەکان">🎮</button>
       <button class="btn-dark-toggle" onclick="toggleDarkMode()" id="darkModeBtn" title="مۆدی شەو / ڕۆژ">🌙</button>
       <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="triggerDirectDownload()">📲 داگرتنی ئەپ (APK)</button>
       <button class="btn btn-admin" onclick="toggleAdminBar()" title="ڕێکخستنی بەڕێوەبەر">⚙️</button>
@@ -770,6 +803,90 @@
 
   </div>
 
+  <!-- فوول سکرین سەنتەری یارییەکان -->
+  <div class="fullscreen-game-overlay" id="gameFullscreenOverlay">
+    <div class="game-header-bar">
+      <button class="game-back-btn" onclick="closeGameFullscreen()">➔ گەڕانەوە بۆ ماڵپەڕ</button>
+      <h3 style="font-size:1.1rem; font-weight:800; color:var(--primary);" id="gameHeaderTitle">🎮 سەنتەری یارییەکان</h3>
+      <div style="width:70px;"></div>
+    </div>
+
+    <!-- مینیوی هەڵبژاردنی یاری -->
+    <div id="gameHubMenu" style="max-width:500px; margin: auto; width:100%; text-align:center;">
+      <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">کام یارییە ئەنجام دەدەیت؟</h2>
+      <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەکی خۆش هەڵبژێرە بۆ کاتی پشوو و بێزاری</p>
+      
+      <div class="game-menu-grid">
+        <div class="game-menu-card" onclick="setupGameMode('checkers')">
+          <div style="font-size:2.5rem; margin-bottom:8px;">🔴</div>
+          <div style="font-weight:800; font-size:1rem;">یاری دامە (Checkers)</div>
+          <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">تەختەی پڕ فکری و کلاسیک</div>
+        </div>
+
+        <div class="game-menu-card" onclick="setupGameMode('ttt')">
+          <div style="font-size:2.5rem; margin-bottom:8px;">❌</div>
+          <div style="font-weight:800; font-size:1rem;">خەت و بازنە (Tic-Tac-Toe)</div>
+          <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">یاری خێرا و ئاسان</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- پەنجەرەی هەڵبژاردنی شێوازی یاری (دوو نەفەری / لەگەڵ بۆت) -->
+    <div class="game-screen-box" id="gameModeSelectorBox">
+      <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;" id="selectedGameNameTitle">شێوازی یاری هەڵبژێرە</h2>
+      
+      <div class="game-settings-bar">
+        <label>شێوازی یاریکردن:</label>
+        <select id="matchTypeSelect" onchange="toggleBotDifficultySetting()">
+          <option value="2p">👥 دوو نەفەری (لەسەر هەمان مۆبایل)</option>
+          <option value="bot">🤖 یاریکردن لەگەڵ ڕۆبۆت (بۆت)</option>
+        </select>
+      </div>
+
+      <div class="game-settings-bar" id="botDiffBox" style="display:none;">
+        <label>ئاستی ڕۆبۆت (بۆت):</label>
+        <select id="botDiffSelect">
+          <option value="easy">ئاسان (Easy)</option>
+          <option value="normal">مامناوەند (Normal)</option>
+          <option value="hard">قورس (Hard - پێشکەوتوو)</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%; max-width:340px; padding:0.8rem; font-size:0.95rem; margin-top:10px;" onclick="startGamePlay()">🚀 دەستپێکردنی یاری</button>
+      <button class="btn" style="width:100%; max-width:340px; padding:0.7rem; margin-top:8px; background:var(--border); color:var(--text);" onclick="backToGameHub()">← گەڕانەوە</button>
+    </div>
+
+    <!-- شاشەی یاریکردنی دامە -->
+    <div class="game-screen-box" id="checkersPlayBox">
+      <div style="display:flex; justify-content:space-between; width:100%; max-width:380px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
+        <span id="checkersTurnText" style="color:var(--primary);">نۆبەی: سوور (🔴)</span>
+        <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem; background:var(--border);" onclick="setupGameMode('checkers')">🔄 سەرلەنوێ</button>
+      </div>
+      <div class="checkers-board" id="checkersBoard"></div>
+      <div id="checkersMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:8px; min-height:24px;"></div>
+    </div>
+
+    <!-- شاشەی یاریکردنی Tic-Tac-Toe -->
+    <div class="game-screen-box" id="tttPlayBox">
+      <div style="display:flex; justify-content:space-between; width:100%; max-width:320px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
+        <span id="tttTurnText" style="color:var(--primary);">نۆبەی: X</span>
+        <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem; background:var(--border);" onclick="setupGameMode('ttt')">🔄 سەرلەنوێ</button>
+      </div>
+      <div class="tictactoe-grid" id="tttGrid">
+        <div class="tictactoe-cell" onclick="makeTTTMove(0)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(1)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(2)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(3)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(4)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(5)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(6)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(7)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(8)"></div>
+      </div>
+      <div id="tttMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:10px; min-height:24px;"></div>
+    </div>
+  </div>
+
   <div id="storyPosterWrapper">
     <div class="story-top-bar">
       <div class="story-office-group">
@@ -795,64 +912,6 @@
         <span>📞 پەیوەندی و زانیاری:</span>
       </div>
       <div class="story-footer-num" id="storyPhoneText">0750xxxxxxx</div>
-    </div>
-  </div>
-
-  <!-- مۆداڵی سەرەکی هەڵبژاردنی یارییەکان -->
-  <div class="modal" id="gameMenuModal">
-    <div class="modal-content" style="max-width:380px; text-align:center;">
-      <span class="close-btn" onclick="closeModals()">×</span>
-      <h3 class="modal-title">🎮 کام یاری دەکەیت؟</h3>
-      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:10px;">یەکێک لە یارییەکان هەڵبژێرە بۆ کاتی بێزاری:</p>
-      
-      <div class="game-menu-grid">
-        <div class="game-menu-card" onclick="startTicTacToeGame()">
-          <div style="font-size:2rem; margin-bottom:6px;">❌</div>
-          <div style="font-weight:800; font-size:0.85rem;">خەت و بازنە</div>
-          <div style="font-size:0.65rem; color:var(--muted); margin-top:2px;">یاری فکری X و O</div>
-        </div>
-
-        <div class="game-menu-card" onclick="startClickerGame()">
-          <div style="font-size:2rem; margin-bottom:6px;">🎯</div>
-          <div style="font-weight:800; font-size:0.85rem;">نیشانە شکاندن</div>
-          <div style="font-size:0.65rem; color:var(--muted); margin-top:2px;">ڕاوکردنی خاڵە خێراکان</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- مۆداڵی یاری X و O -->
-  <div class="modal" id="tictactoeModal">
-    <div class="modal-content" style="max-width:360px; text-align:center;">
-      <span class="close-btn" onclick="openGameMenu()">←</span>
-      <h3 class="modal-title">❌ یاری خەت و بازنە (Tic-Tac-Toe)</h3>
-      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:5px;" id="tttStatus">نۆبەی: X</p>
-      <div class="tictactoe-grid" id="tttGrid">
-        <div class="tictactoe-cell" onclick="makeTTTMove(0)"></div>
-        <div class="tictactoe-cell" onclick="makeTTTMove(1)"></div>
-        <div class="tictactoe-cell" onclick="makeTTTMove(2)"></div>
-        <div class="tictactoe-cell" onclick="makeTTTMove(3)"></div>
-        <div class="tictactoe-cell" onclick="makeTTTMove(4)"></div>
-        <div class="tictactoe-cell" onclick="makeTTTMove(5)"></div>
-        <div class="tictactoe-cell" onclick="makeTTTMove(6)"></div>
-        <div class="tictactoe-cell" onclick="makeTTTMove(7)"></div>
-        <div class="tictactoe-cell" onclick="makeTTTMove(8)"></div>
-      </div>
-      <button class="btn btn-primary" style="width:100%; margin-top:8px;" onclick="resetTTTGame()">🔄 دەستپێکردنەوە</button>
-    </div>
-  </div>
-
-  <!-- مۆداڵی یاری نیشانە شکاندن -->
-  <div class="modal" id="clickerModal">
-    <div class="modal-content" style="max-width:380px; text-align:center;">
-      <span class="close-btn" onclick="openGameMenu()">←</span>
-      <h3 class="modal-title">🎯 نیشانە شکاندنی خێرا</h3>
-      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:4px;">تارگەتە سەوزەکان بگرە پێش ئەوەی بگۆڕێن!</p>
-      <div style="font-size:0.85rem; font-weight:800; color:var(--primary); margin-bottom:6px;">نمرەی تۆ: <span id="clickerScore">0</span></div>
-      <div class="clicker-board" id="clickerBoard">
-        <div class="clicker-target" id="clickerTarget" onclick="hitClickerTarget(event)">⭐</div>
-      </div>
-      <button class="btn btn-primary" style="width:100%; margin-top:6px;" onclick="openGameMenu()">گەڕانەوە بۆ لیستی یاری</button>
     </div>
   </div>
 
@@ -1166,9 +1225,20 @@
 
     let holdTimer = null;
     let selectedHoldItemId = null;
-    let clickerScoreCount = 0;
-    let clickerInterval = null;
-    let tttBoard = ['', '', '', '', '', '', '', '', ''];
+
+    // متوەڕکەکانی یارییەکان
+    let currentGameType = ''; // 'checkers' or 'ttt'
+    let currentMatchType = '2p'; // '2p' or 'bot'
+    let currentBotDiff = 'easy'; // 'easy', 'normal', 'hard'
+
+    // متوەرکەکانی دامە (Checkers)
+    let checkersBoardData = [];
+    let checkersTurn = 'red'; // 'red' or 'black'
+    let checkersSelected = null;
+    let checkersActive = true;
+
+    // متوەرکەکانی Tic-Tac-Toe
+    let tttBoardData = ['', '', '', '', '', '', '', '', ''];
     let tttTurn = 'X';
     let tttActive = true;
 
@@ -1215,49 +1285,294 @@
       }
     }
 
-    function openGameMenu() {
-      closeModals(false);
-      document.getElementById('gameMenuModal').style.display = 'flex';
-      window.history.pushState({ modal: 'gameMenu' }, "", "");
+    // سیستەمی فوول سکرینی یارییەکان و بەڕێوەبردنی Back Button
+    function openGameFullscreenMenu() {
+      document.getElementById('gameHubMenu').style.display = 'block';
+      document.getElementById('gameModeSelectorBox').style.display = 'none';
+      document.getElementById('checkersPlayBox').style.display = 'none';
+      document.getElementById('tttPlayBox').style.display = 'none';
+      document.getElementById('gameFullscreenOverlay').style.display = 'flex';
+      window.history.pushState({ screen: 'gameFullscreen' }, "", "");
     }
 
-    function startTicTacToeGame() {
-      closeModals(false);
-      tttBoard = ['', '', '', '', '', '', '', '', ''];
+    function closeGameFullscreen() {
+      document.getElementById('gameFullscreenOverlay').style.display = 'none';
+      if (currentScreen === 'home') {
+        window.history.pushState({ screen: 'home' }, "", "");
+      } else {
+        window.history.pushState({ screen: 'category', cat: activeMainTab }, "", "");
+      }
+    }
+
+    function setupGameMode(type) {
+      currentGameType = type;
+      const titleName = type === 'checkers' ? 'یاری دامە (Checkers)' : 'یاری خەت و بازنە (Tic-Tac-Toe)';
+      document.getElementById('selectedGameNameTitle').innerText = titleName;
+      document.getElementById('gameHubMenu').style.display = 'none';
+      document.getElementById('gameModeSelectorBox').style.display = 'flex';
+    }
+
+    function backToGameHub() {
+      document.getElementById('gameModeSelectorBox').style.display = 'none';
+      document.getElementById('gameHubMenu').style.display = 'block';
+    }
+
+    function toggleBotDifficultySetting() {
+      const val = document.getElementById('matchTypeSelect').value;
+      document.getElementById('botDiffBox').style.display = (val === 'bot') ? 'block' : 'none';
+    }
+
+    function startGamePlay() {
+      currentMatchType = document.getElementById('matchTypeSelect').value;
+      currentBotDiff = document.getElementById('botDiffSelect').value;
+
+      document.getElementById('gameModeSelectorBox').style.display = 'none';
+
+      if (currentGameType === 'checkers') {
+        document.getElementById('checkersPlayBox').style.display = 'flex';
+        initCheckersGame();
+      } else {
+        document.getElementById('tttPlayBox').style.display = 'flex';
+        initTTTGame();
+      }
+    }
+
+    // ---------------- لۆژیکی یاری دامە (Checkers) ----------------
+    function initCheckersGame() {
+      checkersBoardData = [];
+      for (let r = 0; r < 8; r++) {
+        checkersBoardData[r] = [];
+        for (let c = 0; c < 8; c++) {
+          if ((r + c) % 2 === 1) {
+            if (r < 3) checkersBoardData[r][c] = { player: 'black', king: false };
+            else if (r > 4) checkersBoardData[r][c] = { player: 'red', king: false };
+            else checkersBoardData[r][c] = null;
+          } else {
+            checkersBoardData[r][c] = null;
+          }
+        }
+      }
+      checkersTurn = 'red';
+      checkersSelected = null;
+      checkersActive = true;
+      document.getElementById('checkersMsg').innerText = '';
+      renderCheckersBoard();
+    }
+
+    function renderCheckersBoard() {
+      const boardEl = document.getElementById('checkersBoard');
+      boardEl.innerHTML = '';
+      document.getElementById('checkersTurnText').innerText = checkersTurn === 'red' ? 'نۆبەی: سوور (🔴)' : 'نۆبەی: ڕەش (⚫)';
+
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const cell = document.createElement('div');
+          cell.className = `checkers-cell ${(r + c) % 2 === 1 ? 'cell-dark' : 'cell-light'}`;
+          
+          if (checkersSelected && checkersSelected.r === r && checkersSelected.c === c) {
+            cell.classList.add('selected');
+          }
+
+          const piece = checkersBoardData[r][c];
+          if (piece) {
+            const pDiv = document.createElement('div');
+            pDiv.className = `checker-piece ${piece.player === 'red' ? 'piece-red' : 'piece-black'} ${piece.king ? 'piece-king' : ''}`;
+            pDiv.innerText = piece.player === 'red' ? 'س' : 'ڕ';
+            cell.appendChild(pDiv);
+          }
+
+          cell.onclick = () => handleCheckersClick(r, c);
+          boardEl.appendChild(cell);
+        }
+      }
+    }
+
+    function handleCheckersClick(r, c) {
+      if (!checkersActive) return;
+      if (currentMatchType === 'bot' && checkersTurn === 'black') return; // نۆبەی بۆتە
+
+      const piece = checkersBoardData[r][c];
+      if (piece && piece.player === checkersTurn) {
+        checkersSelected = { r, c };
+        renderCheckersBoard();
+        highlightCheckersMoves(r, c);
+        return;
+      }
+
+      if (checkersSelected) {
+        const sr = checkersSelected.r;
+        const sc = checkersSelected.c;
+        if (isValidCheckersMove(sr, sc, r, c)) {
+          executeCheckersMove(sr, sc, r, c);
+          checkersSelected = null;
+          renderCheckersBoard();
+
+          // پشکنینی بردنەوە
+          if (checkCheckersWinner()) return;
+
+          if (currentMatchType === 'bot' && checkersActive) {
+            checkersTurn = 'black';
+            document.getElementById('checkersTurnText').innerText = 'نۆبەی: ڕەش (⚫ - ڕۆبۆט بیر دەکاتەوە...)';
+            setTimeout(makeBotCheckersMove, 700);
+          }
+        }
+      }
+    }
+
+    function highlightCheckersMoves(r, c) {
+      // دەتوانرێت بۆ جوانی زیاتر ڕووناک بکرێتەوە
+    }
+
+    function isValidCheckersMove(sr, sc, tr, tc) {
+      if ((tr + tc) % 2 !== 0 && checkersBoardData[tr][tc] === null) {
+        const piece = checkersBoardData[sr][sc];
+        const dr = tr - sr;
+        const dc = tc - sc;
+
+        if (Math.abs(dr) === 1 && Math.abs(dc) === 1) {
+          if (!piece.king) {
+            if (piece.player === 'red' && dr > 0) return false;
+            if (piece.player === 'black' && dr < 0) return false;
+          }
+          return true;
+        }
+
+        if (Math.abs(dr) === 2 && Math.abs(dc) === 2) {
+          const mr = sr + dr / 2;
+          const mc = sc + dc / 2;
+          const jumped = checkersBoardData[mr][mc];
+          if (jumped && jumped.player !== piece.player) return true;
+        }
+      }
+      return false;
+    }
+
+    function executeCheckersMove(sr, sc, tr, tc) {
+      const piece = checkersBoardData[sr][sc];
+      checkersBoardData[tr][tc] = piece;
+      checkersBoardData[sr][sc] = null;
+
+      // پشکنینی پۆرتوگالی / خواردنی تاشەبەرد
+      if (Math.abs(tr - sr) === 2) {
+        const mr = (sr + tr) / 2;
+        const mc = (sc + tc) / 2;
+        checkersBoardData[mr][mc] = null;
+      }
+
+      // شاهبوون (King)
+      if (piece.player === 'red' && tr === 0) piece.king = true;
+      if (piece.player === 'black' && tr === 7) piece.king = true;
+
+      // گۆڕینی نۆبە
+      checkersTurn = checkersTurn === 'red' ? 'black' : 'red';
+    }
+
+    function checkCheckersWinner() {
+      let redCount = 0, blackCount = 0;
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          if (checkersBoardData[r][c]?.player === 'red') redCount++;
+          if (checkersBoardData[r][c]?.player === 'black') blackCount++;
+        }
+      }
+      const msg = document.getElementById('checkersMsg');
+      if (redCount === 0) {
+        msg.innerText = "🏆 براوە: ڕەش (⚫) سەرکەوت!";
+        checkersActive = false;
+        return true;
+      }
+      if (blackCount === 0) {
+        msg.innerText = "🏆 براوە: سوور (🔴) سەرکەوت!";
+        checkersActive = false;
+        return true;
+      }
+      return false;
+    }
+
+    // لۆژیکی زیرەکی دەستکرد (بۆت) بۆ دامە بەپێی ئاستەکان
+    function makeBotCheckersMove() {
+      if (!checkersActive) return;
+      let allMoves = [];
+
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          if (checkersBoardData[r][c]?.player === 'black') {
+            // گەڕان بە دوای خانەکانی دەوروبەردا
+            const dirs = [[1,1], [1,-1], [-1,1], [-1,-1], [2,2], [2,-2], [-2,2], [-2,-2]];
+            dirs.forEach(d => {
+              const tr = r + d[0], tc = c + d[1];
+              if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+                if (isValidCheckersMove(r, c, tr, tc)) {
+                  allMoves.push({ sr: r, sc: c, tr, tc, jump: Math.abs(d[0]) === 2 });
+                }
+              }
+            });
+          }
+        }
+      }
+
+      if (allMoves.length === 0) {
+        document.getElementById('checkersMsg').innerText = "🏆 سوور (🔴) سەرکەوت! (بۆت بێ جووڵە ماوە)";
+        checkersActive = false;
+        return;
+      }
+
+      let chosen = allMoves[0];
+      if (currentBotDiff === 'normal' || currentBotDiff === 'hard') {
+        // هەڵبژاردنی جووڵەی خواردن ئەگەر هەبێت
+        const jumpMoves = allMoves.filter(m => m.jump);
+        if (jumpMoves.length > 0) chosen = jumpMoves[Math.floor(Math.random() * jumpMoves.length)];
+        else chosen = allMoves[Math.floor(Math.random() * allMoves.length)];
+      } else {
+        chosen = allMoves[Math.floor(Math.random() * allMoves.length)];
+      }
+
+      executeCheckersMove(chosen.sr, chosen.sc, chosen.tr, chosen.tc);
+      checkersTurn = 'red';
+      renderCheckersBoard();
+      checkCheckersWinner();
+    }
+
+    // ---------------- لۆژیکی Tic-Tac-Toe ----------------
+    function initTTTGame() {
+      tttBoardData = ['', '', '', '', '', '', '', '', ''];
       tttTurn = 'X';
       tttActive = true;
-      document.getElementById('tttStatus').innerText = 'نۆبەی: X';
+      document.getElementById('tttTurnText').innerText = 'نۆبەی: X';
+      document.getElementById('tttMsg').innerText = '';
       renderTTTBoard();
-      document.getElementById('tictactoeModal').style.display = 'flex';
-      window.history.pushState({ modal: 'ttt' }, "", "");
     }
 
     function renderTTTBoard() {
       const cells = document.querySelectorAll('.tictactoe-cell');
       cells.forEach((cell, idx) => {
-        cell.innerText = tttBoard[idx];
+        cell.innerText = tttBoardData[idx];
       });
     }
 
     function makeTTTMove(idx) {
-      if (!tttActive || tttBoard[idx] !== '') return;
-      tttBoard[idx] = tttTurn;
+      if (!tttActive || tttBoardData[idx] !== '') return;
+      tttBoardData[idx] = tttTurn;
       renderTTTBoard();
 
       if (checkTTTWinner()) {
-        document.getElementById('tttStatus').innerText = `🎉 براوە: ${tttTurn} !`;
+        document.getElementById('tttMsg').innerText = `🎉 براوە: ${tttTurn} !`;
         tttActive = false;
         return;
       }
 
-      if (!tttBoard.includes('')) {
-        document.getElementById('tttStatus').innerText = `🤝 یەکسانبوون!`;
+      if (!tttBoardData.includes('')) {
+        document.getElementById('tttMsg').innerText = `🤝 یەکسانبوون!`;
         tttActive = false;
         return;
       }
 
       tttTurn = tttTurn === 'X' ? 'O' : 'X';
-      document.getElementById('tttStatus').innerText = `نۆبەی: ${tttTurn}`;
+      document.getElementById('tttTurnText').innerText = `نۆبەی: ${tttTurn}`;
+
+      if (currentMatchType === 'bot' && tttTurn === 'O' && tttActive) {
+        setTimeout(makeBotTTTMove, 500);
+      }
     }
 
     function checkTTTWinner() {
@@ -1267,42 +1582,37 @@
         [0,4,8], [2,4,6]
       ];
       return wins.some(w => {
-        return tttBoard[w[0]] && tttBoard[w[0]] === tttBoard[w[1]] && tttBoard[w[0]] === tttBoard[w[2]];
+        return tttBoardData[w[0]] && tttBoardData[w[0]] === tttBoardData[w[1]] && tttBoardData[w[0]] === tttBoardData[w[2]];
       });
     }
 
-    function resetTTTGame() {
-      startTicTacToeGame();
+    function makeBotTTTMove() {
+      if (!tttActive) return;
+      let emptyIdxs = [];
+      tttBoardData.forEach((v, i) => { if (v === '') emptyIdxs.push(i); });
+      if (emptyIdxs.length === 0) return;
+
+      let move = emptyIdxs[0];
+      if (currentBotDiff === 'easy') {
+        move = emptyIdxs[Math.floor(Math.random() * emptyIdxs.length)];
+      } else {
+        // Normal & Hard: پشکنینی بردنەوە یان ڕێگری
+        move = getBestTTTMove('O') ?? getBestTTTMove('X') ?? emptyIdxs[Math.floor(Math.random() * emptyIdxs.length)];
+      }
+
+      makeTTTMove(move);
     }
 
-    function startClickerGame() {
-      closeModals(false);
-      clickerScoreCount = 0;
-      document.getElementById('clickerScore').innerText = clickerScoreCount;
-      document.getElementById('clickerModal').style.display = 'flex';
-      moveClickerTarget();
-      if (clickerInterval) clearInterval(clickerInterval);
-      clickerInterval = setInterval(moveClickerTarget, 1100);
-      window.history.pushState({ modal: 'clicker' }, "", "");
-    }
-
-    function moveClickerTarget() {
-      const target = document.getElementById('clickerTarget');
-      const board = document.getElementById('clickerBoard');
-      if (!target || !board) return;
-      const maxX = board.clientWidth - 50;
-      const maxY = board.clientHeight - 50;
-      const rx = Math.floor(Math.random() * maxX);
-      const ry = Math.floor(Math.random() * maxY);
-      target.style.left = rx + 'px';
-      target.style.top = ry + 'px';
-    }
-
-    function hitClickerTarget(e) {
-      e.stopPropagation();
-      clickerScoreCount++;
-      document.getElementById('clickerScore').innerText = clickerScoreCount;
-      moveClickerTarget();
+    function getBestTTTMove(player) {
+      const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      for (let w of wins) {
+        const [a, b, c] = w;
+        let vals = [tttBoardData[a], tttBoardData[b], tttBoardData[c]];
+        if (vals.filter(v => v === player).length === 2 && vals.includes('')) {
+          return w[vals.indexOf('')];
+        }
+      }
+      return null;
     }
 
     function formatTimeAgo(timestamp) {
@@ -1365,6 +1675,10 @@
     });
 
     window.addEventListener('popstate', function(e) {
+      if (document.getElementById('gameFullscreenOverlay').style.display === 'flex') {
+        closeGameFullscreen();
+        return;
+      }
       if (document.getElementById('galleryModal').style.display === 'flex') {
         closeGallery(false);
         return;
@@ -1447,19 +1761,6 @@
       updateAdminViewDisplay();
       if (doPush) {
         window.history.pushState({ screen: currentScreen }, "", "");
-      }
-    }
-
-    function updateAdminViewDisplay() {
-      const adminContainer = document.getElementById('adminViewContainer');
-      const publicContainer = document.getElementById('publicMainContainer');
-
-      if (isAdmin) {
-        adminContainer.style.display = 'flex';
-        publicContainer.style.display = 'none';
-      } else {
-        adminContainer.style.display = 'none';
-        publicContainer.style.display = 'block';
       }
     }
 
@@ -2304,7 +2605,6 @@
     }
 
     function openSettingsModal() {
-      closeAdminBar(false);
       document.getElementById('setSiteName').value = siteSettings.siteName || "";
       document.getElementById('setAppPass').value = siteSettings.appPass || "0000";
       document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
@@ -2329,10 +2629,193 @@
 
     function closeModals(doPush = true) {
       document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-      if (clickerInterval) clearInterval(clickerInterval);
       if (doPush) {
         window.history.pushState({ screen: currentScreen }, "", "");
       }
+    }
+
+    // ---------------- لۆژیکی یاریکردنی دامە (Checkers Engine) ----------------
+    function initCheckersGame() {
+      checkersBoardData = [];
+      for (let r = 0; r < 8; r++) {
+        checkersBoardData[r] = [];
+        for (let c = 0; c < 8; c++) {
+          if ((r + c) % 2 === 1) {
+            if (r < 3) checkersBoardData[r][c] = { player: 'black', king: false };
+            else if (r > 4) checkersBoardData[r][c] = { player: 'red', king: false };
+            else checkersBoardData[r][c] = null;
+          } else {
+            checkersBoardData[r][c] = null;
+          }
+        }
+      }
+      checkersTurn = 'red';
+      checkersSelected = null;
+      checkersActive = true;
+      document.getElementById('checkersMsg').innerText = '';
+      renderCheckersBoard();
+    }
+
+    function renderCheckersBoard() {
+      const boardEl = document.getElementById('checkersBoard');
+      boardEl.innerHTML = '';
+      document.getElementById('checkersTurnText').innerText = checkersTurn === 'red' ? 'نۆبەی: سوور (🔴)' : 'نۆبەی: ڕەش (⚫)';
+
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const cell = document.createElement('div');
+          cell.className = `checkers-cell ${(r + c) % 2 === 1 ? 'cell-dark' : 'cell-light'}`;
+          
+          if (checkersSelected && checkersSelected.r === r && checkersSelected.c === c) {
+            cell.classList.add('selected');
+          }
+
+          const piece = checkersBoardData[r][c];
+          if (piece) {
+            const pDiv = document.createElement('div');
+            pDiv.className = `checker-piece ${piece.player === 'red' ? 'piece-red' : 'piece-black'} ${piece.king ? 'piece-king' : ''}`;
+            pDiv.innerText = piece.player === 'red' ? 'س' : 'ڕ';
+            cell.appendChild(pDiv);
+          }
+
+          cell.onclick = () => handleCheckersClick(r, c);
+          boardEl.appendChild(cell);
+        }
+      }
+    }
+
+    function handleCheckersClick(r, c) {
+      if (!checkersActive) return;
+      if (currentMatchType === 'bot' && checkersTurn === 'black') return;
+
+      const piece = checkersBoardData[r][c];
+      if (piece && piece.player === checkersTurn) {
+        checkersSelected = { r, c };
+        renderCheckersBoard();
+        return;
+      }
+
+      if (checkersSelected) {
+        const sr = checkersSelected.r;
+        const sc = checkersSelected.c;
+        if (isValidCheckersMove(sr, sc, r, c)) {
+          executeCheckersMove(sr, sc, r, c);
+          checkersSelected = null;
+          renderCheckersBoard();
+
+          if (checkCheckersWinner()) return;
+
+          if (currentMatchType === 'bot' && checkersActive) {
+            checkersTurn = 'black';
+            document.getElementById('checkersTurnText').innerText = 'نۆبەی: ڕەش (⚫ - ڕۆبۆت بیر دەکاتەوە...)';
+            setTimeout(makeBotCheckersMove, 700);
+          }
+        }
+      }
+    }
+
+    function isValidCheckersMove(sr, sc, tr, tc) {
+      if ((tr + tc) % 2 !== 0 && checkersBoardData[tr][tc] === null) {
+        const piece = checkersBoardData[sr][sc];
+        const dr = tr - sr;
+        const dc = tc - sc;
+
+        if (Math.abs(dr) === 1 && Math.abs(dc) === 1) {
+          if (!piece.king) {
+            if (piece.player === 'red' && dr > 0) return false;
+            if (piece.player === 'black' && dr < 0) return false;
+          }
+          return true;
+        }
+
+        if (Math.abs(dr) === 2 && Math.abs(dc) === 2) {
+          const mr = sr + dr / 2;
+          const mc = sc + dc / 2;
+          const jumped = checkersBoardData[mr][mc];
+          if (jumped && jumped.player !== piece.player) return true;
+        }
+      }
+      return false;
+    }
+
+    function executeCheckersMove(sr, sc, tr, tc) {
+      const piece = checkersBoardData[sr][sc];
+      checkersBoardData[tr][tc] = piece;
+      checkersBoardData[sr][sc] = null;
+
+      if (Math.abs(tr - sr) === 2) {
+        const mr = (sr + tr) / 2;
+        const mc = (sc + tc) / 2;
+        checkersBoardData[mr][mc] = null;
+      }
+
+      if (piece.player === 'red' && tr === 0) piece.king = true;
+      if (piece.player === 'black' && tr === 7) piece.king = true;
+
+      checkersTurn = checkersTurn === 'red' ? 'black' : 'red';
+    }
+
+    function checkCheckersWinner() {
+      let redCount = 0, blackCount = 0;
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          if (checkersBoardData[r][c]?.player === 'red') redCount++;
+          if (checkersBoardData[r][c]?.player === 'black') blackCount++;
+        }
+      }
+      const msg = document.getElementById('checkersMsg');
+      if (redCount === 0) {
+        msg.innerText = "🏆 براوە: ڕەش (⚫) سەرکەوت!";
+        checkersActive = false;
+        return true;
+      }
+      if (blackCount === 0) {
+        msg.innerText = "🏆 براوە: سوور (🔴) سەرکەوت!";
+        checkersActive = false;
+        return true;
+      }
+      return false;
+    }
+
+    function makeBotCheckersMove() {
+      if (!checkersActive) return;
+      let allMoves = [];
+
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          if (checkersBoardData[r][c]?.player === 'black') {
+            const dirs = [[1,1], [1,-1], [-1,1], [-1,-1], [2,2], [2,-2], [-2,2], [-2,-2]];
+            dirs.forEach(d => {
+              const tr = r + d[0], tc = c + d[1];
+              if (tr >= 0 && tr < 8 && tc >= 0 && tc < 8) {
+                if (isValidCheckersMove(r, c, tr, tc)) {
+                  allMoves.push({ sr: r, sc: c, tr, tc, jump: Math.abs(d[0]) === 2 });
+                }
+              }
+            });
+          }
+        }
+      }
+
+      if (allMoves.length === 0) {
+        document.getElementById('checkersMsg').innerText = "🏆 سوور (🔴) سەرکەوت! (بۆت بێ جووڵە ماوە)";
+        checkersActive = false;
+        return;
+      }
+
+      let chosen = allMoves[0];
+      if (currentBotDiff === 'normal' || currentBotDiff === 'hard') {
+        const jumpMoves = allMoves.filter(m => m.jump);
+        if (jumpMoves.length > 0) chosen = jumpMoves[Math.floor(Math.random() * jumpMoves.length)];
+        else chosen = allMoves[Math.floor(Math.random() * allMoves.length)];
+      } else {
+        chosen = allMoves[Math.floor(Math.random() * allMoves.length)];
+      }
+
+      executeCheckersMove(chosen.sr, chosen.sc, chosen.tr, chosen.tc);
+      checkersTurn = 'red';
+      renderCheckersBoard();
+      checkCheckersWinner();
     }
 
     async function handleFormSubmit(e) {
@@ -2478,7 +2961,7 @@
         apkUrl: document.getElementById('setApkUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         gridCols: document.getElementById('setGridCols').value || "1",
-        cardImgHeight: document.getElementById('cardImgHeight') ? document.getElementById('cardImgHeight').value : (siteSettings.cardImgHeight || "160px"),
+        cardImgHeight: document.getElementById('setCardImgHeight').value || "160px",
         baseFontSize: document.getElementById('setBaseFontSize').value || "13.5px",
         showStats: document.getElementById('setShowStats').value || "block",
         primaryColor: document.getElementById('setPrimaryColor').value,
