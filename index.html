@@ -389,23 +389,22 @@
       100% { background-position: -200% 0; }
     }
 
-    /* پۆستەری ڕاستەقینەی ستۆری (پێوانەی ستانداردی 9:16 بێ پانبوونەوە) */
+    /* پۆستەری ڕاستەقینەی ستۆری (پێوانەی ستانداردی 9:16ی هاوسەنگ) */
     #storyPosterWrapper {
       position: fixed; left: -9999px; top: 0;
-      width: 540px; height: 960px; /* ڕێژەی تەواوی 9:16ی ستۆری مۆبایل */
-      background: linear-gradient(180deg, #090e17 0%, #0f172a 50%, #060b13 100%);
-      color: #fff; padding: 32px 28px; box-sizing: border-box;
+      width: 540px; height: 960px;
+      background: radial-gradient(circle at top right, #1e293b 0%, #0b0f19 100%);
+      color: #fff; padding: 32px 26px; box-sizing: border-box;
       display: flex; flex-direction: column; justify-content: space-between;
       font-family: 'Noto Kufi Arabic', sans-serif;
-      border: 1px solid #1e293b;
     }
     .story-top-bar {
       display: flex; align-items: center; justify-content: space-between;
-      background: rgba(255,255,255,0.05); padding: 12px 16px; border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06); padding: 14px 18px; border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(8px);
     }
     .story-office-group { display: flex; align-items: center; gap: 12px; }
-    .story-logo-img { width: 44px; height: 44px; object-fit: contain; border-radius: 8px; }
+    .story-logo-img { width: 44px; height: 44px; object-fit: contain; border-radius: 10px; }
     .story-logo-name { font-size: 1.1rem; font-weight: 800; color: #38bdf8; }
     .story-badge-pill {
       background: #0284c7; color: #fff; padding: 6px 14px; border-radius: 10px;
@@ -413,18 +412,19 @@
     }
 
     .story-card-center {
-      display: flex; flex-direction: column; gap: 16px;
-      background: rgba(30, 41, 59, 0.7); padding: 18px; border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 16px 36px rgba(0,0,0,0.4);
+      display: flex; flex-direction: column; gap: 14px;
+      background: rgba(30, 41, 59, 0.8); padding: 18px; border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
     .story-img-container {
-      width: 100%; height: 380px; border-radius: 14px; overflow: hidden;
+      width: 100%; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden;
       background: #020617; border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
     }
     .story-img-container img {
       width: 100%; height: 100%; object-fit: cover; display: block;
     }
-    .story-details-box { display: flex; flex-direction: column; gap: 8px; }
+    .story-details-box { display: flex; flex-direction: column; gap: 6px; }
     .story-title-styled {
       font-size: 1.35rem; font-weight: 800; color: #f8fafc; line-height: 1.4;
       text-shadow: 0 2px 4px rgba(0,0,0,0.5);
@@ -738,7 +738,7 @@
 
   </div>
 
-  <!-- دیزاینی پۆستەری ستۆری بە پێوانەی ستانداردی 9:16 ی مۆبایل -->
+  <!-- دیزاینی پۆستەری ستۆری بە پێوانەی ستانداردی 9:16ی هاوسەنگ و بێ کێشە -->
   <div id="storyPosterWrapper">
     <div class="story-top-bar">
       <div class="story-office-group">
@@ -1431,7 +1431,7 @@
         const canvas = await html2canvas(poster, {
           useCORS: true,
           scale: 2,
-          backgroundColor: '#090e17'
+          backgroundColor: '#0b0f19'
         });
         const imageUri = canvas.toDataURL("image/png");
         const a = document.createElement("a");
@@ -2346,3 +2346,4 @@
   </script>
 </body>
 </html>
+a
