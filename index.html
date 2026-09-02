@@ -48,7 +48,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Kufi Arabic', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: var(--bg); color: var(--text); padding-bottom: 35px; transition: background-color 0.3s ease, color 0.3s ease; }
 
-    /* ئەنیمەیشنی دەسپێک و پەردەی سپلاش */
     #customSplashScreen {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -88,7 +87,6 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ئەنیمەیشنی قفڵ */
     #appLockModal {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -370,7 +368,6 @@
     body.dark-mode .card-add-slot-icon { background: #075985; color: #e0f2fe; }
     .card-add-slot-text { font-size: 0.8rem; font-weight: 800; color: var(--text); }
 
-    /* مۆداڵ و ئەنیمەیشنەکانی */
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.65); backdrop-filter: blur(5px); z-index: 200;
@@ -505,7 +502,6 @@
       animation: contentFadeIn 0.3s ease both;
     }
 
-    /* بنەمای کلیل-فڕەیمە نەرمەکان (Smooth Keyframes) */
     @keyframes overlayFade {
       0% { opacity: 0; }
       100% { opacity: 1; }
@@ -701,15 +697,15 @@
         <input type="hidden" id="editId">
         <div class="form-group">
           <label>ناوی موڵک:</label>
-          <input type="text" id="title" required placeholder="وەک: خانووی مۆدێرن ٢٠٠ مەتر">
+          <input type="text" id="title" placeholder="وەک: خانووی مۆدێرن ٢٠٠ مەتر">
         </div>
         <div class="form-group">
           <label>ژمارەی مۆبایلی خاوەن موڵک:</label>
-          <input type="text" id="ownerPhone" required placeholder="0750xxxxxxx">
+          <input type="text" id="ownerPhone" placeholder="0750xxxxxxx">
         </div>
         <div class="form-group">
           <label>ناوی شوێن / گەڕەک:</label>
-          <input type="text" id="location" required placeholder="وەک: دوستەپە - بەرامبەر پارک">
+          <input type="text" id="location" placeholder="وەک: دوستەپە - بەرامبەر پارک">
         </div>
         <div class="form-group">
           <label>لینکی شوێن لە Google Maps (یان ناوی شوێنەکە):</label>
@@ -740,7 +736,7 @@
         </div>
         <div class="form-group">
           <label>نرخ ($):</label>
-          <input type="text" id="price" required placeholder="وەک: $85,000">
+          <input type="text" id="price" placeholder="وەک: $85,000">
         </div>
         
         <div class="form-group">
@@ -756,7 +752,7 @@
 
         <div class="form-group">
           <label>ڕوونکردنەوە:</label>
-          <textarea id="desc" rows="3" required placeholder="زانیاری لەسەر ڕووبەر، پێگە، خزمەتگوزاری..."></textarea>
+          <textarea id="desc" rows="3" placeholder="زانیاری لەسەر ڕووبەر، پێگە، خزمەتگوزاری..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" id="savePropBtn" style="width:100%; padding:0.65rem;">پاشەکەوتکردن</button>
       </form>
@@ -771,7 +767,7 @@
         <input type="hidden" id="editWantId">
         <div class="form-group">
           <label>سەردێڕی داواکاری:</label>
-          <input type="text" id="wantTitle" required placeholder="وەک: پێویستم بە خانووی کرێیە یان زەوی بۆ کڕین">
+          <input type="text" id="wantTitle" placeholder="وەک: پێویستم بە خانووی کرێیە یان زەوی بۆ کڕین">
         </div>
         <div class="form-group">
           <label>جۆری مامەڵەی داواکراو:</label>
@@ -782,15 +778,15 @@
         </div>
         <div class="form-group">
           <label>بوودجەی دیاریکراو ($ یان دینار):</label>
-          <input type="text" id="wantPrice" required placeholder="وەک: دەوروبەری $40,000">
+          <input type="text" id="wantPrice" placeholder="وەک: دەوروبەری $40,000">
         </div>
         <div class="form-group">
           <label>ژمارەی مۆبایلی خوازیار / داواکار:</label>
-          <input type="text" id="wantPhone" required placeholder="0750xxxxxxx">
+          <input type="text" id="wantPhone" placeholder="0750xxxxxxx">
         </div>
         <div class="form-group">
           <label>ڕوونکردنەوە و مەرجەکانی داواکاری:</label>
-          <textarea id="wantDesc" rows="3" required placeholder="ڕووبەر، گەڕەک یان شوێنی داواکراو بنووسە..."></textarea>
+          <textarea id="wantDesc" rows="3" placeholder="ڕووبەر، گەڕەک یان شوێنی داواکراو بنووسە..."></textarea>
         </div>
         <button type="submit" class="btn btn-success" id="saveWantBtn" style="width:100%; padding:0.65rem; background:#f59e0b;">پاشەکەوتکردنی داواکاری</button>
       </form>
@@ -806,7 +802,7 @@
         <input type="hidden" id="editCatId">
         <div class="form-group">
           <label>ناوی تاب:</label>
-          <input type="text" id="customCatTitleInput" required placeholder="وەک: شوقە، ڤێلا...">
+          <input type="text" id="customCatTitleInput" placeholder="وەک: شوقە، ڤێلا...">
         </div>
         
         <div class="form-group">
@@ -838,12 +834,12 @@
       <form onsubmit="handleSettingsSubmit(event)">
         <div class="form-group">
           <label>ناوی نوسینگە / ماڵپەڕ:</label>
-          <input type="text" id="setSiteName" required>
+          <input type="text" id="setSiteName">
         </div>
 
         <div class="form-group">
           <label style="color:var(--primary); font-weight:800;">🔑 کۆدی چوونەژوورەوەی ئەپ (App Unlock Code):</label>
-          <input type="text" id="setAppPass" required placeholder="کۆدی نوێ بنووسە" inputmode="numeric" pattern="[0-9]*">
+          <input type="text" id="setAppPass" placeholder="کۆدی نوێ بنووسە" inputmode="numeric" pattern="[0-9]*">
         </div>
 
         <div class="form-group">
@@ -1553,7 +1549,7 @@
     async function handleSaveCustomCategory(e) {
       e.preventDefault();
       const editId = document.getElementById('editCatId').value;
-      const title = document.getElementById('customCatTitleInput').value.trim();
+      const title = (document.getElementById('customCatTitleInput').value || '').trim() || 'تابی نوێ';
       const iconInput = document.getElementById('customCatIconInput').value.trim();
       const customImgData = document.getElementById('customCatImgData').value;
 
@@ -1650,8 +1646,8 @@
                   <span class="badge">${item.type || 'بۆ کڕین'}</span>
                   <span class="card-time-tag">⏱️ ${timeStr}</span>
                 </div>
-                <h3 class="card-title">${item.title}</h3>
-                <p class="card-desc">${item.desc}</p>
+                <h3 class="card-title">${item.title || 'داواکاری'}</h3>
+                ${item.desc ? `<p class="card-desc">${item.desc}</p>` : ''}
 
                 ${item.ownerPhone ? `
                   <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.4rem;">
@@ -1662,7 +1658,7 @@
 
                 <div class="card-footer">
                   <div class="card-footer-top">
-                    <span class="price" style="color:#d97706;">بوودجە: ${item.price}</span>
+                    <span class="price" style="color:#d97706;">${item.price ? `بوودجە: ${item.price}` : 'بوودجە: دیاری نەکراوە'}</span>
                   </div>
                 </div>
               </div>
@@ -1679,25 +1675,27 @@
                  ontouchstart="startHold('${item.id}')" ontouchend="cancelHold()">
               ${item.isSold ? '<div class="sold-badge-overlay">فرۆشراوە 🔒</div>' : ''}
               <div class="card-img-wrapper" onclick="openGallery('${item.id}')">
-                <img src="${mainImg}" alt="${item.title}" class="card-img" loading="lazy">
+                <img src="${mainImg}" alt="${item.title || 'وێنە'}" class="card-img" loading="lazy">
                 <div class="img-count-badge">📷 ${imgs.length} وێنە</div>
               </div>
               <div class="card-body">
                 <div class="badge-group">
-                  <span class="badge">${item.type}</span>
-                  <span class="badge">${item.category}</span>
+                  <span class="badge">${item.type || 'بەردەست'}</span>
+                  <span class="badge">${item.category || ''}</span>
                   ${item.subCategory ? `<span class="badge badge-sub">${item.subCategory}</span>` : ''}
                   ${item.location ? `<span class="badge badge-location">📍 ${item.location}</span>` : ''}
                   <span class="card-time-tag">⏱️ ${timeStr}</span>
                 </div>
-                <h3 class="card-title" onclick="openGallery('${item.id}')">${item.title}</h3>
-                <p class="card-desc">${item.desc}</p>
+                <h3 class="card-title" onclick="openGallery('${item.id}')">${item.title || 'موڵک'}</h3>
+                ${item.desc ? `<p class="card-desc">${item.desc}</p>` : ''}
                 
+                ${(item.mapLink || item.location) ? `
                 <div class="map-row">
                   <a href="${mapHref}" target="_blank" rel="noopener noreferrer" class="btn btn-map">
                     🗺️ کردنەوە لە Google Maps
                   </a>
                 </div>
+                ` : ''}
 
                 ${item.ownerPhone ? `
                   <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.4rem;">
@@ -1708,7 +1706,7 @@
 
                 <div class="card-footer">
                   <div class="card-footer-top">
-                    <span class="price">${item.price}</span>
+                    <span class="price">${item.price || 'پەیوەندی بکە'}</span>
                   </div>
                 </div>
               </div>
@@ -1900,16 +1898,16 @@
 
       document.getElementById('modalTitle').innerText = "دەستکاریکردنی موڵک";
       document.getElementById('editId').value = item.id;
-      document.getElementById('title').value = item.title;
+      document.getElementById('title').value = item.title || '';
       document.getElementById('ownerPhone').value = item.ownerPhone || '';
       document.getElementById('location').value = item.location || '';
       document.getElementById('mapLink').value = item.mapLink || '';
       document.getElementById('category').value = item.category || 'خانوو';
       toggleFormSubCategory();
       if (item.subCategory) document.getElementById('subCategory').value = item.subCategory;
-      document.getElementById('type').value = item.type;
-      document.getElementById('price').value = item.price;
-      document.getElementById('desc').value = item.desc;
+      document.getElementById('type').value = item.type || 'بۆ فرۆشتن';
+      document.getElementById('price').value = item.price || '';
+      document.getElementById('desc').value = item.desc || '';
       uploadedImagesList = (item.images && item.images.length > 0) ? [...item.images] : [item.image];
       renderUploadPreviews();
       document.getElementById('propertyModal').style.display = 'flex';
@@ -1930,17 +1928,17 @@
 
       document.getElementById('wantModalTitle').innerText = "دەستکاریکردنی داواکاری";
       document.getElementById('editWantId').value = item.id;
-      document.getElementById('wantTitle').value = item.title;
+      document.getElementById('wantTitle').value = item.title || '';
       document.getElementById('wantPropertyType').value = item.type && item.type.includes('کرێ') ? 'بۆ کرێ' : 'بۆ کڕین';
-      document.getElementById('wantPrice').value = item.price;
+      document.getElementById('wantPrice').value = item.price || '';
       document.getElementById('wantPhone').value = item.ownerPhone || '';
-      document.getElementById('wantDesc').value = item.desc;
+      document.getElementById('wantDesc').value = item.desc || '';
       document.getElementById('wantModal').style.display = 'flex';
       window.history.pushState({ modal: 'want' }, "", "");
     }
 
     function openSettingsModal() {
-      document.getElementById('setSiteName').value = siteSettings.siteName;
+      document.getElementById('setSiteName').value = siteSettings.siteName || "";
       document.getElementById('setAppPass').value = siteSettings.appPass || "0000";
       document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
       document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
@@ -1976,15 +1974,15 @@
       saveBtn.disabled = true;
 
       const editId = document.getElementById('editId').value;
-      const title = document.getElementById('title').value;
-      const ownerPhone = document.getElementById('ownerPhone').value;
-      const location = document.getElementById('location').value;
-      const mapLink = document.getElementById('mapLink').value;
-      const category = document.getElementById('category').value;
+      const title = (document.getElementById('title').value || '').trim() || 'موڵکی بێ ناو';
+      const ownerPhone = (document.getElementById('ownerPhone').value || '').trim();
+      const location = (document.getElementById('location').value || '').trim();
+      const mapLink = (document.getElementById('mapLink').value || '').trim();
+      const category = document.getElementById('category').value || 'خانوو';
       const subCategory = (category === 'زەوی') ? document.getElementById('subCategory').value : '';
-      const type = document.getElementById('type').value;
-      const price = document.getElementById('price').value;
-      const desc = document.getElementById('desc').value;
+      const type = document.getElementById('type').value || 'بۆ فرۆشتن';
+      const price = (document.getElementById('price').value || '').trim();
+      const desc = (document.getElementById('desc').value || '').trim();
 
       const finalImages = (uploadedImagesList.length > 0) ? uploadedImagesList : ["https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop"];
 
@@ -2037,11 +2035,11 @@
       saveBtn.disabled = true;
 
       const editId = document.getElementById('editWantId').value;
-      const title = document.getElementById('wantTitle').value;
-      const type = document.getElementById('wantPropertyType').value;
-      const price = document.getElementById('wantPrice').value;
-      const ownerPhone = document.getElementById('wantPhone').value;
-      const desc = document.getElementById('wantDesc').value;
+      const title = (document.getElementById('wantTitle').value || '').trim() || 'داواکاری بێ ناو';
+      const type = document.getElementById('wantPropertyType').value || 'بۆ کڕین';
+      const price = (document.getElementById('wantPrice').value || '').trim();
+      const ownerPhone = (document.getElementById('wantPhone').value || '').trim();
+      const desc = (document.getElementById('wantDesc').value || '').trim();
 
       const now = Date.now();
       const propId = editId ? editId : 'want_' + now;
@@ -2107,7 +2105,7 @@
       e.preventDefault();
       siteSettings = {
         ...siteSettings,
-        siteName: document.getElementById('setSiteName').value,
+        siteName: document.getElementById('setSiteName').value || siteSettings.siteName,
         appPass: document.getElementById('setAppPass').value || "0000",
         apkUrl: document.getElementById('setApkUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
