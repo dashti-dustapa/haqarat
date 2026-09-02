@@ -439,6 +439,24 @@
       max-width: 800px;
       margin: 0 auto;
     }
+    .gallery-close-btn {
+      font-size: 2.3rem;
+      font-weight: 800;
+      cursor: pointer;
+      color: #ffffff;
+      padding: 0.2rem 0.6rem;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, color 0.2s;
+      user-select: none;
+      border-radius: 8px;
+    }
+    .gallery-close-btn:active {
+      transform: scale(0.9);
+      color: #ef4444;
+    }
     .gallery-main {
       flex: 1;
       display: flex;
@@ -623,7 +641,7 @@
   <div class="gallery-modal" id="galleryModal">
     <div class="gallery-header">
       <span id="galleryCounter" style="font-weight:700;">1 / 1</span>
-      <span style="font-size:1.6rem; cursor:pointer;" onclick="closeGallery()">×</span>
+      <span class="gallery-close-btn" onclick="closeGallery()">×</span>
     </div>
     <div class="gallery-main">
       <button class="gallery-nav-btn gallery-prev" onclick="changeGallerySlide(-1)">❯</button>
@@ -849,7 +867,6 @@
     </div>
   </div>
 
-  <!-- مۆداڵی تایبەت و دیزاینکراوی چوونەدەرەوە بەبێ ناوی vercel.app -->
   <div class="modal" id="customExitModal" style="z-index: 99999; align-items: center;">
     <div class="modal-content" style="max-width: 360px; text-align: center; border-radius: 16px; padding: 1.5rem 1.2rem;">
       <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">⚠️</div>
@@ -892,7 +909,6 @@
     let activeSubTab = 'نیشتەجێبوون';
     let allowPageExit = false;
 
-    // کۆنتڕۆڵی تەواوی دەرچوون بە مۆداڵی تایبەت
     function showExitModal() {
       document.getElementById('customExitTitle').innerText = siteSettings.exitPromptTitle || "ئاگاداری چوونەدەرەوە";
       document.getElementById('customExitDesc').innerText = siteSettings.exitPromptText || "Are you sure want to go out there?";
