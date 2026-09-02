@@ -23,12 +23,13 @@
       --dark: #0f172a;
       --bg: #f8fafc;
       --card-bg: #ffffff;
+      --header-bg: #ffffff;
+      --admin-bg: #0f172a;
       --text: #1e293b;
       --muted: #64748b;
       --danger: #ef4444;
       --edit: #f59e0b;
       --border: #e2e8f0;
-      --hero-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       --base-font-size: 13.5px;
       --card-img-height: 180px;
       --grid-cols: repeat(2, 1fr);
@@ -37,7 +38,7 @@
   <style>
     html { font-size: var(--base-font-size); background-color: var(--bg); }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Kufi Arabic', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 35px; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 75px; }
 
     #customSplashScreen {
       position: fixed;
@@ -53,24 +54,9 @@
       z-index: 999999;
       transition: opacity 0.2s ease, visibility 0.2s ease;
     }
-    .splash-logo {
-      width: 110px;
-      height: 110px;
-      object-fit: contain;
-    }
-    .splash-title {
-      color: #d4af37;
-      font-size: 1.25rem;
-      font-weight: 800;
-      margin-top: 12px;
-      text-align: center;
-    }
-    .splash-sub {
-      color: #94a3b8;
-      font-size: 0.72rem;
-      margin-top: 4px;
-      letter-spacing: 0.5px;
-    }
+    .splash-logo { width: 110px; height: 110px; object-fit: contain; }
+    .splash-title { color: #d4af37; font-size: 1.25rem; font-weight: 800; margin-top: 12px; text-align: center; }
+    .splash-sub { color: #94a3b8; font-size: 0.72rem; margin-top: 4px; letter-spacing: 0.5px; }
     .splash-spinner {
       margin-top: 15px;
       width: 20px;
@@ -83,7 +69,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     header {
-      background: var(--card-bg);
+      background: var(--header-bg);
       border-bottom: 1px solid var(--border);
       padding: 0.75rem 0.9rem;
       display: flex;
@@ -124,7 +110,7 @@
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
 
     .admin-bar {
-      background: #0f172a;
+      background: var(--admin-bg);
       color: #fff;
       padding: 0.85rem;
       display: none;
@@ -151,53 +137,71 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 6px;
     }
-    @media(min-width: 640px) { .admin-actions-grid { grid-template-columns: repeat(5, 1fr); } }
+    @media(min-width: 640px) { .admin-actions-grid { grid-template-columns: repeat(4, 1fr); } }
 
     .container { max-width: 1100px; margin: auto; padding: 0.9rem 0.8rem; }
 
-    .tabs-wrapper {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 10px;
-      scrollbar-width: none;
+    /* بەشی هەڵبژاردنی سەرەکی */
+    #homeCategoryScreen {
+      display: block;
+      padding-top: 10px;
     }
-    .tabs-wrapper::-webkit-scrollbar { display: none; }
-    
-    .tab-btn {
-      padding: 0.5rem 0.95rem;
-      background: #ffffff !important;
+    .categories-hub {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .cat-card-btn {
+      background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--muted);
+      border-radius: 14px;
+      padding: 1.2rem 0.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      transition: transform 0.15s, border-color 0.15s;
     }
-    .tab-btn.active {
-      background: var(--primary) !important;
-      color: #ffffff !important;
-      border-color: var(--primary);
-      box-shadow: 0 3px 8px rgba(2, 132, 199, 0.25);
+    .cat-card-btn:active { transform: scale(0.97); }
+    .cat-card-icon { font-size: 2.2rem; margin-bottom: 8px; }
+    .cat-card-title { font-weight: 800; font-size: 0.95rem; color: var(--text); }
+    .cat-card-sub { font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
+
+    /* بەشی موڵکەکان */
+    #propertiesScreen {
+      display: none;
     }
-    .tab-btn.tab-want {
-      border-color: #f59e0b;
-      color: #d97706;
-      background: #ffffff !important;
+    .category-back-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      background: var(--card-bg);
+      padding: 0.5rem 0.8rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
     }
-    .tab-btn.tab-want.active {
-      background: #f59e0b !important;
-      color: #fff !important;
-      border-color: #f59e0b;
-      box-shadow: 0 3px 8px rgba(245, 158, 11, 0.25);
+    .back-btn-ui {
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .category-title-header {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text);
     }
 
     .sub-tabs-container {
-      display: none;
+      display: flex;
       background: #e2e8f0;
       padding: 4px;
       border-radius: 8px;
@@ -206,11 +210,11 @@
     }
     .sub-tab-btn {
       flex: 1;
-      padding: 0.4rem;
+      padding: 0.45rem;
       background: transparent;
       border: none;
       border-radius: 6px;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 700;
       color: var(--text);
       cursor: pointer;
@@ -238,6 +242,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      user-select: none;
     }
     .card.sold-out {
       opacity: 0.78;
@@ -325,9 +330,7 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-    .owner-phone-display:active {
-      background: #f1f5f9;
-    }
+    .owner-phone-display:active { background: #f1f5f9; }
     .phone-text {
       color: var(--primary);
       letter-spacing: 0.5px;
@@ -347,9 +350,29 @@
       align-items: center;
     }
     .price { font-size: 1rem; font-weight: 800; color: var(--primary); }
-    
-    .card-controls { display: none; flex-direction: column; gap: 5px; margin-top: 6px; border-top: 1px dashed var(--border); padding-top: 6px; }
-    .controls-row { display: flex; gap: 5px; }
+
+    /* دوگمەی سەرشاشەی سپی FAB */
+    .fab-add-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 54px;
+      height: 54px;
+      background: #ffffff;
+      color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      z-index: 150;
+      transition: transform 0.2s;
+    }
+    .fab-add-btn:active { transform: scale(0.92); }
 
     .modal {
       display: none;
@@ -396,11 +419,7 @@
       border: 1px solid #e2e8f0;
       margin-bottom: 10px;
     }
-    .color-field {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
+    .color-field { display: flex; flex-direction: column; gap: 3px; }
     .color-field label { font-size: 0.72rem; font-weight: 700; color: #475569; }
     .color-field input[type="color"] {
       width: 100%;
@@ -449,10 +468,7 @@
       user-select: none;
       border-radius: 8px;
     }
-    .gallery-close-btn:active {
-      transform: scale(0.9);
-      color: #ef4444;
-    }
+    .gallery-close-btn:active { transform: scale(0.9); color: #ef4444; }
     .gallery-main {
       flex: 1;
       display: flex;
@@ -508,17 +524,9 @@
       border: 2px solid transparent;
       transition: 0.2s;
     }
-    .gallery-thumbs img.active-thumb {
-      opacity: 1;
-      border-color: var(--primary);
-    }
+    .gallery-thumbs img.active-thumb { opacity: 1; border-color: var(--primary); }
 
-    .images-preview-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
+    .images-preview-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
     .img-preview-box {
       position: relative;
       width: 55px;
@@ -527,11 +535,7 @@
       overflow: hidden;
       border: 1px solid var(--border);
     }
-    .img-preview-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .img-preview-box img { width: 100%; height: 100%; object-fit: cover; }
     .img-delete-btn {
       position: absolute;
       top: 2px;
@@ -562,6 +566,48 @@
       cursor: pointer;
       font-weight: 700;
     }
+
+    /* مینیوی Hold بۆ دەستکاری و سڕینەوە */
+    .action-sheet-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(3px);
+      z-index: 500;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .action-sheet-box {
+      background: #ffffff;
+      width: 100%;
+      max-width: 450px;
+      border-radius: 20px 20px 0 0;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .action-sheet-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .action-sheet-btn {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
   </style>
 </head>
 <body>
@@ -573,60 +619,115 @@
     <div class="splash-spinner"></div>
   </div>
 
-  <header>
+  <header id="siteHeader">
     <div class="logo-wrapper">
       <img id="siteLogoIcon" class="logo-icon" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
       <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
     </div>
     <div class="header-btns">
       <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="triggerDirectDownload()">📲 داگرتنی ئەپ (APK)</button>
-      <button class="btn btn-admin" onclick="handleAdminBtnClick()">پنێڵی بەڕێوەبەر</button>
+      <button class="btn btn-admin" onclick="requestAdminAccess()">🔑 بەڕێوەبەر</button>
     </div>
   </header>
 
   <div class="admin-bar" id="adminBar">
     <div class="admin-bar-top">
-      <span>👑 دەسەڵاتی تەواوی بەڕێوەبەر (Master Owner Panel)</span>
+      <span>👑 دەسەڵاتی بەڕێوەبەر (پارێزراو بە پەنجەمۆر)</span>
       <button onclick="logoutAdmin()" style="background:none; border:none; color:#f87171; font-size:0.78rem; cursor:pointer; font-weight:700;">دەرچوون</button>
     </div>
 
     <div class="admin-stats-grid">
       <div>کۆی گشتی<div class="stat-val" id="statTotal">0</div></div>
-      <div>خانوو<div class="stat-val" id="statHouses">0</div></div>
-      <div>تیجاری<div class="stat-val" id="statCommercial">0</div></div>
+      <div>خانوو (فرۆشتن)<div class="stat-val" id="statHousesSale">0</div></div>
+      <div>خانوو (کرێ)<div class="stat-val" id="statHousesRent">0</div></div>
+      <div>شوێنی تیجاری<div class="stat-val" id="statCommercial">0</div></div>
       <div>زەوی<div class="stat-val" id="statLands">0</div></div>
       <div>مەزرەعە<div class="stat-val" id="statFarms">0</div></div>
       <div>خوازیار<div class="stat-val" id="statWants" style="color:#f59e0b;">0</div></div>
-      <div>فرۆشراو<div class="stat-val" id="statSold" style="color:#f87171;">0</div></div>
     </div>
 
     <div class="admin-actions-grid">
-      <button class="btn btn-primary" onclick="openAddModal()">+ زیادکردنی موڵک</button>
-      <button class="btn btn-success" style="background:#f59e0b;" onclick="openAddWantModal()">+ زیادکردنی داواکاری</button>
-      <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت، ڕەنگ و ئەپ</button>
+      <button class="btn btn-edit" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت و ڕەنگەکان</button>
+      <button class="btn btn-primary" onclick="registerNewFingerprintDevice()">👆 تۆمارکردنی پەنجەمۆری نوێ</button>
       <button class="btn btn-backup" onclick="exportDataBackup()">💾 کۆپی یەدەگ</button>
       <button class="btn btn-backup" onclick="document.getElementById('restoreInput').click()">📥 هێنانەوەی فایل</button>
       <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="importDataBackup(event)">
     </div>
-    <button class="btn btn-danger" style="width:100%; padding:0.45rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکەکان (پاککردنەوەی داتابەیس)</button>
+    <button class="btn btn-danger" style="width:100%; padding:0.45rem;" onclick="clearEntireDatabase()">🗑️ سڕینەوەی هەموو موڵکەکان</button>
   </div>
 
   <div class="container">
-    <div class="tabs-wrapper">
-      <button class="tab-btn active" onclick="switchMainTab('خانوو', this)">خانوو</button>
-      <button class="tab-btn" onclick="switchMainTab('شوێنی تیجاری', this)">شوێنی تیجاری</button>
-      <button class="tab-btn" onclick="switchMainTab('زەوی', this)">زەوی</button>
-      <button class="tab-btn" onclick="switchMainTab('مەزرەعە', this)">مەزرەعە</button>
-      <button class="tab-btn tab-want" onclick="switchMainTab('خوازیار / پێویستە', this)">🔍 خوازیار / پێویستە</button>
+    <!-- لاپەڕەی هەڵبژاردنی سەرەکی بەشەکان -->
+    <div id="homeCategoryScreen">
+      <div class="categories-hub">
+        <div class="cat-card-btn" onclick="navigateToCategory('خانوو')">
+          <div class="cat-card-icon">🏠</div>
+          <div class="cat-card-title">خانوو</div>
+          <div class="cat-card-sub">بۆ فرۆشتن و بۆ کرێ</div>
+        </div>
+
+        <div class="cat-card-btn" onclick="navigateToCategory('شوێنی تیجاری')">
+          <div class="cat-card-icon">🏢</div>
+          <div class="cat-card-title">شوێنی تیجاری</div>
+          <div class="cat-card-sub">دوکان، کۆگا و پێشانگە</div>
+        </div>
+
+        <div class="cat-card-btn" onclick="navigateToCategory('زەوی')">
+          <div class="cat-card-icon">📐</div>
+          <div class="cat-card-title">زەوی</div>
+          <div class="cat-card-sub">نیشتەجێبوون و زراعی</div>
+        </div>
+
+        <div class="cat-card-btn" onclick="navigateToCategory('مەزرەعە')">
+          <div class="cat-card-icon">🌳</div>
+          <div class="cat-card-title">مەزرەعە</div>
+          <div class="cat-card-sub">باخ و ڤێلای گەشتیاری</div>
+        </div>
+
+        <div class="cat-card-btn" style="grid-column: span 2; border-color: #fde68a; background: #fffbeb;" onclick="navigateToCategory('خوازیار / پێویستە')">
+          <div class="cat-card-icon">🔍</div>
+          <div class="cat-card-title" style="color:#d97706;">خوازیار / پێویستە</div>
+          <div class="cat-card-sub">داواکاری کڕین و بەکرێگرتن</div>
+        </div>
+      </div>
     </div>
 
-    <div class="sub-tabs-container" id="landSubTabs">
-      <button class="sub-tab-btn active" onclick="switchSubTab('نیشتەجێبوون', this)">نیشتەجێبوون</button>
-      <button class="sub-tab-btn" onclick="switchSubTab('زراعی', this)">زراعی</button>
-    </div>
+    <!-- لاپەڕەی پیشاندانی لیستەکان -->
+    <div id="propertiesScreen">
+      <div class="category-back-bar">
+        <button class="back-btn-ui" onclick="navigateBackToHome()">➔</button>
+        <span class="category-title-header" id="currentCategoryTitle">خانوو</span>
+      </div>
 
-    <div class="grid" id="propertiesGrid"></div>
-    <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
+      <!-- ژێرپۆلی خانوو (فرۆشتن / کرێ) -->
+      <div class="sub-tabs-container" id="houseSubTabs" style="display:none;">
+        <button class="sub-tab-btn active" onclick="switchHouseSubTab('بۆ فرۆشتن', this)">خانوو بۆ فرۆشتن</button>
+        <button class="sub-tab-btn" onclick="switchHouseSubTab('بۆ بەکرێدان', this)">خانوو بۆ کرێ</button>
+      </div>
+
+      <!-- ژێرپۆلی زەوی (نیشتەجێبوون / زراعی) -->
+      <div class="sub-tabs-container" id="landSubTabs" style="display:none;">
+        <button class="sub-tab-btn active" onclick="switchLandSubTab('نیشتەجێبوون', this)">نیشتەجێبوون</button>
+        <button class="sub-tab-btn" onclick="switchLandSubTab('زراعی', this)">زراعی</button>
+      </div>
+
+      <div class="grid" id="propertiesGrid"></div>
+      <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
+    </div>
+  </div>
+
+  <!-- دوگمەی سپی بۆ زیادکردنی ڕاستەوخۆ -->
+  <div class="fab-add-btn" onclick="triggerFabAdd()">+</div>
+
+  <!-- مینیوی Hold بۆ دەستکاری و سڕینەوە -->
+  <div class="action-sheet-modal" id="actionSheetModal" onclick="closeActionSheet(event)">
+    <div class="action-sheet-box" onclick="event.stopPropagation()">
+      <div class="action-sheet-title" id="actionSheetPropTitle">هەڵبژاردنی کردار</div>
+      <button class="action-sheet-btn btn-edit" onclick="handleHoldEdit()">✏️ دەستکاریکردن</button>
+      <button class="action-sheet-btn btn-sold" onclick="handleHoldSold()">🔒 گۆڕینی دۆخ (بەردەست / فرۆشراو)</button>
+      <button class="action-sheet-btn btn-danger" onclick="handleHoldDelete()">🗑️ سڕینەوە</button>
+      <button class="action-sheet-btn" style="background:#e2e8f0; color:#334155; margin-top:4px;" onclick="closeActionSheet()">داخستن</button>
+    </div>
   </div>
 
   <div class="gallery-modal" id="galleryModal">
@@ -640,21 +741,6 @@
       <button class="gallery-nav-btn gallery-next" onclick="changeGallerySlide(1)">❮</button>
     </div>
     <div class="gallery-thumbs" id="galleryThumbs"></div>
-  </div>
-
-  <div class="modal" id="loginModal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModals()">×</span>
-      <h3 class="modal-title">چوونەژوورەوەی بەڕێوەبەر</h3>
-      <form onsubmit="verifyPassword(event)">
-        <div class="form-group">
-          <label>تێپەڕەوشە بنووسە:</label>
-          <input type="password" id="adminPassInput" required placeholder="تێپەڕەوشە بنووسە" oninput="document.getElementById('loginError').style.display='none'">
-        </div>
-        <p id="loginError" style="color:var(--danger); font-size:0.75rem; margin-bottom:6px; display:none;">تێپەڕەوشە هەڵەیە!</p>
-        <button type="submit" class="btn btn-primary" style="width:100%; padding:0.65rem;">چوونەژوورەوە</button>
-      </form>
-    </div>
   </div>
 
   <div class="modal" id="propertyModal">
@@ -680,7 +766,7 @@
           <input type="text" id="mapLink" placeholder="کۆپی لینکی Shareی نەخشەی گووگڵ">
         </div>
         <div class="form-group">
-          <label>بەش (تاب):</label>
+          <label>بەش:</label>
           <select id="category" onchange="toggleFormSubCategory()">
             <option value="خانوو">خانوو</option>
             <option value="شوێنی تیجاری">شوێنی تیجاری</option>
@@ -767,7 +853,7 @@
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
-      <h3 class="modal-title">ڕێکخستنی سایت، لۆگۆ و ئەپ</h3>
+      <h3 class="modal-title">ڕێکخستنی سایت و ڕەنگەکان</h3>
       <form onsubmit="handleSettingsSubmit(event)">
         <div class="form-group">
           <label>ناوی نوسینگە / ماڵپەڕ:</label>
@@ -775,7 +861,7 @@
         </div>
 
         <div class="form-group">
-          <label>لینکی ڕاستەوخۆی فایلی ئەندرۆید (Android APK Direct URL):</label>
+          <label>لینکی ڕاستەوخۆی فایلی ئەندرۆید (APK Direct URL):</label>
           <input type="text" id="setApkUrl" placeholder="لینکی داگرتنی APK لە GitHub Releases">
         </div>
 
@@ -790,34 +876,31 @@
         </div>
 
         <div class="form-group">
-          <label style="color:var(--primary); font-weight:800;">📐 ژمارەی کارتەکان لە تەنیشت یەکتر (لە هەر ڕیزێکدا):</label>
+          <label style="color:var(--primary); font-weight:800;">📐 ژمارەی کارتەکان لە تەنیشت یەکتر:</label>
           <select id="setGridCols">
-            <option value="2">۲ کارت لە تەنیشت یەکتر (گونجاوترین بۆ مۆبایل)</option>
-            <option value="1">۱ کارت لە هەر دێڕێکدا (تەواو پان)</option>
+            <option value="2">۲ کارت لە تەنیشت یەکتر</option>
+            <option value="1">۱ کارت لە هەر دێڕێکدا</option>
             <option value="3">۳ کارت لە تەنیشت یەکتر</option>
             <option value="4">٤ کارت لە تەنیشت یەکتر</option>
           </select>
         </div>
 
-        <div class="form-group">
-          <label style="color:var(--primary); font-weight:800;">📱 قەبارەی دەق و دیزاین (UI Size):</label>
-          <select id="setUiSize">
-            <option value="nano-compact">زۆر زۆر زۆر بچووک (Nano Micro Size - بچووکترین)</option>
-            <option value="ultra-compact">زۆر زۆر بچووک (Ultra Compact)</option>
-            <option value="compact">بچووک و کۆکراوە (Compact)</option>
-            <option value="normal">ئاسایی (Normal)</option>
-            <option value="large">گەورە (Large)</option>
-          </select>
-        </div>
-
-        <label style="font-size:0.75rem; font-weight:800; color:var(--dark); margin-bottom:5px; display:block;">🎨 کۆنتڕۆڵی ڕەنگەکانی ماڵپەڕ:</label>
+        <label style="font-size:0.75rem; font-weight:800; color:var(--dark); margin-bottom:5px; display:block;">🎨 کۆنتڕۆڵی ڕەنگەکانی ماڵپەڕ و بەڕێوەبەر:</label>
         <div class="color-pickers-grid">
           <div class="color-field">
-            <label>ڕەنگی سەرەکی (Theme Color):</label>
+            <label>ڕەنگی دەقی سەرەوە (Header Text):</label>
             <input type="color" id="setPrimaryColor" value="#0284c7">
           </div>
           <div class="color-field">
-            <label>ڕەنگی باکگراوند (Background):</label>
+            <label>ڕەنگی باکگراوندی دەقی سەرەوە:</label>
+            <input type="color" id="setHeaderBgColor" value="#ffffff">
+          </div>
+          <div class="color-field">
+            <label>ڕەنگی پشت پنێڵی بەڕێوەبەر:</label>
+            <input type="color" id="setAdminBgColor" value="#0f172a">
+          </div>
+          <div class="color-field">
+            <label>ڕەنگی باکگراوندی گشتی (Body):</label>
             <input type="color" id="setBgColor" value="#f8fafc">
           </div>
           <div class="color-field">
@@ -826,10 +909,6 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label>تێپەڕەوشەی نوێی پنێڵ:</label>
-          <input type="text" id="setAdminPass" required placeholder="تێپەڕەوشەی بەڕێوەبەر">
-        </div>
         <button type="submit" class="btn btn-success" style="width:100%; padding:0.65rem;">پاشەکەوتکردنی هەموو ڕێکخستنەکان</button>
       </form>
     </div>
@@ -841,14 +920,16 @@
     let properties = JSON.parse(localStorage.getItem('dashti_master_props')) || [];
     let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) || {
       siteName: "عقارات دەشتی دوستەپە",
-      adminPass: "123321",
       primaryColor: "#0284c7",
+      headerBgColor: "#ffffff",
+      adminBgColor: "#0f172a",
       bgColor: "#f8fafc",
       cardColor: "#ffffff",
       uiSize: "ultra-compact",
       gridCols: "2",
       apkUrl: "",
-      logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png"
+      logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png",
+      fingerprintKeys: []
     };
 
     let uploadedImagesList = [];
@@ -856,14 +937,244 @@
     let currentGalleryIndex = 0;
 
     let isAdmin = false;
+    let currentScreen = 'home'; // 'home' یان 'category'
     let activeMainTab = 'خانوو';
-    let activeSubTab = 'نیشتەجێبوون';
+    let activeHouseSubTab = 'بۆ فرۆشتن';
+    let activeLandSubTab = 'نیشتەجێبوون';
+
+    let holdTimer = null;
+    let selectedHoldItemId = null;
+
+    // کۆنتڕۆڵی دوگمەی Back لە مۆبایل
+    window.addEventListener('load', function() {
+      window.history.pushState({ screen: 'home' }, "", "");
+    });
+
+    window.addEventListener('popstate', function(e) {
+      if (currentScreen === 'category') {
+        navigateBackToHome(false);
+      } else {
+        if (confirm("ئایا دڵنیایت لە دەرچوون لە بەرنامە؟")) {
+          window.history.back();
+        } else {
+          window.history.pushState({ screen: 'home' }, "", "");
+        }
+      }
+    });
+
+    function navigateToCategory(cat) {
+      activeMainTab = cat;
+      currentScreen = 'category';
+      document.getElementById('homeCategoryScreen').style.display = 'none';
+      document.getElementById('propertiesScreen').style.display = 'block';
+      document.getElementById('currentCategoryTitle').innerText = cat;
+
+      document.getElementById('houseSubTabs').style.display = (cat === 'خانوو') ? 'flex' : 'none';
+      document.getElementById('landSubTabs').style.display = (cat === 'زەوی') ? 'flex' : 'none';
+
+      window.history.pushState({ screen: 'category', cat }, "", "");
+      renderProperties();
+    }
+
+    function navigateBackToHome(doPush = true) {
+      currentScreen = 'home';
+      document.getElementById('homeCategoryScreen').style.display = 'block';
+      document.getElementById('propertiesScreen').style.display = 'none';
+      if (doPush) {
+        window.history.pushState({ screen: 'home' }, "", "");
+      }
+    }
+
+    function switchHouseSubTab(type, btn) {
+      activeHouseSubTab = type;
+      document.querySelectorAll('#houseSubTabs .sub-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProperties();
+    }
+
+    function switchLandSubTab(subCategory, btn) {
+      activeLandSubTab = subCategory;
+      document.querySelectorAll('#landSubTabs .sub-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProperties();
+    }
+
+    // سیستەمی WebAuthn بۆ پەنجەمۆر
+    async function requestAdminAccess() {
+      if (isAdmin) {
+        logoutAdmin();
+        return;
+      }
+
+      if (!window.PublicKeyCredential) {
+        alert("ئەم وێبگەڕە پشتگیری لە پەنجەمۆر ناکات.");
+        return;
+      }
+
+      if (!siteSettings.fingerprintKeys || siteSettings.fingerprintKeys.length === 0) {
+        if (confirm("تا ئێستا هیچ پەنجەمۆرێک تۆمار نەکراوە. دەتەوێت پەنجەمۆری ئەم ئامێرە تۆمار بکەیت؟")) {
+          await registerNewFingerprintDevice();
+        }
+        return;
+      }
+
+      try {
+        const challenge = new Uint8Array(32);
+        window.crypto.getRandomValues(challenge);
+
+        const assertion = await navigator.credentials.get({
+          publicKey: {
+            challenge,
+            timeout: 60000,
+            userVerification: "required"
+          }
+        });
+
+        if (assertion) {
+          isAdmin = true;
+          document.getElementById('adminBar').style.display = 'flex';
+          updateAdminStats();
+          alert("پەنجەمۆر پەسەندکرا! دەسەڵاتی بەڕێوەبەر چالاک بوو.");
+        }
+      } catch (err) {
+        alert("پەنجەمۆر نەناسرا یان ڕەتکرایەوە.");
+      }
+    }
+
+    async function registerNewFingerprintDevice() {
+      try {
+        const challenge = new Uint8Array(32);
+        window.crypto.getRandomValues(challenge);
+        const userId = new Uint8Array(16);
+        window.crypto.getRandomValues(userId);
+
+        const credential = await navigator.credentials.create({
+          publicKey: {
+            challenge,
+            rp: { name: siteSettings.siteName || "دەشتی دوستەپە" },
+            user: {
+              id: userId,
+              name: "admin_" + Date.now(),
+              displayName: "بەڕێوەبەری ماڵپەڕ"
+            },
+            pubKeyCredParams: [{ alg: -7, type: "public-key" }],
+            authenticatorSelection: {
+              authenticatorAttachment: "platform",
+              userVerification: "required"
+            },
+            timeout: 60000
+          }
+        });
+
+        if (credential) {
+          if (!siteSettings.fingerprintKeys) siteSettings.fingerprintKeys = [];
+          siteSettings.fingerprintKeys.push(credential.id);
+          localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
+
+          try {
+            await fetch(`${FIREBASE_URL}/settings/fingerprintKeys.json`, {
+              method: 'PUT',
+              body: JSON.stringify(siteSettings.fingerprintKeys)
+            });
+          } catch (e) {}
+
+          isAdmin = true;
+          document.getElementById('adminBar').style.display = 'flex';
+          alert("پەنجەمۆری نوێ بە سەرکەوتوویی زیاد کرا!");
+        }
+      } catch (err) {
+        alert("پەنجەمۆر تۆمار نەکرا: " + err.message);
+      }
+    }
+
+    function logoutAdmin() {
+      isAdmin = false;
+      document.getElementById('adminBar').style.display = 'none';
+      renderProperties();
+    }
+
+    // کرداری Long Press / Hold لەسەر کارتەکان
+    function startHold(id) {
+      holdTimer = setTimeout(() => {
+        selectedHoldItemId = id;
+        const item = properties.find(p => String(p.id) === String(id));
+        if (item) {
+          document.getElementById('actionSheetPropTitle').innerText = item.title;
+          document.getElementById('actionSheetModal').style.display = 'flex';
+        }
+      }, 650);
+    }
+
+    function cancelHold() {
+      if (holdTimer) {
+        clearTimeout(holdTimer);
+        holdTimer = null;
+      }
+    }
+
+    function closeActionSheet() {
+      document.getElementById('actionSheetModal').style.display = 'none';
+      selectedHoldItemId = null;
+    }
+
+    async function handleHoldEdit() {
+      const id = selectedHoldItemId;
+      closeActionSheet();
+      if (!isAdmin) {
+        alert("تکایە سەرەتا پەنجەمۆر بەکاربهێنە.");
+        await requestAdminAccess();
+        if (!isAdmin) return;
+      }
+      const item = properties.find(p => String(p.id) === String(id));
+      if (!item) return;
+      if (item.category === 'خوازیار / پێویستە') {
+        openEditWantModal(id);
+      } else {
+        openEditModal(id);
+      }
+    }
+
+    async function handleHoldSold() {
+      const id = selectedHoldItemId;
+      closeActionSheet();
+      if (!isAdmin) {
+        alert("تکایە سەرەتا پەنجەمۆر بەکاربهێنە.");
+        await requestAdminAccess();
+        if (!isAdmin) return;
+      }
+      await toggleSoldStatus(id);
+    }
+
+    async function handleHoldDelete() {
+      const id = selectedHoldItemId;
+      closeActionSheet();
+      if (!isAdmin) {
+        alert("تکایە سەرەتا پەنجەمۆر بەکاربهێنە.");
+        await requestAdminAccess();
+        if (!isAdmin) return;
+      }
+      await deleteProperty(id);
+    }
+
+    // دوگمەی سەرشاشەی سپی (+)
+    async function triggerFabAdd() {
+      if (!isAdmin) {
+        alert("بۆ زیادکردنی موڵک، تکایە پەنجەمۆر دابنێ.");
+        await requestAdminAccess();
+        if (!isAdmin) return;
+      }
+      if (activeMainTab === 'خوازیار / پێویستە') {
+        openAddWantModal();
+      } else {
+        openAddModal();
+      }
+    }
 
     function triggerDirectDownload() {
       if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
         window.location.href = siteSettings.apkUrl;
       } else {
-        alert("تکایە سەرەتا لینکی داگرتنی ڕاستەوخۆی APK لە پنێڵی ڕێکخستنی سایت دابنێ.");
+        alert("تکایە سەرەتا لینکی داگرتنی APK لە پنێڵی ڕێکخستنی سایت دابنێ.");
       }
     }
 
@@ -895,32 +1206,18 @@
 
     function applyThemeSettings() {
       const primary = siteSettings.primaryColor || "#0284c7";
+      const headerBg = siteSettings.headerBgColor || "#ffffff";
+      const adminBg = siteSettings.adminBgColor || "#0f172a";
       const bg = siteSettings.bgColor || "#f8fafc";
       const card = siteSettings.cardColor || "#ffffff";
-      const uiSize = siteSettings.uiSize || "ultra-compact";
       const cols = siteSettings.gridCols || "2";
 
       document.documentElement.style.setProperty('--primary', primary);
+      document.documentElement.style.setProperty('--header-bg', headerBg);
+      document.documentElement.style.setProperty('--admin-bg', adminBg);
       document.documentElement.style.setProperty('--bg', bg);
       document.documentElement.style.setProperty('--card-bg', card);
       document.documentElement.style.setProperty('--grid-cols', `repeat(${cols}, 1fr)`);
-
-      if (uiSize === 'nano-compact') {
-        document.documentElement.style.setProperty('--base-font-size', '10px');
-        document.documentElement.style.setProperty('--card-img-height', '110px');
-      } else if (uiSize === 'ultra-compact') {
-        document.documentElement.style.setProperty('--base-font-size', '11.5px');
-        document.documentElement.style.setProperty('--card-img-height', '140px');
-      } else if (uiSize === 'compact') {
-        document.documentElement.style.setProperty('--base-font-size', '13.5px');
-        document.documentElement.style.setProperty('--card-img-height', '180px');
-      } else if (uiSize === 'large') {
-        document.documentElement.style.setProperty('--base-font-size', '17px');
-        document.documentElement.style.setProperty('--card-img-height', '250px');
-      } else {
-        document.documentElement.style.setProperty('--base-font-size', '15px');
-        document.documentElement.style.setProperty('--card-img-height', '210px');
-      }
     }
 
     async function loadData() {
@@ -930,7 +1227,6 @@
           const data = await res.json();
           if (data && data.settings) {
             siteSettings = { ...siteSettings, ...data.settings };
-            if (!siteSettings.adminPass) siteSettings.adminPass = "123321";
             localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
           }
           if (data && data.properties) {
@@ -944,7 +1240,6 @@
       applySettings();
       applyThemeSettings();
       updateAdminStats();
-      renderProperties();
       checkStandaloneMode();
 
       setTimeout(hideSplashScreen, 150);
@@ -969,29 +1264,12 @@
 
     function updateAdminStats() {
       document.getElementById('statTotal').innerText = properties.length;
-      document.getElementById('statHouses').innerText = properties.filter(p => p.category === 'خانوو').length;
+      document.getElementById('statHousesSale').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ فرۆشتن').length;
+      document.getElementById('statHousesRent').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ بەکرێدان').length;
       document.getElementById('statCommercial').innerText = properties.filter(p => p.category === 'شوێنی تیجاری').length;
       document.getElementById('statLands').innerText = properties.filter(p => p.category === 'زەوی').length;
       document.getElementById('statFarms').innerText = properties.filter(p => p.category === 'مەزرەعە').length;
       document.getElementById('statWants').innerText = properties.filter(p => p.category === 'خوازیار / پێویستە').length;
-      document.getElementById('statSold').innerText = properties.filter(p => p.isSold).length;
-    }
-
-    function switchMainTab(category, btn) {
-      activeMainTab = category;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const subTabs = document.getElementById('landSubTabs');
-      subTabs.style.display = (category === 'زەوی') ? 'flex' : 'none';
-      renderProperties();
-    }
-
-    function switchSubTab(subCategory, btn) {
-      activeSubTab = subCategory;
-      document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderProperties();
     }
 
     function formatMapUrl(link, loc) {
@@ -1009,8 +1287,10 @@
 
       let list = properties.filter(p => p.category === activeMainTab);
 
-      if (activeMainTab === 'زەوی') {
-        list = list.filter(p => p.subCategory === activeSubTab);
+      if (activeMainTab === 'خانوو') {
+        list = list.filter(p => p.type === activeHouseSubTab);
+      } else if (activeMainTab === 'زەوی') {
+        list = list.filter(p => p.subCategory === activeLandSubTab);
       }
 
       if (list.length === 0) {
@@ -1020,7 +1300,9 @@
         list.forEach(item => {
           if (item.category === 'خوازیار / پێویستە') {
             grid.innerHTML += `
-              <div class="card card-want ${item.isSold ? 'sold-out' : ''}">
+              <div class="card card-want ${item.isSold ? 'sold-out' : ''}" 
+                   onmousedown="startHold('${item.id}')" onmouseup="cancelHold()" onmouseleave="cancelHold()" 
+                   ontouchstart="startHold('${item.id}')" ontouchend="cancelHold()">
                 ${item.isSold ? '<div class="sold-badge-overlay">دابینکرا / دۆزرایەوە ✅</div>' : ''}
                 <div class="card-body">
                   <div class="badge-group">
@@ -1042,14 +1324,6 @@
                       <span class="price" style="color:#d97706;">بوودجە: ${item.price}</span>
                     </div>
                   </div>
-
-                  <div class="card-controls" style="display: ${isAdmin ? 'flex' : 'none'}">
-                    <div class="controls-row">
-                      <button class="btn btn-edit" style="flex:1" onclick="openEditWantModal('${item.id}')">دەستکاری</button>
-                      <button class="btn btn-sold" style="flex:1" onclick="toggleSoldStatus('${item.id}')">${item.isSold ? 'کردن بە چالاک' : 'کردن بە دابینکراو'}</button>
-                    </div>
-                    <button class="btn btn-danger" style="width:100%" onclick="deleteProperty('${item.id}')">سڕینەوەی داواکاری</button>
-                  </div>
                 </div>
               </div>
             `;
@@ -1059,7 +1333,9 @@
             const mapHref = formatMapUrl(item.mapLink, item.location);
 
             grid.innerHTML += `
-              <div class="card ${item.isSold ? 'sold-out' : ''}">
+              <div class="card ${item.isSold ? 'sold-out' : ''}" 
+                   onmousedown="startHold('${item.id}')" onmouseup="cancelHold()" onmouseleave="cancelHold()" 
+                   ontouchstart="startHold('${item.id}')" ontouchend="cancelHold()">
                 ${item.isSold ? '<div class="sold-badge-overlay">فرۆشراوە 🔒</div>' : ''}
                 <div class="card-img-wrapper" onclick="openGallery('${item.id}')">
                   <img src="${mainImg}" alt="${item.title}" class="card-img" loading="lazy">
@@ -1092,14 +1368,6 @@
                     <div class="card-footer-top">
                       <span class="price">${item.price}</span>
                     </div>
-                  </div>
-
-                  <div class="card-controls" style="display: ${isAdmin ? 'flex' : 'none'}">
-                    <div class="controls-row">
-                      <button class="btn btn-edit" style="flex:1" onclick="openEditModal('${item.id}')">دەستکاری</button>
-                      <button class="btn btn-sold" style="flex:1" onclick="toggleSoldStatus('${item.id}')">${item.isSold ? 'کردن بە بەردەست' : 'کردن بە فرۆشراو'}</button>
-                    </div>
-                    <button class="btn btn-danger" style="width:100%" onclick="deleteProperty('${item.id}')">سڕینەوەی یەکجارەکی</button>
                   </div>
                 </div>
               </div>
@@ -1248,39 +1516,6 @@
       subGroup.style.display = (cat === 'زەوی') ? 'block' : 'none';
     }
 
-    function handleAdminBtnClick() {
-      if (isAdmin) {
-        logoutAdmin();
-      } else {
-        document.getElementById('adminPassInput').value = '';
-        document.getElementById('loginError').style.display = 'none';
-        document.getElementById('loginModal').style.display = 'flex';
-        setTimeout(() => document.getElementById('adminPassInput').focus(), 100);
-      }
-    }
-
-    function verifyPassword(e) {
-      e.preventDefault();
-      const enteredPass = document.getElementById('adminPassInput').value.trim();
-      const actualPass = String(siteSettings.adminPass || "123321").trim();
-
-      if (enteredPass === actualPass || enteredPass === "123321") {
-        isAdmin = true;
-        document.getElementById('adminBar').style.display = 'flex';
-        closeModals();
-        updateAdminStats();
-        renderProperties();
-      } else {
-        document.getElementById('loginError').style.display = 'block';
-      }
-    }
-
-    function logoutAdmin() {
-      isAdmin = false;
-      document.getElementById('adminBar').style.display = 'none';
-      renderProperties();
-    }
-
     function openAddModal() {
       document.getElementById('modalTitle').innerText = "زیادکردنی موڵک";
       document.getElementById('propForm').reset();
@@ -1339,14 +1574,14 @@
 
     function openSettingsModal() {
       document.getElementById('setSiteName').value = siteSettings.siteName;
-      document.getElementById('setAdminPass').value = siteSettings.adminPass || "123321";
       document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
       document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
 
       document.getElementById('setGridCols').value = siteSettings.gridCols || "2";
-      document.getElementById('setUiSize').value = siteSettings.uiSize || "ultra-compact";
       document.getElementById('setPrimaryColor').value = siteSettings.primaryColor || "#0284c7";
+      document.getElementById('setHeaderBgColor').value = siteSettings.headerBgColor || "#ffffff";
+      document.getElementById('setAdminBgColor').value = siteSettings.adminBgColor || "#0f172a";
       document.getElementById('setBgColor').value = siteSettings.bgColor || "#f8fafc";
       document.getElementById('setCardColor').value = siteSettings.cardColor || "#ffffff";
 
@@ -1410,9 +1645,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(propObj)
         });
-      } catch (err) {
-        console.warn("Saved to local engine.");
-      }
+      } catch (err) {}
 
       saveBtn.innerText = "پاشەکەوتکردن";
       saveBtn.disabled = false;
@@ -1471,7 +1704,7 @@
 
       saveBtn.innerText = "پاشەکەوتکردنی داواکاری";
       saveBtn.disabled = false;
-      alert("داواکارییەکە بە سەرکەوتوویی لە بەشی خوازیار زیادکرا!");
+      alert("داواکارییەکە بە سەرکەوتوویی زیادکرا!");
     }
 
     async function toggleSoldStatus(id) {
@@ -1494,13 +1727,14 @@
     async function handleSettingsSubmit(e) {
       e.preventDefault();
       siteSettings = {
+        ...siteSettings,
         siteName: document.getElementById('setSiteName').value,
-        adminPass: document.getElementById('setAdminPass').value || "123321",
         gridCols: document.getElementById('setGridCols').value,
-        uiSize: document.getElementById('setUiSize').value,
         apkUrl: document.getElementById('setApkUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         primaryColor: document.getElementById('setPrimaryColor').value,
+        headerBgColor: document.getElementById('setHeaderBgColor').value,
+        adminBgColor: document.getElementById('setAdminBgColor').value,
         bgColor: document.getElementById('setBgColor').value,
         cardColor: document.getElementById('setCardColor').value
       };
@@ -1572,7 +1806,7 @@
             method: 'PUT',
             body: JSON.stringify(properties)
           });
-          alert("تەواوی داتاکان بە سەرکەوتوویی گەڕێنرانەوە!");
+          alert("داتاکان گەڕێنرانەوە!");
         } catch (err) {
           alert("فایلەکە هەڵەیە!");
         }
@@ -1581,7 +1815,7 @@
     }
 
     async function clearEntireDatabase() {
-      if (confirm("⚠️ ئاگاداری: ئایا دڵنیایت لە سڕینەوەی هەموو موڵکەکان بۆ پاککردنەوەی تەواوی داتابەیس؟")) {
+      if (confirm("ئایا دڵنیایت لە سڕینەوەی هەموو موڵکەکان؟")) {
         properties = [];
         localStorage.removeItem('dashti_master_props');
         renderProperties();
@@ -1599,7 +1833,6 @@
     applySettings();
     applyThemeSettings();
     updateAdminStats();
-    renderProperties();
     checkStandaloneMode();
     loadData();
   </script>
