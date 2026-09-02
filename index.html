@@ -1320,7 +1320,14 @@
       } else if (activeMainTab === 'زەوی') {
         list = list.filter(p => p.subCategory === activeLandSubTab);
       } else if (activeMainTab === 'خوازیار / پێویستە') {
-        list = list.filter(p => p.type === activeWantSubTab);
+        list = list.filter(p => {
+          const t = p.type || '';
+          if (activeWantSubTab === 'بۆ کرێ') {
+            return t.includes('کرێ');
+          } else {
+            return t.includes('کڕین') || !t.includes('کرێ');
+          }
+        });
       }
 
       list.forEach(item => {
@@ -1614,7 +1621,7 @@
       document.getElementById('wantModalTitle').innerText = "دەستکاریکردنی داواکاری";
       document.getElementById('editWantId').value = item.id;
       document.getElementById('wantTitle').value = item.title;
-      document.getElementById('wantPropertyType').value = item.type || 'بۆ کڕین';
+      document.getElementById('wantPropertyType').value = item.type && item.type.includes('کرێ') ? 'بۆ کرێ' : 'بۆ کڕین';
       document.getElementById('wantPrice').value = item.price;
       document.getElementById('wantPhone').value = item.ownerPhone || '';
       document.getElementById('wantDesc').value = item.desc;
