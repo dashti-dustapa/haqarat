@@ -473,7 +473,6 @@
       display: none; flex-direction: column; align-items: center; width: 100%; max-width: 450px; margin: auto; text-align: center;
     }
 
-    /* تختی دامەی کوردی مۆدێرن و ڕەنگاوڕەنگ */
     .checkers-board {
       display: grid; grid-template-columns: repeat(8, 1fr); width: 340px; height: 340px;
       border: 5px solid #1e293b; border-radius: 12px; margin: 15px auto; box-shadow: 0 12px 30px rgba(0,0,0,0.3);
@@ -495,7 +494,6 @@
     .piece-king::after { content: '👑'; font-size: 0.85rem; position: absolute; }
     .checkers-cell.selected { background: rgba(244, 63, 94, 0.5) !important; }
 
-    /* تختی Tic-Tac-Toe */
     .tictactoe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 320px; width: 100%; margin: 20px auto; }
     .tictactoe-cell {
       width: 100%; aspect-ratio: 1; background: var(--card-bg); border: 2px solid var(--border);
@@ -666,6 +664,7 @@
 </head>
 <body>
 
+  <!-- شاشەی سپلاشی سەرەتایی کە بە تەواوی کۆنتڕۆڵ کراوە بۆ ئەوەی قەتیس نەبێت -->
   <div id="customSplashScreen">
     <img id="splashLogoImg" class="splash-logo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
     <div id="splashTitleText" class="splash-title">عقارات دەشتی دوستەپە</div>
@@ -673,6 +672,7 @@
     <div class="splash-spinner"></div>
   </div>
 
+  <!-- مۆداڵی قفڵی ئەپ (Security Lock) -->
   <div id="appLockModal">
     <div class="lock-card" onclick="event.stopPropagation()">
       <div class="lock-icon-circle">🔒</div>
@@ -682,6 +682,7 @@
     </div>
   </div>
 
+  <!-- هیدەری سەرەکی ماڵپەڕ -->
   <header id="siteHeader">
     <div class="logo-wrapper">
       <img id="siteLogoIcon" class="logo-icon" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
@@ -695,6 +696,7 @@
     </div>
   </header>
 
+  <!-- بەشی بەڕێوەبەر (Admin Panel Container) -->
   <div id="adminViewContainer">
     <div class="admin-status-indicator">👑 تۆ ئێستا لە بەشی بەڕێوەبەری</div>
     <div class="admin-actions-stacked">
@@ -703,8 +705,10 @@
     </div>
   </div>
 
+  <!-- ناوەڕۆکی گشتی ماڵپەڕ -->
   <div class="container" id="publicMainContainer">
     
+    <!-- بەشی ئامارەکان (Public Stats Section) -->
     <div class="public-stats-section">
       <div class="public-stats-grid">
         <div class="stat-item">خانوو (فرۆشتن)<div class="stat-val" id="statHousesSale">0</div></div>
@@ -716,6 +720,7 @@
       </div>
     </div>
 
+    <!-- شاشەی سەرەکی و هێڵی بەشەکان -->
     <div id="homeCategoryScreen">
       <div class="categories-hub" id="categoriesHubGrid">
         <div class="cat-card-btn" onclick="navigateToCategory('خانوو')">
@@ -775,6 +780,7 @@
       </div>
     </div>
 
+    <!-- شاشەی نیشاندانی موڵکەکانی ناو هەر بەشێک -->
     <div id="propertiesScreen">
       <div class="category-back-bar">
         <button class="back-btn-ui" onclick="navigateBackToHome()">➔</button>
@@ -802,7 +808,7 @@
 
   </div>
 
-  <!-- فوول سکرین سەنتەری یارییەکان -->
+  <!-- سەنتەری یارییەکان (فوول سکرین) -->
   <div class="fullscreen-game-overlay" id="gameFullscreenOverlay">
     <div class="game-header-bar">
       <button class="game-back-btn" onclick="closeGameFullscreen()">➔ گەڕانەوە بۆ ماڵپەڕ</button>
@@ -810,7 +816,6 @@
       <div style="width:70px;"></div>
     </div>
 
-    <!-- مینیوی هەڵبژاردنی یاری -->
     <div id="gameHubMenu" style="max-width:500px; margin: auto; width:100%; text-align:center;">
       <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">کام یارییە ئەنجام دەدەیت؟</h2>
       <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەکی خۆش هەڵبژێرە بۆ کاتی پشوو و بێزاری</p>
@@ -830,7 +835,6 @@
       </div>
     </div>
 
-    <!-- پەنجەرەی هەڵبژاردنی شێوازی یاری (دوو نەفەری / لەگەڵ بۆت) -->
     <div class="game-screen-box" id="gameModeSelectorBox">
       <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;" id="selectedGameNameTitle">شێوازی یاری هەڵبژێرە</h2>
       
@@ -855,7 +859,6 @@
       <button class="btn" style="width:100%; max-width:340px; padding:0.7rem; margin-top:8px; background:var(--border); color:var(--text);" onclick="backToGameHub()">← گەڕانەوە</button>
     </div>
 
-    <!-- شاشەی یاریکردنی دامەی کوردی -->
     <div class="game-screen-box" id="checkersPlayBox">
       <div style="display:flex; justify-content:space-between; width:100%; max-width:380px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
         <span id="checkersTurnText" style="color:var(--primary);">نۆبەی: سەوز (🟢)</span>
@@ -865,7 +868,6 @@
       <div id="checkersMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:8px; min-height:24px;"></div>
     </div>
 
-    <!-- شاشەی یاریکردنی Tic-Tac-Toe -->
     <div class="game-screen-box" id="tttPlayBox">
       <div style="display:flex; justify-content:space-between; width:100%; max-width:320px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
         <span id="tttTurnText" style="color:var(--primary);">نۆبەی: X</span>
@@ -886,6 +888,7 @@
     </div>
   </div>
 
+  <!-- پۆستەری ستۆری بۆ داگرتن -->
   <div id="storyPosterWrapper">
     <div class="story-top-bar">
       <div class="story-office-group">
@@ -894,7 +897,6 @@
       </div>
       <span class="story-badge-pill" id="storyBadgeTag">بۆ فرۆشتن</span>
     </div>
-
     <div class="story-card-center">
       <div class="story-img-container">
         <img id="storyMainImage" src="" alt="Property" crossorigin="anonymous">
@@ -905,11 +907,8 @@
         <div class="story-price-styled" id="storyPriceText">$0</div>
       </div>
     </div>
-
     <div class="story-footer-bar">
-      <div class="story-footer-text">
-        <span>📞 پەیوەندی و زانیاری:</span>
-      </div>
+      <div class="story-footer-text"><span>📞 پەیوەندی و زانیاری:</span></div>
       <div class="story-footer-num" id="storyPhoneText">0750xxxxxxx</div>
     </div>
   </div>
@@ -1224,7 +1223,7 @@
 
     let holdTimer = null;
     let selectedHoldItemId = null;
-
+    
     let currentGameType = '';
     let currentMatchType = '2p';
     let currentBotDiff = 'easy';
@@ -1826,4 +1825,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
