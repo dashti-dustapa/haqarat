@@ -166,6 +166,7 @@
     }
     .btn:active { transform: scale(0.95); }
     .btn-admin { background: transparent; color: var(--text); font-size: 1.25rem; padding: 0.35rem; }
+    .btn-game { background: transparent; color: var(--text); font-size: 1.2rem; padding: 0.35rem; cursor: pointer; border: none; }
     .btn-dark-toggle { background: transparent; color: var(--text); font-size: 1.2rem; padding: 0.35rem; cursor: pointer; border: none; transition: transform 0.3s ease; }
     .btn-dark-toggle:active { transform: rotate(30deg) scale(0.9); }
     .btn-primary { background: var(--primary); color: #fff; }
@@ -389,7 +390,7 @@
       100% { background-position: -200% 0; }
     }
 
-    /* پۆستەری ڕاستەقینەی ستۆری بە قەبارەی تەواوی 9:16 و وێنەی پاک و ڕێک بێ ڕاکێشان */
+    /* پۆستەری ڕاستەقینەی ستۆری (پێوانەی 9:16ی جێگیر بە object-fit: contain بۆ پاراستنی سروشتی وێنەکە) */
     #storyPosterWrapper {
       position: fixed; left: -9999px; top: 0;
       width: 540px; height: 960px;
@@ -444,6 +445,23 @@
     }
     .story-footer-text { font-size: 1.05rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; }
     .story-footer-num { font-size: 1.35rem; font-weight: 800; color: #fef08a; letter-spacing: 1px; direction: ltr; }
+
+    /* مینی گەیم سادە */
+    #gameModal .modal-content { text-align: center; }
+    .game-board {
+      width: 100%; height: 260px; background: #020617; border-radius: 12px;
+      position: relative; overflow: hidden; margin: 10px 0; border: 1px solid var(--border);
+    }
+    .game-target {
+      width: 45px; height: 45px; background: #10b981; border-radius: 50%;
+      position: absolute; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
+      animation: targetPulse 1s infinite alternate;
+    }
+    @keyframes targetPulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
 
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -625,6 +643,7 @@
       <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
     </div>
     <div class="header-btns">
+      <button class="btn-game" onclick="openGameModal()" title="یاری بۆ کاتی بێزاری">🎮</button>
       <button class="btn-dark-toggle" onclick="toggleDarkMode()" id="darkModeBtn" title="مۆدی شەو / ڕۆژ">🌙</button>
       <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="triggerDirectDownload()">📲 داگرتنی ئەپ (APK)</button>
       <button class="btn btn-admin" onclick="toggleAdminBar()" title="ڕێکخستنی بەڕێوەبەر">⚙️</button>
@@ -738,7 +757,7 @@
 
   </div>
 
-  <!-- دیزاینی پۆستەری ستۆری بە پێوانەی ستانداردی 9:16 بێ پانبوونەوەی وێنە -->
+  <!-- پۆستەری ستۆری بێ کێشەی پانبوونەوە -->
   <div id="storyPosterWrapper">
     <div class="story-top-bar">
       <div class="story-office-group">
@@ -764,6 +783,20 @@
         <span>📞 پەیوەندی و زانیاری:</span>
       </div>
       <div class="story-footer-num" id="storyPhoneText">0750xxxxxxx</div>
+    </div>
+  </div>
+
+  <!-- مۆداڵی یاری سادە بۆ کاتی بێزاری -->
+  <div class="modal" id="gameModal">
+    <div class="modal-content" style="max-width:380px;">
+      <span class="close-btn" onclick="closeModals()">×</span>
+      <h3 class="modal-title">🎮 یاری ڕاوکردنی خاڵەکان</h3>
+      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:6px;">کۆمکی خاڵە سەوزەکان بکە بۆ بەرزکردنەوەی ئامانج!</p>
+      <div style="font-size:0.85rem; font-weight:800; color:var(--primary); margin-bottom:6px;">نمرە: <span id="gameScore">0</span></div>
+      <div class="game-board" id="gameBoard" onclick="missGameClick()">
+        <div class="game-target" id="gameTarget" onclick="hitGameTarget(event)">🏠</div>
+      </div>
+      <button class="btn btn-primary" style="width:100%; margin-top:6px;" onclick="closeModals()">داخستنی یاری</button>
     </div>
   </div>
 
@@ -1077,6 +1110,8 @@
 
     let holdTimer = null;
     let selectedHoldItemId = null;
+    let gameScoreCount = 0;
+    let gameInterval = null;
 
     function triggerAutoKeyboardFocus() {
       const input = document.getElementById('appLockPassInput');
@@ -1119,6 +1154,39 @@
         document.body.classList.remove('dark-mode');
         if (btn) btn.innerText = '🌙';
       }
+    }
+
+    function openGameModal() {
+      gameScoreCount = 0;
+      document.getElementById('gameScore').innerText = gameScoreCount;
+      document.getElementById('gameModal').style.display = 'flex';
+      moveGameTarget();
+      if (gameInterval) clearInterval(gameInterval);
+      gameInterval = setInterval(moveGameTarget, 1200);
+      window.history.pushState({ modal: 'game' }, "", "");
+    }
+
+    function moveGameTarget() {
+      const target = document.getElementById('gameTarget');
+      const board = document.getElementById('gameBoard');
+      if (!target || !board) return;
+      const maxX = board.clientWidth - 50;
+      const maxY = board.clientHeight - 50;
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+      target.style.left = randomX + 'px';
+      target.style.top = randomY + 'px';
+    }
+
+    function hitGameTarget(e) {
+      e.stopPropagation();
+      gameScoreCount++;
+      document.getElementById('gameScore').innerText = gameScoreCount;
+      moveGameTarget();
+    }
+
+    function missGameClick() {
+      // دەتوانرێت کاتێک لە شوێنێکی بەتاڵ دەدرێت هەستی پێبکرێت
     }
 
     function formatTimeAgo(timestamp) {
@@ -2144,6 +2212,7 @@
 
     function closeModals(doPush = true) {
       document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+      if (gameInterval) clearInterval(gameInterval);
       if (doPush) {
         window.history.pushState({ screen: currentScreen }, "", "");
       }
