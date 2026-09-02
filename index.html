@@ -34,11 +34,19 @@
       --card-img-height: 160px;
       --grid-cols: repeat(1, 1fr);
     }
+    body.dark-mode {
+      --bg: #0b0f19;
+      --card-bg: #1e293b;
+      --header-bg: #111827;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #334155;
+    }
   </style>
   <style>
     html { font-size: var(--base-font-size); background-color: var(--bg); }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Kufi Arabic', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 35px; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 35px; transition: background-color 0.25s, color 0.25s; }
 
     #customSplashScreen {
       position: fixed;
@@ -126,13 +134,15 @@
       font-size: 0.78rem; cursor: pointer; border: none; transition: 0.2s;
       text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px;
     }
-    .btn-admin { background: transparent; color: var(--dark); font-size: 1.25rem; padding: 0.35rem; }
+    .btn-admin { background: transparent; color: var(--text); font-size: 1.25rem; padding: 0.35rem; }
+    .btn-dark-toggle { background: transparent; color: var(--text); font-size: 1.2rem; padding: 0.35rem; cursor: pointer; border: none; }
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-install { background: #10b981; color: #fff; font-size: 0.74rem; padding: 0.4rem 0.7rem; }
     .btn-edit { background: var(--edit); color: #fff; }
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-sold { background: #64748b; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
+    body.dark-mode .btn-map { background: #1e3a8a; color: #93c5fd; border-color: #3b82f6; }
 
     .public-stats-section {
       background: var(--card-bg);
@@ -212,13 +222,13 @@
     .category-title-header { font-size: 0.95rem; font-weight: 800; color: var(--text); }
 
     .sub-tabs-container {
-      display: flex; background: #e2e8f0; padding: 4px; border-radius: 8px; margin-bottom: 10px; gap: 4px;
+      display: flex; background: var(--border); padding: 4px; border-radius: 8px; margin-bottom: 10px; gap: 4px;
     }
     .sub-tab-btn {
       flex: 1; padding: 0.4rem; background: transparent; border: none; border-radius: 6px;
       font-size: 0.75rem; font-weight: 700; color: var(--text); cursor: pointer; transition: 0.2s; text-align: center;
     }
-    .sub-tab-btn.active { background: #ffffff; color: var(--dark); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .sub-tab-btn.active { background: var(--card-bg); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
 
     .grid { display: grid; grid-template-columns: var(--grid-cols); gap: 0.65rem; }
 
@@ -252,29 +262,37 @@
       display: inline-block; padding: 0.18rem 0.45rem; background: #e0f2fe;
       color: var(--primary); border-radius: 5px; font-size: 0.68rem; font-weight: 700;
     }
+    body.dark-mode .badge { background: #075985; color: #e0f2fe; }
     .badge-sub { background: #fef3c7; color: #b45309; }
+    body.dark-mode .badge-sub { background: #78350f; color: #fef3c7; }
     .badge-want { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+    body.dark-mode .badge-want { background: #78350f; color: #fef3c7; border-color: #b45309; }
     .badge-location { background: #f1f5f9; color: var(--dark); border: 1px solid #cbd5e1; }
-    .card-title { font-size: 0.9rem; font-weight: 700; color: var(--dark); margin-bottom: 0.25rem; cursor: pointer; }
+    body.dark-mode .badge-location { background: #334155; color: #f1f5f9; border-color: #475569; }
+    
+    .card-time-tag {
+      font-size: 0.65rem; color: var(--muted); display: inline-flex; align-items: center; gap: 3px; margin-right: auto;
+    }
+
+    .card-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; cursor: pointer; }
     .card-desc { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.5rem; line-height: 1.4; flex: 1; }
     
     .map-row { margin-bottom: 0.5rem; }
 
     .owner-phone-display {
-      background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.4rem 0.6rem;
-      border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #0f172a;
+      background: var(--bg); border: 1px solid var(--border); padding: 0.4rem 0.6rem;
+      border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: var(--text);
       display: flex; align-items: center; justify-content: space-between; text-decoration: none;
       cursor: pointer; transition: background 0.2s;
     }
-    .owner-phone-display:active { background: #f1f5f9; }
     .phone-text { color: var(--primary); letter-spacing: 0.5px; direction: ltr; }
 
-    .card-footer { display: flex; flex-direction: column; gap: 5px; border-top: 1px solid #f1f5f9; padding-top: 0.5rem; }
+    .card-footer { display: flex; flex-direction: column; gap: 5px; border-top: 1px solid var(--border); padding-top: 0.5rem; }
     .card-footer-top { display: flex; justify-content: space-between; align-items: center; }
     .price { font-size: 0.95rem; font-weight: 800; color: var(--primary); }
 
     .card-add-slot {
-      background: #ffffff; border: 2px dashed #94a3b8; border-radius: 12px;
+      background: var(--card-bg); border: 2px dashed #94a3b8; border-radius: 12px;
       min-height: 120px; display: flex; flex-direction: column; align-items: center;
       justify-content: center; cursor: pointer; text-align: center; padding: 0.8rem;
       transition: all 0.2s ease;
@@ -285,7 +303,8 @@
       color: var(--primary); display: flex; align-items: center; justify-content: center;
       font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;
     }
-    .card-add-slot-text { font-size: 0.8rem; font-weight: 800; color: #334155; }
+    body.dark-mode .card-add-slot-icon { background: #075985; color: #e0f2fe; }
+    .card-add-slot-text { font-size: 0.8rem; font-weight: 800; color: var(--text); }
 
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -295,27 +314,27 @@
     @media(min-width: 640px) { .modal { align-items: center; } }
 
     .modal-content {
-      background: #fff; padding: 1.1rem; border-radius: 16px 16px 0 0;
+      background: var(--card-bg); color: var(--text); padding: 1.1rem; border-radius: 16px 16px 0 0;
       width: 100%; max-width: 480px; position: relative; max-height: 85vh; overflow-y: auto;
     }
     @media(min-width: 640px) { .modal-content { border-radius: 14px; } }
 
-    .modal-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.8rem; }
+    .modal-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 0.8rem; color: var(--text); }
     .form-group { margin-bottom: 0.75rem; }
-    .form-group label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.25rem; color: var(--text); }
     .form-group input, .form-group textarea, .form-group select {
-      width: 100%; padding: 0.55rem; border: 1px solid #cbd5e1;
+      width: 100%; padding: 0.55rem; border: 1px solid var(--border); background: var(--bg); color: var(--text);
       border-radius: 7px; font-size: 0.8rem; outline: none;
     }
     .color-pickers-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-      background: #f8fafc; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px;
+      background: var(--bg); padding: 8px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 10px;
     }
     .color-field { display: flex; flex-direction: column; gap: 3px; }
-    .color-field label { font-size: 0.72rem; font-weight: 700; color: #475569; }
+    .color-field label { font-size: 0.72rem; font-weight: 700; color: var(--muted); }
     .color-field input[type="color"] {
-      width: 100%; height: 34px; padding: 2px; border: 1px solid #cbd5e1;
-      border-radius: 6px; cursor: pointer; background: #fff;
+      width: 100%; height: 34px; padding: 2px; border: 1px solid var(--border);
+      border-radius: 6px; cursor: pointer; background: var(--card-bg);
     }
 
     .close-btn { position: absolute; left: 0.9rem; top: 0.9rem; cursor: pointer; font-size: 1.3rem; font-weight: 800; color: #94a3b8; }
@@ -378,7 +397,7 @@
       align-items: flex-end; justify-content: center;
     }
     .action-sheet-box {
-      background: #ffffff; width: 100%; max-width: 450px; border-radius: 20px 20px 0 0;
+      background: var(--card-bg); width: 100%; max-width: 450px; border-radius: 20px 20px 0 0;
       padding: 1.2rem; display: flex; flex-direction: column; gap: 8px;
     }
     .action-sheet-title { font-size: 0.85rem; font-weight: 800; color: var(--muted); text-align: center; margin-bottom: 6px; }
@@ -389,7 +408,7 @@
 
     .tab-manage-item {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0.6rem; border-radius: 8px; background: #f8fafc; border: 1px solid var(--border); margin-bottom: 6px;
+      padding: 0.6rem; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); margin-bottom: 6px;
     }
   </style>
 </head>
@@ -417,6 +436,7 @@
       <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
     </div>
     <div class="header-btns">
+      <button class="btn-dark-toggle" onclick="toggleDarkMode()" id="darkModeBtn" title="مۆدی شەو / ڕۆژ">🌙</button>
       <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="triggerDirectDownload()">📲 داگرتنی ئەپ (APK)</button>
       <button class="btn btn-admin" onclick="toggleAdminBar()" title="ڕێکخستنی بەڕێوەبەر">⚙️</button>
     </div>
@@ -681,7 +701,7 @@
             <button type="button" class="btn btn-primary" style="font-size:0.75rem; padding:0.55rem;" onclick="document.getElementById('customCatFileInput').click()">📁 فایلی مۆبایل</button>
           </div>
           <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
-            <div id="customCatIconPreview" style="width:34px; height:34px; border-radius:6px; border:1px solid #cbd5e1; display:flex; align-items:center; justify-content:center; font-size:1.3rem; background:#fff; overflow:hidden;">📁</div>
+            <div id="customCatIconPreview" style="width:34px; height:34px; border-radius:6px; border:1px solid #cbd5e1; display:flex; align-items:center; justify-content:center; font-size:1.3rem; background:var(--card-bg); overflow:hidden;">📁</div>
             <span style="font-size:0.75rem; color:#64748b;">پێشبینینی ئایکۆنی تابەکە</span>
           </div>
           <input type="hidden" id="customCatImgData">
@@ -834,6 +854,7 @@
 
     let isAppUnlocked = false;
     let isAdmin = false;
+    let isDarkMode = localStorage.getItem('dashti_theme_dark') === 'true';
     let currentScreen = 'home';
     let activeMainTab = 'خانوو';
     let activeHouseSubTab = 'بۆ فرۆشتن';
@@ -869,6 +890,41 @@
       document.body.addEventListener('click', activateKeyboard, { once: true });
     });
 
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      localStorage.setItem('dashti_theme_dark', isDarkMode);
+      applyDarkModeClass();
+    }
+
+    function applyDarkModeClass() {
+      const btn = document.getElementById('darkModeBtn');
+      if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        if (btn) btn.innerText = '☀️';
+      } else {
+        document.body.classList.remove('dark-mode');
+        if (btn) btn.innerText = '🌙';
+      }
+    }
+
+    function formatTimeAgo(timestamp) {
+      if (!timestamp) return 'ئەمڕۆ';
+      const now = Date.now();
+      const diffSec = Math.floor((now - Number(timestamp)) / 1000);
+
+      if (diffSec < 60) return 'کەمێک لەمەوبەر';
+      const diffMin = Math.floor(diffSec / 60);
+      if (diffMin < 60) return `پێش ${diffMin} خولەک`;
+      const diffHour = Math.floor(diffMin / 60);
+      if (diffHour < 24) return `پێش ${diffHour} کاتژمێر`;
+      const diffDays = Math.floor(diffHour / 24);
+      if (diffDays === 1) return 'دوێنێ';
+      if (diffDays < 30) return `پێش ${diffDays} ڕۆژ`;
+      const diffMonths = Math.floor(diffDays / 30);
+      if (diffMonths < 12) return `پێش ${diffMonths} مانگ`;
+      return `پێش ${Math.floor(diffMonths / 12)} ساڵ`;
+    }
+
     function handleInstantUnlock(val) {
       const entered = String(val).trim();
       const actual = String(siteSettings.appPass || "0000").trim();
@@ -888,6 +944,7 @@
     window.addEventListener('load', function() {
       window.history.pushState({ screen: 'home' }, "", "");
       triggerAutoKeyboardFocus();
+      applyDarkModeClass();
     });
 
     window.addEventListener('popstate', function(e) {
@@ -1170,6 +1227,8 @@
       if (statsSec) {
         statsSec.style.display = siteSettings.showStats || "block";
       }
+
+      applyDarkModeClass();
     }
 
     async function loadData() {
@@ -1297,7 +1356,7 @@
         row.innerHTML = `
           <div style="display:flex; align-items:center; gap:8px;">
             <span style="font-size:1.1rem; display:flex; align-items:center;">${iconContent}</span>
-            <div style="font-size:0.85rem; font-weight:800; color:#0f172a;">${cat.title}</div>
+            <div style="font-size:0.85rem; font-weight:800; color:var(--text);">${cat.title}</div>
           </div>
           <div style="display:flex; gap:4px;">
             <button class="btn btn-edit" style="padding:0.25rem 0.5rem; font-size:0.7rem;" onclick="startEditCustomCategory('${cat.id}')">دەستکاری</button>
@@ -1457,6 +1516,8 @@
       }
 
       list.forEach(item => {
+        const timeStr = formatTimeAgo(item.createdAt || (item.id && item.id.startsWith('p_') ? item.id.replace('p_','') : ''));
+
         if (item.category === 'خوازیار / پێویستە') {
           grid.innerHTML += `
             <div class="card card-want ${item.isSold ? 'sold-out' : ''}" 
@@ -1467,6 +1528,7 @@
                 <div class="badge-group">
                   <span class="badge badge-want">🔍 داواکاری</span>
                   <span class="badge">${item.type || 'بۆ کڕین'}</span>
+                  <span class="card-time-tag">⏱️ ${timeStr}</span>
                 </div>
                 <h3 class="card-title">${item.title}</h3>
                 <p class="card-desc">${item.desc}</p>
@@ -1506,6 +1568,7 @@
                   <span class="badge">${item.category}</span>
                   ${item.subCategory ? `<span class="badge badge-sub">${item.subCategory}</span>` : ''}
                   ${item.location ? `<span class="badge badge-location">📍 ${item.location}</span>` : ''}
+                  <span class="card-time-tag">⏱️ ${timeStr}</span>
                 </div>
                 <h3 class="card-title" onclick="openGallery('${item.id}')">${item.title}</h3>
                 <p class="card-desc">${item.desc}</p>
@@ -1804,7 +1867,8 @@
 
       const finalImages = (uploadedImagesList.length > 0) ? uploadedImagesList : ["https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop"];
 
-      const propId = editId ? editId : 'p_' + Date.now();
+      const now = Date.now();
+      const propId = editId ? editId : 'p_' + now;
       const propObj = { 
         id: propId, 
         title, 
@@ -1818,7 +1882,8 @@
         desc, 
         images: finalImages,
         image: finalImages[0],
-        isSold: false
+        isSold: false,
+        createdAt: editId ? (properties.find(p => String(p.id) === String(editId))?.createdAt || now) : now
       };
 
       if (editId) {
@@ -1857,7 +1922,8 @@
       const ownerPhone = document.getElementById('wantPhone').value;
       const desc = document.getElementById('wantDesc').value;
 
-      const propId = editId ? editId : 'want_' + Date.now();
+      const now = Date.now();
+      const propId = editId ? editId : 'want_' + now;
       const wantObj = {
         id: propId,
         title,
@@ -1871,7 +1937,8 @@
         mapLink: '',
         images: [],
         image: '',
-        isSold: false
+        isSold: false,
+        createdAt: editId ? (properties.find(p => String(p.id) === String(editId))?.createdAt || now) : now
       };
 
       if (editId) {
