@@ -473,7 +473,6 @@
       display: none; flex-direction: column; align-items: center; width: 100%; max-width: 450px; margin: auto; text-align: center;
     }
 
-    /* تختی دامەی کوردی مۆدێرن و ڕەنگاوڕەنگ */
     .checkers-board {
       display: grid; grid-template-columns: repeat(8, 1fr); width: 340px; height: 340px;
       border: 5px solid #1e293b; border-radius: 12px; margin: 15px auto; box-shadow: 0 12px 30px rgba(0,0,0,0.3);
@@ -495,7 +494,6 @@
     .piece-king::after { content: '👑'; font-size: 0.85rem; position: absolute; }
     .checkers-cell.selected { background: rgba(244, 63, 94, 0.5) !important; }
 
-    /* تختی Tic-Tac-Toe */
     .tictactoe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 320px; width: 100%; margin: 20px auto; }
     .tictactoe-cell {
       width: 100%; aspect-ratio: 1; background: var(--card-bg); border: 2px solid var(--border);
@@ -1225,18 +1223,15 @@
     let holdTimer = null;
     let selectedHoldItemId = null;
     
-    // متوەڕکەکانی یارییەکان
     let currentGameType = '';
     let currentMatchType = '2p';
     let currentBotDiff = 'easy';
 
-    // دامەی کوردی (Checkers)
     let checkersBoardData = [];
-    let checkersTurn = 'emerald'; // 'emerald' (سەوز) یاخود 'gold' (زێڕین)
+    let checkersTurn = 'emerald';
     let checkersSelected = null;
     let checkersActive = true;
 
-    // Tic-Tac-Toe
     let tttBoardData = ['', '', '', '', '', '', '', '', ''];
     let tttTurn = 'X';
     let tttActive = true;
@@ -1335,7 +1330,6 @@
       }
     }
 
-    // ---------------- لۆژیکی دامەی کوردی ----------------
     function initCheckersGame() {
       checkersBoardData = [];
       for (let r = 0; r < 8; r++) {
@@ -1421,16 +1415,14 @@
         const dr = tr - sr;
         const dc = tc - sc;
 
-        // دامەی کوردی: لە شێوازی ڕەسەندا مهۆڕەکان دەتوانن پێشەوە و لاوەکی بڕۆن بۆ هەر لایەک
         if (Math.abs(dr) === 1 && Math.abs(dc) === 1) {
           if (!piece.king) {
-            if (piece.player === 'emerald' && dr > 0) return false; // تەنها پێشەوە بۆ یاریزانی خوارەوە
+            if (piece.player === 'emerald' && dr > 0) return false;
             if (piece.player === 'gold' && dr < 0) return false;
           }
           return true;
         }
 
-        // خواردنی تاشەبەرد
         if (Math.abs(dr) === 2 && Math.abs(dc) === 2) {
           const mr = sr + dr / 2;
           const mc = sc + dc / 2;
@@ -1521,7 +1513,6 @@
       checkCheckersWinner();
     }
 
-    // ---------------- لۆژیکی Tic-Tac-Toe ----------------
     function initTTTGame() {
       tttBoardData = ['', '', '', '', '', '', '', '', ''];
       tttTurn = 'X';
@@ -1600,6 +1591,41 @@
         }
       }
       return null;
+    }
+
+    function formatTimeAgo(timestamp) {
+      if (!timestamp) return 'ئەمڕۆ';
+      const now = Date.now();
+      const diffSec = Math.floor((now - Number(timestamp)) / 1000);
+
+      if (diffSec < 60) return 'کەمێک لەمەوبەر';
+      const diffMin = Math.floor(diffSec / 60);
+      if (diffMin < 60) return `پێش ${diffMin} خولەک`;
+      const diffHour = Math.floor(diffMin / 60);
+      if (diffHour < 24) return `پێش ${diffHour} کاتژمێر`;
+      const diffDays = Math.floor(diffHour / 24);
+      if (diffDays === 1) return 'دوێنێ';
+      if (diffDays < 30) return `پێش ${diffDays} ڕۆژ`;
+      const diffMonths = Math.floor(diffDays / 30);
+      if (diffMonths < 12) return `پێش ${diffMonths} مانگ`;
+      return `پێش ${Math.floor(diffMonths / 12)} ساڵ`;
+    }
+
+    function renderSkeletonLoading() {
+      const grid = document.getElementById('propertiesGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      for (let i = 0; i < 3; i++) {
+        grid.innerHTML += `
+          <div class="skeleton-card">
+            <div class="skeleton-shimmer" style="height: var(--card-img-height); width: 100%;"></div>
+            <div class="skeleton-shimmer" style="height: 18px; width: 40%;"></div>
+            <div class="skeleton-shimmer" style="height: 22px; width: 75%;"></div>
+            <div class="skeleton-shimmer" style="height: 14px; width: 90%;"></div>
+            <div class="skeleton-shimmer" style="height: 26px; width: 50%; margin-top: auto;"></div>
+          </div>
+        `;
+      }
     }
 
     async function handleFormSubmit(e) {
