@@ -392,60 +392,22 @@
 
     #storyPosterWrapper {
       position: fixed; left: -9999px; top: 0;
-      width: 540px; height: 960px;
-      background: radial-gradient(circle at top right, #1e293b 0%, #0b0f19 100%);
-      color: #fff; padding: 36px 28px; box-sizing: border-box;
-      display: flex; flex-direction: column; justify-content: space-between;
+      width: 450px;
+      background: #0f172a; color: #fff; border-radius: 24px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 14px; box-sizing: border-box;
       font-family: 'Noto Kufi Arabic', sans-serif;
     }
-    .story-top-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(255,255,255,0.06); padding: 14px 18px; border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(8px);
-    }
-    .story-office-group { display: flex; align-items: center; gap: 12px; }
-    .story-logo-img { width: 44px; height: 44px; object-fit: contain; border-radius: 10px; }
-    .story-logo-name { font-size: 1.1rem; font-weight: 800; color: #38bdf8; }
-    .story-badge-pill {
-      background: #0284c7; color: #fff; padding: 6px 14px; border-radius: 10px;
-      font-size: 0.85rem; font-weight: 800; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
-    }
+    .story-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 12px; }
+    .story-logo-group { display: flex; align-items: center; gap: 10px; }
+    .story-logo-img { width: 42px; height: 42px; object-fit: contain; }
+    .story-logo-name { font-size: 1.15rem; font-weight: 800; color: #38bdf8; }
+    .story-tag { background: #e0f2fe; color: #0284c7; padding: 0.3rem 0.7rem; border-radius: 8px; font-size: 0.85rem; font-weight: 800; }
+    .story-img-main { width: 100%; height: 260px; object-fit: cover; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); }
+    .story-title { font-size: 1.25rem; font-weight: 800; line-height: 1.4; color: #f8fafc; }
+    .story-price { font-size: 1.35rem; font-weight: 800; color: #10b981; }
+    .story-phone-box { background: rgba(255,255,255,0.08); padding: 0.8rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 1rem; font-weight: 800; }
 
-    .story-card-center {
-      display: flex; flex-direction: column; gap: 14px;
-      background: rgba(30, 41, 59, 0.85); padding: 18px; border-radius: 22px;
-      border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    }
-    .story-img-container {
-      width: 100%; height: 420px; border-radius: 16px; overflow: hidden;
-      background: #000000; border: 1px solid rgba(255,255,255,0.1);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .story-img-container img {
-      width: 100%; height: 100%; object-fit: contain; display: block;
-    }
-    .story-details-box { display: flex; flex-direction: column; gap: 6px; }
-    .story-title-styled {
-      font-size: 1.35rem; font-weight: 800; color: #f8fafc; line-height: 1.4;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-    .story-location-tag {
-      font-size: 0.95rem; color: #94a3b8; display: flex; align-items: center; gap: 6px; font-weight: 600;
-    }
-    .story-price-styled {
-      font-size: 1.6rem; font-weight: 800; color: #10b981;
-      text-shadow: 0 2px 8px rgba(16, 185, 129, 0.3); margin-top: 4px;
-    }
-
-    .story-footer-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      background: linear-gradient(135deg, #0284c7, #0369a1); padding: 16px 20px;
-      border-radius: 18px; box-shadow: 0 10px 25px rgba(2, 132, 199, 0.35);
-    }
-    .story-footer-text { font-size: 1.05rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; }
-    .story-footer-num { font-size: 1.35rem; font-weight: 800; color: #fef08a; letter-spacing: 1px; direction: ltr; }
-
-    /* فوول سکرین سەنتەری یارییەکان (دامەی کوردی ڕەنگاوڕەنگ و Tic-Tac-Toe) */
+    /* فوول سکرین سەنتەری یارییەکان (تەواوی بەشەکان) */
     .fullscreen-game-overlay {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: var(--bg); z-index: 999999; flex-direction: column;
@@ -813,7 +775,6 @@
       <div style="width:70px;"></div>
     </div>
 
-    <!-- مینیوی هەڵبژاردنی یاری -->
     <div id="gameHubMenu" style="max-width:500px; margin: auto; width:100%; text-align:center;">
       <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">کام یارییە ئەنجام دەدەیت؟</h2>
       <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەکی خۆش هەڵبژێرە بۆ کاتی پشوو و بێزاری</p>
@@ -833,7 +794,6 @@
       </div>
     </div>
 
-    <!-- هەڵبژاردنی شێوازی یاری -->
     <div class="game-screen-box" id="gameModeSelectorBox">
       <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;" id="selectedGameNameTitle">شێوازی یاری هەڵبژێرە</h2>
       
@@ -858,7 +818,6 @@
       <button class="btn" style="width:100%; max-width:340px; padding:0.7rem; margin-top:8px; background:var(--border); color:var(--text);" onclick="backToGameHub()">← گەڕانەوە</button>
     </div>
 
-    <!-- شاشەی دامە -->
     <div class="game-screen-box" id="checkersPlayBox">
       <div style="display:flex; justify-content:space-between; width:100%; max-width:380px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
         <span id="checkersTurnText" style="color:var(--primary);">نۆبەی: سەوز (🟢)</span>
@@ -868,7 +827,6 @@
       <div id="checkersMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:8px; min-height:24px;"></div>
     </div>
 
-    <!-- شاشەی Tic-Tac-Toe -->
     <div class="game-screen-box" id="tttPlayBox">
       <div style="display:flex; justify-content:space-between; width:100%; max-width:320px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
         <span id="tttTurnText" style="color:var(--primary);">نۆبەی: X</span>
@@ -1216,7 +1174,7 @@
 
     let holdTimer = null;
     let selectedHoldItemId = null;
-    
+
     let currentGameType = '';
     let currentMatchType = '2p';
     let currentBotDiff = 'easy';
