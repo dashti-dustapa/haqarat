@@ -446,7 +446,7 @@
     .story-footer-text { font-size: 1.05rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; }
     .story-footer-num { font-size: 1.35rem; font-weight: 800; color: #fef08a; letter-spacing: 1px; direction: ltr; }
 
-    /* مینی گەیم سێلێکشەن و یارییەکان */
+    /* مینی گەیم */
     .game-menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
     .game-menu-card {
       background: var(--bg); border: 2px solid var(--border); border-radius: 14px;
@@ -770,6 +770,34 @@
 
   </div>
 
+  <div id="storyPosterWrapper">
+    <div class="story-top-bar">
+      <div class="story-office-group">
+        <img id="storyLogoImg" class="story-logo-img" src="" alt="Logo">
+        <div id="storyOfficeName" class="story-logo-name">عقارات دەشتی دوستەپە</div>
+      </div>
+      <span class="story-badge-pill" id="storyBadgeTag">بۆ فرۆشتن</span>
+    </div>
+
+    <div class="story-card-center">
+      <div class="story-img-container">
+        <img id="storyMainImage" src="" alt="Property" crossorigin="anonymous">
+      </div>
+      <div class="story-details-box">
+        <div class="story-title-styled" id="storyTitleText">خانووی مۆدێرن</div>
+        <div class="story-location-tag" id="storyLocationText">📍 دوستەپە</div>
+        <div class="story-price-styled" id="storyPriceText">$0</div>
+      </div>
+    </div>
+
+    <div class="story-footer-bar">
+      <div class="story-footer-text">
+        <span>📞 پەیوەندی و زانیاری:</span>
+      </div>
+      <div class="story-footer-num" id="storyPhoneText">0750xxxxxxx</div>
+    </div>
+  </div>
+
   <!-- مۆداڵی سەرەکی هەڵبژاردنی یارییەکان -->
   <div class="modal" id="gameMenuModal">
     <div class="modal-content" style="max-width:380px; text-align:center;">
@@ -825,35 +853,6 @@
         <div class="clicker-target" id="clickerTarget" onclick="hitClickerTarget(event)">⭐</div>
       </div>
       <button class="btn btn-primary" style="width:100%; margin-top:6px;" onclick="openGameMenu()">گەڕانەوە بۆ لیستی یاری</button>
-    </div>
-  </div>
-
-  <!-- پۆستەری ستۆری -->
-  <div id="storyPosterWrapper">
-    <div class="story-top-bar">
-      <div class="story-office-group">
-        <img id="storyLogoImg" class="story-logo-img" src="" alt="Logo">
-        <div id="storyOfficeName" class="story-logo-name">عقارات دەشتی دوستەپە</div>
-      </div>
-      <span class="story-badge-pill" id="storyBadgeTag">بۆ فرۆشتن</span>
-    </div>
-
-    <div class="story-card-center">
-      <div class="story-img-container">
-        <img id="storyMainImage" src="" alt="Property" crossorigin="anonymous">
-      </div>
-      <div class="story-details-box">
-        <div class="story-title-styled" id="storyTitleText">خانووی مۆدێرن</div>
-        <div class="story-location-tag" id="storyLocationText">📍 دوستەپە</div>
-        <div class="story-price-styled" id="storyPriceText">$0</div>
-      </div>
-    </div>
-
-    <div class="story-footer-bar">
-      <div class="story-footer-text">
-        <span>📞 پەیوەندی و زانیاری:</span>
-      </div>
-      <div class="story-footer-num" id="storyPhoneText">0750xxxxxxx</div>
     </div>
   </div>
 
@@ -1167,8 +1166,6 @@
 
     let holdTimer = null;
     let selectedHoldItemId = null;
-    
-    // متوەڕکەکانی یارییەکان
     let clickerScoreCount = 0;
     let clickerInterval = null;
     let tttBoard = ['', '', '', '', '', '', '', '', ''];
@@ -1450,6 +1447,19 @@
       updateAdminViewDisplay();
       if (doPush) {
         window.history.pushState({ screen: currentScreen }, "", "");
+      }
+    }
+
+    function updateAdminViewDisplay() {
+      const adminContainer = document.getElementById('adminViewContainer');
+      const publicContainer = document.getElementById('publicMainContainer');
+
+      if (isAdmin) {
+        adminContainer.style.display = 'flex';
+        publicContainer.style.display = 'none';
+      } else {
+        adminContainer.style.display = 'none';
+        publicContainer.style.display = 'block';
       }
     }
 
@@ -2294,6 +2304,7 @@
     }
 
     function openSettingsModal() {
+      closeAdminBar(false);
       document.getElementById('setSiteName').value = siteSettings.siteName || "";
       document.getElementById('setAppPass').value = siteSettings.appPass || "0000";
       document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
@@ -2467,7 +2478,7 @@
         apkUrl: document.getElementById('setApkUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         gridCols: document.getElementById('setGridCols').value || "1",
-        cardImgHeight: document.getElementById('setCardImgHeight').value || "160px",
+        cardImgHeight: document.getElementById('cardImgHeight') ? document.getElementById('cardImgHeight').value : (siteSettings.cardImgHeight || "160px"),
         baseFontSize: document.getElementById('setBaseFontSize').value || "13.5px",
         showStats: document.getElementById('setShowStats').value || "block",
         primaryColor: document.getElementById('setPrimaryColor').value,
