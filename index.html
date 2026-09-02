@@ -390,7 +390,7 @@
       100% { background-position: -200% 0; }
     }
 
-    /* پۆستەری ڕاستەقینەی ستۆری (پێوانەی 9:16ی جێگیر بە object-fit: contain بۆ پاراستنی سروشتی وێنەکە) */
+    /* پۆستەری ستۆری */
     #storyPosterWrapper {
       position: fixed; left: -9999px; top: 0;
       width: 540px; height: 960px;
@@ -446,22 +446,35 @@
     .story-footer-text { font-size: 1.05rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; }
     .story-footer-num { font-size: 1.35rem; font-weight: 800; color: #fef08a; letter-spacing: 1px; direction: ltr; }
 
-    /* مینی گەیم سادە */
-    #gameModal .modal-content { text-align: center; }
-    .game-board {
-      width: 100%; height: 260px; background: #020617; border-radius: 12px;
-      position: relative; overflow: hidden; margin: 10px 0; border: 1px solid var(--border);
+    /* مینی گەیم سێلێکشەن و یارییەکان */
+    .game-menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .game-menu-card {
+      background: var(--bg); border: 2px solid var(--border); border-radius: 14px;
+      padding: 1.2rem 0.8rem; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;
     }
-    .game-target {
-      width: 45px; height: 45px; background: #10b981; border-radius: 50%;
-      position: absolute; cursor: pointer; display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
-      animation: targetPulse 1s infinite alternate;
+    .game-menu-card:active { transform: scale(0.96); border-color: var(--primary); }
+    
+    .tictactoe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 240px; margin: 15px auto; }
+    .tictactoe-cell {
+      width: 75px; height: 75px; background: var(--bg); border: 2px solid var(--border);
+      border-radius: 10px; font-size: 2rem; font-weight: 800; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; color: var(--primary);
     }
-    @keyframes targetPulse {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.1); }
+    .tictactoe-cell:active { background: #e0f2fe; }
+
+    .clicker-board {
+      width: 100%; height: 240px; background: #020617; border-radius: 14px;
+      position: relative; overflow: hidden; margin: 12px 0; border: 1px solid var(--border);
+      cursor: crosshair;
     }
+    .clicker-target {
+      width: 50px; height: 50px; background: #10b981; border-radius: 50%;
+      position: absolute; display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.6);
+      animation: targetPulse 0.8s infinite alternate;
+    }
+    @keyframes targetPulse { 0% { transform: scale(1); } 100% { transform: scale(1.15); } }
 
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -643,7 +656,7 @@
       <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
     </div>
     <div class="header-btns">
-      <button class="btn-game" onclick="openGameModal()" title="یاری بۆ کاتی بێزاری">🎮</button>
+      <button class="btn-game" onclick="openGameMenu()" title="سەنتەری یارییەکان">🎮</button>
       <button class="btn-dark-toggle" onclick="toggleDarkMode()" id="darkModeBtn" title="مۆدی شەو / ڕۆژ">🌙</button>
       <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="triggerDirectDownload()">📲 داگرتنی ئەپ (APK)</button>
       <button class="btn btn-admin" onclick="toggleAdminBar()" title="ڕێکخستنی بەڕێوەبەر">⚙️</button>
@@ -757,7 +770,65 @@
 
   </div>
 
-  <!-- پۆستەری ستۆری بێ کێشەی پانبوونەوە -->
+  <!-- مۆداڵی سەرەکی هەڵبژاردنی یارییەکان -->
+  <div class="modal" id="gameMenuModal">
+    <div class="modal-content" style="max-width:380px; text-align:center;">
+      <span class="close-btn" onclick="closeModals()">×</span>
+      <h3 class="modal-title">🎮 کام یاری دەکەیت؟</h3>
+      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:10px;">یەکێک لە یارییەکان هەڵبژێرە بۆ کاتی بێزاری:</p>
+      
+      <div class="game-menu-grid">
+        <div class="game-menu-card" onclick="startTicTacToeGame()">
+          <div style="font-size:2rem; margin-bottom:6px;">❌</div>
+          <div style="font-weight:800; font-size:0.85rem;">خەت و بازنە</div>
+          <div style="font-size:0.65rem; color:var(--muted); margin-top:2px;">یاری فکری X و O</div>
+        </div>
+
+        <div class="game-menu-card" onclick="startClickerGame()">
+          <div style="font-size:2rem; margin-bottom:6px;">🎯</div>
+          <div style="font-weight:800; font-size:0.85rem;">نیشانە شکاندن</div>
+          <div style="font-size:0.65rem; color:var(--muted); margin-top:2px;">ڕاوکردنی خاڵە خێراکان</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- مۆداڵی یاری X و O -->
+  <div class="modal" id="tictactoeModal">
+    <div class="modal-content" style="max-width:360px; text-align:center;">
+      <span class="close-btn" onclick="openGameMenu()">←</span>
+      <h3 class="modal-title">❌ یاری خەت و بازنە (Tic-Tac-Toe)</h3>
+      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:5px;" id="tttStatus">نۆبەی: X</p>
+      <div class="tictactoe-grid" id="tttGrid">
+        <div class="tictactoe-cell" onclick="makeTTTMove(0)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(1)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(2)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(3)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(4)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(5)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(6)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(7)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(8)"></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%; margin-top:8px;" onclick="resetTTTGame()">🔄 دەستپێکردنەوە</button>
+    </div>
+  </div>
+
+  <!-- مۆداڵی یاری نیشانە شکاندن -->
+  <div class="modal" id="clickerModal">
+    <div class="modal-content" style="max-width:380px; text-align:center;">
+      <span class="close-btn" onclick="openGameMenu()">←</span>
+      <h3 class="modal-title">🎯 نیشانە شکاندنی خێرا</h3>
+      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:4px;">تارگەتە سەوزەکان بگرە پێش ئەوەی بگۆڕێن!</p>
+      <div style="font-size:0.85rem; font-weight:800; color:var(--primary); margin-bottom:6px;">نمرەی تۆ: <span id="clickerScore">0</span></div>
+      <div class="clicker-board" id="clickerBoard">
+        <div class="clicker-target" id="clickerTarget" onclick="hitClickerTarget(event)">⭐</div>
+      </div>
+      <button class="btn btn-primary" style="width:100%; margin-top:6px;" onclick="openGameMenu()">گەڕانەوە بۆ لیستی یاری</button>
+    </div>
+  </div>
+
+  <!-- پۆستەری ستۆری -->
   <div id="storyPosterWrapper">
     <div class="story-top-bar">
       <div class="story-office-group">
@@ -783,20 +854,6 @@
         <span>📞 پەیوەندی و زانیاری:</span>
       </div>
       <div class="story-footer-num" id="storyPhoneText">0750xxxxxxx</div>
-    </div>
-  </div>
-
-  <!-- مۆداڵی یاری سادە بۆ کاتی بێزاری -->
-  <div class="modal" id="gameModal">
-    <div class="modal-content" style="max-width:380px;">
-      <span class="close-btn" onclick="closeModals()">×</span>
-      <h3 class="modal-title">🎮 یاری ڕاوکردنی خاڵەکان</h3>
-      <p style="font-size:0.75rem; color:var(--muted); margin-bottom:6px;">کۆمکی خاڵە سەوزەکان بکە بۆ بەرزکردنەوەی ئامانج!</p>
-      <div style="font-size:0.85rem; font-weight:800; color:var(--primary); margin-bottom:6px;">نمرە: <span id="gameScore">0</span></div>
-      <div class="game-board" id="gameBoard" onclick="missGameClick()">
-        <div class="game-target" id="gameTarget" onclick="hitGameTarget(event)">🏠</div>
-      </div>
-      <button class="btn btn-primary" style="width:100%; margin-top:6px;" onclick="closeModals()">داخستنی یاری</button>
     </div>
   </div>
 
@@ -1110,8 +1167,13 @@
 
     let holdTimer = null;
     let selectedHoldItemId = null;
-    let gameScoreCount = 0;
-    let gameInterval = null;
+    
+    // متوەڕکەکانی یارییەکان
+    let clickerScoreCount = 0;
+    let clickerInterval = null;
+    let tttBoard = ['', '', '', '', '', '', '', '', ''];
+    let tttTurn = 'X';
+    let tttActive = true;
 
     function triggerAutoKeyboardFocus() {
       const input = document.getElementById('appLockPassInput');
@@ -1156,37 +1218,94 @@
       }
     }
 
-    function openGameModal() {
-      gameScoreCount = 0;
-      document.getElementById('gameScore').innerText = gameScoreCount;
-      document.getElementById('gameModal').style.display = 'flex';
-      moveGameTarget();
-      if (gameInterval) clearInterval(gameInterval);
-      gameInterval = setInterval(moveGameTarget, 1200);
-      window.history.pushState({ modal: 'game' }, "", "");
+    function openGameMenu() {
+      closeModals(false);
+      document.getElementById('gameMenuModal').style.display = 'flex';
+      window.history.pushState({ modal: 'gameMenu' }, "", "");
     }
 
-    function moveGameTarget() {
-      const target = document.getElementById('gameTarget');
-      const board = document.getElementById('gameBoard');
+    function startTicTacToeGame() {
+      closeModals(false);
+      tttBoard = ['', '', '', '', '', '', '', '', ''];
+      tttTurn = 'X';
+      tttActive = true;
+      document.getElementById('tttStatus').innerText = 'نۆبەی: X';
+      renderTTTBoard();
+      document.getElementById('tictactoeModal').style.display = 'flex';
+      window.history.pushState({ modal: 'ttt' }, "", "");
+    }
+
+    function renderTTTBoard() {
+      const cells = document.querySelectorAll('.tictactoe-cell');
+      cells.forEach((cell, idx) => {
+        cell.innerText = tttBoard[idx];
+      });
+    }
+
+    function makeTTTMove(idx) {
+      if (!tttActive || tttBoard[idx] !== '') return;
+      tttBoard[idx] = tttTurn;
+      renderTTTBoard();
+
+      if (checkTTTWinner()) {
+        document.getElementById('tttStatus').innerText = `🎉 براوە: ${tttTurn} !`;
+        tttActive = false;
+        return;
+      }
+
+      if (!tttBoard.includes('')) {
+        document.getElementById('tttStatus').innerText = `🤝 یەکسانبوون!`;
+        tttActive = false;
+        return;
+      }
+
+      tttTurn = tttTurn === 'X' ? 'O' : 'X';
+      document.getElementById('tttStatus').innerText = `نۆبەی: ${tttTurn}`;
+    }
+
+    function checkTTTWinner() {
+      const wins = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+      ];
+      return wins.some(w => {
+        return tttBoard[w[0]] && tttBoard[w[0]] === tttBoard[w[1]] && tttBoard[w[0]] === tttBoard[w[2]];
+      });
+    }
+
+    function resetTTTGame() {
+      startTicTacToeGame();
+    }
+
+    function startClickerGame() {
+      closeModals(false);
+      clickerScoreCount = 0;
+      document.getElementById('clickerScore').innerText = clickerScoreCount;
+      document.getElementById('clickerModal').style.display = 'flex';
+      moveClickerTarget();
+      if (clickerInterval) clearInterval(clickerInterval);
+      clickerInterval = setInterval(moveClickerTarget, 1100);
+      window.history.pushState({ modal: 'clicker' }, "", "");
+    }
+
+    function moveClickerTarget() {
+      const target = document.getElementById('clickerTarget');
+      const board = document.getElementById('clickerBoard');
       if (!target || !board) return;
       const maxX = board.clientWidth - 50;
       const maxY = board.clientHeight - 50;
-      const randomX = Math.floor(Math.random() * maxX);
-      const randomY = Math.floor(Math.random() * maxY);
-      target.style.left = randomX + 'px';
-      target.style.top = randomY + 'px';
+      const rx = Math.floor(Math.random() * maxX);
+      const ry = Math.floor(Math.random() * maxY);
+      target.style.left = rx + 'px';
+      target.style.top = ry + 'px';
     }
 
-    function hitGameTarget(e) {
+    function hitClickerTarget(e) {
       e.stopPropagation();
-      gameScoreCount++;
-      document.getElementById('gameScore').innerText = gameScoreCount;
-      moveGameTarget();
-    }
-
-    function missGameClick() {
-      // دەتوانرێت کاتێک لە شوێنێکی بەتاڵ دەدرێت هەستی پێبکرێت
+      clickerScoreCount++;
+      document.getElementById('clickerScore').innerText = clickerScoreCount;
+      moveClickerTarget();
     }
 
     function formatTimeAgo(timestamp) {
@@ -1331,19 +1450,6 @@
       updateAdminViewDisplay();
       if (doPush) {
         window.history.pushState({ screen: currentScreen }, "", "");
-      }
-    }
-
-    function updateAdminViewDisplay() {
-      const adminContainer = document.getElementById('adminViewContainer');
-      const publicContainer = document.getElementById('publicMainContainer');
-
-      if (isAdmin) {
-        adminContainer.style.display = 'flex';
-        publicContainer.style.display = 'none';
-      } else {
-        adminContainer.style.display = 'none';
-        publicContainer.style.display = 'block';
       }
     }
 
@@ -2212,7 +2318,7 @@
 
     function closeModals(doPush = true) {
       document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-      if (gameInterval) clearInterval(gameInterval);
+      if (clickerInterval) clearInterval(clickerInterval);
       if (doPush) {
         window.history.pushState({ screen: currentScreen }, "", "");
       }
