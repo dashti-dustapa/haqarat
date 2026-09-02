@@ -161,7 +161,7 @@
       min-height: calc(100vh - 65px);
     }
     .admin-status-indicator {
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 800;
       color: #38bdf8;
       text-align: center;
@@ -170,15 +170,15 @@
     .admin-actions-stacked {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       max-width: 480px;
       width: 100%;
       margin: 0 auto;
     }
     .admin-stacked-btn {
       width: 100%;
-      padding: 0.9rem;
-      font-size: 0.95rem;
+      padding: 0.85rem;
+      font-size: 0.92rem;
       border-radius: 12px;
     }
 
@@ -424,10 +424,16 @@
 
   <!-- شاشەی تایبەتی بەڕێوەبەر -->
   <div id="adminViewContainer">
-    <div class="admin-status-indicator">👑 تۆ ئێستا لە بەشی بەڕێوەبەری</div>
+    <div class="admin-status-indicator">👑 پنێڵی کۆنتڕۆڵی تەواوی بەڕێوەبەر</div>
     <div class="admin-actions-stacked">
       <button class="btn btn-edit admin-stacked-btn" onclick="openSettingsModal()">🎨 ڕێکخستنی ماڵپەڕ</button>
       <button class="btn btn-primary admin-stacked-btn" onclick="openManageTabsModal()">📑 بەڕێوەبردنی تابەکان</button>
+      <button class="btn admin-stacked-btn" style="background:#0284c7; color:#fff;" onclick="closeAdminBar(); openAddModal();">➕ زیادکردنی موڵکی نوێ</button>
+      <button class="btn admin-stacked-btn" style="background:#f59e0b; color:#fff;" onclick="closeAdminBar(); openAddWantModal();">➕ زیادکردنی داواکاری نوێ</button>
+      <button class="btn admin-stacked-btn" style="background:#10b981; color:#fff;" onclick="exportAllDataBackup()">💾 داگرتنی کۆپی باکئەپ (Backup Data)</button>
+      <button class="btn admin-stacked-btn" style="background:#6366f1; color:#fff;" onclick="document.getElementById('importBackupFileInput').click()">📥 هێنانەوەی کۆپی داتا (Restore)</button>
+      <input type="file" id="importBackupFileInput" accept=".json" style="display:none;" onchange="importAllDataBackup(event)">
+      <button class="btn admin-stacked-btn" style="background:#334155; color:#fff;" onclick="closeAdminBar()">👁️ گەڕانەوە بۆ ماڵپەڕ</button>
     </div>
   </div>
 
@@ -725,8 +731,14 @@
           <input type="hidden" id="setLogoData">
         </div>
 
-        <div class="form-group" style="display:none;">
-          <input type="hidden" id="setGridCols" value="1">
+        <div class="form-group">
+          <label style="color:var(--primary); font-weight:800;">📐 ژمارەی کارتەکان لە تەنیشت یەکتر (Layout Grid):</label>
+          <select id="setGridCols">
+            <option value="1">۱ کارت لە هەر دێڕێکدا</option>
+            <option value="2">۲ کارت لە تەنیشت یەکتر</option>
+            <option value="3">۳ کارت لە تەنیشت یەکتر</option>
+            <option value="4">٤ کارت لە تەنیشت یەکتر</option>
+          </select>
         </div>
 
         <label style="font-size:0.75rem; font-weight:800; color:var(--dark); margin-bottom:5px; display:block;">🎨 کۆنتڕۆڵی ڕەنگەکانی ماڵپەڕ و بەڕێوەبەر:</label>
@@ -938,6 +950,69 @@
       }
     }
 
+    function exportAllDataBackup() {
+      const backupData = {
+        settings: siteSettings,
+        customCategories: customCategories,
+        properties: properties,
+        exportDate: new Date().toISOString()
+      };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `Backup_Dashti_Dustapa_${Date.now()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function importAllDataBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed.settings) {
+            siteSettings = { ...siteSettings, ...parsed.settings };
+            localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
+          }
+          if (parsed.customCategories) {
+            customCategories = Array.isArray(parsed.customCategories) ? parsed.customCategories : Object.values(parsed.customCategories);
+            localStorage.setItem('dashti_custom_cats', JSON.stringify(customCategories));
+          }
+          if (parsed.properties) {
+            properties = Array.isArray(parsed.properties) ? parsed.properties : Object.values(parsed.properties);
+            localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+          }
+
+          try {
+            await fetch(`${FIREBASE_URL}/.json`, {
+              method: 'PATCH',
+              body: JSON.stringify({
+                settings: siteSettings,
+                customCategories: customCategories,
+                properties: properties
+              })
+            });
+          } catch(err) {}
+
+          applySettings();
+          applyThemeSettings();
+          renderCustomCategoriesHub();
+          updatePublicStats();
+          renderProperties();
+          alert("هەموو داتاکانی باکئەپ بە سەرکەوتوویی گەڕێندرانەوە!");
+          closeAdminBar();
+        } catch (err) {
+          alert("فایلی باکئەپەکە تەواو نییە یان هەڵەی تێدایە!");
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
     function updatePublicStats() {
       document.getElementById('statHousesSale').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ فرۆشتن').length;
       document.getElementById('statHousesRent').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ بەکرێدان').length;
@@ -1037,13 +1112,14 @@
       const adminBg = siteSettings.adminBgColor || "#0f172a";
       const bg = siteSettings.bgColor || "#f8fafc";
       const card = siteSettings.cardColor || "#ffffff";
+      const cols = siteSettings.gridCols || "1";
 
       document.documentElement.style.setProperty('--primary', primary);
       document.documentElement.style.setProperty('--header-bg', headerBg);
       document.documentElement.style.setProperty('--admin-bg', adminBg);
       document.documentElement.style.setProperty('--bg', bg);
       document.documentElement.style.setProperty('--card-bg', card);
-      document.documentElement.style.setProperty('--grid-cols', `repeat(1, 1fr)`);
+      document.documentElement.style.setProperty('--grid-cols', `repeat(${cols}, 1fr)`);
     }
 
     async function loadData() {
@@ -1636,7 +1712,7 @@
       document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
 
-      document.getElementById('setGridCols').value = "1";
+      document.getElementById('setGridCols').value = siteSettings.gridCols || "1";
       document.getElementById('setPrimaryColor').value = siteSettings.primaryColor || "#0284c7";
       document.getElementById('setHeaderBgColor').value = siteSettings.headerBgColor || "#ffffff";
       document.getElementById('setAdminBgColor').value = siteSettings.adminBgColor || "#0f172a";
@@ -1790,7 +1866,7 @@
         ...siteSettings,
         siteName: document.getElementById('setSiteName').value,
         appPass: document.getElementById('setAppPass').value || "0000",
-        gridCols: "1",
+        gridCols: document.getElementById('setGridCols').value || "1",
         apkUrl: document.getElementById('setApkUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         primaryColor: document.getElementById('setPrimaryColor').value,
