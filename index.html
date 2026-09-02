@@ -126,17 +126,24 @@
     .btn-admin { background: transparent; color: var(--dark); font-size: 1.25rem; padding: 0.35rem; }
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-install { background: #10b981; color: #fff; font-size: 0.74rem; padding: 0.4rem 0.7rem; }
-    .btn-success { background: var(--accent); color: #fff; }
     .btn-edit { background: var(--edit); color: #fff; }
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-sold { background: #64748b; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
 
+    /* پانێڵی بەڕێوەبەر - تەنها و تەنها دوو تابەکەیە بە دەقی ئاگادارییەوە */
     .admin-bar {
       background: var(--admin-bg);
       color: #fff; padding: 0.85rem; display: none;
       flex-direction: column; gap: 8px; border-bottom: 3px solid var(--primary);
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .admin-status-indicator {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #38bdf8;
+      text-align: center;
+      margin-bottom: 2px;
     }
     .admin-actions-stacked {
       display: flex;
@@ -145,14 +152,13 @@
     }
     .admin-stacked-btn {
       width: 100%;
-      padding: 0.65rem;
-      font-size: 0.85rem;
-      border-radius: 9px;
+      padding: 0.75rem;
+      font-size: 0.9rem;
+      border-radius: 10px;
     }
 
     .container { max-width: 1100px; margin: auto; padding: 0.9rem 0.8rem; }
 
-    /* بەشی سەرەوەی هەڵبژاردنی تابەکان (بۆ گۆڕینی بەشەکان) */
     .tabs-wrapper {
       display: flex;
       gap: 6px;
@@ -405,15 +411,16 @@
     </div>
   </header>
 
+  <!-- تەنها تابی بەڕێوەبەر: دڵنیابوونەوە + دوو دوگمەکە لەسەر و خوار یەک -->
   <div class="admin-bar" id="adminBar">
+    <div class="admin-status-indicator">👑 تۆ ئێستا لە بەشی بەڕێوەبەری</div>
     <div class="admin-actions-stacked">
-      <button class="btn btn-edit admin-stacked-btn" onclick="openSettingsModal()">🎨 ڕێکخستنی سایت و ڕەنگەکان</button>
+      <button class="btn btn-edit admin-stacked-btn" onclick="openSettingsModal()">🎨 ڕێکخستنی ماڵپەڕ</button>
       <button class="btn btn-primary admin-stacked-btn" onclick="openManageTabsModal()">📑 بەڕێوەبردنی تابەکان</button>
     </div>
   </div>
 
   <div class="container">
-    <!-- بەشی تابەکانی سەرەوە بۆ گۆڕینی بەشەکان -->
     <div class="tabs-wrapper" id="mainTabsWrapper">
       <button class="tab-btn active" onclick="switchCategory('خانوو', this)">خانوو</button>
       <button class="tab-btn" onclick="switchCategory('شوێنی تیجاری', this)">شوێنی تیجاری</button>
@@ -422,19 +429,16 @@
       <button class="tab-btn tab-want" onclick="switchCategory('خوازیار / پێویستە', this)">🔍 خوازیار / پێویستە</button>
     </div>
 
-    <!-- ژێرپۆلی خانوو -->
     <div class="sub-tabs-container" id="houseSubTabs">
       <button class="sub-tab-btn active" onclick="switchHouseSubTab('بۆ فرۆشتن', this)">خانوو بۆ فرۆشتن</button>
       <button class="sub-tab-btn" onclick="switchHouseSubTab('بۆ بەکرێدان', this)">خانوو بۆ کرێ</button>
     </div>
 
-    <!-- ژێرپۆلی زەوی -->
     <div class="sub-tabs-container" id="landSubTabs" style="display:none;">
       <button class="sub-tab-btn active" onclick="switchLandSubTab('نیشتەجێبوون', this)">نیشتەجێبوون</button>
       <button class="sub-tab-btn" onclick="switchLandSubTab('زراعی', this)">زراعی</button>
     </div>
 
-    <!-- تۆڕی موڵکەکان -->
     <div class="grid" id="propertiesGrid"></div>
     <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
   </div>
@@ -591,7 +595,7 @@
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
-      <h3 class="modal-title">ڕێکخستنی سایت، کۆد و ڕەنگەکان</h3>
+      <h3 class="modal-title">ڕێکخستنی ماڵپەڕ</h3>
       <form onsubmit="handleSettingsSubmit(event)">
         <div class="form-group">
           <label>ناوی نوسینگە / ماڵپەڕ:</label>
@@ -1496,38 +1500,6 @@
           });
         } catch (e) {}
       }
-    }
-
-    async function handleSettingsSubmit(e) {
-      e.preventDefault();
-      siteSettings = {
-        ...siteSettings,
-        siteName: document.getElementById('setSiteName').value,
-        appPass: document.getElementById('setAppPass').value || "0000",
-        gridCols: document.getElementById('setGridCols').value,
-        apkUrl: document.getElementById('setApkUrl').value || "",
-        logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
-        primaryColor: document.getElementById('setPrimaryColor').value,
-        headerBgColor: document.getElementById('setHeaderBgColor').value,
-        adminBgColor: document.getElementById('setAdminBgColor').value,
-        bgColor: document.getElementById('setBgColor').value,
-        cardColor: document.getElementById('setCardColor').value
-      };
-
-      localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
-      applySettings();
-      applyThemeSettings();
-      renderProperties();
-      checkStandaloneMode();
-      closeModals();
-
-      try {
-        await fetch(`${FIREBASE_URL}/settings.json`, {
-          method: 'PUT',
-          body: JSON.stringify(siteSettings)
-        });
-      } catch (err) {}
-      alert("ڕێکخستنەکان نوێکرانەوە!");
     }
 
     async function deleteProperty(id) {
