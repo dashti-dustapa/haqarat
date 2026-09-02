@@ -161,7 +161,7 @@
       min-height: calc(100vh - 65px);
     }
     .admin-status-indicator {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
       color: #38bdf8;
       text-align: center;
@@ -170,15 +170,15 @@
     .admin-actions-stacked {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       max-width: 480px;
       width: 100%;
       margin: 0 auto;
     }
     .admin-stacked-btn {
       width: 100%;
-      padding: 0.85rem;
-      font-size: 0.92rem;
+      padding: 0.9rem;
+      font-size: 0.95rem;
       border-radius: 12px;
     }
 
@@ -424,16 +424,10 @@
 
   <!-- شاشەی تایبەتی بەڕێوەبەر -->
   <div id="adminViewContainer">
-    <div class="admin-status-indicator">👑 پنێڵی کۆنتڕۆڵی تەواوی بەڕێوەبەر</div>
+    <div class="admin-status-indicator">👑 تۆ ئێستا لە بەشی بەڕێوەبەری</div>
     <div class="admin-actions-stacked">
       <button class="btn btn-edit admin-stacked-btn" onclick="openSettingsModal()">🎨 ڕێکخستنی ماڵپەڕ</button>
       <button class="btn btn-primary admin-stacked-btn" onclick="openManageTabsModal()">📑 بەڕێوەبردنی تابەکان</button>
-      <button class="btn admin-stacked-btn" style="background:#0284c7; color:#fff;" onclick="closeAdminBar(); openAddModal();">➕ زیادکردنی موڵکی نوێ</button>
-      <button class="btn admin-stacked-btn" style="background:#f59e0b; color:#fff;" onclick="closeAdminBar(); openAddWantModal();">➕ زیادکردنی داواکاری نوێ</button>
-      <button class="btn admin-stacked-btn" style="background:#10b981; color:#fff;" onclick="exportAllDataBackup()">💾 داگرتنی کۆپی باکئەپ (Backup Data)</button>
-      <button class="btn admin-stacked-btn" style="background:#6366f1; color:#fff;" onclick="document.getElementById('importBackupFileInput').click()">📥 هێنانەوەی کۆپی داتا (Restore)</button>
-      <input type="file" id="importBackupFileInput" accept=".json" style="display:none;" onchange="importAllDataBackup(event)">
-      <button class="btn admin-stacked-btn" style="background:#334155; color:#fff;" onclick="closeAdminBar()">👁️ گەڕانەوە بۆ ماڵپەڕ</button>
     </div>
   </div>
 
@@ -741,6 +735,34 @@
           </select>
         </div>
 
+        <div class="form-group">
+          <label style="color:var(--primary); font-weight:800;">🖼️ بەرزی وێنەی کارتەکان (پێکسڵ):</label>
+          <select id="setCardImgHeight">
+            <option value="140px">بچووک (140px)</option>
+            <option value="160px">مامناوەند (160px)</option>
+            <option value="190px">گەورە (190px)</option>
+            <option value="220px">زۆر گەورە (220px)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label style="color:var(--primary); font-weight:800;">🔤 قەبارەی فۆنت و دەقی ماڵپەڕ:</label>
+          <select id="setBaseFontSize">
+            <option value="12.5px">بچووک (12.5px)</option>
+            <option value="13.5px">ستاندارد (13.5px)</option>
+            <option value="14.5px">مامناوەند (14.5px)</option>
+            <option value="15.5px">گەورە (15.5px)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label style="color:var(--primary); font-weight:800;">📊 نیشاندانی بەشی ئامار لە سەرەوەی ماڵپەڕ:</label>
+          <select id="setShowStats">
+            <option value="block">چالاک بێت (دیاربێت)</option>
+            <option value="none">ناچالاک بێت (شاراوەبێت)</option>
+          </select>
+        </div>
+
         <label style="font-size:0.75rem; font-weight:800; color:var(--dark); margin-bottom:5px; display:block;">🎨 کۆنتڕۆڵی ڕەنگەکانی ماڵپەڕ و بەڕێوەبەر:</label>
         <div class="color-pickers-grid">
           <div class="color-field">
@@ -763,9 +785,22 @@
             <label>ڕەنگی کارتەکان (Card BG):</label>
             <input type="color" id="setCardColor" value="#ffffff">
           </div>
+          <div class="color-field">
+            <label>ڕەنگی دەق و نوسینەکان:</label>
+            <input type="color" id="setTextColor" value="#1e293b">
+          </div>
         </div>
 
-        <button type="submit" class="btn btn-success" style="width:100%; padding:0.65rem;">پاشەکەوتکردنی هەموو ڕێکخستنەکان</button>
+        <div style="margin-top:10px; padding-top:10px; border-top:1px solid #e2e8f0; display:flex; flex-direction:column; gap:6px;">
+          <label style="font-size:0.75rem; font-weight:800; color:var(--dark);">💾 هەڵگرتن و هێنانەوەی داتاکان (Backup & Restore):</label>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="btn" style="flex:1; background:#10b981; color:#fff;" onclick="exportAllDataBackup()">💾 داگرتنی Backup</button>
+            <button type="button" class="btn" style="flex:1; background:#6366f1; color:#fff;" onclick="document.getElementById('importBackupFileInput').click()">📥 هێنانەوەی Backup</button>
+          </div>
+          <input type="file" id="importBackupFileInput" accept=".json" style="display:none;" onchange="importAllDataBackup(event)">
+        </div>
+
+        <button type="submit" class="btn btn-success" style="width:100%; padding:0.65rem; margin-top:10px;">پاشەکەوتکردنی هەموو ڕێکخستنەکان</button>
       </form>
     </div>
   </div>
@@ -783,6 +818,10 @@
       adminBgColor: "#0f172a",
       bgColor: "#f8fafc",
       cardColor: "#ffffff",
+      textColor: "#1e293b",
+      baseFontSize: "13.5px",
+      cardImgHeight: "160px",
+      showStats: "block",
       uiSize: "ultra-compact",
       gridCols: "1",
       apkUrl: "",
@@ -1004,7 +1043,7 @@
           updatePublicStats();
           renderProperties();
           alert("هەموو داتاکانی باکئەپ بە سەرکەوتوویی گەڕێندرانەوە!");
-          closeAdminBar();
+          closeModals();
         } catch (err) {
           alert("فایلی باکئەپەکە تەواو نییە یان هەڵەی تێدایە!");
         }
@@ -1112,6 +1151,9 @@
       const adminBg = siteSettings.adminBgColor || "#0f172a";
       const bg = siteSettings.bgColor || "#f8fafc";
       const card = siteSettings.cardColor || "#ffffff";
+      const text = siteSettings.textColor || "#1e293b";
+      const baseFontSize = siteSettings.baseFontSize || "13.5px";
+      const cardImgHeight = siteSettings.cardImgHeight || "160px";
       const cols = siteSettings.gridCols || "1";
 
       document.documentElement.style.setProperty('--primary', primary);
@@ -1119,7 +1161,15 @@
       document.documentElement.style.setProperty('--admin-bg', adminBg);
       document.documentElement.style.setProperty('--bg', bg);
       document.documentElement.style.setProperty('--card-bg', card);
+      document.documentElement.style.setProperty('--text', text);
+      document.documentElement.style.setProperty('--base-font-size', baseFontSize);
+      document.documentElement.style.setProperty('--card-img-height', cardImgHeight);
       document.documentElement.style.setProperty('--grid-cols', `repeat(${cols}, 1fr)`);
+
+      const statsSec = document.querySelector('.public-stats-section');
+      if (statsSec) {
+        statsSec.style.display = siteSettings.showStats || "block";
+      }
     }
 
     async function loadData() {
@@ -1713,11 +1763,16 @@
       document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
 
       document.getElementById('setGridCols').value = siteSettings.gridCols || "1";
+      document.getElementById('setCardImgHeight').value = siteSettings.cardImgHeight || "160px";
+      document.getElementById('setBaseFontSize').value = siteSettings.baseFontSize || "13.5px";
+      document.getElementById('setShowStats').value = siteSettings.showStats || "block";
+
       document.getElementById('setPrimaryColor').value = siteSettings.primaryColor || "#0284c7";
       document.getElementById('setHeaderBgColor').value = siteSettings.headerBgColor || "#ffffff";
       document.getElementById('setAdminBgColor').value = siteSettings.adminBgColor || "#0f172a";
       document.getElementById('setBgColor').value = siteSettings.bgColor || "#f8fafc";
       document.getElementById('setCardColor').value = siteSettings.cardColor || "#ffffff";
+      document.getElementById('setTextColor').value = siteSettings.textColor || "#1e293b";
 
       document.getElementById('settingsModal').style.display = 'flex';
       window.history.pushState({ modal: 'settings' }, "", "");
@@ -1866,14 +1921,18 @@
         ...siteSettings,
         siteName: document.getElementById('setSiteName').value,
         appPass: document.getElementById('setAppPass').value || "0000",
-        gridCols: document.getElementById('setGridCols').value || "1",
         apkUrl: document.getElementById('setApkUrl').value || "",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
+        gridCols: document.getElementById('setGridCols').value || "1",
+        cardImgHeight: document.getElementById('setCardImgHeight').value || "160px",
+        baseFontSize: document.getElementById('setBaseFontSize').value || "13.5px",
+        showStats: document.getElementById('setShowStats').value || "block",
         primaryColor: document.getElementById('setPrimaryColor').value,
         headerBgColor: document.getElementById('setHeaderBgColor').value,
         adminBgColor: document.getElementById('setAdminBgColor').value,
         bgColor: document.getElementById('setBgColor').value,
-        cardColor: document.getElementById('setCardColor').value
+        cardColor: document.getElementById('setCardColor').value,
+        textColor: document.getElementById('setTextColor').value
       };
 
       localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
