@@ -131,7 +131,6 @@
     .btn-sold { background: #64748b; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
 
-    /* بەشی زانیارییەکان لە شوێنی ئاسایی */
     .public-stats-section {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -149,7 +148,6 @@
     .stat-item { padding: 4px; font-size: 0.72rem; color: var(--muted); font-weight: 700; }
     .stat-val { font-size: 1.05rem; font-weight: 800; color: var(--primary); margin-top: 2px; }
 
-    /* شاشەی بەڕێوەبەر */
     #adminViewContainer {
       display: none;
       background: var(--admin-bg);
@@ -430,7 +428,7 @@
   <!-- بەشی گشتی ماڵپەڕ -->
   <div class="container" id="publicMainContainer">
     
-    <!-- بەشی ئامار و ژمارەی موڵکەکان و داواکاری لە کۆتایی -->
+    <!-- بەشی ئامار و ژمارەی موڵکەکان -->
     <div class="public-stats-section">
       <div class="public-stats-grid">
         <div class="stat-item">خانوو (فرۆشتن)<div class="stat-val" id="statHousesSale">0</div></div>
@@ -751,6 +749,17 @@
     let holdTimer = null;
     let selectedHoldItemId = null;
 
+    // هێنانی ئۆتۆماتیکی کیبۆرد لە کاتی کردنەوەی ئەپ
+    function triggerAutoKeyboardFocus() {
+      const input = document.getElementById('appLockPassInput');
+      if (input && !isAppUnlocked) {
+        setTimeout(() => {
+          input.focus();
+          input.click();
+        }, 150);
+      }
+    }
+
     function handleInstantUnlock(val) {
       const entered = String(val).trim();
       const actual = String(siteSettings.appPass || "0000").trim();
@@ -762,12 +771,14 @@
         } else {
           alert("کۆدەکە هەڵەیە!");
           document.getElementById('appLockPassInput').value = '';
+          triggerAutoKeyboardFocus();
         }
       }
     }
 
     window.addEventListener('load', function() {
       window.history.pushState({ screen: 'home' }, "", "");
+      triggerAutoKeyboardFocus();
     });
 
     window.addEventListener('popstate', function(e) {
@@ -933,7 +944,10 @@
       const splash = document.getElementById('customSplashScreen');
       if (splash) {
         splash.style.opacity = '0';
-        setTimeout(() => { splash.style.display = 'none'; }, 120);
+        setTimeout(() => { 
+          splash.style.display = 'none';
+          triggerAutoKeyboardFocus();
+        }, 120);
       }
     }
 
@@ -1095,7 +1109,7 @@
           customCategories[idx] = { ...customCategories[idx], title };
         }
       } else {
-        const newCat = { id: 'cat_' + Date.now(), title };
+        const newCat = { id: 'cat_' + Date.now(), title, icon: '📁', sub: '' };
         customCategories.push(newCat);
       }
 
