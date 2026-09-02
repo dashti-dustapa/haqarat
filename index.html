@@ -771,8 +771,13 @@
         </div>
 
         <div class="form-group">
+          <label>سەردێڕی پەنجەرەی چوونەدەرەوە (Exit Popup Title):</label>
+          <input type="text" id="setExitPromptTitle" required placeholder="وەک: ئاگاداری چوونەدەرەوە">
+        </div>
+
+        <div class="form-group">
           <label>دەقی ئاگاداری کاتی چوونەدەرەوە (Exit Prompt Text):</label>
-          <input type="text" id="setExitPromptText" required placeholder="Are you sure you want to exit?">
+          <input type="text" id="setExitPromptText" required placeholder="Are you sure want to go out there?">
         </div>
 
         <div class="form-group">
@@ -844,6 +849,19 @@
     </div>
   </div>
 
+  <!-- مۆداڵی تایبەت و دیزاینکراوی چوونەدەرەوە بەبێ ناوی vercel.app -->
+  <div class="modal" id="customExitModal" style="z-index: 99999; align-items: center;">
+    <div class="modal-content" style="max-width: 360px; text-align: center; border-radius: 16px; padding: 1.5rem 1.2rem;">
+      <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">⚠️</div>
+      <h3 id="customExitTitle" style="font-size: 1.1rem; font-weight: 800; margin-bottom: 0.6rem; color: var(--dark);">ئاگاداری</h3>
+      <p id="customExitDesc" style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1.2rem; line-height: 1.5;">Are you sure want to go out there?</p>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-danger" style="flex: 1; padding: 0.65rem;" onclick="confirmUserExit()">بەڵێ، دەربچۆ</button>
+        <button class="btn btn-backup" style="flex: 1; padding: 0.65rem; background: #94a3b8;" onclick="cancelUserExit()">نەخێر، بمێنەوە</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 
@@ -861,6 +879,7 @@
       gridCols: "2",
       apkUrl: "",
       logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png",
+      exitPromptTitle: "ئاگاداری چوونەدەرەوە",
       exitPromptText: "Are you sure want to go out there?"
     };
 
@@ -871,25 +890,41 @@
     let isAdmin = false;
     let activeMainTab = 'خانوو';
     let activeSubTab = 'نیشتەجێبوون';
+    let allowPageExit = false;
 
-    // ڕاگرتنی چوونەدەرەوە و پێشاندانی پرسیار
-    window.addEventListener('beforeunload', function (e) {
-      const promptText = siteSettings.exitPromptText || "Are you sure want to go out there?";
-      e.preventDefault();
-      e.returnValue = promptText;
-      return promptText;
-    });
+    // کۆنتڕۆڵی تەواوی دەرچوون بە مۆداڵی تایبەت
+    function showExitModal() {
+      document.getElementById('customExitTitle').innerText = siteSettings.exitPromptTitle || "ئاگاداری چوونەدەرەوە";
+      document.getElementById('customExitDesc').innerText = siteSettings.exitPromptText || "Are you sure want to go out there?";
+      document.getElementById('customExitModal').style.display = 'flex';
+    }
 
-    // بۆ مۆبایل و گەڕانەوەی دوگمەی Back
+    function confirmUserExit() {
+      allowPageExit = true;
+      document.getElementById('customExitModal').style.display = 'none';
+      window.history.back();
+    }
+
+    function cancelUserExit() {
+      document.getElementById('customExitModal').style.display = 'none';
+      window.history.pushState({ page: 1 }, "", "");
+    }
+
     window.addEventListener('load', function() {
       window.history.pushState({ page: 1 }, "", "");
     });
+
     window.addEventListener('popstate', function(e) {
-      const promptText = siteSettings.exitPromptText || "Are you sure want to go out there?";
-      if (confirm(promptText)) {
-        window.history.back();
-      } else {
-        window.history.pushState({ page: 1 }, "", "");
+      if (!allowPageExit) {
+        showExitModal();
+      }
+    });
+
+    window.addEventListener('beforeunload', function (e) {
+      if (!allowPageExit) {
+        e.preventDefault();
+        e.returnValue = siteSettings.exitPromptText || "Are you sure want to go out there?";
+        return e.returnValue;
       }
     });
 
@@ -967,6 +1002,7 @@
           if (data && data.settings) {
             siteSettings = { ...siteSettings, ...data.settings };
             if (!siteSettings.adminPass) siteSettings.adminPass = "123321";
+            if (!siteSettings.exitPromptTitle) siteSettings.exitPromptTitle = "ئاگاداری چوونەدەرەوە";
             if (!siteSettings.exitPromptText) siteSettings.exitPromptText = "Are you sure want to go out there?";
             localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
           }
@@ -1382,6 +1418,7 @@
       document.getElementById('setHeroDesc').value = siteSettings.heroDesc;
       document.getElementById('setAdminPass').value = siteSettings.adminPass || "123321";
       document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
+      document.getElementById('setExitPromptTitle').value = siteSettings.exitPromptTitle || "ئاگاداری چوونەدەرەوە";
       document.getElementById('setExitPromptText').value = siteSettings.exitPromptText || "Are you sure want to go out there?";
       document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
       document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
@@ -1544,6 +1581,7 @@
         gridCols: document.getElementById('setGridCols').value,
         uiSize: document.getElementById('setUiSize').value,
         apkUrl: document.getElementById('setApkUrl').value || "",
+        exitPromptTitle: document.getElementById('setExitPromptTitle').value || "ئاگاداری چوونەدەرەوە",
         exitPromptText: document.getElementById('setExitPromptText').value || "Are you sure want to go out there?",
         logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
         primaryColor: document.getElementById('setPrimaryColor').value,
