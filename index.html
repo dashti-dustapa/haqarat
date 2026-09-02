@@ -560,42 +560,6 @@
       0% { opacity: 0; transform: translateY(16px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-
-    /* ---------- یاری: X-O و دامە ---------- */
-    .game-modal-box { background: var(--card-bg); color: var(--text); }
-    .game-choice-btn {
-      width: 100%; padding: 0.85rem; border-radius: 12px; font-weight: 800; font-size: 0.9rem;
-      border: 2px solid var(--border); background: var(--bg); color: var(--text); cursor: pointer;
-      margin-bottom: 8px; transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .game-choice-btn:active { transform: scale(0.97); }
-    .game-choice-btn:hover { border-color: var(--primary); }
-    .game-status-text { text-align: center; font-weight: 800; font-size: 0.9rem; margin-bottom: 10px; color: var(--primary); }
-    .ttt-board {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 260px; margin: 0 auto 12px auto;
-    }
-    .ttt-cell {
-      aspect-ratio: 1 / 1; background: var(--bg); border: 2px solid var(--border); border-radius: 10px;
-      display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800;
-      cursor: pointer; color: var(--primary); transition: background 0.2s ease;
-    }
-    .ttt-cell:active { background: var(--border); }
-    .dama-board {
-      display: grid; grid-template-columns: repeat(8, 1fr); gap: 1px; max-width: 320px; margin: 0 auto 12px auto;
-      border: 2px solid var(--border); background: var(--border);
-    }
-    .dama-cell { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
-    .dama-cell.light { background: #f1f5f9; }
-    .dama-cell.dark2 { background: #94a3b8; }
-    .dama-cell.selected { outline: 3px solid #10b981; outline-offset: -3px; z-index: 2; }
-    .dama-piece {
-      width: 78%; height: 78%; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; font-weight: 800; box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-    .dama-piece.b { background: #1e293b; color: #fbbf24; border: 2px solid #0f172a; }
-    .dama-piece.w { background: #f8fafc; color: #0f172a; border: 2px solid #cbd5e1; }
-    .game-footer-btns { display: flex; gap: 8px; margin-top: 6px; }
-    .game-footer-btns .btn { flex: 1; }
   </style>
 </head>
 <body>
@@ -627,9 +591,6 @@
     <div class="header-btns">
       <button class="btn-dark-toggle" onclick="toggleDarkMode()" id="darkModeBtn" title="مۆدی شەو / ڕۆژ">🌙</button>
       <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="triggerDirectDownload()">📲 داگرتنی ئەپ (APK)</button>
-      <button class="btn-dark-toggle" id="gameIconBtn" title="یاری (دایبگرە)"
-        onmousedown="startGameHold()" onmouseup="cancelGameHold()" onmouseleave="cancelGameHold()"
-        ontouchstart="startGameHold()" ontouchend="cancelGameHold()">🎮</button>
       <button class="btn btn-admin" onclick="toggleAdminBar()" title="ڕێکخستنی بەڕێوەبەر">⚙️</button>
     </div>
   </header>
@@ -1033,48 +994,6 @@
 
         <button type="submit" class="btn btn-success" style="width:100%; padding:0.65rem; margin-top:10px;">پاشەکەوتکردنی هەموو ڕێکخستنەکان</button>
       </form>
-    </div>
-  </div>
-
-  <div class="modal" id="gameChooseModal" onclick="closeGameModals(event)">
-    <div class="modal-content game-modal-box" onclick="event.stopPropagation()">
-      <span class="close-btn" onclick="closeGameModals()">×</span>
-      <h3 class="modal-title">🎮 کام یاری دەکەین؟</h3>
-      <button class="game-choice-btn" onclick="chooseGameType('ttt')">❌⭕ ئێکس و ئۆ (X و O)</button>
-      <button class="game-choice-btn" onclick="chooseGameType('dama')">⚫⚪ دامە</button>
-    </div>
-  </div>
-
-  <div class="modal" id="gameOpponentModal" onclick="closeGameModals(event)">
-    <div class="modal-content game-modal-box" onclick="event.stopPropagation()">
-      <span class="close-btn" onclick="closeGameModals()">×</span>
-      <h3 class="modal-title">لەگەڵ کێ یاری دەکەیت؟</h3>
-      <button class="game-choice-btn" onclick="chooseOpponent('person')">👥 کەسێکی تر (لە هەمان مۆبایل)</button>
-      <button class="game-choice-btn" onclick="chooseOpponent('bot')">🤖 لەگەڵ بۆت</button>
-    </div>
-  </div>
-
-  <div class="modal" id="gameDifficultyModal" onclick="closeGameModals(event)">
-    <div class="modal-content game-modal-box" onclick="event.stopPropagation()">
-      <span class="close-btn" onclick="closeGameModals()">×</span>
-      <h3 class="modal-title">ئاستی سەختی بۆت هەڵبژێرە</h3>
-      <button class="game-choice-btn" onclick="chooseDifficulty('easy')">🙂 ئاسان (Easy)</button>
-      <button class="game-choice-btn" onclick="chooseDifficulty('normal')">😐 ئاسایی (Normal)</button>
-      <button class="game-choice-btn" onclick="chooseDifficulty('hard')">🔥 سەخت (Hard)</button>
-    </div>
-  </div>
-
-  <div class="modal" id="gamePlayModal" onclick="closeGameModals(event)">
-    <div class="modal-content game-modal-box" onclick="event.stopPropagation()" style="max-width:360px;">
-      <span class="close-btn" onclick="closeGameModals()">×</span>
-      <h3 class="modal-title" id="gamePlayTitle">یاری</h3>
-      <div class="game-status-text" id="gameStatusText">دەوری تۆیە</div>
-      <div id="tttBoardContainer" class="ttt-board" style="display:none;"></div>
-      <div id="damaBoardContainer" class="dama-board" style="display:none;"></div>
-      <div class="game-footer-btns">
-        <button class="btn btn-edit" onclick="restartCurrentGame()">🔄 دووبارە یاری بکەرەوە</button>
-        <button class="btn" style="background:#e2e8f0; color:#334155;" onclick="closeGameModals()">داخستن</button>
-      </div>
     </div>
   </div>
 
@@ -2219,4 +2138,167 @@
         price, 
         desc, 
         images: finalImages,
-        
+        image: finalImages[0],
+        isSold: false,
+        createdAt: editId ? (properties.find(p => String(p.id) === String(editId))?.createdAt || now) : now
+      };
+
+      if (editId) {
+        const idx = properties.findIndex(p => String(p.id) === String(editId));
+        if (idx !== -1) properties[idx] = { ...properties[idx], ...propObj };
+      } else {
+        properties.unshift(propObj);
+      }
+      localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+      renderProperties();
+      updatePublicStats();
+      closeModals();
+
+      try {
+        await fetch(`${FIREBASE_URL}/properties/${propId}.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(propObj)
+        });
+      } catch (err) {}
+
+      saveBtn.innerText = "پاشەکەوتکردن";
+      saveBtn.disabled = false;
+    }
+
+    async function handleWantFormSubmit(e) {
+      e.preventDefault();
+      const saveBtn = document.getElementById('saveWantBtn');
+      saveBtn.innerText = "خەزن دەکرێت...";
+      saveBtn.disabled = true;
+
+      const editId = document.getElementById('editWantId').value;
+      const title = (document.getElementById('wantTitle').value || '').trim() || 'داواکاری بێ ناو';
+      const type = document.getElementById('wantPropertyType').value || 'بۆ کڕین';
+      const price = (document.getElementById('wantPrice').value || '').trim();
+      const ownerPhone = (document.getElementById('wantPhone').value || '').trim();
+      const desc = (document.getElementById('wantDesc').value || '').trim();
+
+      const now = Date.now();
+      const propId = editId ? editId : 'want_' + now;
+      const wantObj = {
+        id: propId,
+        title,
+        type,
+        price,
+        ownerPhone,
+        desc,
+        category: 'خوازیار / پێویستە',
+        subCategory: '',
+        location: '',
+        mapLink: '',
+        images: [],
+        image: '',
+        isSold: false,
+        createdAt: editId ? (properties.find(p => String(p.id) === String(editId))?.createdAt || now) : now
+      };
+
+      if (editId) {
+        const idx = properties.findIndex(p => String(p.id) === String(editId));
+        if (idx !== -1) properties[idx] = { ...properties[idx], ...wantObj };
+      } else {
+        properties.unshift(wantObj);
+      }
+
+      localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+      renderProperties();
+      updatePublicStats();
+      closeModals();
+
+      try {
+        await fetch(`${FIREBASE_URL}/properties/${propId}.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(wantObj)
+        });
+      } catch (err) {}
+
+      saveBtn.innerText = "پاشەکەوتکردنی داواکاری";
+      saveBtn.disabled = false;
+    }
+
+    async function toggleSoldStatus(id) {
+      const idx = properties.findIndex(p => String(p.id) === String(id));
+      if (idx !== -1) {
+        properties[idx].isSold = !properties[idx].isSold;
+        localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+        renderProperties();
+        updatePublicStats();
+
+        try {
+          await fetch(`${FIREBASE_URL}/properties/${id}/isSold.json`, {
+            method: 'PUT',
+            body: JSON.stringify(properties[idx].isSold)
+          });
+        } catch (e) {}
+      }
+    }
+
+    async function handleSettingsSubmit(e) {
+      e.preventDefault();
+      siteSettings = {
+        ...siteSettings,
+        siteName: document.getElementById('setSiteName').value || siteSettings.siteName,
+        appPass: document.getElementById('setAppPass').value || "0000",
+        apkUrl: document.getElementById('setApkUrl').value || "",
+        logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
+        gridCols: document.getElementById('setGridCols').value || "1",
+        cardImgHeight: document.getElementById('setCardImgHeight').value || "160px",
+        baseFontSize: document.getElementById('setBaseFontSize').value || "13.5px",
+        showStats: document.getElementById('setShowStats').value || "block",
+        primaryColor: document.getElementById('setPrimaryColor').value,
+        headerBgColor: document.getElementById('setHeaderBgColor').value,
+        adminBgColor: document.getElementById('setAdminBgColor').value,
+        bgColor: document.getElementById('setBgColor').value,
+        cardColor: document.getElementById('setCardColor').value,
+        textColor: document.getElementById('setTextColor').value
+      };
+
+      localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
+      applySettings();
+      applyThemeSettings();
+      renderProperties();
+      checkStandaloneMode();
+      closeModals();
+
+      try {
+        await fetch(`${FIREBASE_URL}/settings.json`, {
+          method: 'PUT',
+          body: JSON.stringify(siteSettings)
+        });
+      } catch (err) {}
+      alert("ڕێکخستنەکان نوێکرانەوە!");
+    }
+
+    async function deleteProperty(id) {
+      if (confirm("ئایا دڵنیایت لە سڕینەوە؟")) {
+        properties = properties.filter(p => String(p.id) !== String(id));
+        localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+        renderProperties();
+        updatePublicStats();
+
+        try {
+          await fetch(`${FIREBASE_URL}/properties/${id}.json`, { method: 'DELETE' });
+        } catch (err) {}
+      }
+    }
+
+    applySettings();
+    applyThemeSettings();
+    checkStandaloneMode();
+    loadData();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(function(err) {
+        console.warn('SW registration failed: ', err);
+      });
+    }
+  </script>
+</body>
+</html>
