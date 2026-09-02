@@ -473,6 +473,7 @@
       display: none; flex-direction: column; align-items: center; width: 100%; max-width: 450px; margin: auto; text-align: center;
     }
 
+    /* تختی دامەی کوردی مۆدێرن و ڕەنگاوڕەنگ */
     .checkers-board {
       display: grid; grid-template-columns: repeat(8, 1fr); width: 340px; height: 340px;
       border: 5px solid #1e293b; border-radius: 12px; margin: 15px auto; box-shadow: 0 12px 30px rgba(0,0,0,0.3);
@@ -494,6 +495,7 @@
     .piece-king::after { content: '👑'; font-size: 0.85rem; position: absolute; }
     .checkers-cell.selected { background: rgba(244, 63, 94, 0.5) !important; }
 
+    /* تختی Tic-Tac-Toe */
     .tictactoe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 320px; width: 100%; margin: 20px auto; }
     .tictactoe-cell {
       width: 100%; aspect-ratio: 1; background: var(--card-bg); border: 2px solid var(--border);
@@ -664,7 +666,7 @@
 </head>
 <body>
 
-  <!-- شاشەی سپلاشی سەرەتایی کە بە تەواوی کۆنتڕۆڵ کراوە بۆ ئەوەی قەتیس نەبێت -->
+  <!-- شاشەی سپلاشی سەرەتایی (دڵنیابوونەوە لە تێرمیناوشنی خێرا) -->
   <div id="customSplashScreen">
     <img id="splashLogoImg" class="splash-logo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
     <div id="splashTitleText" class="splash-title">عقارات دەشتی دوستەپە</div>
@@ -672,7 +674,7 @@
     <div class="splash-spinner"></div>
   </div>
 
-  <!-- مۆداڵی قفڵی ئەپ (Security Lock) -->
+  <!-- مۆداڵی قفڵی ئەپ (Security Lock Engine) -->
   <div id="appLockModal">
     <div class="lock-card" onclick="event.stopPropagation()">
       <div class="lock-icon-circle">🔒</div>
@@ -708,7 +710,7 @@
   <!-- ناوەڕۆکی گشتی ماڵپەڕ -->
   <div class="container" id="publicMainContainer">
     
-    <!-- بەشی ئامارەکان (Public Stats Section) -->
+    <!-- بەشی ئامارەکان -->
     <div class="public-stats-section">
       <div class="public-stats-grid">
         <div class="stat-item">خانوو (فرۆشتن)<div class="stat-val" id="statHousesSale">0</div></div>
@@ -808,7 +810,7 @@
 
   </div>
 
-  <!-- سەنتەری یارییەکان (فوول سکرین) -->
+  <!-- فوول سکرین سەنتەری یارییەکان -->
   <div class="fullscreen-game-overlay" id="gameFullscreenOverlay">
     <div class="game-header-bar">
       <button class="game-back-btn" onclick="closeGameFullscreen()">➔ گەڕانەوە بۆ ماڵپەڕ</button>
@@ -816,6 +818,7 @@
       <div style="width:70px;"></div>
     </div>
 
+    <!-- مینیوی هەڵبژاردنی یاری -->
     <div id="gameHubMenu" style="max-width:500px; margin: auto; width:100%; text-align:center;">
       <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">کام یارییە ئەنجام دەدەیت؟</h2>
       <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەکی خۆش هەڵبژێرە بۆ کاتی پشوو و بێزاری</p>
@@ -835,6 +838,7 @@
       </div>
     </div>
 
+    <!-- پەنجەرەی هەڵبژاردنی شێوازی یاری (دوو نەفەری / لەگەڵ بۆت) -->
     <div class="game-screen-box" id="gameModeSelectorBox">
       <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;" id="selectedGameNameTitle">شێوازی یاری هەڵبژێرە</h2>
       
@@ -859,6 +863,7 @@
       <button class="btn" style="width:100%; max-width:340px; padding:0.7rem; margin-top:8px; background:var(--border); color:var(--text);" onclick="backToGameHub()">← گەڕانەوە</button>
     </div>
 
+    <!-- شاشەی یاریکردنی دامەی کوردی -->
     <div class="game-screen-box" id="checkersPlayBox">
       <div style="display:flex; justify-content:space-between; width:100%; max-width:380px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
         <span id="checkersTurnText" style="color:var(--primary);">نۆبەی: سەوز (🟢)</span>
@@ -868,6 +873,7 @@
       <div id="checkersMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:8px; min-height:24px;"></div>
     </div>
 
+    <!-- شاشەی یاریکردنی Tic-Tac-Toe -->
     <div class="game-screen-box" id="tttPlayBox">
       <div style="display:flex; justify-content:space-between; width:100%; max-width:320px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
         <span id="tttTurnText" style="color:var(--primary);">نۆبەی: X</span>
@@ -897,6 +903,7 @@
       </div>
       <span class="story-badge-pill" id="storyBadgeTag">بۆ فرۆشتن</span>
     </div>
+
     <div class="story-card-center">
       <div class="story-img-container">
         <img id="storyMainImage" src="" alt="Property" crossorigin="anonymous">
@@ -907,12 +914,16 @@
         <div class="story-price-styled" id="storyPriceText">$0</div>
       </div>
     </div>
+
     <div class="story-footer-bar">
-      <div class="story-footer-text"><span>📞 پەیوەندی و زانیاری:</span></div>
+      <div class="story-footer-text">
+        <span>📞 پەیوەندی و زانیاری:</span>
+      </div>
       <div class="story-footer-num" id="storyPhoneText">0750xxxxxxx</div>
     </div>
   </div>
 
+  <!-- مۆداڵی کردارەکان (Action Sheet بۆ دەستکاری و سڕینەوەی موڵک) -->
   <div class="action-sheet-modal" id="actionSheetModal" onclick="closeActionSheet(event)">
     <div class="action-sheet-box" onclick="event.stopPropagation()">
       <div class="action-sheet-title" id="actionSheetPropTitle">هەڵبژاردنی کردار</div>
@@ -924,6 +935,7 @@
     </div>
   </div>
 
+  <!-- مۆداڵی گەلەری وێنەکان -->
   <div class="gallery-modal" id="galleryModal">
     <div class="gallery-header">
       <span id="galleryCounter" style="font-weight:700;">1 / 1</span>
@@ -937,6 +949,7 @@
     <div class="gallery-thumbs" id="galleryThumbs"></div>
   </div>
 
+  <!-- مۆداڵی زیادکردن و دەستکاریکردنی موڵک -->
   <div class="modal" id="propertyModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -1007,6 +1020,7 @@
     </div>
   </div>
 
+  <!-- مۆداڵی زیادکردن و دەستکاریکردنی داواکاری -->
   <div class="modal" id="wantModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -1041,6 +1055,7 @@
     </div>
   </div>
 
+  <!-- مۆداڵی بەڕێوەبردنی تابەکان -->
   <div class="modal" id="manageTabsModal">
     <div class="modal-content" style="max-width:420px;">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -1075,6 +1090,7 @@
     </div>
   </div>
 
+  <!-- مۆداڵی ڕێکخستنی گشتی ماڵپەڕ (Settings Modal) -->
   <div class="modal" id="settingsModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModals()">×</span>
@@ -1223,7 +1239,7 @@
 
     let holdTimer = null;
     let selectedHoldItemId = null;
-    
+
     let currentGameType = '';
     let currentMatchType = '2p';
     let currentBotDiff = 'easy';
