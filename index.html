@@ -104,6 +104,7 @@
       direction: ltr;
       font-weight: 800;
       color: #0f172a;
+      -webkit-text-security: disc;
     }
     .lock-input:focus { border-color: var(--primary); }
 
@@ -192,7 +193,8 @@
     }
     .cat-card-btn:active { transform: scale(0.98); }
     .cat-card-left { display: flex; align-items: center; gap: 10px; }
-    .cat-card-icon { font-size: 1.5rem; }
+    .cat-card-icon { font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
+    .cat-card-icon img { width: 34px; height: 34px; object-fit: contain; border-radius: 6px; }
     .cat-card-info { display: flex; flex-direction: column; }
     .cat-card-title { font-weight: 800; font-size: 0.88rem; color: var(--text); }
     .cat-card-sub { font-size: 0.66rem; color: var(--muted); margin-top: 1px; }
@@ -405,7 +407,7 @@
       <div class="lock-icon-circle">🔒</div>
       <h3 style="font-size:1.1rem; font-weight:800; margin-bottom:6px; color:#0f172a;">ماڵپەڕ پارێزراوە</h3>
       <p style="font-size:0.75rem; color:#64748b; margin-bottom:16px;">تکایە کۆدی چوونەژوورەوە بنووسە</p>
-      <input type="tel" id="appLockPassInput" class="lock-input" inputmode="numeric" pattern="[0-9]*" maxlength="10" autofocus placeholder="••••" autocomplete="one-time-code" oninput="handleInstantUnlock(this.value)">
+      <input type="text" id="appLockPassInput" class="lock-input" inputmode="numeric" pattern="[0-9]*" maxlength="10" autofocus placeholder="••••" autocomplete="one-time-code" oninput="handleInstantUnlock(this.value)">
     </div>
   </div>
 
@@ -670,6 +672,21 @@
           <label>ناوی تاب:</label>
           <input type="text" id="customCatTitleInput" required placeholder="وەک: شوقە، ڤێلا...">
         </div>
+        
+        <div class="form-group">
+          <label>ئایکۆنی تاب (ئیمۆجی بنووسە یان وێنە لە مۆبایل هەڵبژێرە):</label>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <input type="text" id="customCatIconInput" placeholder="وەک 🏢 یان 🏠" style="flex:1;" oninput="previewCustomCatIcon(this.value)">
+            <input type="file" id="customCatFileInput" accept="image/*" style="display:none;" onchange="processCatIconUpload(event)">
+            <button type="button" class="btn btn-primary" style="font-size:0.75rem; padding:0.55rem;" onclick="document.getElementById('customCatFileInput').click()">📁 فایلی مۆبایل</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+            <div id="customCatIconPreview" style="width:34px; height:34px; border-radius:6px; border:1px solid #cbd5e1; display:flex; align-items:center; justify-content:center; font-size:1.3rem; background:#fff; overflow:hidden;">📁</div>
+            <span style="font-size:0.75rem; color:#64748b;">پێشبینینی ئایکۆنی تابەکە</span>
+          </div>
+          <input type="hidden" id="customCatImgData">
+        </div>
+
         <button type="submit" class="btn btn-primary" id="saveCatBtn" style="width:100%; padding:0.55rem;">+ زیادکردن / نوێکردنەوەی تاب</button>
       </form>
 
@@ -690,7 +707,7 @@
 
         <div class="form-group">
           <label style="color:var(--primary); font-weight:800;">🔑 کۆدی چوونەژوورەوەی ئەپ (App Unlock Code):</label>
-          <input type="text" id="setAppPass" required placeholder="کۆدی نوێ بنووسە" inputmode="numeric">
+          <input type="text" id="setAppPass" required placeholder="کۆدی نوێ بنووسە" inputmode="numeric" pattern="[0-9]*">
         </div>
 
         <div class="form-group">
@@ -1092,9 +1109,17 @@
         const div = document.createElement('div');
         div.className = 'cat-card-btn dynamically-added-cat';
         div.onclick = () => navigateToCategory(cat.title);
+
+        let iconContent = '📁';
+        if (cat.customImage && cat.customImage.startsWith('data:image')) {
+          iconContent = `<img src="${cat.customImage}" alt="Icon">`;
+        } else if (cat.icon) {
+          iconContent = cat.icon;
+        }
+
         div.innerHTML = `
           <div class="cat-card-left">
-            <div class="cat-card-icon">📁</div>
+            <div class="cat-card-icon">${iconContent}</div>
             <div class="cat-card-info">
               <div class="cat-card-title">${cat.title}</div>
               <div class="cat-card-sub">بەشی تایبەت</div>
@@ -1114,6 +1139,9 @@
     function openManageTabsModal() {
       document.getElementById('editCatId').value = '';
       document.getElementById('customCatTitleInput').value = '';
+      document.getElementById('customCatIconInput').value = '';
+      document.getElementById('customCatImgData').value = '';
+      document.getElementById('customCatIconPreview').innerHTML = '📁';
       document.getElementById('saveCatBtn').innerText = '+ زیادکردنی تاب';
       renderCustomTabsManageList();
       document.getElementById('manageTabsModal').style.display = 'flex';
@@ -1132,8 +1160,19 @@
       customCategories.forEach(cat => {
         const row = document.createElement('div');
         row.className = 'tab-manage-item';
+        
+        let iconContent = '📁';
+        if (cat.customImage && cat.customImage.startsWith('data:image')) {
+          iconContent = `<img src="${cat.customImage}" style="width:24px; height:24px; object-fit:contain; border-radius:4px;">`;
+        } else if (cat.icon) {
+          iconContent = cat.icon;
+        }
+
         row.innerHTML = `
-          <div style="font-size:0.85rem; font-weight:800; color:#0f172a;">${cat.title}</div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1.1rem; display:flex; align-items:center;">${iconContent}</span>
+            <div style="font-size:0.85rem; font-weight:800; color:#0f172a;">${cat.title}</div>
+          </div>
           <div style="display:flex; gap:4px;">
             <button class="btn btn-edit" style="padding:0.25rem 0.5rem; font-size:0.7rem;" onclick="startEditCustomCategory('${cat.id}')">دەستکاری</button>
             <button class="btn btn-danger" style="padding:0.25rem 0.5rem; font-size:0.7rem;" onclick="deleteCustomCategory('${cat.id}')">سڕینەوە</button>
@@ -1143,11 +1182,67 @@
       });
     }
 
+    function previewCustomCatIcon(val) {
+      const preview = document.getElementById('customCatIconPreview');
+      const imgData = document.getElementById('customCatImgData').value;
+      if (imgData) {
+        return;
+      }
+      preview.innerHTML = val.trim() ? val.trim() : '📁';
+    }
+
+    function processCatIconUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_DIM = 128;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height && width > MAX_DIM) {
+              height = Math.round((height * MAX_DIM) / width);
+              width = MAX_DIM;
+            } else if (height > MAX_DIM) {
+              width = Math.round((width * MAX_DIM) / height);
+              height = MAX_DIM;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL('image/png', 0.8);
+
+            document.getElementById('customCatImgData').value = dataUrl;
+            document.getElementById('customCatIconInput').value = '';
+            document.getElementById('customCatIconPreview').innerHTML = `<img src="${dataUrl}" style="width:100%; height:100%; object-fit:contain;">`;
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
     function startEditCustomCategory(id) {
       const cat = customCategories.find(c => c.id === id);
       if (!cat) return;
       document.getElementById('editCatId').value = cat.id;
       document.getElementById('customCatTitleInput').value = cat.title;
+
+      if (cat.customImage && cat.customImage.startsWith('data:image')) {
+        document.getElementById('customCatImgData').value = cat.customImage;
+        document.getElementById('customCatIconInput').value = '';
+        document.getElementById('customCatIconPreview').innerHTML = `<img src="${cat.customImage}" style="width:100%; height:100%; object-fit:contain;">`;
+      } else {
+        document.getElementById('customCatImgData').value = '';
+        document.getElementById('customCatIconInput').value = cat.icon || '📁';
+        document.getElementById('customCatIconPreview').innerHTML = cat.icon || '📁';
+      }
+
       document.getElementById('saveCatBtn').innerText = '💾 پاشەکەوتکردنی دەستکاری';
     }
 
@@ -1155,14 +1250,19 @@
       e.preventDefault();
       const editId = document.getElementById('editCatId').value;
       const title = document.getElementById('customCatTitleInput').value.trim();
+      const iconInput = document.getElementById('customCatIconInput').value.trim();
+      const customImgData = document.getElementById('customCatImgData').value;
+
+      const icon = iconInput || '📁';
+      const customImage = customImgData || '';
 
       if (editId) {
         const idx = customCategories.findIndex(c => c.id === editId);
         if (idx !== -1) {
-          customCategories[idx] = { ...customCategories[idx], title };
+          customCategories[idx] = { ...customCategories[idx], title, icon, customImage };
         }
       } else {
-        const newCat = { id: 'cat_' + Date.now(), title, icon: '📁', sub: '' };
+        const newCat = { id: 'cat_' + Date.now(), title, icon, customImage, sub: '' };
         customCategories.push(newCat);
       }
 
@@ -1172,6 +1272,9 @@
 
       document.getElementById('editCatId').value = '';
       document.getElementById('customCatTitleInput').value = '';
+      document.getElementById('customCatIconInput').value = '';
+      document.getElementById('customCatImgData').value = '';
+      document.getElementById('customCatIconPreview').innerHTML = '📁';
       document.getElementById('saveCatBtn').innerText = '+ زیادکردنی تاب';
 
       try {
