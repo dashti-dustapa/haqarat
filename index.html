@@ -389,7 +389,7 @@
       100% { background-position: -200% 0; }
     }
 
-    /* پۆستەری ڕاستەقینەی ستۆری (پێوانەی ستانداردی 9:16ی هاوسەنگ) */
+    /* پۆستەری ڕاستەقینەی ستۆری (پێوانەی ستانداردی 9:16 بە پڕکردنەوەی سروشتی و بێ پانبوونەوە) */
     #storyPosterWrapper {
       position: fixed; left: -9999px; top: 0;
       width: 540px; height: 960px;
@@ -417,12 +417,12 @@
       border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
     .story-img-container {
-      width: 100%; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden;
-      background: #020617; border: 1px solid rgba(255,255,255,0.1);
+      width: 100%; height: 380px; border-radius: 16px; overflow: hidden;
+      background: #000000; border: 1px solid rgba(255,255,255,0.1);
       display: flex; align-items: center; justify-content: center;
     }
     .story-img-container img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
+      width: 100%; height: 100%; object-fit: contain; display: block;
     }
     .story-details-box { display: flex; flex-direction: column; gap: 6px; }
     .story-title-styled {
@@ -738,7 +738,7 @@
 
   </div>
 
-  <!-- دیزاینی پۆستەری ستۆری بە پێوانەی ستانداردی 9:16ی هاوسەنگ و بێ کێشە -->
+  <!-- دیزاینی پۆستەری ستۆری بە پێوانەی ستانداردی 9:16 بێ پانبوونەوەی وێنە -->
   <div id="storyPosterWrapper">
     <div class="story-top-bar">
       <div class="story-office-group">
@@ -2345,5 +2345,4 @@
     }
   </script>
 </body>
-</html>
-a
+              </html>
