@@ -131,30 +131,36 @@
     .btn-sold { background: #64748b; color: #fff; }
     .btn-map { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.74rem; padding: 0.35rem 0.65rem; border-radius: 6px; }
 
-    /* پانێڵی بەڕێوەبەر - تەنها و تەنها دوو تابەکەیە بە دەقی ئاگادارییەوە */
-    .admin-bar {
+    /* شاشەی بەڕێوەبەر کاتێک کراوەیە بە تەواوی جێگەی موڵکەکان دەگرێتەوە */
+    #adminViewContainer {
+      display: none;
       background: var(--admin-bg);
-      color: #fff; padding: 0.85rem; display: none;
-      flex-direction: column; gap: 8px; border-bottom: 3px solid var(--primary);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      color: #fff;
+      padding: 1.5rem 1rem;
+      flex-direction: column;
+      gap: 12px;
+      min-height: calc(100vh - 65px);
     }
     .admin-status-indicator {
-      font-size: 0.82rem;
+      font-size: 1rem;
       font-weight: 800;
       color: #38bdf8;
       text-align: center;
-      margin-bottom: 2px;
+      margin-bottom: 8px;
     }
     .admin-actions-stacked {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
+      max-width: 480px;
+      width: 100%;
+      margin: 0 auto;
     }
     .admin-stacked-btn {
       width: 100%;
-      padding: 0.75rem;
-      font-size: 0.9rem;
-      border-radius: 10px;
+      padding: 0.9rem;
+      font-size: 0.95rem;
+      border-radius: 12px;
     }
 
     .container { max-width: 1100px; margin: auto; padding: 0.9rem 0.8rem; }
@@ -411,8 +417,8 @@
     </div>
   </header>
 
-  <!-- تەنها تابی بەڕێوەبەر: دڵنیابوونەوە + دوو دوگمەکە لەسەر و خوار یەک -->
-  <div class="admin-bar" id="adminBar">
+  <!-- شاشەی تایبەتی بەڕێوەبەر (کاتێک دەکرێتەوە موڵکەکانی خوارەوە دەشارێتەوە) -->
+  <div id="adminViewContainer">
     <div class="admin-status-indicator">👑 تۆ ئێستا لە بەشی بەڕێوەبەری</div>
     <div class="admin-actions-stacked">
       <button class="btn btn-edit admin-stacked-btn" onclick="openSettingsModal()">🎨 ڕێکخستنی ماڵپەڕ</button>
@@ -420,7 +426,8 @@
     </div>
   </div>
 
-  <div class="container">
+  <!-- بەشی موڵکەکان و بەکارهێنەری ئاسایی -->
+  <div class="container" id="publicMainContainer">
     <div class="tabs-wrapper" id="mainTabsWrapper">
       <button class="tab-btn active" onclick="switchCategory('خانوو', this)">خانوو</button>
       <button class="tab-btn" onclick="switchCategory('شوێنی تیجاری', this)">شوێنی تیجاری</button>
@@ -760,7 +767,7 @@
 
     function toggleAdminBar() {
       isAdmin = !isAdmin;
-      document.getElementById('adminBar').style.display = isAdmin ? 'flex' : 'none';
+      updateAdminViewDisplay();
       if (isAdmin) {
         window.history.pushState({ admin: true }, "", "");
       }
@@ -768,9 +775,22 @@
 
     function closeAdminBar(doPush = true) {
       isAdmin = false;
-      document.getElementById('adminBar').style.display = 'none';
+      updateAdminViewDisplay();
       if (doPush) {
         window.history.pushState({ screen: 'main' }, "", "");
+      }
+    }
+
+    function updateAdminViewDisplay() {
+      const adminContainer = document.getElementById('adminViewContainer');
+      const publicContainer = document.getElementById('publicMainContainer');
+
+      if (isAdmin) {
+        adminContainer.style.display = 'flex';
+        publicContainer.style.display = 'none';
+      } else {
+        adminContainer.style.display = 'none';
+        publicContainer.style.display = 'block';
       }
     }
 
@@ -1500,6 +1520,38 @@
           });
         } catch (e) {}
       }
+    }
+
+    async function handleSettingsSubmit(e) {
+      e.preventDefault();
+      siteSettings = {
+        ...siteSettings,
+        siteName: document.getElementById('setSiteName').value,
+        appPass: document.getElementById('setAppPass').value || "0000",
+        gridCols: document.getElementById('setGridCols').value,
+        apkUrl: document.getElementById('setApkUrl').value || "",
+        logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
+        primaryColor: document.getElementById('setPrimaryColor').value,
+        headerBgColor: document.getElementById('setHeaderBgColor').value,
+        adminBgColor: document.getElementById('setAdminBgColor').value,
+        bgColor: document.getElementById('setBgColor').value,
+        cardColor: document.getElementById('setCardColor').value
+      };
+
+      localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
+      applySettings();
+      applyThemeSettings();
+      renderProperties();
+      checkStandaloneMode();
+      closeModals();
+
+      try {
+        await fetch(`${FIREBASE_URL}/settings.json`, {
+          method: 'PUT',
+          body: JSON.stringify(siteSettings)
+        });
+      } catch (err) {}
+      alert("ڕێکخستنەکان نوێکرانەوە!");
     }
 
     async function deleteProperty(id) {
