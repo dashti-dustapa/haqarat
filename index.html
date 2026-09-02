@@ -166,6 +166,7 @@
     }
     .btn:active { transform: scale(0.95); }
     .btn-admin { background: transparent; color: var(--text); font-size: 1.25rem; padding: 0.35rem; }
+    .btn-game { background: transparent; color: var(--text); font-size: 1.2rem; padding: 0.35rem; cursor: pointer; border: none; }
     .btn-dark-toggle { background: transparent; color: var(--text); font-size: 1.2rem; padding: 0.35rem; cursor: pointer; border: none; transition: transform 0.3s ease; }
     .btn-dark-toggle:active { transform: rotate(30deg) scale(0.9); }
     .btn-primary { background: var(--primary); color: #fff; }
@@ -406,6 +407,68 @@
     .story-price { font-size: 1.35rem; font-weight: 800; color: #10b981; }
     .story-phone-box { background: rgba(255,255,255,0.08); padding: 0.8rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 1rem; font-weight: 800; }
 
+    /* فوول سکرین سەنتەری یارییەکان (دامەی کوردی و X-O) */
+    .fullscreen-game-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: var(--bg); z-index: 999999; flex-direction: column;
+      padding: 1.2rem; overflow-y: auto; box-sizing: border-box;
+    }
+    .game-header-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem;
+    }
+    .game-back-btn {
+      background: var(--primary); color: #fff; border: none; padding: 0.5rem 1rem;
+      border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.85rem;
+    }
+    .game-menu-grid { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 400px; margin: 0 auto; width: 100%; }
+    @media(min-width: 640px) { .game-menu-grid { grid-template-columns: 1fr 1fr; max-width: 600px; } }
+    .game-menu-card {
+      background: var(--card-bg); border: 2px solid var(--border); border-radius: 16px;
+      padding: 1.8rem 1rem; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .game-menu-card:active { transform: scale(0.97); border-color: var(--primary); }
+
+    .game-screen-box {
+      display: none; flex-direction: column; align-items: center; width: 100%; max-width: 450px; margin: auto; text-align: center;
+    }
+
+    /* تختی دامەی کوردی ڕەنگاوڕەنگ */
+    .checkers-board {
+      display: grid; grid-template-columns: repeat(8, 1fr); width: 340px; height: 340px;
+      border: 5px solid #1e293b; border-radius: 12px; margin: 15px auto; box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    }
+    @media(min-width: 400px) { .checkers-board { width: 380px; height: 380px; } }
+    .checkers-cell {
+      display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative;
+    }
+    .cell-light { background: #e2e8f0; }
+    body.dark-mode .cell-light { background: #334155; }
+    .cell-dark { background: #3b82f6; }
+    body.dark-mode .cell-dark { background: #1e3a8a; }
+    .checker-piece {
+      width: 78%; height: 78%; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.75rem; box-shadow: 0 5px 15px rgba(0,0,0,0.35); transition: transform 0.2s;
+    }
+    .piece-gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: 2.5px solid #fef08a; }
+    .piece-emerald { background: linear-gradient(135deg, #10b981, #047857); color: #fff; border: 2.5px solid #a7f3d0; }
+    .piece-king::after { content: '👑'; font-size: 0.85rem; position: absolute; }
+    .checkers-cell.selected { background: rgba(244, 63, 94, 0.5) !important; }
+
+    .tictactoe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 320px; width: 100%; margin: 20px auto; }
+    .tictactoe-cell {
+      width: 100%; aspect-ratio: 1; background: var(--card-bg); border: 2px solid var(--border);
+      border-radius: 12px; font-size: 2.8rem; font-weight: 800; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; color: var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    }
+    .tictactoe-cell:active { background: #e0f2fe; }
+
+    .game-settings-bar {
+      display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 340px; margin-bottom: 15px; background: var(--card-bg); padding: 12px; border-radius: 12px; border: 1px solid var(--border);
+    }
+
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.65); backdrop-filter: blur(5px); z-index: 200;
@@ -564,7 +627,7 @@
 </head>
 <body>
 
-  <!-- شاشەی سپلاشی سەرەتایی (دڵنیابوونەوە لە تێرمیناوشنی خێرا) -->
+  <!-- شاشەی سپلاشی سەرەتایی کە بە تەواوی کۆنتڕۆڵ کراوە -->
   <div id="customSplashScreen">
     <img id="splashLogoImg" class="splash-logo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
     <div id="splashTitleText" class="splash-title">عقارات دەشتی دوستەپە</div>
@@ -589,6 +652,7 @@
       <div class="logo" id="siteLogo">عقارات دەشتی دوستەپە</div>
     </div>
     <div class="header-btns">
+      <button class="btn-game" onclick="openGameFullscreenMenu()" title="سەنتەری یارییەکان">🎮</button>
       <button class="btn-dark-toggle" onclick="toggleDarkMode()" id="darkModeBtn" title="مۆدی شەو / ڕۆژ">🌙</button>
       <button id="apkDownloadDirectBtn" class="btn btn-install" onclick="triggerDirectDownload()">📲 داگرتنی ئەپ (APK)</button>
       <button class="btn btn-admin" onclick="toggleAdminBar()" title="ڕێکخستنی بەڕێوەبەر">⚙️</button>
@@ -705,6 +769,90 @@
       <div class="empty-state" id="emptyState" style="display:none;">هیچ بابەتێک لەم بەشەدا بەردەست نییە.</div>
     </div>
 
+  </div>
+
+  <!-- فوول سکرین سەنتەری یارییەکان (لەگەڵ پشتگیری دامەی کوردی و Tic-Tac-Toe بێ کێشە) -->
+  <div class="fullscreen-game-overlay" id="gameFullscreenOverlay">
+    <div class="game-header-bar">
+      <button class="game-back-btn" onclick="closeGameFullscreen()">➔ گەڕانەوە بۆ ماڵپەڕ</button>
+      <h3 style="font-size:1.1rem; font-weight:800; color:var(--primary);" id="gameHeaderTitle">🎮 سەنتەری یارییەکان</h3>
+      <div style="width:70px;"></div>
+    </div>
+
+    <!-- مینیوی هەڵبژاردنی یاری -->
+    <div id="gameHubMenu" style="max-width:500px; margin: auto; width:100%; text-align:center;">
+      <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">کام یارییە ئەنجام دەدەیت؟</h2>
+      <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەکی خۆش هەڵبژێرە بۆ کاتی پشوو و بێزاری</p>
+      
+      <div class="game-menu-grid">
+        <div class="game-menu-card" onclick="setupGameMode('checkers')">
+          <div style="font-size:2.5rem; margin-bottom:8px;">🔴</div>
+          <div style="font-weight:800; font-size:1rem;">یاری دامەی کوردی</div>
+          <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">تەختەی ڕەنگاورەنگ و ڕەسەن</div>
+        </div>
+
+        <div class="game-menu-card" onclick="setupGameMode('ttt')">
+          <div style="font-size:2.5rem; margin-bottom:8px;">❌</div>
+          <div style="font-weight:800; font-size:1rem;">خەت و بازنە (Tic-Tac-Toe)</div>
+          <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">یاری خێرا و ئاسان</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- پەنجەرەی هەڵبژاردنی شێوازی یاری (دوو نەفەری / لەگەڵ بۆت) -->
+    <div class="game-screen-box" id="gameModeSelectorBox">
+      <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;" id="selectedGameNameTitle">شێوازی یاری هەڵبژێرە</h2>
+      
+      <div class="game-settings-bar">
+        <label>شێوازی یاریکردن:</label>
+        <select id="matchTypeSelect" onchange="toggleBotDifficultySetting()">
+          <option value="2p">👥 دوو نەفەری (لەسەر هەمان مۆبایل)</option>
+          <option value="bot">🤖 یاریکردن لەگەڵ ڕۆبۆت (بۆت)</option>
+        </select>
+      </div>
+
+      <div class="game-settings-bar" id="botDiffBox" style="display:none;">
+        <label>ئاستی ڕۆبۆت (بۆت):</label>
+        <select id="botDiffSelect">
+          <option value="easy">ئاسان (Easy)</option>
+          <option value="normal">مامناوەند (Normal)</option>
+          <option value="hard">قورس (Hard - پێشکەوتوو)</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%; max-width:340px; padding:0.8rem; font-size:0.95rem; margin-top:10px;" onclick="startGamePlay()">🚀 دەستپێکردنی یاری</button>
+      <button class="btn" style="width:100%; max-width:340px; padding:0.7rem; margin-top:8px; background:var(--border); color:var(--text);" onclick="backToGameHub()">← گەڕانەوە</button>
+    </div>
+
+    <!-- شاشەی یاریکردنی دامە -->
+    <div class="game-screen-box" id="checkersPlayBox">
+      <div style="display:flex; justify-content:space-between; width:100%; max-width:380px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
+        <span id="checkersTurnText" style="color:var(--primary);">نۆبەی: سەوز (🟢)</span>
+        <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem; background:var(--border);" onclick="setupGameMode('checkers')">🔄 سەرلەنوێ</button>
+      </div>
+      <div class="checkers-board" id="checkersBoard"></div>
+      <div id="checkersMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:8px; min-height:24px;"></div>
+    </div>
+
+    <!-- شاشەی یاریکردنی Tic-Tac-Toe -->
+    <div class="game-screen-box" id="tttPlayBox">
+      <div style="display:flex; justify-content:space-between; width:100%; max-width:320px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
+        <span id="tttTurnText" style="color:var(--primary);">نۆبەی: X</span>
+        <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem; background:var(--border);" onclick="setupGameMode('ttt')">🔄 سەرلەنوێ</button>
+      </div>
+      <div class="tictactoe-grid" id="tttGrid">
+        <div class="tictactoe-cell" onclick="makeTTTMove(0)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(1)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(2)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(3)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(4)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(5)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(6)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(7)"></div>
+        <div class="tictactoe-cell" onclick="makeTTTMove(8)"></div>
+      </div>
+      <div id="tttMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:10px; min-height:24px;"></div>
+    </div>
   </div>
 
   <!-- پۆستەری ستۆری بۆ داگرتن -->
