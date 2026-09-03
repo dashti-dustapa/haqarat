@@ -971,7 +971,7 @@ body.dark-mode .skeleton-shimmer {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
+  background: var(--bg);
   z-index: 999999;
   flex-direction: column;
   padding: 1.2rem;
@@ -1758,6 +1758,17 @@ body.dark-mode .skeleton-shimmer {
     <div class="modal-title" id="modalTitle">زیادکردنی موڵک</div>
     <form id="propForm" onsubmit="handleFormSubmit(event)">
       <input type="hidden" id="editId">
+      
+      <!-- Who is adding this property selector -->
+      <div class="form-group" style="background: rgba(2, 132, 199, 0.08); padding: 8px; border-radius: 8px; border: 1px solid var(--primary);">
+        <label style="color: var(--primary); font-weight: 800;">👤 تۆ کێیت کە ئەم موڵکە زیاد دەکەیت؟</label>
+        <select id="addedByWho" required style="font-weight: 700;">
+          <option value="ڕەهەند">ڕەهەند</option>
+          <option value="حاجی پشتیوان">حاجی پشتیوان</option>
+          <option value="حاجی سەلمان">حاجی سەلمان</option>
+        </select>
+      </div>
+
       <div class="form-group">
         <label>ناوی موڵک:</label>
         <input type="text" id="title" required placeholder="وەک: خانووی مۆدێرن لە سەنتەر">
@@ -2970,6 +2981,7 @@ function renderProperties() {
             <div class="card-footer">
               <div class="card-footer-top">
                 <span class="price">${item.price || 'پەیوەندی بکە'}</span>
+                <span style="font-size:0.68rem; color:var(--muted);">زیادکرا لەلایەن: <b>${item.addedByWho || 'ڕەهەند'}</b></span>
               </div>
             </div>
           </div>
@@ -3159,6 +3171,7 @@ function openEditModal(id) {
   if (!item) return;
   document.getElementById('modalTitle').innerText = "دەستکاریکردنی موڵک";
   document.getElementById('editId').value = item.id;
+  document.getElementById('addedByWho').value = item.addedByWho || 'ڕەهەند';
   document.getElementById('title').value = item.title || '';
   document.getElementById('ownerPhone').value = item.ownerPhone || '';
   document.getElementById('location').value = item.location || '';
@@ -3231,6 +3244,7 @@ async function handleFormSubmit(e) {
   saveBtn.disabled = true;
 
   const editId = document.getElementById('editId').value;
+  const addedByWho = document.getElementById('addedByWho').value || 'ڕەهەند';
   const title = (document.getElementById('title').value || '').trim() || 'موڵکی بێ ناو';
   const ownerPhone = (document.getElementById('ownerPhone').value || '').trim();
   const location = (document.getElementById('location').value || '').trim();
@@ -3246,6 +3260,7 @@ async function handleFormSubmit(e) {
   const propId = editId ? editId : 'p_' + now;
   const propObj = {
     id: propId,
+    addedByWho,
     title,
     ownerPhone,
     location,
