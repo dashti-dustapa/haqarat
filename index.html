@@ -2169,7 +2169,10 @@ window.addEventListener('load', function() {
   applyDarkModeClass();
   const lockInput = document.getElementById('appLockPassInput');
   if (lockInput) {
-    lockInput.focus();
+    setTimeout(() => {
+      lockInput.focus();
+      lockInput.click();
+    }, 100);
   }
 });
 
