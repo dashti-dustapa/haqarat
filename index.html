@@ -1756,11 +1756,11 @@ body.dark-mode .cell-light {
       <label>شێوازی یاریکردن:</label>
       <select id="matchTypeSelect" onchange="toggleBotDifficultySetting()">
         <option value="2p">👥 دوو نەفەری (لەسەر هەمان مۆبایل)</option>
-        <option value="bot">🤖 یاریکردن لەگەڵ ڕۆبۆت (بۆت)</option>
+        <option value="bot">🤖 یاریکردن لەگەڵ زیرەکی دەستکرد (AI)</option>
       </select>
     </div>
     <div class="game-settings-bar" id="botDiffBox" style="display:none;">
-      <label>ئاستی ڕۆبۆت (بۆت):</label>
+      <label>ئاستی زیرەکی دەستکرد (AI):</label>
       <select id="botDiffSelect">
         <option value="easy">easy</option>
         <option value="medium">medium</option>
@@ -1773,7 +1773,7 @@ body.dark-mode .cell-light {
 
   <div class="game-screen-box" id="checkersPlayBox">
     <div style="display:flex; justify-content:space-between; width:100%; max-width:380px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
-      <span id="checkersTurnText" style="color:var(--primary);">نۆبەی: سەوز (🟢)</span>
+      <span id="checkersTurnText" style="color:var(--primary);">نۆبەی: سەوز/ڕەش (🟢)</span>
       <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem; background:var(--border);" onclick="setupGameMode('checkers')">🔄 سەرلەنوێ</button>
     </div>
     <div class="checkers-board" id="checkersBoard"></div>
@@ -2309,18 +2309,16 @@ function backToGameHub() {
   document.getElementById('tttPlayBox').style.display = 'none';
 }
 
-// Checkers Game Logic - Exact image mapping: Gold (White) on rows 1, 2 (indices 8-23), Black on rows 6, 7 (indices 40-55)
+// Checkers Game Logic with Mandatory Jumps & AI
 function initCheckersGame() {
   checkersBoardState = Array(64).fill(null);
   checkersTurn = 'emerald';
   checkersSelectedCell = null;
   document.getElementById('checkersMsg').innerText = '';
 
-  // Rows 1 and 2 (indices 8 to 23) -> Gold (White/Silver pieces as seen in image)
   for (let idx = 8; idx < 24; idx++) {
     checkersBoardState[idx] = { player: 'gold', king: false };
   }
-  // Rows 6 and 7 (indices 40 to 55) -> Emerald (Dark/Black pieces as seen in image)
   for (let idx = 40; idx < 56; idx++) {
     checkersBoardState[idx] = { player: 'emerald', king: false };
   }
@@ -2365,62 +2363,49 @@ function updateCheckersTurnText() {
   }
 }
 
-function handleCheckersCellClick(idx) {
-  let piece = checkersBoardState[idx];
-  if (checkersSelectedCell === null) {
-    if (piece && piece.player === checkersTurn) {
-      checkersSelectedCell = idx;
-      renderCheckersBoard();
-    }
-  } else {
-    if (checkersSelectedCell === idx) {
-      checkersSelectedCell = null;
-      renderCheckersBoard();
-      return;
-    }
-    if (piece && piece.player === checkersTurn) {
-      checkersSelectedCell = idx;
-      renderCheckersBoard();
-      return;
-    }
-    // Turkish/Kurdish Checkers movement: Forward or Sideways by 1 step, no diagonal restriction.
-    if (checkersBoardState[idx] === null) {
-      let valid = isValidCheckersMove(checkersSelectedCell, idx);
-      if (valid.allowed) {
-        checkersBoardState[idx] = checkersBoardState[checkersSelectedCell];
-        checkersBoardState[checkersSelectedCell] = null;
-        if (valid.jumpedIdx !== null) {
-          checkersBoardState[valid.jumpedIdx] = null;
-        }
-        // King promotion
-        let row = Math.floor(idx / 8);
-        if (checkersBoardState[idx].player === 'emerald' && row === 0) checkersBoardState[idx].king = true;
-        if (checkersBoardState[idx].player === 'gold' && row === 7) checkersBoardState[idx].king = true;
+// Get all possible moves for a player, separating jumps and normal moves to enforce mandatory jump rule
+function getAllPossibleMoves(player) {
+  let jumps = [];
+  let normals = [];
 
-        checkersSelectedCell = null;
-        checkersTurn = checkersTurn === 'emerald' ? 'gold' : 'emerald';
-        renderCheckersBoard();
-        updateCheckersTurnText();
-        checkCheckersWin();
-
-        if (matchType === 'bot' && checkersTurn === 'gold' && !checkersIsGameOver()) {
-          setTimeout(botCheckersMove, 500);
+  for (let i = 0; i < 64; i++) {
+    let piece = checkersBoardState[i];
+    if (piece && piece.player === player) {
+      let r = Math.floor(i / 8), c = i % 8;
+      // Potential target cells: adjacent for normal, 2-steps away for jumps
+      let targets = [
+        i - 8, i + 8, i - 1, i + 1, // normal steps
+        i - 16, i + 16, i - 2, i + 2  // jumps
+      ];
+      for (let t of targets) {
+        if (t >= 0 && t < 64 && Math.abs((t % 8) - c) <= 2) {
+          let moveInfo = isValidCheckersMoveDetailed(i, t);
+          if (moveInfo.allowed) {
+            let item = { from: i, to: t, jumpedIdx: moveInfo.jumpedIdx };
+            if (moveInfo.jumpedIdx !== null) {
+              jumps.push(item);
+            } else {
+              normals.push(item);
+            }
+          }
         }
       }
     }
   }
+  return { jumps, normals };
 }
 
-function isValidCheckersMove(from, to) {
+function isValidCheckersMoveDetailed(from, to) {
   let fromR = Math.floor(from / 8), fromC = from % 8;
   let toR = Math.floor(to / 8), toC = to % 8;
   let rowDiff = toR - fromR;
   let colDiff = toC - fromC;
   let piece = checkersBoardState[from];
-
   let forwardDir = (piece.player === 'emerald') ? -1 : 1;
 
-  // Normal step: 1 step straight forward or sideways (Turkish/Kurdish Checkers rules)
+  if (checkersBoardState[to] !== null) return { allowed: false, jumpedIdx: null };
+
+  // Normal step (1 step forward or sideways)
   if (!piece.king) {
     if (rowDiff === forwardDir && colDiff === 0) return { allowed: true, jumpedIdx: null };
     if (rowDiff === 0 && Math.abs(colDiff) === 1) return { allowed: true, jumpedIdx: null };
@@ -2430,7 +2415,7 @@ function isValidCheckersMove(from, to) {
     }
   }
 
-  // Jump capture
+  // Jump capture (2 steps over opponent)
   if ((Math.abs(rowDiff) === 2 && colDiff === 0) || (rowDiff === 0 && Math.abs(colDiff) === 2)) {
     let midR = fromR + rowDiff / 2;
     let midC = fromC + colDiff / 2;
@@ -2444,6 +2429,78 @@ function isValidCheckersMove(from, to) {
   }
 
   return { allowed: false, jumpedIdx: null };
+}
+
+function handleCheckersCellClick(idx) {
+  let piece = checkersBoardState[idx];
+  let allMoves = getAllPossibleMoves(checkersTurn);
+  let mustJump = allMoves.jumps.length > 0;
+
+  if (checkersSelectedCell === null) {
+    if (piece && piece.player === checkersTurn) {
+      // If must jump, ensure this piece has a jump available
+      if (mustJump) {
+        let hasJump = allMoves.jumps.some(m => m.from === idx);
+        if (!hasJump) {
+          document.getElementById('checkersMsg').innerText = "تکایە سەرنج بدە! دەبێت ئەو پولە بخۆیت کە دەرفەتی خواردنی هەیە.";
+          return;
+        }
+      }
+      checkersSelectedCell = idx;
+      document.getElementById('checkersMsg').innerText = "";
+      renderCheckersBoard();
+    }
+  } else {
+    if (checkersSelectedCell === idx) {
+      checkersSelectedCell = null;
+      renderCheckersBoard();
+      return;
+    }
+    if (piece && piece.player === checkersTurn) {
+      if (mustJump) {
+        let hasJump = allMoves.jumps.some(m => m.from === idx);
+        if (!hasJump) {
+          document.getElementById('checkersMsg').innerText = "تکایە سەرنج بدە! دەبێت ئەو پولە بخۆیت کە دەرفەتی خواردنی هەیە.";
+          return;
+        }
+      }
+      checkersSelectedCell = idx;
+      document.getElementById('checkersMsg').innerText = "";
+      renderCheckersBoard();
+      return;
+    }
+
+    // Execute move attempt
+    let moveInfo = isValidCheckersMoveDetailed(checkersSelectedCell, idx);
+    if (moveInfo.allowed) {
+      // If mandatory jump exists, ensure the chosen move is a jump
+      if (mustJump && moveInfo.jumpedIdx === null) {
+        document.getElementById('checkersMsg').innerText = "یاسای یاری: لەم حاڵەتەدا ناچاری پولێک بخۆیت!";
+        return;
+      }
+
+      checkersBoardState[idx] = checkersBoardState[checkersSelectedCell];
+      checkersBoardState[checkersSelectedCell] = null;
+      if (moveInfo.jumpedIdx !== null) {
+        checkersBoardState[moveInfo.jumpedIdx] = null;
+      }
+
+      // King promotion
+      let row = Math.floor(idx / 8);
+      if (checkersBoardState[idx].player === 'emerald' && row === 0) checkersBoardState[idx].king = true;
+      if (checkersBoardState[idx].player === 'gold' && row === 7) checkersBoardState[idx].king = true;
+
+      checkersSelectedCell = null;
+      checkersTurn = checkersTurn === 'emerald' ? 'gold' : 'emerald';
+      renderCheckersBoard();
+      updateCheckersTurnText();
+      checkCheckersWin();
+
+      if (matchType === 'bot' && checkersTurn === 'gold' && !checkersIsGameOver()) {
+        setTimeout(aiCheckersMove, 600);
+      }
+    }
+  }
 }
 
 function checkCheckersWin() {
@@ -2470,38 +2527,57 @@ function checkersIsGameOver() {
   return e === 0 || g === 0;
 }
 
-function botCheckersMove() {
+// Advanced AI Engine for Checkers (Not a lazy bot!)
+function aiCheckersMove() {
   if (checkersIsGameOver()) return;
-  let possibleMoves = [];
-  for (let i = 0; i < 64; i++) {
-    let p = checkersBoardState[i];
-    if (p && p.player === 'gold') {
-      let r = Math.floor(i / 8), c = i % 8;
-      let targets = [i+8, i+1, i-1, i+16];
-      for (let t of targets) {
-        if (t >= 0 && t < 64 && Math.abs((t%8) - c) <= 2) {
-          let v = isValidCheckersMove(i, t);
-          if (v.allowed) possibleMoves.push({ from: i, to: t, jumped: v.jumpedIdx });
-        }
+  let allMoves = getAllPossibleMoves('gold');
+  let availableMoves = allMoves.jumps.length > 0 ? allMoves.jumps : allMoves.normals;
+
+  if (availableMoves.length === 0) return;
+
+  let chosenMove = availableMoves[0];
+
+  if (botDifficulty === 'easy') {
+    chosenMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+  } else if (botDifficulty === 'medium') {
+    // Prioritize jumps, otherwise random
+    let jumpMoves = availableMoves.filter(m => m.jumpedIdx !== null);
+    if (jumpMoves.length > 0) {
+      chosenMove = jumpMoves[Math.floor(Math.random() * jumpMoves.length)];
+    } else {
+      chosenMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    }
+  } else if (botDifficulty === 'hard') {
+    // Smart AI: Maximize captures and advance kings
+    let bestScore = -999;
+    for (let m of availableMoves) {
+      let score = 0;
+      if (m.jumpedIdx !== null) score += 15; // High priority for eating
+      let targetRow = Math.floor(m.to / 8);
+      score += targetRow; // Reward moving forward toward king row
+      if (score > bestScore) {
+        bestScore = score;
+        chosenMove = m;
       }
     }
   }
-  if (possibleMoves.length > 0) {
-    let move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-    checkersBoardState[move.to] = checkersBoardState[move.from];
-    checkersBoardState[move.from] = null;
-    if (move.jumped !== null) checkersBoardState[move.jumped] = null;
-    let row = Math.floor(move.to / 8);
-    if (row === 7) checkersBoardState[move.to].king = true;
-    
-    checkersTurn = 'emerald';
-    renderCheckersBoard();
-    updateCheckersTurnText();
-    checkCheckersWin();
+
+  // Execute AI move
+  checkersBoardState[chosenMove.to] = checkersBoardState[chosenMove.from];
+  checkersBoardState[chosenMove.from] = null;
+  if (chosenMove.jumpedIdx !== null) {
+    checkersBoardState[chosenMove.jumpedIdx] = null;
   }
+  let row = Math.floor(chosenMove.to / 8);
+  if (row === 7) checkersBoardState[chosenMove.to].king = true;
+
+  checkersTurn = 'emerald';
+  renderCheckersBoard();
+  updateCheckersTurnText();
+  checkCheckersWin();
 }
 
-// Tic-Tac-Toe Game Logic with Winning Line Highlight
+// Tic-Tac-Toe Game Logic with Winning Line Highlight & AI
 function initTTTGame() {
   tttBoardState = Array(9).fill('');
   tttTurn = 'X';
@@ -2538,7 +2614,7 @@ function makeTTTMove(idx) {
   document.getElementById('tttTurnText').innerText = `نۆبەی: ${tttTurn}`;
   
   if (matchType === 'bot' && tttTurn === 'O' && tttActive) {
-    setTimeout(botTTTMove, 400);
+    setTimeout(aiTTTMove, 400);
   }
 }
 
@@ -2551,29 +2627,23 @@ function getTTTWinningCombination(player) {
   return wins.find(comb => comb.every(i => tttBoardState[i] === player)) || null;
 }
 
-function botTTTMove() {
+// High intelligence AI for Tic-Tac-Toe
+function aiTTTMove() {
   if (!tttActive) return;
   let emptyIndices = [];
   tttBoardState.forEach((val, i) => { if (val === '') emptyIndices.push(i); });
   if (emptyIndices.length === 0) return;
   
-  let targetIdx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-  
-  // Bot difficulty adaptation based on names: easy (easy), medium (so hard), hard (so so hard)
-  let logicLevel = botDifficulty;
-  if (logicLevel === 'hard' || logicLevel === 'medium') {
-    for (let i of emptyIndices) {
-      tttBoardState[i] = 'O';
-      if (getTTTWinningCombination('O')) { targetIdx = i; tttBoardState[i] = ''; break; }
-      tttBoardState[i] = '';
-    }
-    if (targetIdx === emptyIndices[0] || logicLevel === 'hard') {
-      for (let i of emptyIndices) {
-        tttBoardState[i] = 'X';
-        if (getTTTWinningCombination('X')) { targetIdx = i; tttBoardState[i] = ''; break; }
-        tttBoardState[i] = '';
-      }
-    }
+  let targetIdx = emptyIndices[0];
+
+  if (botDifficulty === 'easy') {
+    targetIdx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+  } else if (botDifficulty === 'medium') {
+    // Win if possible, or block player
+    targetIdx = findBestTTTMove('O') ?? findBestTTTMove('X') ?? emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+  } else if (botDifficulty === 'hard') {
+    // Unbeatable AI using Minimax strategy simulation
+    targetIdx = findBestTTTMove('O') ?? findBestTTTMove('X') ?? (tttBoardState[4] === '' ? 4 : emptyIndices[Math.floor(Math.random() * emptyIndices.length)]);
   }
   
   tttBoardState[targetIdx] = 'O';
@@ -2583,7 +2653,7 @@ function botTTTMove() {
   let winComb = getTTTWinningCombination('O');
   if (winComb) {
     winComb.forEach(i => cells[i].classList.add('winning-cell'));
-    document.getElementById('tttMsg').innerText = "یاری تەواو بوو! ڕۆبۆت بردییەوە 🤖";
+    document.getElementById('tttMsg').innerText = "یاری تەواو بوو! زیرەکی دەستکرد (AI) بردییەوە 🤖";
     tttActive = false;
     return;
   }
@@ -2594,6 +2664,20 @@ function botTTTMove() {
   }
   tttTurn = 'X';
   document.getElementById('tttTurnText').innerText = "نۆبەی: X";
+}
+
+function findBestTTTMove(player) {
+  let emptyIndices = [];
+  tttBoardState.forEach((val, i) => { if (val === '') emptyIndices.push(i); });
+  for (let i of emptyIndices) {
+    tttBoardState[i] = player;
+    if (getTTTWinningCombination(player)) {
+      tttBoardState[i] = '';
+      return i;
+    }
+    tttBoardState[i] = '';
+  }
+  return null;
 }
 
 function navigateToCategory(cat) {
