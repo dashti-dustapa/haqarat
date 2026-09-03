@@ -1876,7 +1876,7 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </div>
 
-    <div id="hbMsg" style="font-weight:800; font-size:0.85rem; color:#facc15; margin-top:6px; min-height:20px;">گێڕی (Joystick) بەکاربهێنە بۆ جووڵە و لێدانی تۆپەکە بەرבە گۆڵ!</div>
+    <div id="hbMsg" style="font-weight:800; font-size:0.85rem; color:#facc15; margin-top:6px; min-height:20px;">گێڕی ناو شاشە بەکاربهێنە بۆ جووڵە و لێدانی تۆپەکە!</div>
 
     <!-- Joystick Controls Dock -->
     <div class="hb-controls-dock">
@@ -1888,7 +1888,7 @@ body.dark-mode .skeleton-shimmer {
         <button class="joy-btn" style="background:#10b981;" onclick="hbJump(1)">⬆️ باز</button>
       </div>
 
-      <!-- Player 2 Joystick -->
+      <!-- Player 2 Joystick (Dynamic Visibility) -->
       <div class="joystick-group" id="p2HbDock">
         <span style="font-size:0.7rem; font-weight:800; color:#f87171;">P2 گێڕ:</span>
         <button class="joy-btn" onclick="hbMove(2, -1)">◀️ چەپ</button>
@@ -2216,15 +2216,15 @@ let tttActive = true;
 let matchType = '2p';
 let botDifficulty = 'easy';
 
-// Head Ball Game State
+// Head Ball State
 let hbPos1 = 60;
 let hbPos2 = 60;
 let hbY1 = 0;
 let hbY2 = 0;
 let hbBallX = 350;
-let hbBallY = 100;
+let hbBallY = 90;
 let hbBallVX = 4;
-let hbBallVY = -3;
+let hbBallVY = -2;
 let hbScore1 = 0;
 let hbScore2 = 0;
 let hbActive = true;
@@ -2630,12 +2630,10 @@ function hbJump(player) {
 function updateHBPhysics() {
   if (!hbActive) return;
 
-  // Ball gravity & movement
   hbBallVY += 0.4;
   hbBallX += hbBallVX;
   hbBallY += hbBallVY;
 
-  // Floor collision
   if (hbBallY > 155) {
     hbBallY = 155;
     hbBallVY = -hbBallVY * 0.75;
@@ -2645,7 +2643,6 @@ function updateHBPhysics() {
     hbBallVY = -hbBallVY;
   }
 
-  // Wall bounds
   if (hbBallX < 15) {
     hbBallX = 15;
     hbBallVX = -hbBallVX;
@@ -2655,7 +2652,6 @@ function updateHBPhysics() {
     hbBallVX = -hbBallVX;
   }
 
-  // Goal check
   if (hbBallY > 90 && hbBallX < 35) {
     hbScore2++;
     document.getElementById('hbMsg').innerText = "⚽ گۆڵ بۆ یاریزان ٢!";
@@ -2666,7 +2662,6 @@ function updateHBPhysics() {
     resetHBBall();
   }
 
-  // AI movement if bot
   if (matchType === 'bot') {
     let ballRealX = hbBallX;
     let p2RealX = 740 - hbPos2 - 45;
