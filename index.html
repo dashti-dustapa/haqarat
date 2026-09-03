@@ -1010,8 +1010,8 @@ body.dark-mode .skeleton-shimmer {
 
 @media(min-width: 640px) {
   .game-menu-grid {
-    grid-template-columns: 1fr 1fr;
-    max-width: 600px;
+    grid-template-columns: 1fr;
+    max-width: 400px;
   }
 }
 
@@ -1043,79 +1043,6 @@ body.dark-mode .skeleton-shimmer {
   max-width: 450px;
   margin: auto;
   text-align: center;
-}
-
-.checkers-board {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  width: 340px;
-  height: 340px;
-  border: 5px solid #1e293b;
-  border-radius: 12px;
-  margin: 15px auto;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-}
-
-@media(min-width: 400px) {
-  .checkers-board {
-    width: 380px;
-    height: 380px;
-  }
-}
-
-.checkers-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-}
-
-.cell-light {
-  background: #e2e8f0;
-}
-
-body.dark-mode .cell-light {
-  background: #334155;
-}
-
-.cell-dark {
-  background: #1e3a8a;
-}
-
-.checker-piece {
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.75rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.35);
-  transition: transform 0.2s;
-}
-
-.piece-gold {
-  background: radial-gradient(circle at 30% 30%, #fef08a 0%, #eab308 50%, #a16207 100%);
-  color: #fff;
-  border: 2px solid #fef9c3;
-}
-
-.piece-emerald {
-  background: radial-gradient(circle at 30% 30%, #a7f3d0 0%, #059669 50%, #064e3b 100%);
-  color: #fff;
-  border: 2px solid #d1fae5;
-}
-
-.piece-king::after {
-  content: '👑';
-  font-size: 1rem;
-  position: absolute;
-}
-
-.checkers-cell.selected {
-  background: rgba(244, 63, 94, 0.5) !important;
 }
 
 .tictactoe-grid {
@@ -1731,25 +1658,20 @@ body.dark-mode .cell-light {
     <div style="font-weight:800; font-size:1rem; color:var(--primary);">🎮 سەنتەری یارییەکان</div>
   </div>
 
-  <div id="gameHubMenu" style="max-width:500px; margin: auto; width:100%; text-align:center;">
-    <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">کام یارییە ئەنجام دەدەیت؟</h2>
-    <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەکی خۆش هەڵبژێرە بۆ کاتی پشوو و بێزاری</p>
+  <div id="gameHubMenu" style="max-width:400px; margin: auto; width:100%; text-align:center;">
+    <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">یاری خەت و بازنە</h2>
+    <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەکی زیرەک لەگەڵ ئاستی زەحمەتی بەهێز</p>
     <div class="game-menu-grid">
-      <div class="game-menu-card" onclick="setupGameMode('checkers')">
-        <div style="font-size:2.5rem; margin-bottom:8px;">🔴</div>
-        <div style="font-weight:800; font-size:1rem;">یاری دامەی کوردی/تورکی ڕەسەن</div>
-        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">بەپێی مەرج و لۆژیکی ڕەسەنی دامە</div>
-      </div>
       <div class="game-menu-card" onclick="setupGameMode('ttt')">
         <div style="font-size:2.5rem; margin-bottom:8px;">❌</div>
-        <div style="font-weight:800; font-size:1rem;">خەت و بازنە (Tic-Tac-Toe)</div>
-        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">یاری خێرا و ئاسان</div>
+        <div style="font-weight:800; font-size:1rem;">دەستپێکردنی یاری X و O</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">دوو نەفەری یان لەگەڵ AI زیرەک</div>
       </div>
     </div>
   </div>
 
   <div class="game-screen-box" id="gameModeSelectorBox">
-    <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;" id="selectedGameNameTitle">شێوازی یاری هەڵبژێرە</h2>
+    <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;">شێوازی یاری هەڵبژێرە</h2>
     <div class="game-settings-bar">
       <label>شێوازی یاریکردن:</label>
       <select id="matchTypeSelect" onchange="toggleBotDifficultySetting()">
@@ -1760,22 +1682,13 @@ body.dark-mode .cell-light {
     <div class="game-settings-bar" id="botDiffBox" style="display:none;">
       <label>ئاستی زیرەکی دەستکرد (AI):</label>
       <select id="botDiffSelect">
-        <option value="easy">easy</option>
-        <option value="medium">medium</option>
-        <option value="hard">hard</option>
+        <option value="easy">ئاسان (Easy)</option>
+        <option value="medium">مامناوەند (Medium)</option>
+        <option value="hard">سەخت و بەهێز (Hard - Unbeatable)</option>
       </select>
     </div>
     <button class="btn btn-primary" style="width:100%; max-width:340px; padding:0.8rem; font-size:0.95rem; margin-top:10px;" onclick="startGamePlay()">🚀 دەستپێکردنی یاری</button>
     <button class="btn" style="width:100%; max-width:340px; padding:0.7rem; margin-top:8px; background:var(--border); color:var(--text);" onclick="backToGameHub()">← گەڕانەوە</button>
-  </div>
-
-  <div class="game-screen-box" id="checkersPlayBox">
-    <div style="display:flex; justify-content:space-between; width:100%; max-width:380px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
-      <span id="checkersTurnText" style="color:var(--primary);">نۆبەی: سەوز/ڕەش (🟢)</span>
-      <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem; background:var(--border);" onclick="setupGameMode('checkers')">🔄 سەرلەنوێ</button>
-    </div>
-    <div class="checkers-board" id="checkersBoard"></div>
-    <div id="checkersMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:8px; min-height:24px;"></div>
   </div>
 
   <div class="game-screen-box" id="tttPlayBox">
@@ -2107,11 +2020,7 @@ let activeWantSubTab = 'بۆ کڕین';
 let holdTimer = null;
 let selectedHoldItemId = null;
 
-// Turkish/Kurdish Dama Engine Integration
-let activeGame = 'checkers';
-let checkersBoardState = [];
-let checkersTurn = 1; // 1 for White/Emerald (starts at bottom), -1 for Black/Gold (starts at top)
-let checkersSelectedCell = null;
+// Tic-Tac-Toe Game State & Minimax AI Engine
 let tttBoardState = Array(9).fill('');
 let tttTurn = 'X';
 let tttActive = true;
@@ -2197,7 +2106,6 @@ window.addEventListener('load', function() {
   }
 });
 
-// Global touch/click listener to guarantee number keyboard popup on mobile when locked
 document.addEventListener('click', function() {
   const lockInput = document.getElementById('appLockPassInput');
   if (lockInput && document.getElementById('appLockModal').style.display !== 'none') {
@@ -2240,7 +2148,6 @@ function openGameHubModal() {
   overlay.style.display = 'flex';
   document.getElementById('gameHubMenu').style.display = 'block';
   document.getElementById('gameModeSelectorBox').style.display = 'none';
-  document.getElementById('checkersPlayBox').style.display = 'none';
   document.getElementById('tttPlayBox').style.display = 'none';
   window.history.pushState({ modal: 'gameHub' }, "", "");
 }
@@ -2253,18 +2160,9 @@ function closeGameOverlay(doPush = true) {
 }
 
 function setupGameMode(gameType) {
-  activeGame = gameType;
   document.getElementById('gameHubMenu').style.display = 'none';
   document.getElementById('gameModeSelectorBox').style.display = 'flex';
-  document.getElementById('checkersPlayBox').style.display = 'none';
   document.getElementById('tttPlayBox').style.display = 'none';
-  
-  const title = document.getElementById('selectedGameNameTitle');
-  if (gameType === 'checkers') {
-    title.innerText = "شێوازی یاری دامەی کوردی / تورکی ڕەسەن";
-  } else {
-    title.innerText = "شێوازی یاری خەت و بازنە (Tic-Tac-Toe)";
-  }
 }
 
 function toggleBotDifficultySetting() {
@@ -2277,225 +2175,17 @@ function startGamePlay() {
   botDifficulty = document.getElementById('botDiffSelect').value;
   
   document.getElementById('gameModeSelectorBox').style.display = 'none';
-  
-  if (activeGame === 'checkers') {
-    document.getElementById('checkersPlayBox').style.display = 'flex';
-    initCheckersGame();
-  } else {
-    document.getElementById('tttPlayBox').style.display = 'flex';
-    initTTTGame();
-  }
+  document.getElementById('tttPlayBox').style.display = 'flex';
+  initTTTGame();
 }
 
 function backToGameHub() {
   document.getElementById('gameHubMenu').style.display = 'block';
   document.getElementById('gameModeSelectorBox').style.display = 'none';
-  document.getElementById('checkersPlayBox').style.display = 'none';
   document.getElementById('tttPlayBox').style.display = 'none';
 }
 
-// Turkish Dama Implementation based on structured Python class logic converted cleanly to JS
-function initCheckersGame() {
-  checkersBoardState = Array(64).fill(0);
-  checkersTurn = 1; // 1 for White/Emerald, -1 for Black/Gold
-  checkersSelectedCell = null;
-  document.getElementById('checkersMsg').innerText = '';
-
-  // Rows 1 and 2 (index 1, 2) for Black (-1)
-  for (let r = 1; r < 3; r++) {
-    for (let c = 0; c < 8; c++) {
-      checkersBoardState[r * 8 + c] = -1;
-    }
-  }
-  // Rows 5 and 6 (index 5, 6) for White (1)
-  for (let r = 5; r < 7; r++) {
-    for (let c = 0; c < 8; c++) {
-      checkersBoardState[r * 8 + c] = 1;
-    }
-  }
-  renderCheckersBoard();
-  updateCheckersTurnText();
-}
-
-function renderCheckersBoard() {
-  const boardEl = document.getElementById('checkersBoard');
-  boardEl.innerHTML = '';
-  for (let r = 0; r < 8; r++) {
-    for (let c = 0; c < 8; c++) {
-      let idx = r * 8 + c;
-      const cell = document.createElement('div');
-      let isDark = (r + c) % 2 === 1;
-      cell.className = `checkers-cell ${isDark ? 'cell-dark' : 'cell-light'}`;
-      if (checkersSelectedCell === idx) {
-        cell.classList.add('selected');
-      }
-      
-      let piece = checkersBoardState[idx];
-      if (piece !== 0) {
-        const pieceEl = document.createElement('div');
-        let pieceClass = (piece < 0) ? 'piece-gold' : 'piece-emerald';
-        if (Math.abs(piece) === 2) pieceClass += ' piece-king';
-        pieceEl.className = `checker-piece ${pieceClass}`;
-        cell.appendChild(pieceEl);
-      }
-      
-      cell.onclick = () => handleCheckersCellClick(idx);
-      boardEl.appendChild(cell);
-    }
-  }
-}
-
-function updateCheckersTurnText() {
-  const textEl = document.getElementById('checkersTurnText');
-  if (checkersTurn === 1) {
-    textEl.innerText = "نۆبەی: سەوز/سپی (🟢)";
-  } else {
-    textEl.innerText = "نۆبەی: زێڕین/ڕەش (🟡)";
-  }
-}
-
-function isValidCoord(r, c) {
-  return r >= 0 && r < 8 && c >= 0 && c < 8;
-}
-
-function getRegularMoves(r, c) {
-  let piece = checkersBoardState[r * 8 + c];
-  if (Math.abs(piece) !== 1) return [];
-
-  let forwardDir = (piece === 1) ? -1 : 1;
-  let directions = [[forwardDir, 0], [0, -1], [0, 1]];
-  let moves = [];
-
-  for (let [dr, dc] of directions) {
-    let nr = r + dr, nc = c + dc;
-    if (isValidCoord(nr, nc) && checkersBoardState[nr * 8 + nc] === 0) {
-      moves.push(nr * 8 + nc);
-    }
-  }
-  return moves;
-}
-
-function getKingMoves(r, c) {
-  let moves = [];
-  let directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-  for (let [dr, dc] of directions) {
-    let step = 1;
-    while (true) {
-      let nr = r + dr * step;
-      let nc = c + dc * step;
-      if (!isValidCoord(nr, nc)) break;
-      let target = checkersBoardState[nr * 8 + nc];
-      if (target === 0) {
-        moves.push(nr * 8 + nc);
-        step++;
-      } else {
-        break;
-      }
-    }
-  }
-  return moves;
-}
-
-function handleCheckersCellClick(idx) {
-  let r = Math.floor(idx / 8), c = idx % 8;
-  let piece = checkersBoardState[idx];
-
-  if (checkersSelectedCell === null) {
-    if (piece !== 0 && ((piece > 0 && checkersTurn === 1) || (piece < 0 && checkersTurn === -1))) {
-      checkersSelectedCell = idx;
-      renderCheckersBoard();
-    }
-  } else {
-    if (checkersSelectedCell === idx) {
-      checkersSelectedCell = null;
-      renderCheckersBoard();
-      return;
-    }
-    if (piece !== 0 && ((piece > 0 && checkersTurn === 1) || (piece < 0 && checkersTurn === -1))) {
-      checkersSelectedCell = idx;
-      renderCheckersBoard();
-      return;
-    }
-
-    let selR = Math.floor(checkersSelectedCell / 8);
-    let selC = checkersSelectedCell % 8;
-    let selPiece = checkersBoardState[checkersSelectedCell];
-    
-    let validMoves = (Math.abs(selPiece) === 1) ? getRegularMoves(selR, selC) : getKingMoves(selR, selC);
-
-    if (validMoves.includes(idx)) {
-      checkersBoardState[idx] = selPiece;
-      checkersBoardState[checkersSelectedCell] = 0;
-
-      // King promotion
-      let targetRow = Math.floor(idx / 8);
-      if (selPiece === 1 && targetRow === 0) checkersBoardState[idx] = 2;
-      if (selPiece === -1 && targetRow === 7) checkersBoardState[idx] = -2;
-
-      checkersSelectedCell = null;
-      checkersTurn = checkersTurn === 1 ? -1 : 1;
-      renderCheckersBoard();
-      updateCheckersTurnText();
-      checkCheckersWin();
-
-      if (matchType === 'bot' && checkersTurn === -1 && !checkersIsGameOver()) {
-        setTimeout(aiCheckersMove, 500);
-      }
-    }
-  }
-}
-
-function checkCheckersWin() {
-  let whiteCount = 0, blackCount = 0;
-  for (let p of checkersBoardState) {
-    if (p > 0) whiteCount++;
-    if (p < 0) blackCount++;
-  }
-  let msg = document.getElementById('checkersMsg');
-  if (whiteCount === 0) {
-    msg.innerText = "یاری تەواو بوو! تیمی زێڕین بردییەوە 🏆";
-  } else if (blackCount === 0) {
-    msg.innerText = "یاری تەواو بوو! تیمی سەوز بردییەوە 🏆";
-  }
-}
-
-function checkersIsGameOver() {
-  let w = 0, b = 0;
-  for (let p of checkersBoardState) {
-    if (p > 0) w++;
-    if (p < 0) b++;
-  }
-  return w === 0 || b === 0;
-}
-
-function aiCheckersMove() {
-  if (checkersIsGameOver()) return;
-  let allPossible = [];
-  for (let i = 0; i < 64; i++) {
-    if (checkersBoardState[i] < 0) {
-      let r = Math.floor(i / 8), c = i % 8;
-      let moves = (Math.abs(checkersBoardState[i]) === 1) ? getRegularMoves(r, c) : getKingMoves(r, c);
-      for (let m of moves) {
-        allPossible.push({ from: i, to: m });
-      }
-    }
-  }
-  if (allPossible.length === 0) return;
-  let chosen = allPossible[Math.floor(Math.random() * allPossible.length)];
-  
-  let piece = checkersBoardState[chosen.from];
-  checkersBoardState[chosen.to] = piece;
-  checkersBoardState[chosen.from] = 0;
-  let targetRow = Math.floor(chosen.to / 8);
-  if (piece === -1 && targetRow === 7) checkersBoardState[chosen.to] = -2;
-
-  checkersTurn = 1;
-  renderCheckersBoard();
-  updateCheckersTurnText();
-  checkCheckersWin();
-}
-
-// Tic-Tac-Toe Game Logic
+// Supercharged Tic-Tac-Toe with Minimax AI for 'Hard' level
 function initTTTGame() {
   tttBoardState = Array(9).fill('');
   tttTurn = 'X';
@@ -2515,7 +2205,7 @@ function makeTTTMove(idx) {
   let cells = document.querySelectorAll('.tictactoe-cell');
   cells[idx].innerText = tttTurn;
   
-  let winComb = getTTTWinningCombination(tttTurn);
+  let winComb = getTTTWinningCombination(tttTurn, tttBoardState);
   if (winComb) {
     winComb.forEach(i => cells[i].classList.add('winning-cell'));
     document.getElementById('tttMsg').innerText = `یاری تەواو بوو! ${tttTurn} بردییەوە 🏆`;
@@ -2536,13 +2226,78 @@ function makeTTTMove(idx) {
   }
 }
 
-function getTTTWinningCombination(player) {
+function getTTTWinningCombination(player, board) {
   const wins = [
     [0,1,2],[3,4,5],[6,7,8],
     [0,3,6],[1,4,7],[2,5,8],
     [0,4,8],[2,4,6]
   ];
-  return wins.find(comb => comb.every(i => tttBoardState[i] === player)) || null;
+  return wins.find(comb => comb.every(i => board[i] === player)) || null;
+}
+
+function checkWinnerForMinimax(b) {
+  const wins = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+  for (let w of wins) {
+    if (b[w[0]] && b[w[0]] === b[w[1]] && b[w[0]] === b[w[2]]) {
+      return b[w[0]];
+    }
+  }
+  if (b.every(cell => cell !== '')) return 'tie';
+  return null;
+}
+
+function minimax(newBoard, depth, isMaximizing) {
+  let result = checkWinnerForMinimax(newBoard);
+  if (result !== null) {
+    if (result === 'O') return 10 - depth;
+    if (result === 'X') return depth - 10;
+    return 0;
+  }
+
+  if (isMaximizing) {
+    let bestScore = -Infinity;
+    for (let i = 0; i < 9; i++) {
+      if (newBoard[i] === '') {
+        newBoard[i] = 'O';
+        let score = minimax(newBoard, depth + 1, false);
+        newBoard[i] = '';
+        bestScore = Math.max(score, bestScore);
+      }
+    }
+    return bestScore;
+  } else {
+    let bestScore = Infinity;
+    for (let i = 0; i < 9; i++) {
+      if (newBoard[i] === '') {
+        newBoard[i] = 'X';
+        let score = minimax(newBoard, depth + 1, true);
+        newBoard[i] = '';
+        bestScore = Math.min(score, bestScore);
+      }
+    }
+    return bestScore;
+  }
+}
+
+function getBestMoveMinimax() {
+  let bestScore = -Infinity;
+  let move = -1;
+  for (let i = 0; i < 9; i++) {
+    if (tttBoardState[i] === '') {
+      tttBoardState[i] = 'O';
+      let score = minimax(tttBoardState, 0, false);
+      tttBoardState[i] = '';
+      if (score > bestScore) {
+        bestScore = score;
+        move = i;
+      }
+    }
+  }
+  return move;
 }
 
 function aiTTTMove() {
@@ -2551,13 +2306,23 @@ function aiTTTMove() {
   tttBoardState.forEach((val, i) => { if (val === '') emptyIndices.push(i); });
   if (emptyIndices.length === 0) return;
   
-  let targetIdx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+  let targetIdx = emptyIndices[0];
+
+  if (botDifficulty === 'easy') {
+    targetIdx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+  } else if (botDifficulty === 'medium') {
+    // Smart heuristic: win or block or random
+    targetIdx = findSmartMove('O') ?? findSmartMove('X') ?? emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+  } else if (botDifficulty === 'hard') {
+    // Unbeatable Minimax AI
+    targetIdx = getBestMoveMinimax();
+  }
   
   tttBoardState[targetIdx] = 'O';
   let cells = document.querySelectorAll('.tictactoe-cell');
   cells[targetIdx].innerText = 'O';
   
-  let winComb = getTTTWinningCombination('O');
+  let winComb = getTTTWinningCombination('O', tttBoardState);
   if (winComb) {
     winComb.forEach(i => cells[i].classList.add('winning-cell'));
     document.getElementById('tttMsg').innerText = "یاری تەواو بوو! زیرەکی دەستکرد (AI) بردییەوە 🤖";
@@ -2571,6 +2336,20 @@ function aiTTTMove() {
   }
   tttTurn = 'X';
   document.getElementById('tttTurnText').innerText = "نۆبەی: X";
+}
+
+function findSmartMove(player) {
+  let emptyIndices = [];
+  tttBoardState.forEach((val, i) => { if (val === '') emptyIndices.push(i); });
+  for (let i of emptyIndices) {
+    tttBoardState[i] = player;
+    if (getTTTWinningCombination(player, tttBoardState)) {
+      tttBoardState[i] = '';
+      return i;
+    }
+    tttBoardState[i] = '';
+  }
+  return null;
 }
 
 function navigateToCategory(cat) {
