@@ -1538,7 +1538,7 @@ body.dark-mode .skeleton-shimmer {
     <div class="lock-icon-circle">🔒</div>
     <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 6px;">ماڵپەڕ پارێزراوە</div>
     <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 20px;">تکایە کۆدی چوونەژوورەوە بنووسە</div>
-    <input type="tel" id="appLockPassInput" class="lock-input" placeholder="••••" maxlength="6" autofocus oninput="handleInstantUnlock(this.value)">
+    <input type="tel" id="appLockPassInput" class="lock-input" placeholder="••••" inputmode="numeric" pattern="[0-9]*" maxlength="6" autofocus oninput="handleInstantUnlock(this.value)">
   </div>
 </div>
 
@@ -1759,7 +1759,6 @@ body.dark-mode .skeleton-shimmer {
     <form id="propForm" onsubmit="handleFormSubmit(event)">
       <input type="hidden" id="editId">
       
-      <!-- Who is adding this property selector -->
       <div class="form-group" style="background: rgba(2, 132, 199, 0.08); padding: 8px; border-radius: 8px; border: 1px solid var(--primary);">
         <label style="color: var(--primary); font-weight: 800;">👤 تۆ کێیت کە ئەم موڵکە زیاد دەکەیت؟</label>
         <select id="addedByWho" required style="font-weight: 700;">
@@ -2114,6 +2113,7 @@ window.addEventListener('load', function() {
   const lockInput = document.getElementById('appLockPassInput');
   if (lockInput) {
     lockInput.focus();
+    lockInput.click();
   }
 });
 
@@ -2121,6 +2121,7 @@ document.addEventListener('click', function() {
   const lockInput = document.getElementById('appLockPassInput');
   if (lockInput && document.getElementById('appLockModal').style.display !== 'none') {
     lockInput.focus();
+    lockInput.click();
   }
 });
 
@@ -2604,7 +2605,10 @@ function hideSplashScreen() {
     setTimeout(() => {
       splash.style.display = 'none';
       const lockInput = document.getElementById('appLockPassInput');
-      if (lockInput) lockInput.focus();
+      if (lockInput) {
+        lockInput.focus();
+        lockInput.click();
+      }
     }, 450);
   }
 }
