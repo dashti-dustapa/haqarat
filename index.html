@@ -327,6 +327,35 @@ body.dark-mode .btn-map {
   border-color: #3b82f6;
 }
 
+/* Toast Notification Styling */
+#toastNotificationBox {
+  position: fixed;
+  top: 75px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-30px);
+  background: #0f172a;
+  color: #38bdf8;
+  border: 2px solid #0284c7;
+  padding: 0.75rem 1.2rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  z-index: 9999999;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#toastNotificationBox.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
 .public-stats-section {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -1572,6 +1601,8 @@ body.dark-mode .skeleton-shimmer {
 </head>
 <body onclick="const inp = document.getElementById('appLockPassInput'); if(document.getElementById('appLockModal').style.display !== 'none' && inp) { inp.focus(); inp.click(); }">
 
+<div id="toastNotificationBox">🔔 <span id="toastMsgText">ئاگاداری نوێ</span></div>
+
 <div id="customSplashScreen">
   <img id="splashLogoImg" class="splash-logo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
   <div class="splash-title" id="splashTitleText">عقارات دەشتی دوستەپە</div>
@@ -1964,6 +1995,10 @@ body.dark-mode .skeleton-shimmer {
         <input type="text" id="setAppPass" placeholder="کۆدی نوێ بنووسە" inputmode="numeric" pattern="[0-9]*">
       </div>
       <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">🔔 دەقی ئاگاداری خۆکار (هر ٢ ڕۆژ جارێک):</label>
+        <input type="text" id="setAutoNotifText" placeholder="وەک: سەردانی نوسینگەی دەشتی دوستەپە بکەن بۆ نوێترین موڵکەکان">
+      </div>
+      <div class="form-group">
         <label>لینکی ڕاستەوخۆی فایلی ئەندرۆید (APK Direct URL):</label>
         <input type="text" id="setApkUrl" placeholder="لینکی داگرتنی APK لە GitHub Releases">
       </div>
@@ -2057,6 +2092,7 @@ let customCategories = JSON.parse(localStorage.getItem('dashti_custom_cats')) ||
 let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) || {
   siteName: "عقارات دەشتی دوستەپە",
   appPass: "0000",
+  autoNotifText: "سەردانی نوسینگەی دەشتی دوستەپە بکەن بۆ نوێترین موڵکەکان ✨",
   primaryColor: "#0284c7",
   headerBgColor: "#ffffff",
   adminBgColor: "#0f172a",
@@ -2092,6 +2128,31 @@ let tttTurn = 'X';
 let tttActive = true;
 let matchType = '2p';
 let botDifficulty = 'easy';
+
+function showToastNotification(msg) {
+  const toast = document.getElementById('toastNotificationBox');
+  const textEl = document.getElementById('toastMsgText');
+  if (!toast || !textEl) return;
+  textEl.innerText = msg;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 4500);
+}
+
+function checkAutoNotification() {
+  const lastTime = Number(localStorage.getItem('dashti_last_auto_notif') || 0);
+  const now = Date.now();
+  const twoDaysMs = 2 * 24 * 60 * 60 * 1000;
+  
+  if (now - lastTime > twoDaysMs) {
+    const msg = siteSettings.autoNotifText || "سەردانی نوسینگەی دەشتی دوستەپە بکەن بۆ نوێترین موڵکەکان ✨";
+    setTimeout(() => {
+      showToastNotification(msg);
+    }, 1500);
+    localStorage.setItem('dashti_last_auto_notif', now);
+  }
+}
 
 function toggleDarkMode() {
   isDarkMode = !isDarkMode;
@@ -2168,6 +2229,7 @@ function handleInstantUnlock(val) {
 window.addEventListener('load', function() {
   window.history.pushState({ screen: 'home' }, "", "");
   applyDarkModeClass();
+  checkAutoNotification();
   
   const triggerKeyboard = () => {
     const lockInput = document.getElementById('appLockPassInput');
@@ -2745,10 +2807,16 @@ async function loadData() {
       if (data && data.settings) {
         siteSettings = { ...siteSettings, ...data.settings };
         if (!siteSettings.appPass) siteSettings.appPass = "0000";
+        if (!siteSettings.autoNotifText) siteSettings.autoNotifText = "سەردانی نوسینگەی دەشتی دوستەپە بکەن بۆ نوێترین موڵکەکان ✨";
         localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
       }
       if (data && data.properties) {
-        properties = Object.values(data.properties);
+        const newProps = Object.values(data.properties);
+        if (properties.length > 0 && newProps.length > properties.length) {
+          const latest = newProps[0];
+          showToastNotification(`🔔 ${latest.addedByWho || 'بەڕێوەبەر'} موڵکێکی نوێی زیاد کرد: "${latest.title}"`);
+        }
+        properties = newProps;
         localStorage.setItem('dashti_master_props', JSON.stringify(properties));
       }
       if (data && data.customCategories) {
@@ -3303,6 +3371,7 @@ function openEditWantModal(id) {
 function openSettingsModal() {
   document.getElementById('setSiteName').value = siteSettings.siteName || "";
   document.getElementById('setAppPass').value = siteSettings.appPass || "0000";
+  document.getElementById('setAutoNotifText').value = siteSettings.autoNotifText || "";
   document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
   document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
   document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
@@ -3371,6 +3440,7 @@ async function handleFormSubmit(e) {
     if (idx !== -1) properties[idx] = { ...properties[idx], ...propObj };
   } else {
     properties.unshift(propObj);
+    showToastNotification(`🔔 ${addedByWho} موڵکی نوێی زیاد کرد: "${title}"`);
   }
   localStorage.setItem('dashti_master_props', JSON.stringify(properties));
   renderProperties();
@@ -3425,6 +3495,7 @@ async function handleWantFormSubmit(e) {
     if (idx !== -1) properties[idx] = { ...properties[idx], ...wantObj };
   } else {
     properties.unshift(wantObj);
+    showToastNotification(`🔔 داواکاری نوێ زیاد کرا: "${title}"`);
   }
   localStorage.setItem('dashti_master_props', JSON.stringify(properties));
   renderProperties();
@@ -3464,6 +3535,7 @@ async function handleSettingsSubmit(e) {
     ...siteSettings,
     siteName: document.getElementById('setSiteName').value || siteSettings.siteName,
     appPass: document.getElementById('setAppPass').value || "0000",
+    autoNotifText: document.getElementById('setAutoNotifText').value || siteSettings.autoNotifText,
     apkUrl: document.getElementById('setApkUrl').value || "",
     logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
     gridCols: document.getElementById('setGridCols').value || "1",
