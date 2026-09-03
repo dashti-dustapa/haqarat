@@ -2170,24 +2170,6 @@ window.addEventListener('load', function() {
   const lockInput = document.getElementById('appLockPassInput');
   if (lockInput) {
     lockInput.focus();
-    lockInput.click();
-  }
-});
-
-// Auto-trigger number keypad on any touch/click if locked
-document.addEventListener('touchstart', function() {
-  const lockInput = document.getElementById('appLockPassInput');
-  if (lockInput && document.getElementById('appLockModal').style.display !== 'none') {
-    lockInput.focus();
-    lockInput.click();
-  }
-}, { passive: true });
-
-document.addEventListener('click', function() {
-  const lockInput = document.getElementById('appLockPassInput');
-  if (lockInput && document.getElementById('appLockModal').style.display !== 'none') {
-    lockInput.focus();
-    lockInput.click();
   }
 });
 
