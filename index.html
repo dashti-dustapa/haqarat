@@ -1082,41 +1082,37 @@ body.dark-mode .cell-light {
 }
 
 .cell-dark {
-  background: #3b82f6;
-}
-
-body.dark-mode .cell-dark {
   background: #1e3a8a;
 }
 
 .checker-piece {
-  width: 78%;
-  height: 78%;
+  width: 80%;
+  height: 80%;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
   font-size: 0.75rem;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.35);
   transition: transform 0.2s;
 }
 
 .piece-gold {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
+  background: radial-gradient(circle at 30% 30%, #fef08a 0%, #eab308 50%, #a16207 100%);
   color: #fff;
-  border: 2.5px solid #fef08a;
+  border: 2px solid #fef9c3;
 }
 
 .piece-emerald {
-  background: linear-gradient(135deg, #10b981, #047857);
+  background: radial-gradient(circle at 30% 30%, #a7f3d0 0%, #059669 50%, #064e3b 100%);
   color: #fff;
-  border: 2.5px solid #a7f3d0;
+  border: 2px solid #d1fae5;
 }
 
 .piece-king::after {
   content: '👑';
-  font-size: 0.85rem;
+  font-size: 1rem;
   position: absolute;
 }
 
@@ -1743,8 +1739,8 @@ body.dark-mode .cell-dark {
     <div class="game-menu-grid">
       <div class="game-menu-card" onclick="setupGameMode('checkers')">
         <div style="font-size:2.5rem; margin-bottom:8px;">🔴</div>
-        <div style="font-weight:800; font-size:1rem;">یاری دامەی کوردی</div>
-        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">تەختەی ڕەنگاورەنگ و ڕەسەن</div>
+        <div style="font-weight:800; font-size:1rem;">یاری دامەی کوردی ڕەسەن</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">پێگەی وەک وێنە و جووڵەی ڕاستەقینە</div>
       </div>
       <div class="game-menu-card" onclick="setupGameMode('ttt')">
         <div style="font-size:2.5rem; margin-bottom:8px;">❌</div>
@@ -1766,9 +1762,9 @@ body.dark-mode .cell-dark {
     <div class="game-settings-bar" id="botDiffBox" style="display:none;">
       <label>ئاستی ڕۆبۆت (بۆت):</label>
       <select id="botDiffSelect">
-        <option value="easy">ئاسان (Easy)</option>
-        <option value="normal">مامناوەند (Normal)</option>
-        <option value="hard">قورس (Hard - پێشکەوتوو)</option>
+        <option value="easy">easy</option>
+        <option value="medium">medium</option>
+        <option value="hard">hard</option>
       </select>
     </div>
     <button class="btn btn-primary" style="width:100%; max-width:340px; padding:0.8rem; font-size:0.95rem; margin-top:10px;" onclick="startGamePlay()">🚀 دەستپێکردنی یاری</button>
@@ -2313,22 +2309,20 @@ function backToGameHub() {
   document.getElementById('tttPlayBox').style.display = 'none';
 }
 
-// Checkers Game Logic (Kurdish Checkers - Straight/Forward & Side moves without strict diagonal restriction)
+// Checkers Game Logic - Exact image mapping: Gold (White) on rows 1, 2 (indices 8-23), Black on rows 6, 7 (indices 40-55)
 function initCheckersGame() {
   checkersBoardState = Array(64).fill(null);
   checkersTurn = 'emerald';
   checkersSelectedCell = null;
   document.getElementById('checkersMsg').innerText = '';
 
-  for (let r = 0; r < 8; r++) {
-    for (let c = 0; c < 8; c++) {
-      let idx = r * 8 + c;
-      if (r < 2) {
-        checkersBoardState[idx] = { player: 'gold', king: false };
-      } else if (r > 5) {
-        checkersBoardState[idx] = { player: 'emerald', king: false };
-      }
-    }
+  // Rows 1 and 2 (indices 8 to 23) -> Gold (White/Silver pieces as seen in image)
+  for (let idx = 8; idx < 24; idx++) {
+    checkersBoardState[idx] = { player: 'gold', king: false };
+  }
+  // Rows 6 and 7 (indices 40 to 55) -> Emerald (Dark/Black pieces as seen in image)
+  for (let idx = 40; idx < 56; idx++) {
+    checkersBoardState[idx] = { player: 'emerald', king: false };
   }
   renderCheckersBoard();
   updateCheckersTurnText();
@@ -2353,7 +2347,6 @@ function renderCheckersBoard() {
         let pieceClass = piece.player === 'gold' ? 'piece-gold' : 'piece-emerald';
         if (piece.king) pieceClass += ' piece-king';
         pieceEl.className = `checker-piece ${pieceClass}`;
-        pieceEl.innerText = piece.king ? '' : (piece.player === 'gold' ? 'S' : 'E');
         cell.appendChild(pieceEl);
       }
       
@@ -2366,9 +2359,9 @@ function renderCheckersBoard() {
 function updateCheckersTurnText() {
   const textEl = document.getElementById('checkersTurnText');
   if (checkersTurn === 'emerald') {
-    textEl.innerText = "نۆبەی: سەوز (🟢)";
+    textEl.innerText = "نۆبەی: سەوز/ڕەش (🟢)";
   } else {
-    textEl.innerText = "نۆبەی: زێڕین (🟡)";
+    textEl.innerText = "نۆبەی: زێڕین/سپی (🟡)";
   }
 }
 
@@ -2390,7 +2383,7 @@ function handleCheckersCellClick(idx) {
       renderCheckersBoard();
       return;
     }
-    // Attempt Kurdish checkers move (straight forward, backward for king, and sides)
+    // Turkish/Kurdish Checkers movement: Forward or Sideways by 1 step, no diagonal restriction.
     if (checkersBoardState[idx] === null) {
       let valid = isValidCheckersMove(checkersSelectedCell, idx);
       if (valid.allowed) {
@@ -2427,18 +2420,17 @@ function isValidCheckersMove(from, to) {
 
   let forwardDir = (piece.player === 'emerald') ? -1 : 1;
 
-  // Normal step: 1 step forward or to the sides (Kurdish checkers rule: straight ahead or sideways)
+  // Normal step: 1 step straight forward or sideways (Turkish/Kurdish Checkers rules)
   if (!piece.king) {
     if (rowDiff === forwardDir && colDiff === 0) return { allowed: true, jumpedIdx: null };
     if (rowDiff === 0 && Math.abs(colDiff) === 1) return { allowed: true, jumpedIdx: null };
   } else {
-    // King can move multiple or 1 step straight/sides/back
     if (Math.abs(rowDiff) <= 1 && Math.abs(colDiff) <= 1 && (rowDiff !== 0 || colDiff !== 0)) {
       return { allowed: true, jumpedIdx: null };
     }
   }
 
-  // Jump capture (2 steps forward or sideways over opponent)
+  // Jump capture
   if ((Math.abs(rowDiff) === 2 && colDiff === 0) || (rowDiff === 0 && Math.abs(colDiff) === 2)) {
     let midR = fromR + rowDiff / 2;
     let midC = fromC + colDiff / 2;
@@ -2566,13 +2558,16 @@ function botTTTMove() {
   if (emptyIndices.length === 0) return;
   
   let targetIdx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-  if (botDifficulty === 'hard' || botDifficulty === 'normal') {
+  
+  // Bot difficulty adaptation based on names: easy (easy), medium (so hard), hard (so so hard)
+  let logicLevel = botDifficulty;
+  if (logicLevel === 'hard' || logicLevel === 'medium') {
     for (let i of emptyIndices) {
       tttBoardState[i] = 'O';
       if (getTTTWinningCombination('O')) { targetIdx = i; tttBoardState[i] = ''; break; }
       tttBoardState[i] = '';
     }
-    if (targetIdx === emptyIndices[0]) {
+    if (targetIdx === emptyIndices[0] || logicLevel === 'hard') {
       for (let i of emptyIndices) {
         tttBoardState[i] = 'X';
         if (getTTTWinningCombination('X')) { targetIdx = i; tttBoardState[i] = ''; break; }
