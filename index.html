@@ -1010,8 +1010,8 @@ body.dark-mode .skeleton-shimmer {
 
 @media(min-width: 640px) {
   .game-menu-grid {
-    grid-template-columns: 1fr;
-    max-width: 400px;
+    grid-template-columns: 1fr 1fr;
+    max-width: 600px;
   }
 }
 
@@ -1079,6 +1079,49 @@ body.dark-mode .skeleton-shimmer {
   color: #ffffff !important;
   border-color: #059669 !important;
   animation: badgePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stickman-arena {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: 240px;
+  background: #1e293b;
+  border-radius: 12px;
+  border: 3px solid var(--border);
+  margin: 15px auto;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.stickman-fighter {
+  position: absolute;
+  bottom: 20px;
+  width: 50px;
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: left 0.1s linear, right 0.1s linear;
+}
+
+.stick-head {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+}
+
+.stick-body {
+  width: 3px;
+  height: 35px;
+  background: #fff;
+}
+
+.stick-limbs {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #38bdf8;
 }
 
 .game-settings-bar {
@@ -1658,20 +1701,25 @@ body.dark-mode .skeleton-shimmer {
     <div style="font-weight:800; font-size:1rem; color:var(--primary);">🎮 سەنتەری یارییەکان</div>
   </div>
 
-  <div id="gameHubMenu" style="max-width:400px; margin: auto; width:100%; text-align:center;">
-    <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">یاری خەت و بازنە</h2>
-    <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەکی زیرەک لەگەڵ ئاستی زەحمەتی بەهێز</p>
+  <div id="gameHubMenu" style="max-width:500px; margin: auto; width:100%; text-align:center;">
+    <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">کام یارییە ئەنجام دەدەیت؟</h2>
+    <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەک هەڵبژێرە بۆ کاتی پشوو و چێژوەرگرتن</p>
     <div class="game-menu-grid">
       <div class="game-menu-card" onclick="setupGameMode('ttt')">
         <div style="font-size:2.5rem; margin-bottom:8px;">❌</div>
-        <div style="font-weight:800; font-size:1rem;">دەستپێکردنی یاری X و O</div>
-        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">دوو نەفەری یان لەگەڵ AI زیرەک</div>
+        <div style="font-weight:800; font-size:1rem;">خەت و بازنە (Tic-Tac-Toe)</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">یاری زیرەک لەگەڵ ئاستی زەحمەتی بەهێز</div>
+      </div>
+      <div class="game-menu-card" onclick="setupGameMode('stickman')">
+        <div style="font-size:2.5rem; margin-bottom:8px;">⚔️</div>
+        <div style="font-weight:800; font-size:1rem;">شەڕی ستیکمان (Stickman Duel)</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">دوو نەفەری لەسەر هەمان مۆبایل</div>
       </div>
     </div>
   </div>
 
   <div class="game-screen-box" id="gameModeSelectorBox">
-    <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;">شێوازی یاری هەڵبژێرە</h2>
+    <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;" id="selectedGameNameTitle">شێوازی یاری هەڵبژێرە</h2>
     <div class="game-settings-bar">
       <label>شێوازی یاریکردن:</label>
       <select id="matchTypeSelect" onchange="toggleBotDifficultySetting()">
@@ -1708,6 +1756,44 @@ body.dark-mode .skeleton-shimmer {
       <div class="tictactoe-cell" onclick="makeTTTMove(8)"></div>
     </div>
     <div id="tttMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:10px; min-height:24px;"></div>
+  </div>
+
+  <div class="game-screen-box" id="stickmanPlayBox">
+    <div style="display:flex; justify-content:space-between; width:100%; max-width:380px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
+      <span id="stickmanScoreText" style="color:var(--primary);">یاریزان 1: 0 | یاریزان 2: 0</span>
+      <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem; background:var(--border);" onclick="initStickmanGame()">🔄 سەرلەنوێ</button>
+    </div>
+    <div class="stickman-arena" id="stickmanArena">
+      <div class="stickman-fighter" id="fighter1" style="left: 40px;">
+        <div class="stick-head"></div>
+        <div class="stick-body"></div>
+        <div class="stick-limbs">🤺</div>
+      </div>
+      <div class="stickman-fighter" id="fighter2" style="right: 40px;">
+        <div class="stick-head"></div>
+        <div class="stick-body"></div>
+        <div class="stick-limbs">⚔️</div>
+      </div>
+    </div>
+    <div id="stickmanMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:6px; min-height:22px;"></div>
+    <div style="display:flex; gap:10px; width:100%; max-width:380px; margin-top:10px;">
+      <div style="flex:1; background:var(--card-bg); border:1px solid var(--border); padding:8px; border-radius:10px; text-align:center;">
+        <div style="font-size:0.75rem; font-weight:800; margin-bottom:6px;">یاریزان ١ (چەپ)</div>
+        <div style="display:flex; gap:4px; justify-content:center;">
+          <button class="btn btn-primary" style="padding:0.4rem 0.7rem;" onclick="moveStickman(1, -1)">⬅️</button>
+          <button class="btn btn-edit" style="padding:0.4rem 0.7rem;" onclick="attackStickman(1)">⚔️ هێرش</button>
+          <button class="btn btn-primary" style="padding:0.4rem 0.7rem;" onclick="moveStickman(1, 1)">➡️</button>
+        </div>
+      </div>
+      <div style="flex:1; background:var(--card-bg); border:1px solid var(--border); padding:8px; border-radius:10px; text-align:center;" id="p2ControlsBox">
+        <div style="font-size:0.75rem; font-weight:800; margin-bottom:6px;">یاریزان ٢ (ڕاست)</div>
+        <div style="display:flex; gap:4px; justify-content:center;">
+          <button class="btn btn-danger" style="padding:0.4rem 0.7rem;" onclick="moveStickman(2, -1)">⬅️</button>
+          <button class="btn btn-edit" style="padding:0.4rem 0.7rem;" onclick="attackStickman(2)">⚔️ هێرش</button>
+          <button class="btn btn-danger" style="padding:0.4rem 0.7rem;" onclick="moveStickman(2, 1)">➡️</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2020,12 +2106,20 @@ let activeWantSubTab = 'بۆ کڕین';
 let holdTimer = null;
 let selectedHoldItemId = null;
 
-// Tic-Tac-Toe Game State & Minimax AI Engine
+// Game Engines State
+let activeGame = 'ttt';
 let tttBoardState = Array(9).fill('');
 let tttTurn = 'X';
 let tttActive = true;
 let matchType = '2p';
 let botDifficulty = 'easy';
+
+// Stickman Game State
+let stickmanPos1 = 40;
+let stickmanPos2 = 40;
+let stickmanScore1 = 0;
+let stickmanScore2 = 0;
+let stickmanActive = true;
 
 function toggleDarkMode() {
   isDarkMode = !isDarkMode;
@@ -2149,6 +2243,7 @@ function openGameHubModal() {
   document.getElementById('gameHubMenu').style.display = 'block';
   document.getElementById('gameModeSelectorBox').style.display = 'none';
   document.getElementById('tttPlayBox').style.display = 'none';
+  document.getElementById('stickmanPlayBox').style.display = 'none';
   window.history.pushState({ modal: 'gameHub' }, "", "");
 }
 
@@ -2160,9 +2255,18 @@ function closeGameOverlay(doPush = true) {
 }
 
 function setupGameMode(gameType) {
+  activeGame = gameType;
   document.getElementById('gameHubMenu').style.display = 'none';
   document.getElementById('gameModeSelectorBox').style.display = 'flex';
   document.getElementById('tttPlayBox').style.display = 'none';
+  document.getElementById('stickmanPlayBox').style.display = 'none';
+
+  const title = document.getElementById('selectedGameNameTitle');
+  if (gameType === 'ttt') {
+    title.innerText = "شێوازی یاری خەت و بازنە (X و O)";
+  } else {
+    title.innerText = "شێوازی یاری شەڕی ستیکمان (Stickman)";
+  }
 }
 
 function toggleBotDifficultySetting() {
@@ -2175,17 +2279,25 @@ function startGamePlay() {
   botDifficulty = document.getElementById('botDiffSelect').value;
   
   document.getElementById('gameModeSelectorBox').style.display = 'none';
-  document.getElementById('tttPlayBox').style.display = 'flex';
-  initTTTGame();
+  
+  if (activeGame === 'ttt') {
+    document.getElementById('tttPlayBox').style.display = 'flex';
+    initTTTGame();
+  } else {
+    document.getElementById('stickmanPlayBox').style.display = 'flex';
+    document.getElementById('p2ControlsBox').style.display = (matchType === 'bot') ? 'none' : 'block';
+    initStickmanGame();
+  }
 }
 
 function backToGameHub() {
   document.getElementById('gameHubMenu').style.display = 'block';
   document.getElementById('gameModeSelectorBox').style.display = 'none';
   document.getElementById('tttPlayBox').style.display = 'none';
+  document.getElementById('stickmanPlayBox').style.display = 'none';
 }
 
-// Supercharged Tic-Tac-Toe with Minimax AI for 'Hard' level
+// Supercharged Tic-Tac-Toe with Minimax AI
 function initTTTGame() {
   tttBoardState = Array(9).fill('');
   tttTurn = 'X';
@@ -2311,10 +2423,8 @@ function aiTTTMove() {
   if (botDifficulty === 'easy') {
     targetIdx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
   } else if (botDifficulty === 'medium') {
-    // Smart heuristic: win or block or random
     targetIdx = findSmartMove('O') ?? findSmartMove('X') ?? emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
   } else if (botDifficulty === 'hard') {
-    // Unbeatable Minimax AI
     targetIdx = getBestMoveMinimax();
   }
   
@@ -2350,6 +2460,86 @@ function findSmartMove(player) {
     tttBoardState[i] = '';
   }
   return null;
+}
+
+// Stickman Duel Game Engine
+function initStickmanGame() {
+  stickmanPos1 = 40;
+  stickmanPos2 = 40;
+  stickmanActive = true;
+  document.getElementById('stickmanMsg').innerText = "شەڕ دەست پێکرد! یەکتر لێبدەن";
+  updateStickmanUI();
+}
+
+function updateStickmanUI() {
+  document.getElementById('fighter1').style.left = stickmanPos1 + 'px';
+  document.getElementById('fighter2').style.right = stickmanPos2 + 'px';
+  document.getElementById('stickmanScoreText').innerText = `یاریزان 1: ${stickmanScore1} | یاریزان 2: ${stickmanScore2}`;
+}
+
+function moveStickman(player, dir) {
+  if (!stickmanActive) return;
+  if (player === 1) {
+    stickmanPos1 = Math.max(10, Math.min(240, stickmanPos1 + (dir * 15)));
+  } else {
+    stickmanPos2 = Math.max(10, Math.min(240, stickmanPos2 + (dir * 15)));
+  }
+  updateStickmanUI();
+}
+
+function attackStickman(player) {
+  if (!stickmanActive) return;
+  let distance = Math.abs(stickmanPos1 - stickmanPos2);
+  let msg = document.getElementById('stickmanMsg');
+  
+  if (player === 1) {
+    if (distance < 75) {
+      stickmanScore1++;
+      msg.innerText = "💥 یاریزان ١ لێدانێکی سەرکەوتووی کرد!";
+      checkStickmanWin();
+    } else {
+      msg.innerText = "❌ یاریزان ١ پێشڕەوی کرد بەڵام دوور بوو!";
+    }
+  } else {
+    if (distance < 75) {
+      stickmanScore2++;
+      msg.innerText = "💥 یاریزان ٢ لێدانێکی سەرکەوتووی کرد!";
+      checkStickmanWin();
+    } else {
+      msg.innerText = "❌ یاریزان ٢ پێشڕەوی کرد بەڵام دوور بوو!";
+    }
+  }
+  updateStickmanUI();
+
+  if (matchType === 'bot' && stickmanActive && player === 1) {
+    setTimeout(aiStickmanAction, 400);
+  }
+}
+
+function aiStickmanAction() {
+  if (!stickmanActive) return;
+  let diff = Math.random();
+  if (diff < 0.5) {
+    stickmanPos2 = Math.max(10, Math.min(240, stickmanPos2 + (Math.random() > 0.5 ? 15 : -15)));
+  }
+  let distance = Math.abs(stickmanPos1 - stickmanPos2);
+  let msg = document.getElementById('stickmanMsg');
+  if (distance < 75) {
+    stickmanScore2++;
+    msg.innerText = "🤖 زیرەکی دەستکرد (AI) لێدانی لە یاریزان دا!";
+    checkStickmanWin();
+  }
+  updateStickmanUI();
+}
+
+function checkStickmanWin() {
+  if (stickmanScore1 >= 5) {
+    document.getElementById('stickmanMsg').innerText = "🏆 یاریزان ١ بردییەوە!";
+    stickmanActive = false;
+  } else if (stickmanScore2 >= 5) {
+    document.getElementById('stickmanMsg').innerText = "🏆 یاریزان ٢ / AI بردییەوە!";
+    stickmanActive = false;
+  }
 }
 
 function navigateToCategory(cat) {
