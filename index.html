@@ -2309,7 +2309,7 @@ function backToGameHub() {
   document.getElementById('tttPlayBox').style.display = 'none';
 }
 
-// Checkers Game Logic with Mandatory Jumps & AI
+// Checkers Game Logic with Flying Multi-Jumps (Turkish/Kurdish Checkers rules)
 function initCheckersGame() {
   checkersBoardState = Array(64).fill(null);
   checkersTurn = 'emerald';
@@ -2363,7 +2363,7 @@ function updateCheckersTurnText() {
   }
 }
 
-// Get all possible moves for a player, separating jumps and normal moves to enforce mandatory jump rule
+// Check all valid moves (jumps and normal steps) along rows and columns
 function getAllPossibleMoves(player) {
   let jumps = [];
   let normals = [];
@@ -2372,21 +2372,66 @@ function getAllPossibleMoves(player) {
     let piece = checkersBoardState[i];
     if (piece && piece.player === player) {
       let r = Math.floor(i / 8), c = i % 8;
-      // Potential target cells: adjacent for normal, 2-steps away for jumps
-      let targets = [
-        i - 8, i + 8, i - 1, i + 1, // normal steps
-        i - 16, i + 16, i - 2, i + 2  // jumps
-      ];
-      for (let t of targets) {
-        if (t >= 0 && t < 64 && Math.abs((t % 8) - c) <= 2) {
-          let moveInfo = isValidCheckersMoveDetailed(i, t);
-          if (moveInfo.allowed) {
-            let item = { from: i, to: t, jumpedIdx: moveInfo.jumpedIdx };
-            if (moveInfo.jumpedIdx !== null) {
-              jumps.push(item);
-            } else {
-              normals.push(item);
+      let directions = [-1, 1, -8, 8]; // Up, Down, Left, Right
+
+      for (let dir of directions) {
+        let step = 1;
+        let foundOpponent = false;
+        let jumpedIdx = null;
+
+        while (true) {
+          let nextR = r + (dir === -8 || dir === 8 ? (dir / 8) * step : 0);
+          let nextC = c + (dir === -1 || dir === 1 ? dir * step : 0);
+
+          if (nextR < 0 || nextR > 7 || nextC < 0 || nextC > 7) break;
+          let nextIdx = nextR * 8 + nextC;
+          let targetPiece = checkersBoardState[nextIdx];
+
+          if (!piece.king) {
+            // Normal pieces move 1 step forward or sideways
+            let forwardDir = (player === 'emerald') ? -8 : 8;
+            if (step === 1) {
+              if (dir === forwardDir || dir === -1 || dir === 1) {
+                if (targetPiece === null) {
+                  normals.push({ from: i, to: nextIdx, jumpedIdx: null });
+                }
+              }
             }
+            // Check jumps for normal pieces
+            if (targetPiece !== null) {
+              if (targetPiece.player !== player && !foundOpponent) {
+                foundOpponent = true;
+                jumpedIdx = nextIdx;
+              } else {
+                break;
+              }
+            } else if (foundOpponent) {
+              // Empty space after opponent piece -> valid jump!
+              if (dir === forwardDir || dir === -1 || dir === 1 || (dir === -8 && forwardDir === 8) || (dir === 8 && forwardDir === -8)) {
+                jumps.push({ from: i, to: nextIdx, jumpedIdx: jumpedIdx });
+              }
+              break;
+            }
+            if (step >= 1 && !foundOpponent && targetPiece !== null) break;
+            step++;
+            if (step > 2 && !foundOpponent) break;
+          } else {
+            // King (👑) flying moves & multi-jumps across rows and columns
+            if (targetPiece === null) {
+              if (foundOpponent) {
+                jumps.push({ from: i, to: nextIdx, jumpedIdx: jumpedIdx });
+              } else {
+                normals.push({ from: i, to: nextIdx, jumpedIdx: null });
+              }
+            } else {
+              if (targetPiece.player !== player && !foundOpponent) {
+                foundOpponent = true;
+                jumpedIdx = nextIdx;
+              } else {
+                break;
+              }
+            }
+            step++;
           }
         }
       }
@@ -2396,37 +2441,12 @@ function getAllPossibleMoves(player) {
 }
 
 function isValidCheckersMoveDetailed(from, to) {
-  let fromR = Math.floor(from / 8), fromC = from % 8;
-  let toR = Math.floor(to / 8), toC = to % 8;
-  let rowDiff = toR - fromR;
-  let colDiff = toC - fromC;
-  let piece = checkersBoardState[from];
-  let forwardDir = (piece.player === 'emerald') ? -1 : 1;
+  let all = getAllPossibleMoves(checkersBoardState[from].player);
+  let matchedJump = all.jumps.find(m => m.from === from && m.to === to);
+  if (matchedJump) return { allowed: true, jumpedIdx: matchedJump.jumpedIdx };
 
-  if (checkersBoardState[to] !== null) return { allowed: false, jumpedIdx: null };
-
-  // Normal step (1 step forward or sideways)
-  if (!piece.king) {
-    if (rowDiff === forwardDir && colDiff === 0) return { allowed: true, jumpedIdx: null };
-    if (rowDiff === 0 && Math.abs(colDiff) === 1) return { allowed: true, jumpedIdx: null };
-  } else {
-    if (Math.abs(rowDiff) <= 1 && Math.abs(colDiff) <= 1 && (rowDiff !== 0 || colDiff !== 0)) {
-      return { allowed: true, jumpedIdx: null };
-    }
-  }
-
-  // Jump capture (2 steps over opponent)
-  if ((Math.abs(rowDiff) === 2 && colDiff === 0) || (rowDiff === 0 && Math.abs(colDiff) === 2)) {
-    let midR = fromR + rowDiff / 2;
-    let midC = fromC + colDiff / 2;
-    let midIdx = midR * 8 + midC;
-    let midPiece = checkersBoardState[midIdx];
-    if (midPiece && midPiece.player !== piece.player) {
-      if (!piece.king && rowDiff === -2 && forwardDir === 1) return { allowed: false, jumpedIdx: null };
-      if (!piece.king && rowDiff === 2 && forwardDir === -1) return { allowed: false, jumpedIdx: null };
-      return { allowed: true, jumpedIdx: midIdx };
-    }
-  }
+  let matchedNormal = all.normals.find(m => m.from === from && m.to === to);
+  if (matchedNormal) return { allowed: true, jumpedIdx: null };
 
   return { allowed: false, jumpedIdx: null };
 }
@@ -2438,7 +2458,6 @@ function handleCheckersCellClick(idx) {
 
   if (checkersSelectedCell === null) {
     if (piece && piece.player === checkersTurn) {
-      // If must jump, ensure this piece has a jump available
       if (mustJump) {
         let hasJump = allMoves.jumps.some(m => m.from === idx);
         if (!hasJump) {
@@ -2470,10 +2489,8 @@ function handleCheckersCellClick(idx) {
       return;
     }
 
-    // Execute move attempt
     let moveInfo = isValidCheckersMoveDetailed(checkersSelectedCell, idx);
     if (moveInfo.allowed) {
-      // If mandatory jump exists, ensure the chosen move is a jump
       if (mustJump && moveInfo.jumpedIdx === null) {
         document.getElementById('checkersMsg').innerText = "یاسای یاری: لەم حاڵەتەدا ناچاری پولێک بخۆیت!";
         return;
@@ -2485,7 +2502,6 @@ function handleCheckersCellClick(idx) {
         checkersBoardState[moveInfo.jumpedIdx] = null;
       }
 
-      // King promotion
       let row = Math.floor(idx / 8);
       if (checkersBoardState[idx].player === 'emerald' && row === 0) checkersBoardState[idx].king = true;
       if (checkersBoardState[idx].player === 'gold' && row === 7) checkersBoardState[idx].king = true;
@@ -2527,7 +2543,7 @@ function checkersIsGameOver() {
   return e === 0 || g === 0;
 }
 
-// Advanced AI Engine for Checkers (Not a lazy bot!)
+// Advanced AI Engine for Checkers supporting multi-captures
 function aiCheckersMove() {
   if (checkersIsGameOver()) return;
   let allMoves = getAllPossibleMoves('gold');
@@ -2540,7 +2556,6 @@ function aiCheckersMove() {
   if (botDifficulty === 'easy') {
     chosenMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
   } else if (botDifficulty === 'medium') {
-    // Prioritize jumps, otherwise random
     let jumpMoves = availableMoves.filter(m => m.jumpedIdx !== null);
     if (jumpMoves.length > 0) {
       chosenMove = jumpMoves[Math.floor(Math.random() * jumpMoves.length)];
@@ -2548,13 +2563,12 @@ function aiCheckersMove() {
       chosenMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
     }
   } else if (botDifficulty === 'hard') {
-    // Smart AI: Maximize captures and advance kings
     let bestScore = -999;
     for (let m of availableMoves) {
       let score = 0;
-      if (m.jumpedIdx !== null) score += 15; // High priority for eating
+      if (m.jumpedIdx !== null) score += 20;
       let targetRow = Math.floor(m.to / 8);
-      score += targetRow; // Reward moving forward toward king row
+      score += targetRow;
       if (score > bestScore) {
         bestScore = score;
         chosenMove = m;
@@ -2562,7 +2576,6 @@ function aiCheckersMove() {
     }
   }
 
-  // Execute AI move
   checkersBoardState[chosenMove.to] = checkersBoardState[chosenMove.from];
   checkersBoardState[chosenMove.from] = null;
   if (chosenMove.jumpedIdx !== null) {
@@ -2627,7 +2640,6 @@ function getTTTWinningCombination(player) {
   return wins.find(comb => comb.every(i => tttBoardState[i] === player)) || null;
 }
 
-// High intelligence AI for Tic-Tac-Toe
 function aiTTTMove() {
   if (!tttActive) return;
   let emptyIndices = [];
@@ -2639,10 +2651,8 @@ function aiTTTMove() {
   if (botDifficulty === 'easy') {
     targetIdx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
   } else if (botDifficulty === 'medium') {
-    // Win if possible, or block player
     targetIdx = findBestTTTMove('O') ?? findBestTTTMove('X') ?? emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
   } else if (botDifficulty === 'hard') {
-    // Unbeatable AI using Minimax strategy simulation
     targetIdx = findBestTTTMove('O') ?? findBestTTTMove('X') ?? (tttBoardState[4] === '' ? 4 : emptyIndices[Math.floor(Math.random() * emptyIndices.length)]);
   }
   
