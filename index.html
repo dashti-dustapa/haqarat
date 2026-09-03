@@ -2363,7 +2363,7 @@ function updateCheckersTurnText() {
   }
 }
 
-// Check all valid moves (jumps and normal steps) along rows and columns
+// Flying Jump & Multi-Capture Checkers Engine
 function getAllPossibleMoves(player) {
   let jumps = [];
   let normals = [];
@@ -2372,12 +2372,12 @@ function getAllPossibleMoves(player) {
     let piece = checkersBoardState[i];
     if (piece && piece.player === player) {
       let r = Math.floor(i / 8), c = i % 8;
-      let directions = [-1, 1, -8, 8]; // Up, Down, Left, Right
+      let directions = [-1, 1, -8, 8]; // Left, Right, Up, Down
 
       for (let dir of directions) {
         let step = 1;
         let foundOpponent = false;
-        let jumpedIdx = null;
+        let jumpedIndices = [];
 
         while (true) {
           let nextR = r + (dir === -8 || dir === 8 ? (dir / 8) * step : 0);
@@ -2388,45 +2388,39 @@ function getAllPossibleMoves(player) {
           let targetPiece = checkersBoardState[nextIdx];
 
           if (!piece.king) {
-            // Normal pieces move 1 step forward or sideways
             let forwardDir = (player === 'emerald') ? -8 : 8;
-            if (step === 1) {
+            if (step === 1 && !foundOpponent) {
               if (dir === forwardDir || dir === -1 || dir === 1) {
                 if (targetPiece === null) {
-                  normals.push({ from: i, to: nextIdx, jumpedIdx: null });
+                  normals.push({ from: i, to: nextIdx, jumpedIndices: [] });
                 }
               }
             }
-            // Check jumps for normal pieces
             if (targetPiece !== null) {
               if (targetPiece.player !== player && !foundOpponent) {
                 foundOpponent = true;
-                jumpedIdx = nextIdx;
+                jumpedIndices.push(nextIdx);
               } else {
                 break;
               }
             } else if (foundOpponent) {
-              // Empty space after opponent piece -> valid jump!
-              if (dir === forwardDir || dir === -1 || dir === 1 || (dir === -8 && forwardDir === 8) || (dir === 8 && forwardDir === -8)) {
-                jumps.push({ from: i, to: nextIdx, jumpedIdx: jumpedIdx });
-              }
+              jumps.push({ from: i, to: nextIdx, jumpedIndices: [...jumpedIndices] });
               break;
             }
-            if (step >= 1 && !foundOpponent && targetPiece !== null) break;
-            step++;
             if (step > 2 && !foundOpponent) break;
+            step++;
           } else {
-            // King (👑) flying moves & multi-jumps across rows and columns
+            // King flying jumps across multiple empty spaces and multiple captures in a line
             if (targetPiece === null) {
               if (foundOpponent) {
-                jumps.push({ from: i, to: nextIdx, jumpedIdx: jumpedIdx });
+                jumps.push({ from: i, to: nextIdx, jumpedIndices: [...jumpedIndices] });
               } else {
-                normals.push({ from: i, to: nextIdx, jumpedIdx: null });
+                normals.push({ from: i, to: nextIdx, jumpedIndices: [] });
               }
             } else {
               if (targetPiece.player !== player && !foundOpponent) {
                 foundOpponent = true;
-                jumpedIdx = nextIdx;
+                jumpedIndices.push(nextIdx);
               } else {
                 break;
               }
@@ -2443,12 +2437,12 @@ function getAllPossibleMoves(player) {
 function isValidCheckersMoveDetailed(from, to) {
   let all = getAllPossibleMoves(checkersBoardState[from].player);
   let matchedJump = all.jumps.find(m => m.from === from && m.to === to);
-  if (matchedJump) return { allowed: true, jumpedIdx: matchedJump.jumpedIdx };
+  if (matchedJump) return { allowed: true, jumpedIndices: matchedJump.jumpedIndices };
 
   let matchedNormal = all.normals.find(m => m.from === from && m.to === to);
-  if (matchedNormal) return { allowed: true, jumpedIdx: null };
+  if (matchedNormal) return { allowed: true, jumpedIndices: [] };
 
-  return { allowed: false, jumpedIdx: null };
+  return { allowed: false, jumpedIndices: [] };
 }
 
 function handleCheckersCellClick(idx) {
@@ -2491,16 +2485,16 @@ function handleCheckersCellClick(idx) {
 
     let moveInfo = isValidCheckersMoveDetailed(checkersSelectedCell, idx);
     if (moveInfo.allowed) {
-      if (mustJump && moveInfo.jumpedIdx === null) {
+      if (mustJump && moveInfo.jumpedIndices.length === 0) {
         document.getElementById('checkersMsg').innerText = "یاسای یاری: لەم حاڵەتەدا ناچاری پولێک بخۆیت!";
         return;
       }
 
       checkersBoardState[idx] = checkersBoardState[checkersSelectedCell];
       checkersBoardState[checkersSelectedCell] = null;
-      if (moveInfo.jumpedIdx !== null) {
-        checkersBoardState[moveInfo.jumpedIdx] = null;
-      }
+      moveInfo.jumpedIndices.forEach(jIdx => {
+        checkersBoardState[jIdx] = null;
+      });
 
       let row = Math.floor(idx / 8);
       if (checkersBoardState[idx].player === 'emerald' && row === 0) checkersBoardState[idx].king = true;
@@ -2543,7 +2537,7 @@ function checkersIsGameOver() {
   return e === 0 || g === 0;
 }
 
-// Advanced AI Engine for Checkers supporting multi-captures
+// AI Engine for Checkers supporting multi-captures
 function aiCheckersMove() {
   if (checkersIsGameOver()) return;
   let allMoves = getAllPossibleMoves('gold');
@@ -2556,7 +2550,7 @@ function aiCheckersMove() {
   if (botDifficulty === 'easy') {
     chosenMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
   } else if (botDifficulty === 'medium') {
-    let jumpMoves = availableMoves.filter(m => m.jumpedIdx !== null);
+    let jumpMoves = availableMoves.filter(m => m.jumpedIndices.length > 0);
     if (jumpMoves.length > 0) {
       chosenMove = jumpMoves[Math.floor(Math.random() * jumpMoves.length)];
     } else {
@@ -2566,7 +2560,7 @@ function aiCheckersMove() {
     let bestScore = -999;
     for (let m of availableMoves) {
       let score = 0;
-      if (m.jumpedIdx !== null) score += 20;
+      if (m.jumpedIndices.length > 0) score += (20 * m.jumpedIndices.length);
       let targetRow = Math.floor(m.to / 8);
       score += targetRow;
       if (score > bestScore) {
@@ -2578,9 +2572,9 @@ function aiCheckersMove() {
 
   checkersBoardState[chosenMove.to] = checkersBoardState[chosenMove.from];
   checkersBoardState[chosenMove.from] = null;
-  if (chosenMove.jumpedIdx !== null) {
-    checkersBoardState[chosenMove.jumpedIdx] = null;
-  }
+  chosenMove.jumpedIndices.forEach(jIdx => {
+    checkersBoardState[jIdx] = null;
+  });
   let row = Math.floor(chosenMove.to / 8);
   if (row === 7) checkersBoardState[chosenMove.to].king = true;
 
@@ -3753,4 +3747,4 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 </body>
-</html>
+  </html>
