@@ -964,7 +964,6 @@ body.dark-mode .skeleton-shimmer {
   font-weight: 800;
 }
 
-/* Landscape Fullscreen Game Overlay */
 .fullscreen-game-overlay {
   display: none;
   position: fixed;
@@ -975,8 +974,8 @@ body.dark-mode .skeleton-shimmer {
   background: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
   z-index: 999999;
   flex-direction: column;
-  padding: 0.8rem 1.2rem;
-  overflow: hidden;
+  padding: 1.2rem;
+  overflow-y: auto;
   box-sizing: border-box;
 }
 
@@ -984,43 +983,43 @@ body.dark-mode .skeleton-shimmer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.4rem;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-  padding-bottom: 0.4rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.8rem;
 }
 
 .game-back-btn {
   background: var(--primary);
   color: #fff;
   border: none;
-  padding: 0.35rem 0.8rem;
+  padding: 0.5rem 1rem;
   border-radius: 8px;
   font-weight: 800;
   cursor: pointer;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
 }
 
 .game-menu-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
-  max-width: 450px;
-  margin: auto;
+  max-width: 400px;
+  margin: 0 auto;
   width: 100%;
 }
 
 @media(min-width: 640px) {
   .game-menu-grid {
-    grid-template-columns: 1fr 1fr;
-    max-width: 650px;
+    grid-template-columns: 1fr;
+    max-width: 400px;
   }
 }
 
 .game-menu-card {
-  background: rgba(30, 41, 59, 0.9);
-  border: 2px solid rgba(255,255,255,0.15);
+  background: var(--card-bg);
+  border: 2px solid var(--border);
   border-radius: 16px;
-  padding: 1.5rem 1rem;
+  padding: 1.8rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1028,8 +1027,7 @@ body.dark-mode .skeleton-shimmer {
   text-align: center;
   cursor: pointer;
   transition: 0.2s;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
 
 .game-menu-card:active {
@@ -1042,20 +1040,18 @@ body.dark-mode .skeleton-shimmer {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 780px;
+  max-width: 450px;
   margin: auto;
   text-align: center;
-  flex: 1;
-  justify-content: center;
 }
 
 .tictactoe-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  max-width: 260px;
+  max-width: 320px;
   width: 100%;
-  margin: 10px auto;
+  margin: 20px auto;
 }
 
 .tictactoe-cell {
@@ -1064,7 +1060,7 @@ body.dark-mode .skeleton-shimmer {
   background: var(--card-bg);
   border: 2px solid var(--border);
   border-radius: 12px;
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -1074,149 +1070,15 @@ body.dark-mode .skeleton-shimmer {
   box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 
+.tictactoe-cell:active {
+  background: #e0f2fe;
+}
+
 .tictactoe-cell.winning-cell {
   background: #10b981 !important;
   color: #ffffff !important;
   border-color: #059669 !important;
   animation: badgePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Head Ball Arena Styling (Colorful & Dynamic) */
-.headball-arena {
-  position: relative;
-  width: 100%;
-  max-width: 740px;
-  height: 220px;
-  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 60%, #15803d 60%, #166534 100%);
-  border-radius: 16px;
-  border: 3px solid #facc15;
-  margin: 8px auto;
-  overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-}
-
-.hb-goal-left {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 25px;
-  height: 80px;
-  border: 3px dashed #fff;
-  border-bottom: none;
-  border-left: none;
-}
-
-.hb-goal-right {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 25px;
-  height: 80px;
-  border: 3px dashed #fff;
-  border-bottom: none;
-  border-right: none;
-}
-
-.hb-ball {
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  background: radial-gradient(circle at 30% 30%, #fff 0%, #cbd5e1 60%, #475569 100%);
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hb-player {
-  position: absolute;
-  bottom: 15px;
-  width: 45px;
-  height: 65px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.05s linear;
-}
-
-.hb-head-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 3px solid #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-.hb-body-stub {
-  width: 4px;
-  height: 20px;
-  background: #fff;
-}
-
-/* HUD & Joystick Controls */
-.hb-hud-top {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 740px;
-  padding: 0 8px;
-  font-weight: 800;
-  font-size: 0.85rem;
-  color: #fff;
-  margin-bottom: 6px;
-}
-
-.hb-score-board {
-  background: rgba(15, 23, 42, 0.8);
-  padding: 4px 14px;
-  border-radius: 20px;
-  border: 2px solid #facc15;
-  font-size: 1.1rem;
-  letter-spacing: 2px;
-  color: #facc15;
-}
-
-.hb-controls-dock {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 740px;
-  margin-top: 8px;
-  padding: 0 4px;
-}
-
-.joystick-group {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 6px 12px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  backdrop-filter: blur(4px);
-}
-
-.joy-btn {
-  background: rgba(255,255,255,0.2);
-  color: #fff;
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  font-weight: 800;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.joy-btn:active {
-  background: var(--primary);
-  transform: scale(0.95);
 }
 
 .game-settings-bar {
@@ -1796,25 +1658,20 @@ body.dark-mode .skeleton-shimmer {
     <div style="font-weight:800; font-size:1rem; color:var(--primary);">🎮 سەنتەری یارییەکان</div>
   </div>
 
-  <div id="gameHubMenu" style="max-width:500px; margin: auto; width:100%; text-align:center;">
-    <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">کام یارییە ئەنجام دەدەیت؟</h2>
-    <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەک هەڵبژێرە بۆ کاتی پشوو و چێژوەرگرتن</p>
+  <div id="gameHubMenu" style="max-width:400px; margin: auto; width:100%; text-align:center;">
+    <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:8px;">یاری خەت و بازنە</h2>
+    <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">یارییەکی زیرەک لەگەڵ ئاستی زەحمەتی بەهێز</p>
     <div class="game-menu-grid">
       <div class="game-menu-card" onclick="setupGameMode('ttt')">
         <div style="font-size:2.5rem; margin-bottom:8px;">❌</div>
-        <div style="font-weight:800; font-size:1rem;">خەت و بازنە (Tic-Tac-Toe)</div>
-        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">یاری زیرەک لەگەڵ ئاستی زەحمەتی بەهێز</div>
-      </div>
-      <div class="game-menu-card" onclick="setupGameMode('headball')">
-        <div style="font-size:2.5rem; margin-bottom:8px;">⚽</div>
-        <div style="font-weight:800; font-size:1rem;">یاری سەری تۆپی پێ (Head Ball)</div>
-        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">شاشەی پان، ڕەنگاوڕەنگ، گێڕ و گۆڵکردن</div>
+        <div style="font-weight:800; font-size:1rem;">دەستپێکردنی یاری X و O</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">دوو نەفەری یان لەگەڵ AI زیرەک</div>
       </div>
     </div>
   </div>
 
   <div class="game-screen-box" id="gameModeSelectorBox">
-    <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;" id="selectedGameNameTitle">شێوازی یاری هەڵبژێرە</h2>
+    <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:12px;">شێوازی یاری هەڵبژێرە</h2>
     <div class="game-settings-bar">
       <label>شێوازی یاریکردن:</label>
       <select id="matchTypeSelect" onchange="toggleBotDifficultySetting()">
@@ -1851,51 +1708,6 @@ body.dark-mode .skeleton-shimmer {
       <div class="tictactoe-cell" onclick="makeTTTMove(8)"></div>
     </div>
     <div id="tttMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:10px; min-height:24px;"></div>
-  </div>
-
-  <div class="game-screen-box" id="headballPlayBox">
-    <!-- HUD Top -->
-    <div class="hb-hud-top">
-      <div style="color:#38bdf8;">👤 P1 (شین)</div>
-      <div class="hb-score-board" id="hbScoreBoard">0 - 0</div>
-      <div style="color:#f87171;">👤 P2 (سوور)</div>
-    </div>
-
-    <!-- Head Ball Arena -->
-    <div class="headball-arena" id="hbArena">
-      <div class="hb-goal-left"></div>
-      <div class="hb-goal-right"></div>
-      <div class="hb-ball" id="hbBall" style="left: 350px; top: 100px;">⚽</div>
-      <div class="hb-player" id="hbPlayer1" style="left: 80px;">
-        <div class="hb-head-circle" style="background:#0284c7; color:#fff;">😃</div>
-        <div class="hb-body-stub"></div>
-      </div>
-      <div class="hb-player" id="hbPlayer2" style="right: 80px;">
-        <div class="hb-head-circle" style="background:#ef4444; color:#fff;">😎</div>
-        <div class="hb-body-stub"></div>
-      </div>
-    </div>
-
-    <div id="hbMsg" style="font-weight:800; font-size:0.85rem; color:#facc15; margin-top:6px; min-height:20px;">گێڕی ناو شاشە بەکاربهێنە بۆ جووڵە و لێدانی تۆپەکە!</div>
-
-    <!-- Joystick Controls Dock -->
-    <div class="hb-controls-dock">
-      <!-- Player 1 Joystick -->
-      <div class="joystick-group">
-        <span style="font-size:0.7rem; font-weight:800; color:#38bdf8;">P1 گێڕ:</span>
-        <button class="joy-btn" onclick="hbMove(1, -1)">◀️ چەپ</button>
-        <button class="joy-btn" style="background:var(--primary);" onclick="hbMove(1, 1)">ڕاست 🕹️</button>
-        <button class="joy-btn" style="background:#10b981;" onclick="hbJump(1)">⬆️ باز</button>
-      </div>
-
-      <!-- Player 2 Joystick (Dynamic Visibility) -->
-      <div class="joystick-group" id="p2HbDock">
-        <span style="font-size:0.7rem; font-weight:800; color:#f87171;">P2 گێڕ:</span>
-        <button class="joy-btn" onclick="hbMove(2, -1)">◀️ چەپ</button>
-        <button class="joy-btn" style="background:#ef4444;" onclick="hbMove(2, 1)">ڕاست 🕹️</button>
-        <button class="joy-btn" style="background:#10b981;" onclick="hbJump(2)">⬆️ باز</button>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -2208,27 +2020,12 @@ let activeWantSubTab = 'بۆ کڕین';
 let holdTimer = null;
 let selectedHoldItemId = null;
 
-// Game Engines State
-let activeGame = 'ttt';
+// Tic-Tac-Toe Game State & Minimax AI Engine
 let tttBoardState = Array(9).fill('');
 let tttTurn = 'X';
 let tttActive = true;
 let matchType = '2p';
 let botDifficulty = 'easy';
-
-// Head Ball State
-let hbPos1 = 60;
-let hbPos2 = 60;
-let hbY1 = 0;
-let hbY2 = 0;
-let hbBallX = 350;
-let hbBallY = 90;
-let hbBallVX = 4;
-let hbBallVY = -2;
-let hbScore1 = 0;
-let hbScore2 = 0;
-let hbActive = true;
-let hbLoop = null;
 
 function toggleDarkMode() {
   isDarkMode = !isDarkMode;
@@ -2352,33 +2149,20 @@ function openGameHubModal() {
   document.getElementById('gameHubMenu').style.display = 'block';
   document.getElementById('gameModeSelectorBox').style.display = 'none';
   document.getElementById('tttPlayBox').style.display = 'none';
-  document.getElementById('headballPlayBox').style.display = 'none';
-  if (hbLoop) clearInterval(hbLoop);
   window.history.pushState({ modal: 'gameHub' }, "", "");
 }
 
 function closeGameOverlay(doPush = true) {
   document.getElementById('fullscreenGameOverlay').style.display = 'none';
-  if (hbLoop) clearInterval(hbLoop);
   if (doPush) {
     window.history.pushState({ screen: currentScreen }, "", "");
   }
 }
 
 function setupGameMode(gameType) {
-  activeGame = gameType;
   document.getElementById('gameHubMenu').style.display = 'none';
   document.getElementById('gameModeSelectorBox').style.display = 'flex';
   document.getElementById('tttPlayBox').style.display = 'none';
-  document.getElementById('headballPlayBox').style.display = 'none';
-  if (hbLoop) clearInterval(hbLoop);
-
-  const title = document.getElementById('selectedGameNameTitle');
-  if (gameType === 'ttt') {
-    title.innerText = "شێوازی یاری خەت و بازنە (X و O)";
-  } else {
-    title.innerText = "شێوازی یاری سەری تۆپی پێ (Head Ball)";
-  }
 }
 
 function toggleBotDifficultySetting() {
@@ -2391,26 +2175,17 @@ function startGamePlay() {
   botDifficulty = document.getElementById('botDiffSelect').value;
   
   document.getElementById('gameModeSelectorBox').style.display = 'none';
-  
-  if (activeGame === 'ttt') {
-    document.getElementById('tttPlayBox').style.display = 'flex';
-    initTTTGame();
-  } else {
-    document.getElementById('headballPlayBox').style.display = 'flex';
-    document.getElementById('p2HbDock').style.display = (matchType === 'bot') ? 'none' : 'flex';
-    initHeadBallGame();
-  }
+  document.getElementById('tttPlayBox').style.display = 'flex';
+  initTTTGame();
 }
 
 function backToGameHub() {
   document.getElementById('gameHubMenu').style.display = 'block';
   document.getElementById('gameModeSelectorBox').style.display = 'none';
   document.getElementById('tttPlayBox').style.display = 'none';
-  document.getElementById('headballPlayBox').style.display = 'none';
-  if (hbLoop) clearInterval(hbLoop);
 }
 
-// Tic-Tac-Toe
+// Supercharged Tic-Tac-Toe with Minimax AI for 'Hard' level
 function initTTTGame() {
   tttBoardState = Array(9).fill('');
   tttTurn = 'X';
@@ -2573,116 +2348,6 @@ function findSmartMove(player) {
     tttBoardState[i] = '';
   }
   return null;
-}
-
-// Head Ball Game Engine
-function initHeadBallGame() {
-  hbPos1 = 80;
-  hbPos2 = 80;
-  hbY1 = 0;
-  hbY2 = 0;
-  hbBallX = 350;
-  hbBallY = 90;
-  hbBallVX = 4;
-  hbBallVY = -2;
-  hbScore1 = 0;
-  hbScore2 = 0;
-  hbActive = true;
-  document.getElementById('hbMsg').innerText = "یاری سەری تۆپی پێ دەست پێکرد! گۆڵ بکە ⚽";
-  updateHBUI();
-  if (hbLoop) clearInterval(hbLoop);
-  hbLoop = setInterval(updateHBPhysics, 30);
-}
-
-function updateHBUI() {
-  document.getElementById('hbPlayer1').style.left = hbPos1 + 'px';
-  document.getElementById('hbPlayer1').style.bottom = (15 + hbY1) + 'px';
-  document.getElementById('hbPlayer2').style.right = hbPos2 + 'px';
-  document.getElementById('hbPlayer2').style.bottom = (15 + hbY2) + 'px';
-  
-  document.getElementById('hbBall').style.left = hbBallX + 'px';
-  document.getElementById('hbBall').style.top = hbBallY + 'px';
-  document.getElementById('hbScoreBoard').innerText = `${hbScore1} - ${hbScore2}`;
-}
-
-function hbMove(player, dir) {
-  if (!hbActive) return;
-  if (player === 1) {
-    hbPos1 = Math.max(20, Math.min(620, hbPos1 + (dir * 22)));
-  } else {
-    hbPos2 = Math.max(20, Math.min(620, hbPos2 + (dir * 22)));
-  }
-  updateHBUI();
-}
-
-function hbJump(player) {
-  if (!hbActive) return;
-  if (player === 1 && hbY1 === 0) {
-    hbY1 = 55;
-    setTimeout(() => { hbY1 = 0; updateHBUI(); }, 300);
-  } else if (player === 2 && hbY2 === 0) {
-    hbY2 = 55;
-    setTimeout(() => { hbY2 = 0; updateHBUI(); }, 300);
-  }
-  updateHBUI();
-}
-
-function updateHBPhysics() {
-  if (!hbActive) return;
-
-  hbBallVY += 0.4;
-  hbBallX += hbBallVX;
-  hbBallY += hbBallVY;
-
-  if (hbBallY > 155) {
-    hbBallY = 155;
-    hbBallVY = -hbBallVY * 0.75;
-  }
-  if (hbBallY < 10) {
-    hbBallY = 10;
-    hbBallVY = -hbBallVY;
-  }
-
-  if (hbBallX < 15) {
-    hbBallX = 15;
-    hbBallVX = -hbBallVX;
-  }
-  if (hbBallX > 695) {
-    hbBallX = 695;
-    hbBallVX = -hbBallVX;
-  }
-
-  if (hbBallY > 90 && hbBallX < 35) {
-    hbScore2++;
-    document.getElementById('hbMsg').innerText = "⚽ گۆڵ بۆ یاریزان ٢!";
-    resetHBBall();
-  } else if (hbBallY > 90 && hbBallX > 680) {
-    hbScore1++;
-    document.getElementById('hbMsg').innerText = "⚽ گۆڵ بۆ یاریزان ١!";
-    resetHBBall();
-  }
-
-  if (matchType === 'bot') {
-    let ballRealX = hbBallX;
-    let p2RealX = 740 - hbPos2 - 45;
-    if (p2RealX < ballRealX - 10) {
-      hbPos2 = Math.max(20, Math.min(620, hbPos2 - 6));
-    } else if (p2RealX > ballRealX + 10) {
-      hbPos2 = Math.max(20, Math.min(620, hbPos2 + 6));
-    }
-    if (Math.random() < 0.03 && hbY2 === 0 && hbBallY < 100) {
-      hbJump(2);
-    }
-  }
-
-  updateHBUI();
-}
-
-function resetHBBall() {
-  hbBallX = 350;
-  hbBallY = 90;
-  hbBallVX = (Math.random() > 0.5 ? 4 : -4);
-  hbBallVY = -3;
 }
 
 function navigateToCategory(cat) {
