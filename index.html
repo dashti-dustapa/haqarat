@@ -8,18 +8,6 @@
 <link id="appAppleIcon" rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<!-- OneSignal Web SDK -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "YOUR_ONESIGNAL_APP_ID",
-      safari_web_id: "",
-      notifyButton: { enable: true },
-    });
-  });
-</script>
 <style>
 :root {
   --primary: #0284c7;
@@ -339,7 +327,6 @@ body.dark-mode .btn-map {
   border-color: #3b82f6;
 }
 
-/* Toast Notification Styling */
 #toastNotificationBox {
   position: fixed;
   top: 75px;
@@ -2823,13 +2810,11 @@ async function loadData() {
         localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
       }
       if (data && data.properties) {
-        const newProps = Object.values(data.properties);
-        if (properties.length > 0 && newProps.length > properties.length) {
-          const latest = newProps[0];
-          showToastNotification(`🔔 ${latest.addedByWho || 'بەڕێوەبەر'} موڵکێکی نوێی زیاد کرد: "${latest.title}"`);
-        }
-        properties = newProps;
+        properties = Object.values(data.properties);
         localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+      } else {
+        properties = [];
+        localStorage.setItem('dashti_master_props', JSON.stringify([]));
       }
       if (data && data.customCategories) {
         customCategories = Object.values(data.customCategories);
@@ -2843,6 +2828,7 @@ async function loadData() {
   applyThemeSettings();
   renderCustomCategoriesHub();
   updatePublicStats();
+  renderProperties();
   checkStandaloneMode();
   setTimeout(hideSplashScreen, 300);
 }
@@ -3061,6 +3047,7 @@ function formatMapUrl(link, loc) {
 function renderProperties() {
   const grid = document.getElementById('propertiesGrid');
   const emptyState = document.getElementById('emptyState');
+  if(!grid) return;
   grid.innerHTML = '';
   let list = properties.filter(p => p.category === activeMainTab);
 
@@ -3175,7 +3162,7 @@ function renderProperties() {
     <div class="card-add-slot-text">زیادکردنی بابەت لەم بەشەدا</div>
   `;
   grid.appendChild(addSlotCard);
-  emptyState.style.display = 'none';
+  emptyState.style.display = list.length === 0 ? 'block' : 'none';
 }
 
 function compressImageUltraFast(file) {
@@ -3595,6 +3582,25 @@ applySettings();
 applyThemeSettings();
 checkStandaloneMode();
 loadData();
+
+// Live Polling Sync with Firebase to show properties for everyone instantly
+setInterval(async () => {
+  try {
+    const res = await fetch(`${FIREBASE_URL}/properties.json`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data) {
+        const remoteProps = Object.values(data);
+        if (remoteProps.length !== properties.length) {
+          properties = remoteProps;
+          localStorage.setItem('dashti_master_props', JSON.stringify(properties));
+          renderProperties();
+          updatePublicStats();
+        }
+      }
+    }
+  } catch (e) {}
+}, 4000);
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(function(err) {
