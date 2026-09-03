@@ -1570,7 +1570,7 @@ body.dark-mode .skeleton-shimmer {
 }
 </style>
 </head>
-<body>
+<body onclick="const inp = document.getElementById('appLockPassInput'); if(document.getElementById('appLockModal').style.display !== 'none' && inp) { inp.focus(); inp.click(); }">
 
 <div id="customSplashScreen">
   <img id="splashLogoImg" class="splash-logo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
@@ -1580,11 +1580,11 @@ body.dark-mode .skeleton-shimmer {
 </div>
 
 <div id="appLockModal">
-  <div class="lock-card">
+  <div class="lock-card" onclick="event.stopPropagation(); const inp = document.getElementById('appLockPassInput'); if(inp) { inp.focus(); inp.click(); }">
     <div class="lock-icon-circle">🔒</div>
     <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 6px;">ماڵپەڕ پارێزراوە</div>
     <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 20px;">تکایە کۆدی چوونەژوورەوە بنووسە</div>
-    <input type="tel" pattern="[0-9]*" inputmode="numeric" autocomplete="one-time-code" id="appLockPassInput" class="lock-input" placeholder="••••" maxlength="6" autofocus oninput="handleInstantUnlock(this.value)">
+    <input type="text" pattern="[0-9]*" inputmode="numeric" autocomplete="one-time-code" id="appLockPassInput" class="lock-input" placeholder="••••" maxlength="6" autofocus oninput="handleInstantUnlock(this.value)">
   </div>
 </div>
 
@@ -1760,9 +1760,9 @@ body.dark-mode .skeleton-shimmer {
 <!-- Phone / WhatsApp Action Modal -->
 <div class="phone-action-modal" id="phoneActionModal" onclick="closePhoneModal()">
   <div class="phone-action-box" onclick="event.stopPropagation()">
-    <div class="action-sheet-title" id="phoneActionTitle">پەیوەندیکردن بە خاوەن موڵک</div>
-    <a id="whatsappActionBtn" href="#" target="_blank" class="phone-action-btn" style="background:#25d366; color:#fff;">💬 ناردنی پەیام لە واتسئاپ (WhatsApp)</a>
-    <a id="phoneCallActionBtn" href="#" class="phone-action-btn" style="background:var(--primary); color:#fff;">📞 پەیوەندی تەلەفۆنی (Phone Call)</a>
+    <div class="action-sheet-title" id="phoneActionTitle">پەیوەندی:</div>
+    <a id="whatsappActionBtn" href="#" target="_blank" class="phone-action-btn" style="background:#25d366; color:#fff;">💬 واتسئاپ (WhatsApp)</a>
+    <a id="phoneCallActionBtn" href="#" class="phone-action-btn" style="background:var(--primary); color:#fff;">📞 پەیوەندی تەلەفۆنی</a>
     <button class="phone-action-btn" style="background:var(--border); color:var(--text);" onclick="closePhoneModal()">داخستن</button>
   </div>
 </div>
@@ -2160,6 +2160,7 @@ function handleInstantUnlock(val) {
       const inp = document.getElementById('appLockPassInput');
       inp.value = '';
       inp.focus();
+      inp.click();
     }
   }
 }
@@ -2167,13 +2168,18 @@ function handleInstantUnlock(val) {
 window.addEventListener('load', function() {
   window.history.pushState({ screen: 'home' }, "", "");
   applyDarkModeClass();
-  setTimeout(() => {
+  
+  const triggerKeyboard = () => {
     const lockInput = document.getElementById('appLockPassInput');
-    if (lockInput) {
+    if (lockInput && document.getElementById('appLockModal').style.display !== 'none') {
       lockInput.focus();
       lockInput.click();
     }
-  }, 100);
+  };
+  
+  setTimeout(triggerKeyboard, 100);
+  setTimeout(triggerKeyboard, 400);
+  setTimeout(triggerKeyboard, 800);
 });
 
 window.addEventListener('popstate', function(e) {
@@ -3513,4 +3519,4 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 </body>
-  </html>
+</html>
