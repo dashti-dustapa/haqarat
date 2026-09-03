@@ -135,7 +135,6 @@ body {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  cursor: pointer;
   transition: opacity 0.35s ease;
 }
 
@@ -147,7 +146,6 @@ body {
   padding: 2rem 1.4rem;
   text-align: center;
   box-shadow: 0 15px 35px rgba(0,0,0,0.35);
-  cursor: default;
   animation: modalPopupSmooth 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -1613,7 +1611,7 @@ body.dark-mode .cell-light {
     <div class="lock-icon-circle">🔒</div>
     <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 6px;">ماڵپەڕ پارێزراوە</div>
     <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 20px;">تکایە کۆدی چوونەژوورەوە بنووسە</div>
-    <input type="tel" id="appLockPassInput" class="lock-input" placeholder="••••" maxlength="6" oninput="handleInstantUnlock(this.value)">
+    <input type="password" id="appLockPassInput" class="lock-input" placeholder="••••" maxlength="6" oninput="handleInstantUnlock(this.value)">
   </div>
 </div>
 
@@ -1984,7 +1982,7 @@ body.dark-mode .cell-light {
       </div>
       <div class="form-group">
         <label style="color:var(--primary); font-weight:800;">🔑 کۆدی چوونەژوورەوەی ئەپ (App Unlock Code):</label>
-        <input type="text" id="setAppPass" placeholder="کۆدی نوێ بنووسە" inputmode="numeric" pattern="[0-9]*">
+        <input type="password" id="setAppPass" placeholder="کۆدی نوێ بنووسە" inputmode="numeric" pattern="[0-9]*">
       </div>
       <div class="form-group">
         <label>لینکی ڕاستەوخۆی فایلی ئەندرۆید (APK Direct URL):</label>
@@ -2120,28 +2118,8 @@ let tttActive = true;
 let matchType = '2p';
 let botDifficulty = 'easy';
 
-function triggerAutoKeyboardFocus() {
-  const input = document.getElementById('appLockPassInput');
-  if (input && !isAppUnlocked) {
-    input.focus();
-    input.click();
-  }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  const lockModal = document.getElementById('appLockModal');
-  const lockInput = document.getElementById('appLockPassInput');
-  const activateKeyboard = () => {
-    if (!isAppUnlocked && lockInput) {
-      lockInput.focus();
-    }
-  };
-  if (lockModal) {
-    lockModal.addEventListener('touchstart', activateKeyboard, { passive: true });
-    lockModal.addEventListener('click', activateKeyboard);
-  }
-  document.body.addEventListener('touchstart', activateKeyboard, { once: true, passive: true });
-  document.body.addEventListener('click', activateKeyboard, { once: true });
+  applyDarkModeClass();
 });
 
 function toggleDarkMode() {
@@ -2209,14 +2187,12 @@ function handleInstantUnlock(val) {
     } else {
       alert("کۆدەکە هەڵەیە!");
       document.getElementById('appLockPassInput').value = '';
-      triggerAutoKeyboardFocus();
     }
   }
 }
 
 window.addEventListener('load', function() {
   window.history.pushState({ screen: 'home' }, "", "");
-  triggerAutoKeyboardFocus();
   applyDarkModeClass();
 });
 
@@ -2309,7 +2285,7 @@ function backToGameHub() {
   document.getElementById('tttPlayBox').style.display = 'none';
 }
 
-// Checkers Game Logic with Flying Multi-Jumps (Turkish/Kurdish Checkers rules)
+// Checkers Game Logic with Multi-Jump Chain Captures
 function initCheckersGame() {
   checkersBoardState = Array(64).fill(null);
   checkersTurn = 'emerald';
@@ -2363,7 +2339,7 @@ function updateCheckersTurnText() {
   }
 }
 
-// Flying Jump & Multi-Capture Checkers Engine
+// Check all possible moves with multi-jump tracking
 function getAllPossibleMoves(player) {
   let jumps = [];
   let normals = [];
@@ -2410,7 +2386,6 @@ function getAllPossibleMoves(player) {
             if (step > 2 && !foundOpponent) break;
             step++;
           } else {
-            // King flying jumps across multiple empty spaces and multiple captures in a line
             if (targetPiece === null) {
               if (foundOpponent) {
                 jumps.push({ from: i, to: nextIdx, jumpedIndices: [...jumpedIndices] });
@@ -2500,6 +2475,15 @@ function handleCheckersCellClick(idx) {
       if (checkersBoardState[idx].player === 'emerald' && row === 0) checkersBoardState[idx].king = true;
       if (checkersBoardState[idx].player === 'gold' && row === 7) checkersBoardState[idx].king = true;
 
+      // Check if the same piece can continue eating (Multi-jump chain continuation rule)
+      let continuingJumps = getAllPossibleMoves(checkersTurn).jumps.filter(m => m.from === idx);
+      if (moveInfo.jumpedIndices.length > 0 && continuingJumps.length > 0) {
+        checkersSelectedCell = idx;
+        renderCheckersBoard();
+        document.getElementById('checkersMsg').innerText = "دەتوانیت بەردەوام بە لە خواردنی پولی دووەم!";
+        return;
+      }
+
       checkersSelectedCell = null;
       checkersTurn = checkersTurn === 'emerald' ? 'gold' : 'emerald';
       renderCheckersBoard();
@@ -2537,7 +2521,6 @@ function checkersIsGameOver() {
   return e === 0 || g === 0;
 }
 
-// AI Engine for Checkers supporting multi-captures
 function aiCheckersMove() {
   if (checkersIsGameOver()) return;
   let allMoves = getAllPossibleMoves('gold');
@@ -2920,17 +2903,6 @@ function triggerDirectDownload() {
   }
 }
 
-function hideSplashScreen() {
-  const splash = document.getElementById('customSplashScreen');
-  if (splash) {
-    splash.style.opacity = '0';
-    setTimeout(() => {
-      splash.style.display = 'none';
-      triggerAutoKeyboardFocus();
-    }, 450);
-  }
-}
-
 function checkStandaloneMode() {
   const ua = navigator.userAgent || "";
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.standalone || document.referrer.includes('android-app://') || ua.includes('wv') || ua.includes('WebIntoApp');
@@ -2996,7 +2968,6 @@ async function loadData() {
   renderCustomCategoriesHub();
   updatePublicStats();
   checkStandaloneMode();
-  setTimeout(hideSplashScreen, 300);
 }
 
 function applySettings() {
@@ -3747,4 +3718,4 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 </body>
-  </html>
+</html>
