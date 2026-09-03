@@ -1094,6 +1094,52 @@ body.dark-mode .skeleton-shimmer {
   border: 1px solid var(--border);
 }
 
+.phone-action-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 600;
+  align-items: flex-end;
+  justify-content: center;
+  animation: overlayFade 0.25s ease forwards;
+}
+
+.phone-action-box {
+  background: var(--card-bg);
+  width: 100%;
+  max-width: 450px;
+  border-radius: 20px 20px 0 0;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.phone-action-btn {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.phone-action-btn:active {
+  transform: scale(0.98);
+}
+
 .modal {
   display: none;
   position: fixed;
@@ -1711,6 +1757,16 @@ body.dark-mode .skeleton-shimmer {
   </div>
 </div>
 
+<!-- Phone / WhatsApp Action Modal -->
+<div class="phone-action-modal" id="phoneActionModal" onclick="closePhoneModal()">
+  <div class="phone-action-box" onclick="event.stopPropagation()">
+    <div class="action-sheet-title" id="phoneActionTitle">پەیوەندیکردن بە خاوەن موڵک</div>
+    <a id="whatsappActionBtn" href="#" target="_blank" class="phone-action-btn" style="background:#25d366; color:#fff;">💬 ناردنی پەیام لە واتسئاپ (WhatsApp)</a>
+    <a id="phoneCallActionBtn" href="#" class="phone-action-btn" style="background:var(--primary); color:#fff;">📞 پەیوەندی تەلەفۆنی (Phone Call)</a>
+    <button class="phone-action-btn" style="background:var(--border); color:var(--text);" onclick="closePhoneModal()">داخستن</button>
+  </div>
+</div>
+
 <div id="storyPosterWrapper">
   <div class="story-header">
     <div class="story-logo-group">
@@ -2139,6 +2195,10 @@ window.addEventListener('popstate', function(e) {
     closeActionSheet(false);
     return;
   }
+  if (document.getElementById('phoneActionModal').style.display === 'flex') {
+    closePhoneModal(false);
+    return;
+  }
   const openModal = Array.from(document.querySelectorAll('.modal')).find(m => m.style.display === 'flex');
   if (openModal) {
     closeModals(false);
@@ -2154,6 +2214,32 @@ window.addEventListener('popstate', function(e) {
   }
   window.history.back();
 });
+
+// Phone Action Modal Logic for WhatsApp / Phone Call
+function openPhoneActionModal(phoneNumber) {
+  const cleanPhone = String(phoneNumber).trim();
+  document.getElementById('phoneActionTitle').innerText = `پەیوەندی: ${cleanPhone}`;
+  
+  // Format for WhatsApp (e.g., if 0750..., convert to international +964750... or use direct)
+  let waNum = cleanPhone;
+  if (waNum.startsWith('0')) {
+    waNum = '+964' + waNum.substring(1);
+  }
+  waNum = waNum.replace(/[^0-9+]/g, '');
+
+  document.getElementById('whatsappActionBtn').href = `https://wa.me/${waNum}`;
+  document.getElementById('phoneCallActionBtn').href = `tel:${cleanPhone}`;
+  
+  document.getElementById('phoneActionModal').style.display = 'flex';
+  window.history.pushState({ phoneModal: true }, "", "");
+}
+
+function closePhoneModal(doPush = true) {
+  document.getElementById('phoneActionModal').style.display = 'none';
+  if (doPush) {
+    window.history.pushState({ screen: currentScreen }, "", "");
+  }
+}
 
 function openGameHubModal() {
   const overlay = document.getElementById('fullscreenGameOverlay');
@@ -2933,10 +3019,10 @@ function renderProperties() {
               <button class="btn btn-story" onclick="downloadPropertyAsStory('${item.id}')">📸 وێنەی ستۆری</button>
             </div>
             ${item.ownerPhone ? `
-              <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.4rem;">
+              <div onclick="openPhoneActionModal('${item.ownerPhone}')" class="owner-phone-display" style="margin-bottom:0.4rem;">
                 <span>📞 داواکار:</span>
                 <span class="phone-text">${item.ownerPhone}</span>
-              </a>
+              </div>
             ` : ''}
             <div class="card-footer">
               <div class="card-footer-top">
@@ -2977,10 +3063,10 @@ function renderProperties() {
               <button class="btn btn-story" onclick="downloadPropertyAsStory('${item.id}')">📸 وێنەی ستۆری</button>
             </div>
             ${item.ownerPhone ? `
-              <a href="tel:${item.ownerPhone.trim()}" class="owner-phone-display" style="margin-bottom:0.4rem;">
+              <div onclick="openPhoneActionModal('${item.ownerPhone}')" class="owner-phone-display" style="margin-bottom:0.4rem;">
                 <span>📞 خاوەن موڵک:</span>
                 <span class="phone-text">${item.ownerPhone}</span>
-              </a>
+              </div>
             ` : ''}
             <div class="card-footer">
               <div class="card-footer-top">
