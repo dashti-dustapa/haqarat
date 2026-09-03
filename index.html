@@ -1584,7 +1584,7 @@ body.dark-mode .skeleton-shimmer {
     <div class="lock-icon-circle">🔒</div>
     <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 6px;">ماڵپەڕ پارێزراوە</div>
     <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 20px;">تکایە کۆدی چوونەژوورەوە بنووسە</div>
-    <input type="number" pattern="[0-9]*" inputmode="numeric" id="appLockPassInput" class="lock-input" placeholder="••••" maxlength="6" autofocus oninput="handleInstantUnlock(this.value)">
+    <input type="tel" pattern="[0-9]*" inputmode="numeric" autocomplete="one-time-code" id="appLockPassInput" class="lock-input" placeholder="••••" maxlength="6" autofocus oninput="handleInstantUnlock(this.value)">
   </div>
 </div>
 
@@ -2167,11 +2167,13 @@ function handleInstantUnlock(val) {
 window.addEventListener('load', function() {
   window.history.pushState({ screen: 'home' }, "", "");
   applyDarkModeClass();
-  const lockInput = document.getElementById('appLockPassInput');
-  if (lockInput) {
-    lockInput.focus();
-    lockInput.click();
-  }
+  setTimeout(() => {
+    const lockInput = document.getElementById('appLockPassInput');
+    if (lockInput) {
+      lockInput.focus();
+      lockInput.click();
+    }
+  }, 100);
 });
 
 window.addEventListener('popstate', function(e) {
@@ -3511,4 +3513,4 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 </body>
-</html>
+  </html>
