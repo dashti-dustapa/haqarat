@@ -1611,7 +1611,7 @@ body.dark-mode .cell-light {
     <div class="lock-icon-circle">🔒</div>
     <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 6px;">ماڵپەڕ پارێزراوە</div>
     <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 20px;">تکایە کۆدی چوونەژوورەوە بنووسە</div>
-    <input type="password" id="appLockPassInput" class="lock-input" placeholder="••••" maxlength="6" oninput="handleInstantUnlock(this.value)">
+    <input type="tel" id="appLockPassInput" class="lock-input" placeholder="••••" maxlength="6" autofocus oninput="handleInstantUnlock(this.value)">
   </div>
 </div>
 
@@ -1982,7 +1982,7 @@ body.dark-mode .cell-light {
       </div>
       <div class="form-group">
         <label style="color:var(--primary); font-weight:800;">🔑 کۆدی چوونەژوورەوەی ئەپ (App Unlock Code):</label>
-        <input type="password" id="setAppPass" placeholder="کۆدی نوێ بنووسە" inputmode="numeric" pattern="[0-9]*">
+        <input type="text" id="setAppPass" placeholder="کۆدی نوێ بنووسە" inputmode="numeric" pattern="[0-9]*">
       </div>
       <div class="form-group">
         <label>لینکی ڕاستەوخۆی فایلی ئەندرۆید (APK Direct URL):</label>
@@ -2107,7 +2107,6 @@ let activeWantSubTab = 'بۆ کڕین';
 let holdTimer = null;
 let selectedHoldItemId = null;
 
-// Game variables
 let activeGame = 'checkers';
 let checkersBoardState = [];
 let checkersTurn = 'emerald'; 
@@ -2117,10 +2116,6 @@ let tttTurn = 'X';
 let tttActive = true;
 let matchType = '2p';
 let botDifficulty = 'easy';
-
-document.addEventListener('DOMContentLoaded', () => {
-  applyDarkModeClass();
-});
 
 function toggleDarkMode() {
   isDarkMode = !isDarkMode;
@@ -2187,6 +2182,7 @@ function handleInstantUnlock(val) {
     } else {
       alert("کۆدەکە هەڵەیە!");
       document.getElementById('appLockPassInput').value = '';
+      document.getElementById('appLockPassInput').focus();
     }
   }
 }
@@ -2194,6 +2190,10 @@ function handleInstantUnlock(val) {
 window.addEventListener('load', function() {
   window.history.pushState({ screen: 'home' }, "", "");
   applyDarkModeClass();
+  const lockInput = document.getElementById('appLockPassInput');
+  if (lockInput) {
+    lockInput.focus();
+  }
 });
 
 window.addEventListener('popstate', function(e) {
@@ -2285,7 +2285,7 @@ function backToGameHub() {
   document.getElementById('tttPlayBox').style.display = 'none';
 }
 
-// Checkers Game Logic with Multi-Jump Chain Captures
+// Turkish / Kurdish Checkers Logic (Flying jumps & Multi-captures)
 function initCheckersGame() {
   checkersBoardState = Array(64).fill(null);
   checkersTurn = 'emerald';
@@ -2339,7 +2339,6 @@ function updateCheckersTurnText() {
   }
 }
 
-// Check all possible moves with multi-jump tracking
 function getAllPossibleMoves(player) {
   let jumps = [];
   let normals = [];
@@ -2348,7 +2347,7 @@ function getAllPossibleMoves(player) {
     let piece = checkersBoardState[i];
     if (piece && piece.player === player) {
       let r = Math.floor(i / 8), c = i % 8;
-      let directions = [-1, 1, -8, 8]; // Left, Right, Up, Down
+      let directions = [-1, 1, -8, 8];
 
       for (let dir of directions) {
         let step = 1;
@@ -2475,15 +2474,6 @@ function handleCheckersCellClick(idx) {
       if (checkersBoardState[idx].player === 'emerald' && row === 0) checkersBoardState[idx].king = true;
       if (checkersBoardState[idx].player === 'gold' && row === 7) checkersBoardState[idx].king = true;
 
-      // Check if the same piece can continue eating (Multi-jump chain continuation rule)
-      let continuingJumps = getAllPossibleMoves(checkersTurn).jumps.filter(m => m.from === idx);
-      if (moveInfo.jumpedIndices.length > 0 && continuingJumps.length > 0) {
-        checkersSelectedCell = idx;
-        renderCheckersBoard();
-        document.getElementById('checkersMsg').innerText = "دەتوانیت بەردەوام بە لە خواردنی پولی دووەم!";
-        return;
-      }
-
       checkersSelectedCell = null;
       checkersTurn = checkersTurn === 'emerald' ? 'gold' : 'emerald';
       renderCheckersBoard();
@@ -2567,7 +2557,7 @@ function aiCheckersMove() {
   checkCheckersWin();
 }
 
-// Tic-Tac-Toe Game Logic with Winning Line Highlight & AI
+// Tic-Tac-Toe Game Logic
 function initTTTGame() {
   tttBoardState = Array(9).fill('');
   tttTurn = 'X';
@@ -2903,6 +2893,18 @@ function triggerDirectDownload() {
   }
 }
 
+function hideSplashScreen() {
+  const splash = document.getElementById('customSplashScreen');
+  if (splash) {
+    splash.style.opacity = '0';
+    setTimeout(() => {
+      splash.style.display = 'none';
+      const lockInput = document.getElementById('appLockPassInput');
+      if (lockInput) lockInput.focus();
+    }, 450);
+  }
+}
+
 function checkStandaloneMode() {
   const ua = navigator.userAgent || "";
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.standalone || document.referrer.includes('android-app://') || ua.includes('wv') || ua.includes('WebIntoApp');
@@ -2968,6 +2970,7 @@ async function loadData() {
   renderCustomCategoriesHub();
   updatePublicStats();
   checkStandaloneMode();
+  setTimeout(hideSplashScreen, 300);
 }
 
 function applySettings() {
