@@ -1081,47 +1081,58 @@ body.dark-mode .skeleton-shimmer {
   animation: badgePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.stickman-arena {
+/* Supreme Duelist Stickman Arena Styling */
+.stickman-arena-box {
   position: relative;
   width: 100%;
-  max-width: 380px;
-  height: 240px;
-  background: #1e293b;
-  border-radius: 12px;
+  max-width: 400px;
+  height: 260px;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  border-radius: 16px;
   border: 3px solid var(--border);
   margin: 15px auto;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
 }
 
-.stickman-fighter {
+.stickman-floor {
   position: absolute;
-  bottom: 20px;
-  width: 50px;
-  height: 90px;
+  bottom: 0;
+  width: 100%;
+  height: 25px;
+  background: #334155;
+  border-top: 2px solid #38bdf8;
+}
+
+.stickman- fighter-unit {
+  position: absolute;
+  bottom: 25px;
+  width: 44px;
+  height: 85px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: left 0.1s linear, right 0.1s linear;
+  transition: transform 0.05s linear;
 }
 
-.stick-head {
-  width: 18px;
-  height: 18px;
+.stick-head-p {
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   border: 3px solid #fff;
+  background: #0284c7;
 }
 
-.stick-body {
+.stick-body-p {
   width: 3px;
-  height: 35px;
+  height: 32px;
   background: #fff;
 }
 
-.stick-limbs {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #38bdf8;
+.stick-weapon-p {
+  font-size: 1.4rem;
+  position: absolute;
+  top: 25px;
 }
 
 .game-settings-bar {
@@ -1711,9 +1722,9 @@ body.dark-mode .skeleton-shimmer {
         <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">یاری زیرەک لەگەڵ ئاستی زەحمەتی بەهێز</div>
       </div>
       <div class="game-menu-card" onclick="setupGameMode('stickman')">
-        <div style="font-size:2.5rem; margin-bottom:8px;">⚔️</div>
-        <div style="font-weight:800; font-size:1rem;">شەڕی ستیکمان (Stickman Duel)</div>
-        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">دوو نەفەری لەسەر هەمان مۆبایل</div>
+        <div style="font-size:2.5rem; margin-bottom:8px;">🤺</div>
+        <div style="font-weight:800; font-size:1rem;">شەڕی ستیکمان (Supreme Duelist)</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">شەڕی فیزیکی و هێرشی شمشێر</div>
       </div>
     </div>
   </div>
@@ -1759,38 +1770,42 @@ body.dark-mode .skeleton-shimmer {
   </div>
 
   <div class="game-screen-box" id="stickmanPlayBox">
-    <div style="display:flex; justify-content:space-between; width:100%; max-width:380px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
+    <div style="display:flex; justify-content:space-between; width:100%; max-width:400px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
       <span id="stickmanScoreText" style="color:var(--primary);">یاریزان 1: 0 | یاریزان 2: 0</span>
       <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem; background:var(--border);" onclick="initStickmanGame()">🔄 سەرلەنوێ</button>
     </div>
-    <div class="stickman-arena" id="stickmanArena">
-      <div class="stickman-fighter" id="fighter1" style="left: 40px;">
-        <div class="stick-head"></div>
-        <div class="stick-body"></div>
-        <div class="stick-limbs">🤺</div>
+    <div class="stickman-arena-box" id="stickmanArena">
+      <div class="stickman-fighter-unit" id="fighter1" style="left: 60px;">
+        <div class="stick-head-p" style="background:#0284c7;"></div>
+        <div class="stick-body-p"></div>
+        <div class="stick-weapon-p" id="weapon1">🗡️</div>
       </div>
-      <div class="stickman-fighter" id="fighter2" style="right: 40px;">
-        <div class="stick-head"></div>
-        <div class="stick-body"></div>
-        <div class="stick-limbs">⚔️</div>
+      <div class="stickman-fighter-unit" id="fighter2" style="right: 60px;">
+        <div class="stick-head-p" style="background:#ef4444;"></div>
+        <div class="stick-body-p"></div>
+        <div class="stick-weapon-p" id="weapon2">⚔️</div>
       </div>
+      <div class="stickman-floor"></div>
     </div>
-    <div id="stickmanMsg" style="font-weight:800; font-size:0.9rem; color:var(--accent); margin-top:6px; min-height:22px;"></div>
-    <div style="display:flex; gap:10px; width:100%; max-width:380px; margin-top:10px;">
+    <div id="stickmanMsg" style="font-weight:800; font-size:0.88rem; color:var(--accent); margin-top:6px; min-height:22px;">شەڕی فیزیکی دەست پێکرد! هێرش بکە</div>
+    
+    <div style="display:flex; gap:8px; width:100%; max-width:400px; margin-top:10px;">
       <div style="flex:1; background:var(--card-bg); border:1px solid var(--border); padding:8px; border-radius:10px; text-align:center;">
-        <div style="font-size:0.75rem; font-weight:800; margin-bottom:6px;">یاریزان ١ (چەپ)</div>
-        <div style="display:flex; gap:4px; justify-content:center;">
-          <button class="btn btn-primary" style="padding:0.4rem 0.7rem;" onclick="moveStickman(1, -1)">⬅️</button>
-          <button class="btn btn-edit" style="padding:0.4rem 0.7rem;" onclick="attackStickman(1)">⚔️ هێرش</button>
-          <button class="btn btn-primary" style="padding:0.4rem 0.7rem;" onclick="moveStickman(1, 1)">➡️</button>
+        <div style="font-size:0.72rem; font-weight:800; margin-bottom:4px; color:#0284c7;">یاریزان ١</div>
+        <div style="display:flex; gap:3px; justify-content:center;">
+          <button class="btn btn-primary" style="padding:0.4rem 0.5rem; font-size:0.7rem;" onclick="moveStickman(1, -1)">⬅️</button>
+          <button class="btn btn-edit" style="padding:0.4rem 0.5rem; font-size:0.7rem;" onclick="jumpStickman(1)">⬆️ باز</button>
+          <button class="btn btn-danger" style="padding:0.4rem 0.5rem; font-size:0.7rem;" onclick="attackStickman(1)">⚔️ لێدان</button>
+          <button class="btn btn-primary" style="padding:0.4rem 0.5rem; font-size:0.7rem;" onclick="moveStickman(1, 1)">➡️</button>
         </div>
       </div>
-      <div style="flex:1; background:var(--card-bg); border:1px solid var(--border); padding:8px; border-radius:10px; text-align:center;" id="p2ControlsBox">
-        <div style="font-size:0.75rem; font-weight:800; margin-bottom:6px;">یاریزان ٢ (ڕاست)</div>
-        <div style="display:flex; gap:4px; justify-content:center;">
-          <button class="btn btn-danger" style="padding:0.4rem 0.7rem;" onclick="moveStickman(2, -1)">⬅️</button>
-          <button class="btn btn-edit" style="padding:0.4rem 0.7rem;" onclick="attackStickman(2)">⚔️ هێرش</button>
-          <button class="btn btn-danger" style="padding:0.4rem 0.7rem;" onclick="moveStickman(2, 1)">➡️</button>
+      <div style="flex:1; background:var(--card-bg); border:1px solid var(--border); padding:8px; border-radius:10px; text-align:center;" id="p2StickmanControls">
+        <div style="font-size:0.72rem; font-weight:800; margin-bottom:4px; color:#ef4444;">یاریزان ٢</div>
+        <div style="display:flex; gap:3px; justify-content:center;">
+          <button class="btn btn-danger" style="padding:0.4rem 0.5rem; font-size:0.7rem;" onclick="moveStickman(2, -1)">⬅️</button>
+          <button class="btn btn-edit" style="padding:0.4rem 0.5rem; font-size:0.7rem;" onclick="jumpStickman(2)">⬆️ باز</button>
+          <button class="btn btn-primary" style="padding:0.4rem 0.5rem; font-size:0.7rem;" onclick="attackStickman(2)">⚔️ لێدان</button>
+          <button class="btn btn-danger" style="padding:0.4rem 0.5rem; font-size:0.7rem;" onclick="moveStickman(2, 1)">➡️</button>
         </div>
       </div>
     </div>
@@ -2114,9 +2129,11 @@ let tttActive = true;
 let matchType = '2p';
 let botDifficulty = 'easy';
 
-// Stickman Game State
-let stickmanPos1 = 40;
-let stickmanPos2 = 40;
+// Supreme Duelist Stickman Physics State
+let stickmanPos1 = 50;
+let stickmanPos2 = 50;
+let stickmanY1 = 0;
+let stickmanY2 = 0;
 let stickmanScore1 = 0;
 let stickmanScore2 = 0;
 let stickmanActive = true;
@@ -2265,7 +2282,7 @@ function setupGameMode(gameType) {
   if (gameType === 'ttt') {
     title.innerText = "شێوازی یاری خەت و بازنە (X و O)";
   } else {
-    title.innerText = "شێوازی یاری شەڕی ستیکمان (Stickman)";
+    title.innerText = "شێوازی یاری شەڕی ستیکمان (Supreme Duelist)";
   }
 }
 
@@ -2285,7 +2302,7 @@ function startGamePlay() {
     initTTTGame();
   } else {
     document.getElementById('stickmanPlayBox').style.display = 'flex';
-    document.getElementById('p2ControlsBox').style.display = (matchType === 'bot') ? 'none' : 'block';
+    document.getElementById('p2StickmanControls').style.display = (matchType === 'bot') ? 'none' : 'block';
     initStickmanGame();
   }
 }
@@ -2462,82 +2479,105 @@ function findSmartMove(player) {
   return null;
 }
 
-// Stickman Duel Game Engine
+// Supreme Duelist Stickman Physics Engine
 function initStickmanGame() {
-  stickmanPos1 = 40;
-  stickmanPos2 = 40;
+  stickmanPos1 = 50;
+  stickmanPos2 = 50;
+  stickmanY1 = 0;
+  stickmanY2 = 0;
   stickmanActive = true;
-  document.getElementById('stickmanMsg').innerText = "شەڕ دەست پێکرد! یەکتر لێبدەن";
-  updateStickmanUI();
+  document.getElementById('stickmanMsg').innerText = "شەڕی فیزیکی ستیکمان دەست پێکرد! هێرش بکە ⚔️";
+  updateStickmanPhysicsUI();
 }
 
-function updateStickmanUI() {
-  document.getElementById('fighter1').style.left = stickmanPos1 + 'px';
-  document.getElementById('fighter2').style.right = stickmanPos2 + 'px';
+function updateStickmanPhysicsUI() {
+  const f1 = document.getElementById('fighter1');
+  const f2 = document.getElementById('fighter2');
+  f1.style.left = stickmanPos1 + 'px';
+  f1.style.bottom = (25 + stickmanY1) + 'px';
+  f2.style.right = stickmanPos2 + 'px';
+  f2.style.bottom = (25 + stickmanY2) + 'px';
   document.getElementById('stickmanScoreText').innerText = `یاریزان 1: ${stickmanScore1} | یاریزان 2: ${stickmanScore2}`;
 }
 
 function moveStickman(player, dir) {
   if (!stickmanActive) return;
   if (player === 1) {
-    stickmanPos1 = Math.max(10, Math.min(240, stickmanPos1 + (dir * 15)));
+    stickmanPos1 = Math.max(15, Math.min(320, stickmanPos1 + (dir * 20)));
   } else {
-    stickmanPos2 = Math.max(10, Math.min(240, stickmanPos2 + (dir * 15)));
+    stickmanPos2 = Math.max(15, Math.min(320, stickmanPos2 + (dir * 20)));
   }
-  updateStickmanUI();
+  updateStickmanPhysicsUI();
+}
+
+function jumpStickman(player) {
+  if (!stickmanActive) return;
+  if (player === 1 && stickmanY1 === 0) {
+    stickmanY1 = 45;
+    setTimeout(() => { stickmanY1 = 0; updateStickmanPhysicsUI(); }, 250);
+  } else if (player === 2 && stickmanY2 === 0) {
+    stickmanY2 = 45;
+    setTimeout(() => { stickmanY2 = 0; updateStickmanPhysicsUI(); }, 250);
+  }
+  updateStickmanPhysicsUI();
 }
 
 function attackStickman(player) {
   if (!stickmanActive) return;
-  let distance = Math.abs(stickmanPos1 - stickmanPos2);
   let msg = document.getElementById('stickmanMsg');
   
+  // Calculate distance
+  let distance = Math.abs(stickmanPos1 - (350 - stickmanPos2));
+  
   if (player === 1) {
+    document.getElementById('weapon1').style.transform = 'rotate(-45deg) scale(1.3)';
+    setTimeout(() => document.getElementById('weapon1').style.transform = 'none', 150);
+
     if (distance < 75) {
       stickmanScore1++;
-      msg.innerText = "💥 یاریزان ١ لێدانێکی سەرکەوتووی کرد!";
-      checkStickmanWin();
+      msg.innerText = "💥 لێدانی ڕاستەقینە لەلایەن یاریزان ١!";
+      checkStickmanVictory();
     } else {
-      msg.innerText = "❌ یاریزان ١ پێشڕەوی کرد بەڵام دوور بوو!";
+      msg.innerText = "💨 یاریزان ١ هەواڵی بڕی (دوور بوو)!";
     }
   } else {
+    document.getElementById('weapon2').style.transform = 'rotate(45deg) scale(1.3)';
+    setTimeout(() => document.getElementById('weapon2').style.transform = 'none', 150);
+
     if (distance < 75) {
       stickmanScore2++;
-      msg.innerText = "💥 یاریزان ٢ لێدانێکی سەرکەوتووی کرد!";
-      checkStickmanWin();
+      msg.innerText = "💥 لێدانی ڕاستەقینە لەلایەن یاریزان ٢!";
+      checkStickmanVictory();
     } else {
-      msg.innerText = "❌ یاریزان ٢ پێشڕەوی کرد بەڵام دوور بوو!";
+      msg.innerText = "💨 یاریزان ٢ هەواڵی بڕی (دوور بوو)!";
     }
   }
-  updateStickmanUI();
+  updateStickmanPhysicsUI();
 
   if (matchType === 'bot' && stickmanActive && player === 1) {
-    setTimeout(aiStickmanAction, 400);
+    setTimeout(aiStickmanPhysicsAction, 450);
   }
 }
 
-function aiStickmanAction() {
+function aiStickmanPhysicsAction() {
   if (!stickmanActive) return;
-  let diff = Math.random();
-  if (diff < 0.5) {
-    stickmanPos2 = Math.max(10, Math.min(240, stickmanPos2 + (Math.random() > 0.5 ? 15 : -15)));
+  let action = Math.random();
+  if (action < 0.4) {
+    stickmanPos2 = Math.max(15, Math.min(320, stickmanPos2 + (Math.random() > 0.5 ? 20 : -20)));
+  } else if (action < 0.7) {
+    jumpStickman(2);
+  } else {
+    attackStickman(2);
   }
-  let distance = Math.abs(stickmanPos1 - stickmanPos2);
-  let msg = document.getElementById('stickmanMsg');
-  if (distance < 75) {
-    stickmanScore2++;
-    msg.innerText = "🤖 زیرەکی دەستکرد (AI) لێدانی لە یاریزان دا!";
-    checkStickmanWin();
-  }
-  updateStickmanUI();
+  updateStickmanPhysicsUI();
 }
 
-function checkStickmanWin() {
+function checkStickmanVictory() {
   if (stickmanScore1 >= 5) {
-    document.getElementById('stickmanMsg').innerText = "🏆 یاریزان ١ بردییەوە!";
+    document.getElementById('stickmanMsg').innerText = "🏆 یاریزان ١ پاڵەوانی سەرکەوتوو بوو!";
     stickmanActive = false;
   } else if (stickmanScore2 >= 5) {
-    document.getElementById('stickmanMsg').innerText = "🏆 یاریزان ٢ / AI بردییەوە!";
+    document.getElementById('stickmanMsg').innerText = "🏆 یاریزان ٢ / AI سەرکەوتوو بوو!";
     stickmanActive = false;
   }
 }
