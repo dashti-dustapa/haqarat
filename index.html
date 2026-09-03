@@ -1584,7 +1584,7 @@ body.dark-mode .skeleton-shimmer {
     <div class="lock-icon-circle">🔒</div>
     <div style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin-bottom: 6px;">ماڵپەڕ پارێزراوە</div>
     <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 20px;">تکایە کۆدی چوونەژوورەوە بنووسە</div>
-    <input type="tel" id="appLockPassInput" class="lock-input" placeholder="••••" inputmode="numeric" pattern="[0-9]*" maxlength="6" autofocus oninput="handleInstantUnlock(this.value)">
+    <input type="number" pattern="[0-9]*" inputmode="numeric" id="appLockPassInput" class="lock-input" placeholder="••••" maxlength="6" autofocus oninput="handleInstantUnlock(this.value)">
   </div>
 </div>
 
@@ -2157,8 +2157,9 @@ function handleInstantUnlock(val) {
       }, 350);
     } else {
       alert("کۆدەکە هەڵەیە!");
-      document.getElementById('appLockPassInput').value = '';
-      document.getElementById('appLockPassInput').focus();
+      const inp = document.getElementById('appLockPassInput');
+      inp.value = '';
+      inp.focus();
     }
   }
 }
@@ -2172,6 +2173,15 @@ window.addEventListener('load', function() {
     lockInput.click();
   }
 });
+
+// Auto-trigger number keypad on any touch/click if locked
+document.addEventListener('touchstart', function() {
+  const lockInput = document.getElementById('appLockPassInput');
+  if (lockInput && document.getElementById('appLockModal').style.display !== 'none') {
+    lockInput.focus();
+    lockInput.click();
+  }
+}, { passive: true });
 
 document.addEventListener('click', function() {
   const lockInput = document.getElementById('appLockPassInput');
@@ -2220,7 +2230,6 @@ function openPhoneActionModal(phoneNumber) {
   const cleanPhone = String(phoneNumber).trim();
   document.getElementById('phoneActionTitle').innerText = `پەیوەندی: ${cleanPhone}`;
   
-  // Format for WhatsApp (e.g., if 0750..., convert to international +964750... or use direct)
   let waNum = cleanPhone;
   if (waNum.startsWith('0')) {
     waNum = '+964' + waNum.substring(1);
