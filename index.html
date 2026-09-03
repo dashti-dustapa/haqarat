@@ -1153,6 +1153,13 @@ body.dark-mode .cell-dark {
   background: #e0f2fe;
 }
 
+.tictactoe-cell.winning-cell {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  border-color: #059669 !important;
+  animation: badgePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 .game-settings-bar {
   display: flex;
   flex-direction: column;
@@ -2273,7 +2280,7 @@ function setupGameMode(gameType) {
   
   const title = document.getElementById('selectedGameNameTitle');
   if (gameType === 'checkers') {
-    title.innerText = "شێوازی یاری دامەی کوردی";
+    title.innerText = "شێوازی یاری دامەی کوردی ڕەسەن";
   } else {
     title.innerText = "شێوازی یاری خەت و بازنە (Tic-Tac-Toe)";
   }
@@ -2306,23 +2313,20 @@ function backToGameHub() {
   document.getElementById('tttPlayBox').style.display = 'none';
 }
 
-// Checkers Game Logic
+// Checkers Game Logic (Kurdish Checkers - Straight/Forward & Side moves without strict diagonal restriction)
 function initCheckersGame() {
   checkersBoardState = Array(64).fill(null);
   checkersTurn = 'emerald';
   checkersSelectedCell = null;
   document.getElementById('checkersMsg').innerText = '';
 
-  // Setup initial pieces (rows 0,1,2 and 5,6,7 on dark cells)
   for (let r = 0; r < 8; r++) {
     for (let c = 0; c < 8; c++) {
-      if ((r + c) % 2 === 1) {
-        let idx = r * 8 + c;
-        if (r < 3) {
-          checkersBoardState[idx] = { player: 'gold', king: false };
-        } else if (r > 4) {
-          checkersBoardState[idx] = { player: 'emerald', king: false };
-        }
+      let idx = r * 8 + c;
+      if (r < 2) {
+        checkersBoardState[idx] = { player: 'gold', king: false };
+      } else if (r > 5) {
+        checkersBoardState[idx] = { player: 'emerald', king: false };
       }
     }
   }
@@ -2386,8 +2390,8 @@ function handleCheckersCellClick(idx) {
       renderCheckersBoard();
       return;
     }
-    // Attempt move
-    if (checkersBoardState[idx] === null && (r_c_dark(idx))) {
+    // Attempt Kurdish checkers move (straight forward, backward for king, and sides)
+    if (checkersBoardState[idx] === null) {
       let valid = isValidCheckersMove(checkersSelectedCell, idx);
       if (valid.allowed) {
         checkersBoardState[idx] = checkersBoardState[checkersSelectedCell];
@@ -2414,12 +2418,6 @@ function handleCheckersCellClick(idx) {
   }
 }
 
-function r_c_dark(idx) {
-  let r = Math.floor(idx / 8);
-  let c = idx % 8;
-  return (r + c) % 2 === 1;
-}
-
 function isValidCheckersMove(from, to) {
   let fromR = Math.floor(from / 8), fromC = from % 8;
   let toR = Math.floor(to / 8), toC = to % 8;
@@ -2427,27 +2425,32 @@ function isValidCheckersMove(from, to) {
   let colDiff = toC - fromC;
   let piece = checkersBoardState[from];
 
-  if (Math.abs(rowDiff) === 1 && Math.abs(colDiff) === 1) {
-    if (!piece.king) {
-      if (piece.player === 'emerald' && rowDiff > 0) return { allowed: false, jumpedIdx: null };
-      if (piece.player === 'gold' && rowDiff < 0) return { allowed: false, jumpedIdx: null };
+  let forwardDir = (piece.player === 'emerald') ? -1 : 1;
+
+  // Normal step: 1 step forward or to the sides (Kurdish checkers rule: straight ahead or sideways)
+  if (!piece.king) {
+    if (rowDiff === forwardDir && colDiff === 0) return { allowed: true, jumpedIdx: null };
+    if (rowDiff === 0 && Math.abs(colDiff) === 1) return { allowed: true, jumpedIdx: null };
+  } else {
+    // King can move multiple or 1 step straight/sides/back
+    if (Math.abs(rowDiff) <= 1 && Math.abs(colDiff) <= 1 && (rowDiff !== 0 || colDiff !== 0)) {
+      return { allowed: true, jumpedIdx: null };
     }
-    return { allowed: true, jumpedIdx: null };
   }
 
-  if (Math.abs(rowDiff) === 2 && Math.abs(colDiff) === 2) {
-    let midR = (fromR + toR) / 2;
-    let midC = (fromC + toC) / 2;
+  // Jump capture (2 steps forward or sideways over opponent)
+  if ((Math.abs(rowDiff) === 2 && colDiff === 0) || (rowDiff === 0 && Math.abs(colDiff) === 2)) {
+    let midR = fromR + rowDiff / 2;
+    let midC = fromC + colDiff / 2;
     let midIdx = midR * 8 + midC;
     let midPiece = checkersBoardState[midIdx];
     if (midPiece && midPiece.player !== piece.player) {
-      if (!piece.king) {
-        if (piece.player === 'emerald' && rowDiff > 0) return { allowed: false, jumpedIdx: null };
-        if (piece.player === 'gold' && rowDiff < 0) return { allowed: false, jumpedIdx: null };
-      }
+      if (!piece.king && rowDiff === -2 && forwardDir === 1) return { allowed: false, jumpedIdx: null };
+      if (!piece.king && rowDiff === 2 && forwardDir === -1) return { allowed: false, jumpedIdx: null };
       return { allowed: true, jumpedIdx: midIdx };
     }
   }
+
   return { allowed: false, jumpedIdx: null };
 }
 
@@ -2482,7 +2485,7 @@ function botCheckersMove() {
     let p = checkersBoardState[i];
     if (p && p.player === 'gold') {
       let r = Math.floor(i / 8), c = i % 8;
-      let targets = [i-9, i-7, i+9, i+7, i-18, i-14, i+18, i+14];
+      let targets = [i+8, i+1, i-1, i+16];
       for (let t of targets) {
         if (t >= 0 && t < 64 && Math.abs((t%8) - c) <= 2) {
           let v = isValidCheckersMove(i, t);
@@ -2506,7 +2509,7 @@ function botCheckersMove() {
   }
 }
 
-// Tic-Tac-Toe Game Logic
+// Tic-Tac-Toe Game Logic with Winning Line Highlight
 function initTTTGame() {
   tttBoardState = Array(9).fill('');
   tttTurn = 'X';
@@ -2514,7 +2517,10 @@ function initTTTGame() {
   document.getElementById('tttMsg').innerText = '';
   document.getElementById('tttTurnText').innerText = "نۆبەی: X";
   let cells = document.querySelectorAll('.tictactoe-cell');
-  cells.forEach(c => c.innerText = '');
+  cells.forEach(c => {
+    c.innerText = '';
+    c.classList.remove('winning-cell');
+  });
 }
 
 function makeTTTMove(idx) {
@@ -2523,7 +2529,9 @@ function makeTTTMove(idx) {
   let cells = document.querySelectorAll('.tictactoe-cell');
   cells[idx].innerText = tttTurn;
   
-  if (checkTTTWin(tttTurn)) {
+  let winComb = getTTTWinningCombination(tttTurn);
+  if (winComb) {
+    winComb.forEach(i => cells[i].classList.add('winning-cell'));
     document.getElementById('tttMsg').innerText = `یاری تەواو بوو! ${tttTurn} بردییەوە 🏆`;
     tttActive = false;
     return;
@@ -2542,13 +2550,13 @@ function makeTTTMove(idx) {
   }
 }
 
-function checkTTTWin(player) {
+function getTTTWinningCombination(player) {
   const wins = [
     [0,1,2],[3,4,5],[6,7,8],
     [0,3,6],[1,4,7],[2,5,8],
     [0,4,8],[2,4,6]
   ];
-  return wins.some(comb => comb.every(i => tttBoardState[i] === player));
+  return wins.find(comb => comb.every(i => tttBoardState[i] === player)) || null;
 }
 
 function botTTTMove() {
@@ -2559,16 +2567,15 @@ function botTTTMove() {
   
   let targetIdx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
   if (botDifficulty === 'hard' || botDifficulty === 'normal') {
-    // Basic smart check for win or block
     for (let i of emptyIndices) {
       tttBoardState[i] = 'O';
-      if (checkTTTWin('O')) { targetIdx = i; tttBoardState[i] = ''; break; }
+      if (getTTTWinningCombination('O')) { targetIdx = i; tttBoardState[i] = ''; break; }
       tttBoardState[i] = '';
     }
     if (targetIdx === emptyIndices[0]) {
       for (let i of emptyIndices) {
         tttBoardState[i] = 'X';
-        if (checkTTTWin('X')) { targetIdx = i; tttBoardState[i] = ''; break; }
+        if (getTTTWinningCombination('X')) { targetIdx = i; tttBoardState[i] = ''; break; }
         tttBoardState[i] = '';
       }
     }
@@ -2578,7 +2585,9 @@ function botTTTMove() {
   let cells = document.querySelectorAll('.tictactoe-cell');
   cells[targetIdx].innerText = 'O';
   
-  if (checkTTTWin('O')) {
+  let winComb = getTTTWinningCombination('O');
+  if (winComb) {
+    winComb.forEach(i => cells[i].classList.add('winning-cell'));
     document.getElementById('tttMsg').innerText = "یاری تەواو بوو! ڕۆبۆت بردییەوە 🤖";
     tttActive = false;
     return;
