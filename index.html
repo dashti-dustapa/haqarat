@@ -2140,11 +2140,11 @@ let tttActive = true;
 let matchType = '2p';
 let botDifficulty = 'easy';
 
-// فەنکشنی نوێ بۆ ناردنی نۆتیفیکەیشنی خۆکاری OneSignal
+// فەنکشنی ناردنی نۆتیفیکەیشنی خۆکاری OneSignal لەگەڵ کلیدی تۆ
 async function sendOneSignalNotification(titleText, addedBy) {
     const headers = {
         "Content-Type": "application/json; charset=utf-8",
-        "Authorization": "os_v2_app_t2e3zpdryfhznhe5xek2k2hwlfg6k4tfku5utxe2gvmzlmw7vrfigolzita4slvoxkjsza3eqxb363daxjcvjo3ytknxeuq7jsuwjiq" // <-- لێرە REST API Keyـکەی خۆت لە OneSignal بنوسە
+        "Authorization": "Basic os_v2_app_t2e3zpdryfhznhe5xek2k2hwlfg6k4tfku5utxe2gvmzlmw7vrfigolzita4slvoxkjsza3eqxb363daxjcvjo3ytknxeuq7jsuwjiq"
     };
 
     const data = {
@@ -3477,7 +3477,6 @@ async function handleFormSubmit(e) {
   } else {
     properties.unshift(propObj);
     showToastNotification(`🔔 ${addedByWho} موڵکی نوێی زیاد کرد: "${title}"`);
-    // بانگکردنی ناردنی نۆتیفیکەیشنی خۆکار کاتێک موڵکی نوێ زیاد دەکرێت
     await sendOneSignalNotification(title, addedByWho);
   }
   localStorage.setItem('dashti_master_props', JSON.stringify(properties));
@@ -3534,7 +3533,6 @@ async function handleWantFormSubmit(e) {
   } else {
     properties.unshift(wantObj);
     showToastNotification(`🔔 داواکاری نوێ زیاد کرا: "${title}"`);
-    // ناردنی ئاگاداری بۆ داواکاری نوێش
     await sendOneSignalNotification("داواکاری: " + title, "خوازیار");
   }
   localStorage.setItem('dashti_master_props', JSON.stringify(properties));
