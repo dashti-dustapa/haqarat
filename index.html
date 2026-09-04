@@ -8,18 +8,6 @@
 <link id="appAppleIcon" rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<!-- OneSignal Web SDK -->
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "9e89bcbc-71c1-4f96-9c9d-b915a568f659",
-      safari_web_id: "",
-      notifyButton: { enable: true },
-    });
-  });
-</script>
 <style>
 :root {
   --primary: #0284c7;
@@ -2140,31 +2128,6 @@ let tttActive = true;
 let matchType = '2p';
 let botDifficulty = 'easy';
 
-// فەنکشنی ناردنی نۆتیفیکەیشنی خۆکاری OneSignal لەگەڵ کلیدی تۆ
-async function sendOneSignalNotification(titleText, addedBy) {
-    const headers = {
-        "Content-Type": "application/json; charset=utf-8",
-        "Authorization": "Basic os_v2_app_t2e3zpdryfhznhe5xek2k2hwlfg6k4tfku5utxe2gvmzlmw7vrfigolzita4slvoxkjsza3eqxb363daxjcvjo3ytknxeuq7jsuwjiq"
-    };
-
-    const data = {
-        app_id: "9e89bcbc-71c1-4f96-9c9d-b915a568f659",
-        included_segments: ["All"],
-        contents: { "en": "موڵکی نوێ زیادکرا (" + titleText + ") لەلایەن: " + addedBy },
-        headings: { "en": "عقارات دەشتی دوستەپە" }
-    };
-
-    try {
-        await fetch("https://onesignal.com/api/v1/notifications", {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(data)
-        });
-    } catch (error) {
-        console.error("هەڵە لە ناردنی نۆتیفیکەیشن:", error);
-    }
-}
-
 function showToastNotification(msg) {
   const toast = document.getElementById('toastNotificationBox');
   const textEl = document.getElementById('toastMsgText');
@@ -3477,7 +3440,6 @@ async function handleFormSubmit(e) {
   } else {
     properties.unshift(propObj);
     showToastNotification(`🔔 ${addedByWho} موڵکی نوێی زیاد کرد: "${title}"`);
-    await sendOneSignalNotification(title, addedByWho);
   }
   localStorage.setItem('dashti_master_props', JSON.stringify(properties));
   renderProperties();
@@ -3533,7 +3495,6 @@ async function handleWantFormSubmit(e) {
   } else {
     properties.unshift(wantObj);
     showToastNotification(`🔔 داواکاری نوێ زیاد کرا: "${title}"`);
-    await sendOneSignalNotification("داواکاری: " + title, "خوازیار");
   }
   localStorage.setItem('dashti_master_props', JSON.stringify(properties));
   renderProperties();
