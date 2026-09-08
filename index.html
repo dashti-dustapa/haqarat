@@ -1608,7 +1608,7 @@ body.dark-mode .skeleton-shimmer {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Ronaki Game Specific UI inside Overlay */
+/* Ronaki Game Specific UI inside Overlay with Floating Joystick */
 #ronakiGameOverlay {
   display: none;
   position: fixed;
@@ -1618,62 +1618,62 @@ body.dark-mode .skeleton-shimmer {
   flex-direction: column;
 }
 #ronakiCanvas{position:fixed; inset:0; display:block;}
-.ronaki-veil{
-  position:fixed; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  background:radial-gradient(circle at 50% 40%, rgba(20,20,35,0.55), rgba(2,3,8,0.94));
-  z-index:30;
-  animation:fadeIn .5s ease;
-}
-.ronaki-card{
-  direction:rtl;
-  text-align:center;
-  max-width:600px;
-  width:90%;
-  max-height:88vh;
-  overflow-y:auto;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:4px;
-  padding:34px 32px 30px;
-  box-shadow:0 0 60px rgba(255,207,107,0.08), 0 20px 50px rgba(0,0,0,0.6);
-  position:relative;
-}
-.ronaki-card::before{
-  content:"";
-  position:absolute; inset:8px;
-  border:1px solid rgba(255,207,107,0.15);
-  border-radius:2px;
-  pointer-events:none;
-}
 #ronakiHud{ position:fixed; inset:0; pointer-events:none; z-index:10; direction:rtl; }
 #ronakiPowerupRow{
   position:absolute; top:100px; right:16px;
   display:flex; flex-direction:column; gap:6px;
 }
 #ronakiMinimapWrap{
-  position:absolute; bottom:16px; left:16px; width:120px; height:120px;
+  position:absolute; bottom:16px; left:16px; width:100px; height:100px;
   background:var(--panel); border:1px solid var(--line); border-radius:50%; overflow:hidden;
+  pointer-events: auto;
 }
 #ronakiMinimap{ width:100%; height:100%; display:block; }
 #ronakiStageBanner{
   position:absolute; top:80px; left:50%; transform:translateX(-50%);
   background:var(--panel); border:1px solid var(--line); border-radius:3px;
-  padding:10px 22px; font-size:13.5px; color:var(--gold-soft); text-align:center;
+  padding:8px 18px; font-size:12.5px; color:var(--gold-soft); text-align:center;
   direction:rtl; opacity:0; transition:opacity .5s ease; max-width:78vw;
 }
 #ronakiStageBanner.show{ opacity:1; }
-#ronakiTouchControls{
-  position:fixed; bottom:24px; right:24px; z-index:15; display:none;
-  grid-template-columns:52px 52px 52px; grid-template-rows:52px 52px 52px; gap:5px;
+
+/* Floating Virtual Analog Joystick for Mobile */
+#ronakiJoystickBase {
+  position: fixed;
+  bottom: 35px;
+  left: 35px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 207, 107, 0.25);
+  z-index: 25;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
-#ronakiTouchControls.show{ display:grid; }
+#ronakiJoystickBase.show { display: flex; }
+#ronakiJoystickStick {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 207, 107, 0.4);
+  border: 1px solid rgba(255, 207, 107, 0.7);
+  box-shadow: 0 0 12px rgba(255, 207, 107, 0.3);
+  position: absolute;
+  touch-action: none;
+  pointer-events: none;
+}
 #ronakiDashTouch{
-  position:fixed; bottom:24px; right:196px; z-index:15;
-  width:60px; height:60px; border-radius:50%;
-  background:rgba(139,107,255,0.18); border:1px solid rgba(139,107,255,0.5);
-  color:var(--purple); font-size:11px; display:none; align-items:center; justify-content:center;
+  position:fixed; bottom:40px; right:35px; z-index:25;
+  width:65px; height:65px; border-radius:50%;
+  background:rgba(139,107,255,0.25); border:1.5px solid rgba(139,107,255,0.6);
+  color:var(--purple); font-size:12px; font-weight:800; display:none; align-items:center; justify-content:center;
   text-align:center; touch-action:none; user-select:none; -webkit-user-select:none;
+  box-shadow: 0 0 15px rgba(139,107,255,0.35);
 }
 #ronakiDashTouch.show{ display:flex; }
 #ronakiHurtFlash{ position:fixed; inset:0; pointer-events:none; z-index:16; background:rgba(139,107,255,0.25); opacity:0; transition:opacity .12s ease; }
@@ -1873,7 +1873,7 @@ body.dark-mode .skeleton-shimmer {
   </div>
 </div>
 
-<!-- Ronaki Game Overlay Integration (Direct Play, No Game Over Screen) -->
+<!-- Ronaki Game Overlay Integration (Direct Play + Joystick) -->
 <div id="ronakiGameOverlay">
   <canvas id="ronakiCanvas"></canvas>
   <div id="ronakiHurtFlash"></div>
@@ -1900,14 +1900,13 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </div>
     <div id="ronakiPowerupRow"></div>
-    <div id="ronakiMinimapWrap"><canvas id="ronakiMinimap" width="120" height="120"></canvas></div>
-    <div style="position:absolute; bottom:16px; right:20px; font-size:12px; color:rgba(243,234,217,0.75); direction:rtl; cursor:pointer; background:var(--panel); padding:6px 12px; border-radius:6px; border:1px solid var(--line);" onclick="closeRonakiGame()">❌ داخستنی یاری</div>
+    <div id="ronakiMinimapWrap"><canvas id="ronakiMinimap" width="100" height="100"></canvas></div>
+    <div style="position:absolute; bottom:16px; right:20px; font-size:12px; color:rgba(243,234,217,0.75); direction:rtl; cursor:pointer; background:var(--panel); padding:6px 12px; border-radius:6px; border:1px solid var(--line); pointer-events:auto;" onclick="closeRonakiGame()">❌ داخستنی یاری</div>
   </div>
 
-  <div id="ronakiTouchControls">
-    <div></div><div class="tbtn" id="r-btn-up">▲</div><div></div>
-    <div class="tbtn" id="r-btn-left">◀</div><div></div><div class="tbtn" id="r-btn-right">▶</div>
-    <div></div><div class="tbtn" id="r-btn-down">▼</div><div></div>
+  <!-- Virtual Analog Joystick for Mobile -->
+  <div id="ronakiJoystickBase">
+    <div id="ronakiJoystickStick"></div>
   </div>
   <div id="ronakiDashTouch">خێرا</div>
 </div>
@@ -3751,7 +3750,7 @@ function closeRonakiGame(){
 }
 </script>
 
-<!-- Ronaki Game Engine Script (Auto Restart on Lose, No Game Over Screen) -->
+<!-- Ronaki Game Engine Script (Direct Play + Floating Analog Joystick) -->
 <script>
 (function(){
   "use strict";
@@ -3760,22 +3759,19 @@ function closeRonakiGame(){
       name: "قۆناغی یەکەم — دابەزین بۆ تاریکی",
       shardCount: 5, enemyCount: 4, enemySpeed: 5.0, chaseRadius: 9, worldRadius: 36,
       boss: false, fogColor: 0x05070d, powerups: ["shield"],
-      intro: "لە یەکەم هەنگاوی گەشتەکەت، تاریکی هێشتا سووکە. کریستاڵەکان لە نزیکترین شوێنەکانن، بەڵام چاودێری یەکەم تاریکەکان بکە.",
-      clearStory: "٥ کریستاڵی یەکەم کۆکرانەوە! قوللەی کۆن سووکە ڕووناک بووەوە. بەڵام گەشتەکە هێشتا درێژە هەیە — داڕێکی قووڵتر لە پێشتەوەیە."
+      intro: "", clearStory: ""
     },
     {
       name: "قۆناغی دووەم — داڕی قووڵ",
       shardCount: 5, enemyCount: 6, enemySpeed: 6.1, chaseRadius: 11, worldRadius: 42,
       boss: false, fogColor: 0x04050c, powerups: ["speed","magnet"],
-      intro: "داڕی قووڵتر، تاریکی چڕترە. تاریکەکان ئێستا خێراترن و زۆرترن. هێزی خێرایی و ئاسنکێش لەم قۆناغەدا شاراوەیە.",
-      clearStory: "کریستاڵەکانی داڕی قووڵ کۆکرانەوە. بەڵام هەستێک هەیە کە شتێکی گەورەتر لە قووڵایی تاریکستاندا هەڵدەستێت..."
+      intro: "", clearStory: ""
     },
     {
       name: "قۆناغی سێیەم — بەرەنگاربوونەوەی گەورە تاریکی",
       shardCount: 4, enemyCount: 2, enemySpeed: 6.6, chaseRadius: 17, worldRadius: 46,
       boss: true, fogColor: 0x030309, powerups: ["shield"],
-      intro: "ئێستا تۆ لە بەردەم گەورە تاریکیدا ڕاوەستاویت. ئەو نایەت لات بێت تەنها — گۆی تاریکیت بۆ دەنێرێت. لێی ڕابکە، کریستاڵەکان کۆبکەرەوە!",
-      clearStory: ""
+      intro: "", clearStory: ""
     }
   ];
 
@@ -3850,8 +3846,6 @@ function closeRonakiGame(){
   function sfxDash(){ tone(320,0.1,"square",0.08); }
   function sfxProjectile(){ tone(200,0.15,"sawtooth",0.09); }
   function sfxStageClear(){ tone(523,0.18,"sine",0.15); tone(659,0.18,"sine",0.15,0.12); tone(784,0.3,"sine",0.16,0.24); }
-  function sfxWin(){ tone(523,0.2,"sine",0.16); tone(659,0.2,"sine",0.16,0.15); tone(784,0.2,"sine",0.16,0.3); tone(1046,0.5,"sine",0.18,0.45); }
-  function sfxLose(){ tone(300,0.3,"sawtooth",0.15); tone(220,0.35,"sawtooth",0.15,0.22); tone(140,0.6,"sawtooth",0.15,0.44); }
 
   const canvas = document.getElementById("ronakiCanvas");
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -4156,6 +4150,65 @@ function closeRonakiGame(){
     sfxProjectile();
   }
 
+  // Floating Virtual Analog Joystick Control Integration
+  const joystickBase = document.getElementById("ronakiJoystickBase");
+  const joystickStick = document.getElementById("ronakiJoystickStick");
+  let joystickTouchId = null;
+  let joyStartX = 0, joyStartY = 0;
+  const maxRadius = 35;
+
+  if ('ontouchstart' in window) {
+    joystickBase.classList.add("show");
+  }
+
+  window.addEventListener("touchstart", (e)=>{
+    if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
+    for (let t of e.changedTouches) {
+      if (t.clientX < window.innerWidth / 2 && joystickTouchId === null) {
+        joystickTouchId = t.identifier;
+        joyStartX = t.clientX;
+        joyStartY = t.clientY;
+        joystickBase.style.left = (joyStartX - 55) + "px";
+        joystickBase.style.bottom = (window.innerHeight - joyStartY - 55) + "px";
+        joystickBase.classList.add("show");
+        joystickStick.style.transform = `translate(0px, 0px)`;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("touchmove", (e)=>{
+    if (joystickTouchId === null) return;
+    for (let t of e.changedTouches) {
+      if (t.identifier === joystickTouchId) {
+        let dx = t.clientX - joyStartX;
+        let dy = t.clientY - joyStartY;
+        const dist = Math.hypot(dx, dy);
+        if (dist > maxRadius) {
+          dx = (dx / dist) * maxRadius;
+          dy = (dy / dist) * maxRadius;
+        }
+        joystickStick.style.transform = `translate(${dx}px, ${dy}px)`;
+        state.keys["a"] = dx < -10;
+        state.keys["d"] = dx > 10;
+        state.keys["w"] = dy < -10;
+        state.keys["s"] = dy > 10;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("touchend", (e)=>{
+    for (let t of e.changedTouches) {
+      if (t.identifier === joystickTouchId) {
+        joystickTouchId = null;
+        joystickStick.style.transform = `translate(0px, 0px)`;
+        state.keys["a"] = false;
+        state.keys["d"] = false;
+        state.keys["w"] = false;
+        state.keys["s"] = false;
+      }
+    }
+  }, {passive:false});
+
   window.addEventListener("keydown", (e)=>{
     if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
     const key = e.key.toLowerCase();
@@ -4164,27 +4217,12 @@ function closeRonakiGame(){
   });
   window.addEventListener("keyup", (e)=>{ state.keys[e.key.toLowerCase()] = false; });
 
-  function bindTouch(id, key){
-    const el = document.getElementById(id);
-    if (!el) return;
-    const on = (ev)=>{ ev.preventDefault(); state.keys[key]=true; };
-    const off = (ev)=>{ ev.preventDefault(); state.keys[key]=false; };
-    el.addEventListener("touchstart", on, {passive:false});
-    el.addEventListener("touchend", off, {passive:false});
-    el.addEventListener("touchcancel", off, {passive:false});
-    el.addEventListener("mousedown", on);
-    el.addEventListener("mouseup", off);
-    el.addEventListener("mouseleave", off);
-  }
-  bindTouch("r-btn-up","w"); bindTouch("r-btn-down","s"); bindTouch("r-btn-left","a"); bindTouch("r-btn-right","d");
-  
   const ronakiDashTouch = document.getElementById("ronakiDashTouch");
   const dashTouchHandler = (ev)=>{ ev.preventDefault(); tryDash(); };
   ronakiDashTouch.addEventListener("touchstart", dashTouchHandler, {passive:false});
   ronakiDashTouch.addEventListener("mousedown", dashTouchHandler);
 
   if ('ontouchstart' in window){
-    document.getElementById("ronakiTouchControls").classList.add("show");
     ronakiDashTouch.classList.add("show");
   }
 
@@ -4210,10 +4248,6 @@ function closeRonakiGame(){
   const elScoreVal = document.getElementById("ronakiScoreVal");
   const elDashBarFill = document.getElementById("ronakiDashBarFill");
   const elHud = document.getElementById("ronakiHud");
-  const elStageClear = document.getElementById("ronakiStageClearScreen");
-  const elStageClearKicker = document.getElementById("ronakiStageClearKicker");
-  const elStageClearTitle = document.getElementById("ronakiStageClearTitle");
-  const elStageClearStory = document.getElementById("ronakiStageClearStory");
   const elHurt = document.getElementById("ronakiHurtFlash");
   const elStageBanner = document.getElementById("ronakiStageBanner");
   const elPowerupRow = document.getElementById("ronakiPowerupRow");
@@ -4247,7 +4281,7 @@ function closeRonakiGame(){
     elStageBanner.textContent = text;
     elStageBanner.classList.add("show");
     if (bannerTimeout) clearTimeout(bannerTimeout);
-    bannerTimeout = setTimeout(()=>{ elStageBanner.classList.remove("show"); }, 5200);
+    bannerTimeout = setTimeout(()=>{ elStageBanner.classList.remove("show"); }, 4000);
   }
 
   function initStage(idx){
@@ -4262,7 +4296,6 @@ function closeRonakiGame(){
     buildEnemiesForStage(cfg);
     scene.fog.color.setHex(cfg.fogColor);
     refreshHud();
-    showBanner(cfg.name + " — " + cfg.intro);
   }
 
   function start(){
@@ -4293,7 +4326,6 @@ function closeRonakiGame(){
   }
 
   function endGame(won){
-    // ئەگەر یارییەکە دۆڕا، ڕاستەوخۆ و بێ هیچ چاوەڕوانییەک دووبارە دەست پێبکاتەوە (Auto Restart)
     start();
   }
 
@@ -4301,7 +4333,7 @@ function closeRonakiGame(){
     const idx = state.stageIndex;
     const isLast = idx === STAGES.length - 1;
     if (isLast){ 
-      start(); // لە کۆتایی قۆناغەکاندا سەرلەنوێ دەست پێدەکاتەوە
+      start(); 
       return; 
     }
     sfxStageClear();
