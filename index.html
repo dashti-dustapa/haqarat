@@ -1926,7 +1926,7 @@ body.dark-mode .skeleton-shimmer {
     <div class="ronaki-card">
       <h2>وەستاوە</h2>
       <p class="story">یاریەکە وەستاوە. کاتێک ئامادەبوویت، بەردەوامبە.</p>
-      <button class="primary" onclick="window.__ronakiGame.resume()">بەردەوامبوونەوە</button>
+      <button class="primary" id="ronakiResumeBtn" onclick="window.__ronakiGame.resume(); document.getElementById('ronakiPauseScreen').classList.add('hidden');">بەردەوامبوونەوە</button>
       <button class="secondary" onclick="closeRonakiGame()" style="margin-top:10px;">داخستنی یاری</button>
     </div>
   </div>
