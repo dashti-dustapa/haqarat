@@ -4494,4 +4494,555 @@ function closeKoshkiZanaGame(){
   const enemyGeo = new THREE.IcosahedronGeometry(0.75, 1);
   const enemyMat = new THREE.MeshStandardMaterial({ color:0x1a0f2e, emissive:0x8b6bff, emissiveIntensity:0.9, roughness:0.4 });
   const bossGeo = new THREE.IcosahedronGeometry(1.9, 1);
-  const bossMat = new THREE.MeshStandardMaterial({ color:0x150a24, emissive:0xff5aSorry, something went wrong. Please try your request again.
+  const bossMat = new THREE.MeshStandardMaterial({ color:0x150a24, emissive:0xff5a5a, emissiveIntensity:0.85, roughness:0.35 });
+  const projGeo = new THREE.SphereGeometry(CFG.BOSS_PROJECTILE_RADIUS*0.55, 10, 10);
+  const projMat = new THREE.MeshStandardMaterial({ color:0x2a0f1a, emissive:0xff5a5a, emissiveIntensity:1.3 });
+
+  function clearEnemies(){ for(const e of enemies){ if (e.parent) scene.remove(e); } enemies = []; }
+  function clearProjectiles(){ for(const p of bossProjectiles){ if (p.mesh.parent) scene.remove(p.mesh); } bossProjectiles = []; }
+
+  function pickNewWanderTarget(e, worldRadius){
+    const ang = Math.random()*Math.PI*2;
+    const rad = 6 + Math.random()*(worldRadius-8);
+    e.userData.wanderTarget.set(Math.cos(ang)*rad, 0, Math.sin(ang)*rad);
+    e.userData.wanderTimer = 3 + Math.random()*3;
+  }
+  function buildEnemiesForStage(stageCfg){
+    clearEnemies();
+    clearProjectiles();
+    const minionCount = stageCfg.boss ? Math.max(0, stageCfg.enemyCount - 1) : stageCfg.enemyCount;
+    for(let i=0;i<minionCount;i++){
+      const mesh = new THREE.Mesh(enemyGeo, enemyMat);
+      const ang = (i/Math.max(1,minionCount))*Math.PI*2 + Math.random();
+      const rad = 14 + Math.random()*(stageCfg.worldRadius-16);
+      const x = Math.cos(ang)*rad, z = Math.sin(ang)*rad;
+      mesh.position.set(x, groundHeightAt(x,z)+0.8, z);
+      addGlowSprite(mesh, purpleGlowTex, 2.6, 0x8b6bff);
+      mesh.userData = {
+        isBoss:false, speed: stageCfg.enemySpeed, chaseRadius: stageCfg.chaseRadius,
+        catchRadius: CFG.CATCH_RADIUS, wanderTarget: new THREE.Vector3(x,0,z), wanderTimer: 0
+      };
+      scene.add(mesh);
+      enemies.push(mesh);
+    }
+    if (stageCfg.boss){
+      const boss = new THREE.Mesh(bossGeo, bossMat);
+      boss.position.set(0, groundHeightAt(0, stageCfg.worldRadius*0.6)+1.5, stageCfg.worldRadius*0.6);
+      addGlowSprite(boss, redGlowTex, 6, 0xff5a5a);
+      const orbitGroup = new THREE.Group();
+      for(let k=0;k<3;k++){
+        const chip = new THREE.Mesh(
+          new THREE.IcosahedronGeometry(0.35,0),
+          new THREE.MeshStandardMaterial({ color:0x2a0f1a, emissive:0xff5a5a, emissiveIntensity:0.8 })
+        );
+        const orbitAng = (k/3)*Math.PI*2;
+        chip.position.set(Math.cos(orbitAng)*2.6, 0, Math.sin(orbitAng)*2.6);
+        orbitGroup.add(chip);
+      }
+      boss.add(orbitGroup);
+      boss.userData = {
+        isBoss:true, speed: stageCfg.enemySpeed, chaseRadius: stageCfg.chaseRadius,
+        catchRadius: CFG.BOSS_CATCH_RADIUS, wanderTarget: new THREE.Vector3(boss.position.x,0,boss.position.z),
+        wanderTimer: 0, orbitGroup, attackCooldown: 2.0
+      };
+      scene.add(boss);
+      enemies.push(boss);
+    }
+  }
+  function fireBossProjectile(boss){
+    const mesh = new THREE.Mesh(projGeo, projMat);
+    mesh.position.copy(boss.position);
+    addGlowSprite(mesh, redGlowTex, 2.4, 0xff5a5a);
+    const dir = new THREE.Vector3(player.position.x-boss.position.x, 0, player.position.z-boss.position.z).normalize();
+    scene.add(mesh);
+    bossProjectiles.push({ mesh, dir, life: 0, maxLife: 6 });
+    sfxProjectile();
+  }
+
+  const joystickBase = document.getElementById("ronakiJoystickBase");
+  const joystickStick = document.getElementById("ronakiJoystickStick");
+  let joystickTouchId = null;
+  let joyStartX = 0, joyStartY = 0;
+  const maxRadius = 35;
+
+  if ('ontouchstart' in window) {
+    joystickBase.classList.add("show");
+  }
+
+  window.addEventListener("touchstart", (e)=>{
+    if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
+    for (let t of e.changedTouches) {
+      if (t.clientX < window.innerWidth / 2 && joystickTouchId === null) {
+        joystickTouchId = t.identifier;
+        joyStartX = t.clientX;
+        joyStartY = t.clientY;
+        joystickBase.style.left = (joyStartX - 55) + "px";
+        joystickBase.style.bottom = (window.innerHeight - joyStartY - 55) + "px";
+        joystickBase.classList.add("show");
+        joystickStick.style.transform = `translate(0px, 0px)`;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("touchmove", (e)=>{
+    if (joystickTouchId === null) return;
+    for (let t of e.changedTouches) {
+      if (t.identifier === joystickTouchId) {
+        let dx = t.clientX - joyStartX;
+        let dy = t.clientY - joyStartY;
+        const dist = Math.hypot(dx, dy);
+        if (dist > maxRadius) {
+          dx = (dx / dist) * maxRadius;
+          dy = (dy / dist) * maxRadius;
+        }
+        joystickStick.style.transform = `translate(${dx}px, ${dy}px)`;
+        state.keys["a"] = dx < -10;
+        state.keys["d"] = dx > 10;
+        state.keys["w"] = dy < -10;
+        state.keys["s"] = dy > 10;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("touchend", (e)=>{
+    for (let t of e.changedTouches) {
+      if (t.identifier === joystickTouchId) {
+        joystickTouchId = null;
+        joystickStick.style.transform = `translate(0px, 0px)`;
+        state.keys["a"] = false;
+        state.keys["d"] = false;
+        state.keys["w"] = false;
+        state.keys["s"] = false;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("keydown", (e)=>{
+    if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
+    const key = e.key.toLowerCase();
+    state.keys[key] = true;
+    if (key === "shift"){ tryDash(); }
+  });
+  window.addEventListener("keyup", (e)=>{ state.keys[e.key.toLowerCase()] = false; });
+
+  const ronakiDashTouch = document.getElementById("ronakiDashTouch");
+  const dashTouchHandler = (ev)=>{ ev.preventDefault(); tryDash(); };
+  ronakiDashTouch.addEventListener("touchstart", dashTouchHandler, {passive:false});
+  ronakiDashTouch.addEventListener("mousedown", dashTouchHandler);
+
+  if ('ontouchstart' in window){
+    ronakiDashTouch.classList.add("show");
+  }
+
+  function tryDash(){
+    if (state.mode !== "playing") return;
+    const now = performance.now()/1000;
+    if (now < state.dashCooldownUntil) return;
+    const dir = lastMoveDir.clone();
+    if (dir.lengthSq() < 0.001) return;
+    dir.normalize();
+    playerVel.copy(dir.multiplyScalar(CFG.DASH_SPEED));
+    state.dashActiveUntil = now + CFG.DASH_TIME;
+    state.dashCooldownUntil = now + CFG.DASH_COOLDOWN;
+    state.invulnUntil = Math.max(state.invulnUntil, now + CFG.DASH_TIME + 0.1);
+    sfxDash();
+    spawnBurst(player.position.clone(), whiteGlowTex, 0xffe4a8, 8, 3);
+  }
+
+  const elShardCount = document.getElementById("ronakiShardCount");
+  const elShardTotal = document.getElementById("ronakiShardTotal");
+  const elStageNum = document.getElementById("ronakiStageNum");
+  const elLives = document.getElementById("ronakiLives");
+  const elScoreVal = document.getElementById("ronakiScoreVal");
+  const elDashBarFill = document.getElementById("ronakiDashBarFill");
+  const elHud = document.getElementById("ronakiHud");
+  const elHurt = document.getElementById("ronakiHurtFlash");
+  const elStageBanner = document.getElementById("ronakiStageBanner");
+  const elPowerupRow = document.getElementById("ronakiPowerupRow");
+  const minimapCanvas = document.getElementById("ronakiMinimap");
+  const mmCtx = minimapCanvas.getContext("2d");
+
+  elShardTotal.textContent = TOTAL_SHARDS_ALL;
+
+  function refreshHud(){
+    elShardCount.textContent = state.totalShardsCollected;
+    elStageNum.textContent = state.stageIndex + 1;
+    elScoreVal.textContent = state.score;
+    let hearts = "";
+    for(let i=0;i<CFG.TOTAL_LIVES;i++){ hearts += i < state.lives ? "💛" : "🖤"; }
+    elLives.textContent = hearts;
+  }
+  function refreshPowerupRow(){
+    const now = performance.now()/1000;
+    let html = "";
+    for(const type of Object.keys(state.powerupUntil)){
+      const remain = state.powerupUntil[type] - now;
+      if (remain > 0){
+        html += '<div class="powerup-chip">' + powerupLabels[type] + ' — ' + Math.ceil(remain) + 'چ</div>';
+      }
+    }
+    elPowerupRow.innerHTML = html;
+  }
+
+  let bannerTimeout = null;
+  function showBanner(text){
+    if(!text) return;
+    elStageBanner.textContent = text;
+    elStageBanner.classList.add("show");
+    if (bannerTimeout) clearTimeout(bannerTimeout);
+    bannerTimeout = setTimeout(()=>{ elStageBanner.classList.remove("show"); }, 3000);
+  }
+
+  function initStage(idx){
+    const cfg = STAGES[idx];
+    state.stageIndex = idx;
+    state.stageShardsCollected = 0;
+    player.position.set(10, 0, 10);
+    playerVel.set(0,0,0);
+    const placedPoints = [];
+    buildShardsForStage(cfg, placedPoints);
+    buildPowerupsForStage(cfg, placedPoints);
+    buildEnemiesForStage(cfg);
+    scene.fog.color.setHex(cfg.fogColor);
+    refreshHud();
+    showBanner(cfg.name);
+  }
+
+  function start(){
+    ensureAudio();
+    state.totalShardsCollected = 0;
+    state.lives = CFG.TOTAL_LIVES;
+    state.invulnUntil = 0;
+    state.dashCooldownUntil = 0;
+    state.score = 0;
+    state.powerupUntil = { shield:0, speed:0, magnet:0 };
+    towerOrbMat.emissiveIntensity = 0.08;
+    towerOrbGlow.material.opacity = 0.15;
+    initStage(0);
+    state.mode = "playing";
+    elHud.classList.remove("hidden");
+  }
+
+  function goToNextStage(){
+    const nextIdx = state.stageIndex + 1;
+    elHud.classList.remove("hidden");
+    state.lives = Math.min(CFG.TOTAL_LIVES, state.lives + 1);
+    state.score += CFG.SCORE_PER_STAGE;
+    initStage(nextIdx);
+    state.mode = "playing";
+    refreshHud();
+  }
+
+  function stageComplete(){
+    const idx = state.stageIndex;
+    const isLast = idx === STAGES.length - 1;
+    if (isLast){ 
+      start(); 
+      return; 
+    }
+    sfxStageClear();
+    state.mode = "playing";
+    goToNextStage();
+  }
+
+  function stopGameEngine(){
+    state.mode = "start";
+    elHud.classList.add("hidden");
+  }
+
+  window.__ronakiGame = { start, restart: start, nextStage: goToNextStage, stop: stopGameEngine };
+
+  const clock = new THREE.Clock();
+
+  function triggerShake(mag, dur){
+    state.shakeUntil = performance.now()/1000 + dur;
+    state.shakeMag = mag;
+  }
+  function triggerHitStop(){
+    state.hitStopUntil = performance.now()/1000 + (CFG.HITSTOP_MS/1000);
+  }
+  function applyDamage(sourcePos){
+    const now = performance.now()/1000;
+    if (state.powerupUntil.shield > now) return;
+    state.lives--;
+    state.invulnUntil = now + CFG.INVULN_TIME;
+    refreshHud();
+    spawnBurst(player.position.clone(), purpleGlowTex, 0x8b6bff, 8, 2.5);
+    const away = new THREE.Vector3(player.position.x-sourcePos.x, 0, player.position.z-sourcePos.z).normalize();
+    playerVel.copy(away.multiplyScalar(18));
+    sfxHurt();
+    elHurt.style.opacity = "1";
+    setTimeout(()=>{ elHurt.style.opacity = "0"; }, 140);
+    triggerShake(0.5, 0.35);
+    triggerHitStop();
+    if (state.lives <= 0){ start(); }
+  }
+
+  function updatePlaying(delta, elapsed){
+    const stageCfg = STAGES[state.stageIndex];
+    const now = performance.now()/1000;
+    const dashing = now < state.dashActiveUntil;
+    const shieldOn = now < state.powerupUntil.shield;
+    const speedOn = now < state.powerupUntil.speed;
+    const magnetOn = now < state.powerupUntil.magnet;
+
+    shieldSprite.material.opacity = shieldOn ? (0.35 + Math.sin(elapsed*8)*0.12) : 0;
+
+    const cdRemain = Math.max(0, state.dashCooldownUntil - now);
+    const dashBtnEl = document.getElementById("ronakiDashTouch");
+    if (dashBtnEl) {
+      if (cdRemain > 0) {
+        dashBtnEl.classList.add("cooldown");
+        dashBtnEl.innerHTML = `خێرا<br><span style="font-size:10px;">${cdRemain.toFixed(1)}چ</span>`;
+      } else {
+        dashBtnEl.classList.remove("cooldown");
+        dashBtnEl.innerHTML = "خێرا ⚡";
+      }
+    }
+
+    const k = state.keys;
+    let ix = 0, iz = 0;
+    if (k["w"] || k["arrowup"]) iz -= 1;
+    if (k["s"] || k["arrowdown"]) iz += 1;
+    if (k["a"] || k["arrowleft"]) ix -= 1;
+    if (k["d"] || k["arrowright"]) ix += 1;
+
+    const inputVec = new THREE.Vector3(ix, 0, iz);
+    const speedMult = speedOn ? 1.6 : 1;
+    if (inputVec.lengthSq() > 0){
+      inputVec.normalize();
+      lastMoveDir.copy(inputVec);
+      inputVec.multiplyScalar(CFG.PLAYER_SPEED * speedMult);
+    }
+    if (!dashing){
+      playerVel.x += (inputVec.x - playerVel.x) * Math.min(1, delta*CFG.PLAYER_ACCEL);
+      playerVel.z += (inputVec.z - playerVel.z) * Math.min(1, delta*CFG.PLAYER_ACCEL);
+    }
+    player.position.x += playerVel.x * delta;
+    player.position.z += playerVel.z * delta;
+
+    const worldRadius = stageCfg.worldRadius;
+    const distFromCenter = Math.hypot(player.position.x, player.position.z);
+    if (distFromCenter > worldRadius){
+      const scale = worldRadius / distFromCenter;
+      player.position.x *= scale;
+      player.position.z *= scale;
+      playerVel.multiplyScalar(0.3);
+    }
+    player.position.y = groundHeightAt(player.position.x, player.position.z) + 0.9;
+
+    if (inputVec.lengthSq() > 0.01 || dashing){
+      player.rotation.y = Math.atan2(playerVel.x, playerVel.z);
+    }
+    playerCore.position.y = Math.sin(elapsed*3)*0.08;
+    playerGlow.scale.setScalar(dashing ? 4.4 : (speedOn ? 3.8 : 3.2));
+
+    if (dashing && Math.random() < 0.5){
+      spawnBurst(player.position.clone(), whiteGlowTex, 0xffe4a8, 1, 1.5);
+    }
+    playerLight.position.copy(player.position).add(new THREE.Vector3(0,1.5,0));
+
+    for(const s of shards){
+      if (s.userData.collected) continue;
+      s.rotation.y += delta*1.4;
+      let d = Math.hypot(s.position.x-player.position.x, s.position.z-player.position.z);
+      if (magnetOn && d < CFG.MAGNET_RADIUS){
+        const pullDir = new THREE.Vector3(player.position.x-s.position.x, 0, player.position.z-s.position.z).normalize();
+        s.position.x += pullDir.x * CFG.MAGNET_PULL_SPEED * delta;
+        s.position.z += pullDir.z * CFG.MAGNET_PULL_SPEED * delta;
+        d = Math.hypot(s.position.x-player.position.x, s.position.z-player.position.z);
+      } else {
+        s.position.y = s.userData.baseY + Math.sin(elapsed*2 + s.userData.phase)*0.28;
+      }
+      if (d < CFG.SHARD_PICKUP_RADIUS){
+        s.userData.collected = true;
+        spawnBurst(s.position.clone(), goldGlowTex, 0xffcf6b, 10, 2.2);
+        scene.remove(s);
+        sfxPickup();
+        state.stageShardsCollected++;
+        state.totalShardsCollected++;
+        state.score += CFG.SCORE_PER_SHARD;
+        towerOrbMat.emissiveIntensity = 0.08 + (state.totalShardsCollected/TOTAL_SHARDS_ALL)*1.4;
+        towerOrbGlow.material.opacity = 0.15 + (state.totalShardsCollected/TOTAL_SHARDS_ALL)*0.55;
+        refreshHud();
+        if (state.stageShardsCollected >= stageCfg.shardCount){ stageComplete(); return; }
+      }
+    }
+    towerOrb.rotation.y += delta*0.3;
+
+    for(const p of powerups){
+      if (p.userData.collected) continue;
+      p.rotation.y += delta*1.8;
+      p.position.y = p.userData.baseY + Math.sin(elapsed*2.4 + p.userData.phase)*0.25;
+      const d = Math.hypot(p.position.x-player.position.x, p.position.z-player.position.z);
+      if (d < CFG.POWERUP_PICKUP_RADIUS){
+        p.userData.collected = true;
+        spawnBurst(p.position.clone(), powerupGlowTex[p.userData.type], powerupColors[p.userData.type], 10, 2.2);
+        scene.remove(p);
+        activatePowerup(p.userData.type);
+      }
+    }
+
+    const invuln = now < state.invulnUntil;
+    for(const e of enemies){
+      const ud = e.userData;
+      const distToPlayer = Math.hypot(e.position.x-player.position.x, e.position.z-player.position.z);
+      let target;
+      const alwaysChase = ud.isBoss;
+      if (alwaysChase || distToPlayer < ud.chaseRadius){
+        target = new THREE.Vector3(player.position.x, 0, player.position.z);
+      } else {
+        ud.wanderTimer -= delta;
+        if (ud.wanderTimer <= 0 || Math.hypot(e.position.x-ud.wanderTarget.x, e.position.z-ud.wanderTarget.z) < 1.2){
+          pickNewWanderTarget(e, worldRadius);
+        }
+        target = ud.wanderTarget;
+      }
+      const dir = new THREE.Vector3(target.x-e.position.x, 0, target.z-e.position.z);
+      if (dir.lengthSq() > 0.0001){
+        dir.normalize();
+        const chasing = alwaysChase || distToPlayer < ud.chaseRadius;
+        const spd = chasing ? ud.speed : ud.speed*0.5;
+        e.position.x += dir.x*spd*delta;
+        e.position.z += dir.z*spd*delta;
+        e.rotation.y = Math.atan2(dir.x, dir.z);
+      }
+      e.position.y = groundHeightAt(e.position.x, e.position.z) + (ud.isBoss ? 1.5 : 0.8) + Math.sin(elapsed*3+e.position.x)*0.1;
+      if (ud.orbitGroup){ ud.orbitGroup.rotation.y += delta*1.6; }
+      if (ud.isBoss){
+        ud.attackCooldown -= delta;
+        if (ud.attackCooldown <= 0 && distToPlayer < worldRadius*0.9){
+          fireBossProjectile(e);
+          ud.attackCooldown = CFG.BOSS_PROJECTILE_COOLDOWN;
+        }
+      }
+      if (!invuln && distToPlayer < ud.catchRadius){
+        applyDamage(e.position);
+        if (state.mode !== "playing") return;
+      }
+    }
+
+    for(let i=bossProjectiles.length-1;i>=0;i--){
+      const bp = bossProjectiles[i];
+      bp.life += delta;
+      bp.mesh.position.x += bp.dir.x * CFG.BOSS_PROJECTILE_SPEED * delta;
+      bp.mesh.position.z += bp.dir.z * CFG.BOSS_PROJECTILE_SPEED * delta;
+      bp.mesh.position.y = groundHeightAt(bp.mesh.position.x, bp.mesh.position.z) + 1.2;
+      bp.mesh.rotation.y += delta*4;
+      const distFromCtr = Math.hypot(bp.mesh.position.x, bp.mesh.position.z);
+      const dToPlayer = Math.hypot(bp.mesh.position.x-player.position.x, bp.mesh.position.z-player.position.z);
+      let hit = false;
+      if (!invuln && dToPlayer < CFG.BOSS_PROJECTILE_RADIUS + 0.6){
+        applyDamage(bp.mesh.position);
+        hit = true;
+      }
+      if (hit || bp.life > bp.maxLife || distFromCtr > worldRadius + 5){
+        scene.remove(bp.mesh);
+        bossProjectiles.splice(i,1);
+      }
+      if (state.mode !== "playing") return;
+    }
+
+    playerCore.visible = invuln ? (Math.floor(elapsed*14)%2===0) : true;
+    const cdRemBar = Math.max(0, state.dashCooldownUntil - now);
+    const cdFrac = 1 - Math.min(1, cdRemBar / CFG.DASH_COOLDOWN);
+    elDashBarFill.style.width = (cdFrac*100).toFixed(0) + "%";
+
+    updateParticles(delta);
+    refreshPowerupRow();
+
+    const camOffset = new THREE.Vector3(0, 9.5, 11.5);
+    const desired = player.position.clone().add(camOffset);
+    camera.position.lerp(desired, 1 - Math.pow(0.001, delta));
+    if (now < state.shakeUntil){
+      const remain = state.shakeUntil - now;
+      const mag = state.shakeMag * (remain / 0.35);
+      camera.position.x += (Math.random()-0.5) * mag;
+      camera.position.y += (Math.random()-0.5) * mag * 0.6;
+    }
+    const lookTarget = player.position.clone().add(new THREE.Vector3(0,1.2,0));
+    camera.lookAt(lookTarget);
+
+    drawMinimap(stageCfg);
+  }
+
+  function drawMinimap(stageCfg){
+    const w = minimapCanvas.width, h = minimapCanvas.height;
+    mmCtx.clearRect(0,0,w,h);
+    mmCtx.fillStyle = "rgba(5,7,13,0.9)";
+    mmCtx.beginPath(); mmCtx.arc(w/2,h/2,w/2,0,Math.PI*2); mmCtx.fill();
+    const scale = (w/2 - 6) / stageCfg.worldRadius;
+    function toMM(x,z){ return [ w/2 + x*scale, h/2 + z*scale ]; }
+
+    let [tx,ty] = toMM(0,0);
+    mmCtx.fillStyle = "#ffcf6b";
+    mmCtx.beginPath(); mmCtx.arc(tx,ty,4,0,Math.PI*2); mmCtx.fill();
+
+    mmCtx.fillStyle = "#ffe4a8";
+    for(const s of shards){
+      if (s.userData.collected) continue;
+      const [sx,sy] = toMM(s.position.x, s.position.z);
+      mmCtx.beginPath(); mmCtx.arc(sx,sy,2.2,0,Math.PI*2); mmCtx.fill();
+    }
+    for(const p of powerups){
+      if (p.userData.collected) continue;
+      const [px2,py2] = toMM(p.position.x, p.position.z);
+      mmCtx.fillStyle = "#" + powerupColors[p.userData.type].toString(16).padStart(6,"0");
+      mmCtx.beginPath(); mmCtx.arc(px2,py2,2.6,0,Math.PI*2); mmCtx.fill();
+    }
+    for(const e of enemies){
+      const [ex,ey] = toMM(e.position.x, e.position.z);
+      mmCtx.fillStyle = e.userData.isBoss ? "#ff5a5a" : "#8b6bff";
+      mmCtx.beginPath(); mmCtx.arc(ex,ey, e.userData.isBoss?4.2:2.4, 0, Math.PI*2); mmCtx.fill();
+    }
+    const [px,py] = toMM(player.position.x, player.position.z);
+    mmCtx.fillStyle = "#ffffff";
+    mmCtx.beginPath(); mmCtx.arc(px,py,3.2,0,Math.PI*2); mmCtx.fill();
+  }
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if (document.getElementById('ronakiGameOverlay').style.display === 'flex'){
+      const nowSec = performance.now()/1000;
+      const delta = Math.min(clock.getDelta(), 0.05);
+      const elapsed = clock.getElapsedTime();
+      if (state.mode === "playing"){
+        if (nowSec >= state.hitStopUntil){
+          updatePlaying(delta, elapsed);
+        }
+      }
+      renderer.render(scene, camera);
+    }
+  }
+
+  refreshHud();
+  animate();
+})();
+</script>
+
+<!-- Koshki Zana (کۆشکی زانا) Complete Game Logic Script -->
+<script>
+(function(){
+  "use strict";
+  const KZ_STORAGE_KEY = 'koshki_zana_progress_v1';
+  let kzState = loadKzState();
+  function loadKzState(){
+    try{
+      const raw = localStorage.getItem(KZ_STORAGE_KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return {unlocked:1, completed:{}, seenIntro:false};
+  }
+  function saveKzState(){ try{ localStorage.setItem(KZ_STORAGE_KEY, JSON.stringify(kzState)); }catch(e){} }
+
+  let kzSoundOn = true;
+  let kzActx = null;
+  function kzBeep(freq, dur, type){
+    if(!kzSoundOn) return;
+    try{
+      if(!kzActx) kzActx = new (window.AudioContext||window.webkitAudioContext)();
+      const o = kzActx.createOscillator(); const g = kzActx.createGain();
+      o.type = type||'sine'; o.frequency.value = freq;
+      g.gain.value = .08;
+      o.connect(g); g.connect(kzActx.destination);
+      o.startI encountered an error doing what you asked. Could you try again?
