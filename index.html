@@ -1926,7 +1926,7 @@ body.dark-mode .skeleton-shimmer {
     <div class="ronaki-card">
       <h2>وەستاوە</h2>
       <p class="story">یاریەکە وەستاوە. کاتێک ئامادەبوویت، بەردەوامبە.</p>
-      <button class="primary" id="ronakiResumeBtn" onclick="window.__ronakiGame.resume(); document.getElementById('ronakiPauseScreen').classList.add('hidden');">بەردەوامبوونەوە</button>
+      <button class="primary" onclick="document.getElementById('ronakiPauseScreen').classList.add('hidden'); window.__ronakiGame.resume();">بەردەوامبوونەوە</button>
       <button class="secondary" onclick="closeRonakiGame()" style="margin-top:10px;">داخستنی یاری</button>
     </div>
   </div>
@@ -4361,7 +4361,7 @@ function closeRonakiGame(){
   }
   function resumeGame(){
     state.mode = "playing";
-    elPause.classList.add("hidden"); // سڕینەوەی پێنجەرەی وەستانדن بە ڕێکی
+    elPause.classList.add("hidden");
   }
   function endGame(won){
     state.mode = won ? "win" : "lose";
