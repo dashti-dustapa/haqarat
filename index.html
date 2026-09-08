@@ -4165,6 +4165,552 @@ function closeKoshkiZanaGame(){
   window.history.pushState({ screen: currentScreen }, "", "");
 }
 </script>
+<!-- Koshki Zana (کۆشکی زانا) Game Script & Handlers -->
+<script>
+(function(){
+  "use strict";
+  const STORAGE_KEY = 'koshki_zana_progress_v1';
+  let state = loadState();
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return {unlocked:1, completed:{}, seenIntro:false};
+  }
+  function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+
+  let soundOn = true;
+  let actx = null;
+  function beep(freq, dur, type){
+    if(!soundOn) return;
+    try{
+      if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+      const o = actx.createOscillator(); const g = actx.createGain();
+      o.type = type||'sine'; o.frequency.value = freq;
+      g.gain.value = .08;
+      o.connect(g); g.connect(actx.destination);
+      o.start();
+      g.gain.exponentialRampToValueAtTime(.0001, actx.currentTime + dur);
+      o.stop(actx.currentTime + dur);
+    }catch(e){}
+  }
+  const sfx = {
+    flip:()=>beep(420,.08,'triangle'),
+    match:()=>{beep(600,.1,'sine');setTimeout(()=>beep(800,.15,'sine'),90);},
+    wrong:()=>beep(180,.2,'sawtooth'),
+    win:()=>{[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.18,'sine'), i*110));},
+    tile:(f)=>beep(f,.28,'sine')
+  };
+  
+  const soundBtn = document.getElementById('kzSoundBtn');
+  if(soundBtn){
+    soundBtn.onclick = function(){
+      soundOn = !soundOn;
+      this.textContent = soundOn ? '🔔' : '🔕';
+    };
+  }
+
+  const wrap = document.getElementById('kz-stars');
+  if(wrap){
+    const n = 70;
+    for(let i=0;i<n;i++){
+      const s = document.createElement('span');
+      s.style.left = Math.random()*100+'%';
+      s.style.top = Math.random()*70+'%';
+      s.style.animationDelay = (Math.random()*4)+'s';
+      s.style.width = s.style.height = (Math.random()<.2? '3px':'1.5px');
+      wrap.appendChild(s);
+    }
+  }
+
+  function show(id){
+    document.querySelectorAll('#koshkiZanaOverlay .kz-screen').forEach(s=>s.classList.remove('kz-active'));
+    const target = document.getElementById(id);
+    if(target) target.classList.add('kz-active');
+    const overlay = document.getElementById('koshkiZanaOverlay');
+    if(overlay) overlay.scrollTo(0,0);
+  }
+
+  const startBtn = document.getElementById('kzStartBtn');
+  if(startBtn){
+    startBtn.onclick = ()=>{
+      show(state.seenIntro ? 'kz-screen-map' : 'kz-screen-intro');
+      renderMap();
+    };
+  }
+
+  const toMapBtn = document.getElementById('kzToMapBtn');
+  if(toMapBtn){
+    toMapBtn.onclick = ()=>{
+      state.seenIntro = true; saveState();
+      renderMap();
+      show('kz-screen-map');
+    };
+  }
+
+  function shuffleArr(arr){
+    const a = [...arr];
+    for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+    return a;
+  }
+
+  const chapters = [
+    {id:1, type:'memory', pairs:8, name:'دەرگای یادەوەری', desc:'یاریی یادەوەری — جووتەکان بدۆزەرەوە', icon:'🗝️',
+     story:'یەکەم تاقیکردنەوە یادەوەریت تاقی دەکاتەوە. زانا ئازاد دەیگوت: «ئەوەی لە یاد ناکرێت، هەر بوونی نییە.» وێنە شاراوەکان بدۆزەرەوە و جووتەکانیان بگونجێنە.',
+     rune:'🗝️', runeName:'کلیلی یادەوەری',
+     complete:'یادەوەریت وەک تیغی شمشێر تیژە. یەکەم کلیل کەوتە دەستت — کۆشکە ئێستا کەمێک خۆی بۆت کردەوە.'},
+    {id:2, type:'numbers', count:5, name:'پێچی ژمارەکان', desc:'ڕێکخستنی ژمارەکان بدۆزەرەوە', icon:'📐',
+     story:'زانا ئازاد باوەڕی بە ڕێکخستنی گەردوون هەبوو. دەیگوت: «هەموو شتێک ڕێزێکی خۆی هەیە.» بۆنە شاراوەکان لە ژمارەکاندا بدۆزەرەوە.',
+     rune:'📐', runeName:'کلیلی ڕێکخستن',
+     complete:'تۆ لۆژیکی ژمارەکانت بەدی هێنا. دووەم کلیل بەدەستهات — ڕێگا ڕوونتر دەبێتەوە.'},
+    {id:3, type:'simon', rounds:5, name:'ئاوازی ڕووناکی', desc:'ئاوازی ڕووناکی لەبیر بێت و دووبارەی بکەرەوە', icon:'🕯️',
+     story:'لە شەوانی درێژی زستاندا، ئازاد بە ڕووناکی مۆم یاری دەکرد و ئاوازی گەردوونی دەخوێندەوە. ئێستا نۆرەی تۆیە کە ئاوازەکە لەبیر بکەیت و دووبارەی بکەیتەوە.',
+     rune:'🕯️', runeName:'کلیلی ڕووناکی',
+     complete:'چاوەکانت ئاوازی ڕووناکیان لەبیر کرد. سێیەم کلیل کەوتە دەستت.'},
+    {id:4, type:'riddle', count:4, name:'نهێنی وشەکان', desc:'مەتەڵەکان وەڵام بدەرەوە', icon:'📜',
+     story:'زمان بەهێزترین چەکی ئازاد بوو. چەند مەتەڵێکی کۆنی بۆ تۆ هێشتووەتەوە. وەڵامی ڕاست هەڵبژێرە بۆ ئەوەی چاوی دەرگاکە بکرێتەوە.',
+     rune:'📜', runeName:'کلیلی وشە',
+     complete:'وشەکانت شکاند. چوارەم کلیل بەدەستهات — بەڵام کۆشکە هێشتا نهێنی زۆری تێدایە.'},
+    {id:5, type:'memory', pairs:12, name:'تالاری یادەوەریی کۆن', desc:'یاریی یادەوەریی سەختتر', icon:'🏛️',
+     story:'بەرەو ژووری قووڵتری کۆشکە دەڕۆیت. تالارێکی نوێ دەبینیت پڕ لە وێنەی کۆن کە زیاتر تێکەڵ بوونەتەوە. یادەوەریت لەم جارە زیاتر تاقی دەکرێتەوە.',
+     rune:'🏛️', runeName:'کلیلی تالار',
+     complete:'تالارە قووڵەکەت گەڕایەوە یادت. کۆشکە ئێستا زیاتر باوەڕت پێ دەکات.'},
+    {id:6, type:'numbers', count:6, name:'نهێنی ژمارە قووڵەکان', desc:'ڕێکخستنی ژمارەی ئاڵۆزتر', icon:'🔢',
+     story:'لەم بەشەدا، ئازاد لۆژیکێکی ئاڵۆزتری شاردووەتەوە. ورد بە بۆچوونەکانت بکە، چونکە ڕێکخستنەکان ئێستا قووڵترن.',
+     rune:'🔢', runeName:'کلیلی قووڵایی',
+     complete:'مێشکت توانی ئاڵۆزیی ژمارەکان بشکێنێت. کلیلێکی تر کەوتە دەستت.'},
+    {id:7, type:'simon', rounds:7, name:'ئاوازی گەورە', desc:'ئاوازێکی درێژتر لەبیر بکە', icon:'🎇',
+     story:'ئاوازەکە ئێستا درێژتر و ئاڵۆزتر دەبێت، بەڵام تۆ ئێستا شارەزاتریت لەوەی پێشوو. گوێ و چاوت بەیەکەوە پێویستە.',
+     rune:'🎇', runeName:'کلیلی ئاواز',
+     complete:'ئاوازی درێژی گەورەت بەیادهێنایەوە. کلیلێکی درەوشاوەت بەدەستهات.'},
+    {id:8, type:'riddle', count:5, name:'کۆنترین مەتەڵەکان', desc:'مەتەڵی کۆنتر و سەختتر', icon:'🏺',
+     story:'کۆنترین مەتەڵەکانی ئازاد لێرە شاردراونەتەوە، لەوانەی کە تەنها شارەزاترین کەسەکان دەیانشکێنن.',
+     rune:'🏺', runeName:'کلیلی کۆنینە',
+     complete:'کۆنترین مەتەڵەکانت شکاند. ئێستا هەموو کلیلەکانت لەلایە — تەنها دەرگایەک ماوە.'},
+    {id:9, type:'final', name:'دڵی کۆشکە', desc:'کلیلەکان بە ڕیزبەندی ڕاست دابنێ', icon:'✨',
+     story:'ئێستا هەموو کلیلەکانت کۆکردووەتەوە. تەنها ڕیزبەندییەکیان ماوە بۆ ئەوەی دەرگای دوایی کۆشکە بکرێتەوە.',
+     rune:'✨', runeName:'دڵی کۆشکە',
+     complete:'هەموو کلیلەکان بە ڕێکی خۆیان دانران. دەرگای کۆتایی کۆشکە بۆت کرایەوە...'}
+  ];
+
+  function renderMap(){
+    const wrap = document.getElementById('kzNodesWrap');
+    if(!wrap) return;
+    wrap.innerHTML = '';
+    chapters.forEach(ch=>{
+      const locked = ch.id > state.unlocked;
+      const done = !!state.completed[ch.id];
+      const div = document.createElement('div');
+      div.className = 'kz-node' + (locked?' kz-locked':'') + (done?' kz-done':'');
+      div.innerHTML = `
+        <div class="kz-badge">${done ? '✔️' : ch.icon}</div>
+        <div class="kz-ntext">
+          <div class="kz-n-name">${ch.name}</div>
+          <div class="kz-n-desc">${ch.desc}</div>
+        </div>
+        <div class="kz-chev">${locked?'🔒':'‹'}</div>`;
+      if(!locked){
+        div.onclick = ()=> openChapterIntro(ch.id);
+      }
+      wrap.appendChild(div);
+    });
+  }
+
+  let currentChapter = 1;
+  function openChapterIntro(id){
+    currentChapter = id;
+    const ch = chapters[id-1];
+    document.getElementById('kzChIcon').textContent = ch.icon + ' ' + ch.name;
+    document.getElementById('kzChTitle').textContent = ch.name;
+    document.getElementById('kzChStory').textContent = ch.story;
+    show('kz-screen-chapter-intro');
+  }
+  
+  const chBackBtn = document.getElementById('kzChBackBtn');
+  if(chBackBtn) chBackBtn.onclick = ()=> show('kz-screen-map');
+  
+  const chStartBtn = document.getElementById('kzChStartBtn');
+  if(chStartBtn) chStartBtn.onclick = ()=> startGame(currentChapter);
+
+  const TOTAL_CHAPTERS = chapters.length;
+  function chapterComplete(id){
+    const ch = chapters[id-1];
+    state.completed[id] = true;
+    if(state.unlocked < id+1) state.unlocked = Math.min(TOTAL_CHAPTERS, id+1);
+    saveState();
+    sfx.win();
+    document.getElementById('kzCRune').textContent = ch.rune + ' ' + ch.runeName + ' بەدەستهات';
+    document.getElementById('kzCText').textContent = ch.complete;
+    document.getElementById('kzCContinueBtn').onclick = ()=>{
+      renderMap();
+      show(id<TOTAL_CHAPTERS ? 'kz-screen-map' : 'kz-screen-end');
+    };
+    show('kz-screen-complete');
+  }
+
+  function startGame(id){
+    const ch = chapters[id-1];
+    if(ch.type==='memory') startMemory(ch.pairs);
+    else if(ch.type==='numbers') startNumbers(ch.count);
+    else if(ch.type==='simon') startSimon(ch.rounds);
+    else if(ch.type==='riddle') startRiddles(ch.count);
+    else if(ch.type==='final') startFinal();
+  }
+
+  const memorySymbolPool = ['🌙','⭐','🔥','🍇','🦅','🐎','📜','🗡️','🏺','🌿','🐺','🦉','🌊','☀️','🍯','🪔'];
+  function startMemory(pairsCount){
+    const symbols = shuffleArr(memorySymbolPool).slice(0, pairsCount);
+    let deck = shuffleArr([...symbols, ...symbols]);
+    const grid = document.getElementById('kzMemGrid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    let moves = 0, matched = 0, lock = false, first = null;
+    document.getElementById('kzG1moves').textContent = '0';
+
+    deck.forEach((sym)=>{
+      const card = document.createElement('div');
+      card.className = 'kz-card';
+      card.innerHTML = `<div class="kz-card-face kz-card-back">؟</div><div class="kz-card-face kz-card-front">${sym}</div>`;
+      card.onclick = ()=>{
+        if(lock || card.classList.contains('kz-flipped') || card.classList.contains('kz-matched')) return;
+        card.classList.add('kz-flipped');
+        sfx.flip();
+        if(!first){ first = card; return; }
+        moves++; document.getElementById('kzG1moves').textContent = moves;
+        lock = true;
+        const s1 = first.querySelector('.kz-card-front').textContent;
+        const s2 = card.querySelector('.kz-card-front').textContent;
+        if(s1 === s2){
+          first.classList.add('kz-matched'); card.classList.add('kz-matched');
+          sfx.match();
+          matched++; first = null; lock = false;
+          if(matched === symbols.length){ setTimeout(()=>chapterComplete(currentChapter), 500); }
+        } else {
+          sfx.wrong();
+          setTimeout(()=>{
+            first.classList.remove('kz-flipped'); card.classList.remove('kz-flipped');
+            first = null; lock = false;
+          }, 750);
+        }
+      };
+      grid.appendChild(card);
+    });
+    show('kz-screen-g1');
+  }
+
+  const g2Pool = [
+    {seq:'2, 4, 6, 8, ؟', opts:[9,10,12,14], correct:1, why:'هەر ژمارەیەک لە ژمارەی پێشوو ٢ زیاترە — ئەمە ڕیزی ژمارە زۆجەکانە، بۆیە ژمارەی داهاتوو ١٠ یە.'},
+    {seq:'3, 6, 12, 24, ؟', opts:[30,36,48,44], correct:2, why:'هەر ژمارەیەک دوو هێندەی ژمارەی پێشووە (لێدان بە ٢)، بۆیە دوای ٢٤ دێت ٤٨.'},
+    {seq:'1, 4, 9, 16, ؟', opts:[20,25,23,22], correct:1, why:'ئەمانە باڵای تەواون: ١×١، ٢×٢، ٣×٣، ٤×٤، دواتر ٥×٥ = ٢٥.'},
+    {seq:'5, 10, 20, 40, ؟', opts:[45,60,80,70], correct:2, why:'هەر ژمارەیەک دوو هێندەی ژمارەی پێشووە، بۆیە دوای ٤٠ دێت ٨٠.'},
+    {seq:'1, 1, 2, 3, 5, ؟', opts:[7,8,9,6], correct:1, why:'ئەمە ڕیزی فیبۆناتچییە — هەر ژمارەیەک کۆی دوو ژمارەی پێش خۆیەتی (٢+٣=٥، ٣+٥=٨).'}
+  ];
+  let g2list=[], g2i=0, g2score=0;
+  function startNumbers(count){
+    g2list = shuffleArr(g2Pool).slice(0, count);
+    g2i=0; g2score=0;
+    document.getElementById('kzG2score').textContent='0';
+    document.getElementById('kzG2total').textContent = g2list.length;
+    renderDots('kzG2dots', g2list.length, 0);
+    showG2Question();
+    show('kz-screen-g2');
+  }
+  function renderDots(id, n, active){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML='';
+    for(let i=0;i<n;i++){
+      const d = document.createElement('span');
+      if(i<active) d.classList.add('kz-on');
+      el.appendChild(d);
+    }
+  }
+  function showG2Question(){
+    const q = g2list[g2i];
+    document.getElementById('kzG2seq').textContent = q.seq;
+    document.getElementById('kzG2msg').textContent = '';
+    document.getElementById('kzG2msg').className = 'kz-feedback-msg';
+    const explainBox = document.getElementById('kzG2explain');
+    explainBox.className = 'kz-explain-box';
+    explainBox.textContent = '';
+    document.getElementById('kzG2btns').innerHTML = '';
+    const optsWrap = document.getElementById('kzG2opts');
+    optsWrap.innerHTML = '';
+    q.opts.forEach((opt, idx)=>{
+      const b = document.createElement('button');
+      b.className = 'kz-opt-btn';
+      b.textContent = opt;
+      b.onclick = ()=> handleG2Answer(idx);
+      optsWrap.appendChild(b);
+    });
+  }
+  function goToNextG2(){
+    g2i++;
+    renderDots('kzG2dots', g2list.length, g2i);
+    if(g2i < g2list.length){ showG2Question(); }
+    else {
+      if(g2score >= Math.ceil(g2list.length*0.6)) chapterComplete(currentChapter);
+      else { alert('پێویستە زیاتر وەڵامی ڕاست بدەیت. دووبارە هەوڵبدەوە!'); startNumbers(g2list.length); }
+    }
+  }
+  function handleG2Answer(idx){
+    const q = g2list[g2i];
+    const optsWrap = document.getElementById('kzG2opts');
+    const msg = document.getElementById('kzG2msg');
+    const explainBox = document.getElementById('kzG2explain');
+    const btns = document.getElementById('kzG2btns');
+    Array.from(optsWrap.children).forEach(x=> x.onclick = null);
+    btns.innerHTML = '';
+    if(idx === q.correct){
+      optsWrap.children[idx].classList.add('kz-correct');
+      sfx.match(); g2score++;
+      document.getElementById('kzG2score').textContent = g2score;
+      msg.textContent = 'وەڵامی ڕاست! ✔️';
+      msg.className = 'kz-feedback-msg kz-ok';
+      explainBox.textContent = q.why;
+      explainBox.className = 'kz-explain-box kz-show';
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'kz-btn kz-small';
+      nextBtn.textContent = g2i < g2list.length-1 ? 'پرسیاری داهاتوو' : 'کۆتایی';
+      nextBtn.onclick = goToNextG2;
+      btns.appendChild(nextBtn);
+    } else {
+      optsWrap.children[idx].classList.add('kz-wrong');
+      sfx.wrong();
+      msg.textContent = 'نەخێر، ئەوە هەڵەیە.';
+      msg.className = 'kz-feedback-msg kz-err';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'kz-btn kz-ghost kz-small';
+      showBtn.textContent = 'وەڵامی ڕاست پیشان بدە';
+      showBtn.onclick = ()=>{
+        optsWrap.children[q.correct].classList.add('kz-correct');
+        explainBox.textContent = q.why;
+        explainBox.className = 'kz-explain-box kz-show';
+        showBtn.remove();
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'kz-btn kz-small';
+        nextBtn.textContent = g2i < g2list.length-1 ? 'پرسیاری داهاتوو' : 'کۆتایی';
+        nextBtn.onclick = goToNextG2;
+        btns.appendChild(nextBtn);
+      };
+      btns.appendChild(showBtn);
+    }
+  }
+
+  const g3Freqs = [392, 330, 262, 440];
+  let g3seq=[], g3playerIdx=0, g3round=1, g3maxRound=5, g3busy=false;
+  function startSimon(rounds){
+    g3seq=[]; g3round=1; g3busy=false; g3maxRound=rounds;
+    document.getElementById('kzG3round').textContent='1';
+    document.getElementById('kzG3total').textContent = rounds;
+    document.getElementById('kzG3status').textContent = 'ئامادەبە...';
+    const tiles = document.querySelectorAll('#kzSimon .kz-stile');
+    tiles.forEach(t=> t.onclick = onSimonTileClick);
+    setTimeout(nextSimonRound, 700);
+    show('kz-screen-g3');
+  }
+  const g3replayBtn = document.getElementById('kzG3replay');
+  if(g3replayBtn) g3replayBtn.onclick = ()=>{ if(!g3busy) playSimonSeq(); };
+  
+  function nextSimonRound(){
+    g3seq.push(Math.floor(Math.random()*4));
+    document.getElementById('kzG3round').textContent = Math.min(g3round, g3maxRound);
+    playSimonSeq();
+  }
+  function playSimonSeq(){
+    g3busy = true; g3playerIdx = 0;
+    document.getElementById('kzG3status').textContent = 'سەیری ئاوازەکە بکە...';
+    const tiles = document.querySelectorAll('#kzSimon .kz-stile');
+    g3seq.forEach((c, i)=>{
+      setTimeout(()=>{
+        tiles[c].classList.add('kz-lit');
+        sfx.tile(g3Freqs[c]);
+        setTimeout(()=> tiles[c].classList.remove('kz-lit'), 320);
+      }, i*550);
+    });
+    setTimeout(()=>{
+      g3busy = false;
+      document.getElementById('kzG3status').textContent = 'ئێستا نۆرەی تۆیە — ئاوازەکە دووبارە بکەرەوە';
+    }, g3seq.length*550 + 200);
+  }
+  function onSimonTileClick(){
+    if(g3busy) return;
+    const c = parseInt(this.dataset.c);
+    this.classList.add('kz-lit');
+    sfx.tile(g3Freqs[c]);
+    setTimeout(()=> this.classList.remove('kz-lit'), 200);
+    if(c === g3seq[g3playerIdx]){
+      g3playerIdx++;
+      if(g3playerIdx === g3seq.length){
+        if(g3seq.length >= g3maxRound){
+          document.getElementById('kzG3status').textContent = 'وا نییە! تۆ سەرکەوتوویت.';
+          setTimeout(()=>chapterComplete(currentChapter), 500);
+        } else {
+          g3round++;
+          document.getElementById('kzG3status').textContent = 'زۆر باشە! ئامادەبە بۆ قۆناغی داهاتوو...';
+          setTimeout(nextSimonRound, 900);
+        }
+      }
+    } else {
+      sfx.wrong();
+      document.getElementById('kzG3status').textContent = 'هەڵەیەک ڕوویدا — دووبارە هەوڵبدەوە.';
+      setTimeout(()=>{ g3seq=[]; g3round=1; document.getElementById('kzG3round').textContent='1'; setTimeout(nextSimonRound,600); }, 900);
+    }
+  }
+
+  const g4Pool = [
+    {text:'هەرچی زیاتر لێی دەبەیت، گەورەتر دەبێت. ئەوە چیە?', opts:['چاڵ','دەریا','کێو','دار'], correct:0, why:'کاتێک خاک لە چاڵێکەوە دەردەهێنیت، ئەو چاڵە خۆی گەورەتر دەبێت.'},
+    {text:'شەو دێت بێ بانگهێشت، بەیانیان دەڕوات بێ ئەوەی کەس بیدزێت. ئەوە چیە?', opts:['شەبنم','مانگ','باران','تاریکی'], correct:0, why:'شەبنم لە شەودا دروست دەبێت و بە هەڵاتنی خۆر دەڕوات.'},
+    {text:'دەبزوێت بەبێ ئەوەی پێی هەبێت، دەگرێت بەبێ ئەوەی دەستی هەبێت. ئەوە چیە?', opts:['با','ئاو','مرۆڤ','باڵندە'], correct:0, why:'با بەبێ پێ دەجوڵێت و دەتوانێت گەڵا هەڵبگرێت.'},
+    {text:'هەرچی تاریکتر بێت، زیاتر دەردەکەوێت. ئەوە چیە?', opts:['ئەستێرە','خۆر','مانگ','هەور'], correct:0, why:'لە شەوی تاریکدا ئەستێرەکان ڕوونتر دەردەکەون.'}
+  ];
+  let g4list=[], g4i=0;
+  function startRiddles(count){
+    g4list = shuffleArr(g4Pool).slice(0, count);
+    g4i=0;
+    document.getElementById('kzG4total').textContent = g4list.length;
+    showG4();
+    show('kz-screen-g4');
+  }
+  function showG4(){
+    const r = g4list[g4i];
+    document.getElementById('kzG4idx').textContent = g4i+1;
+    document.getElementById('kzG4text').textContent = r.text;
+    document.getElementById('kzG4msg').textContent = '';
+    document.getElementById('kzG4msg').className = 'kz-feedback-msg';
+    const explainBox = document.getElementById('kzG4explain');
+    explainBox.className = 'kz-explain-box';
+    explainBox.textContent = '';
+    document.getElementById('kzG4btns').innerHTML = '';
+    const optsWrap = document.getElementById('kzG4opts');
+    optsWrap.innerHTML = '';
+    const shuffledOpts = r.opts.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+    shuffledOpts.forEach(({t,i})=>{
+      const b = document.createElement('button');
+      b.className = 'kz-opt-btn';
+      b.style.direction = 'rtl';
+      b.textContent = t;
+      b.onclick = ()=> handleG4Answer(i);
+      optsWrap.appendChild(b);
+    });
+  }
+  function goToNextG4(){
+    g4i++;
+    if(g4i < g4list.length) showG4();
+    else chapterComplete(currentChapter);
+  }
+  function handleG4Answer(originalIdx){
+    const r = g4list[g4i];
+    const optsWrap = document.getElementById('kzG4opts');
+    const msg = document.getElementById('kzG4msg');
+    const explainBox = document.getElementById('kzG4explain');
+    const btns = document.getElementById('kzG4btns');
+    const clickedBtn = Array.from(optsWrap.children).find(b => b.textContent === r.opts[originalIdx]);
+    const correctBtn = Array.from(optsWrap.children).find(b => b.textContent === r.opts[r.correct]);
+    Array.from(optsWrap.children).forEach(x=> x.onclick = null);
+    btns.innerHTML = '';
+    if(originalIdx === r.correct){
+      clickedBtn.classList.add('kz-correct');
+      sfx.match();
+      msg.textContent = 'وەڵامی ڕاست! ✔️';
+      msg.className = 'kz-feedback-msg kz-ok';
+      explainBox.textContent = r.why;
+      explainBox.className = 'kz-explain-box kz-show';
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'kz-btn kz-small';
+      nextBtn.textContent = g4i < g4list.length-1 ? 'مەتەڵی داهاتوو' : 'کۆتایی';
+      nextBtn.onclick = goToNextG4;
+      btns.appendChild(nextBtn);
+    } else {
+      clickedBtn.classList.add('kz-wrong');
+      sfx.wrong();
+      msg.textContent = 'نەخێر، ئەوە هەڵەیە.';
+      msg.className = 'kz-feedback-msg kz-err';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'kz-btn kz-ghost kz-small';
+      showBtn.textContent = 'وەڵامی ڕاست پیشان بدە';
+      showBtn.onclick = ()=>{
+        correctBtn.classList.add('kz-correct');
+        explainBox.textContent = r.why;
+        explainBox.className = 'kz-explain-box kz-show';
+        showBtn.remove();
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'kz-btn kz-small';
+        nextBtn.textContent = g4i < g4list.length-1 ? 'مەتەڵی داهاتوو' : 'کۆتایی';
+        nextBtn.onclick = goToNextG4;
+        btns.appendChild(nextBtn);
+      };
+      btns.appendChild(showBtn);
+    }
+  }
+
+  const finalRunes = [
+    {key:1, icon:'🗝️', label:'یادەوەری'},
+    {key:2, icon:'📐', label:'ڕێکخستن'},
+    {key:3, icon:'🕯️', label:'ڕووناکی'},
+    {key:4, icon:'📜', label:'وشە'}
+  ];
+  function startFinal(){
+    const order = [1,2,3,4];
+    const shuffled = shuffleArr(order);
+    const slotsWrap = document.getElementById('kzLockSlots');
+    const runesWrap = document.getElementById('kzLockRunes');
+    if(!slotsWrap || !runesWrap) return;
+    slotsWrap.innerHTML=''; runesWrap.innerHTML='';
+    let picked = [];
+    order.forEach(()=>{
+      const s = document.createElement('div');
+      s.className = 'kz-lock-slot';
+      slotsWrap.appendChild(s);
+    });
+    shuffled.forEach(key=>{
+      const rune = finalRunes.find(r=>r.key===key);
+      const r = document.createElement('div');
+      r.className = 'kz-lock-rune';
+      r.textContent = rune.icon;
+      r.onclick = ()=>{
+        if(r.classList.contains('kz-picked')) return;
+        picked.push(key);
+        r.classList.add('kz-picked');
+        const slot = slotsWrap.children[picked.length-1];
+        slot.textContent = rune.icon;
+        slot.classList.add('kz-filled');
+        if(picked.length === order.length){
+          const correct = picked.every((v,i)=>v===order[i]);
+          const msg = document.getElementById('kzG5msg');
+          if(correct){
+            msg.textContent = 'دەرگای کۆتایی دەکرێتەوە...';
+            msg.className = 'kz-msg kz-ok';
+            setTimeout(()=>chapterComplete(currentChapter), 900);
+          } else {
+            msg.textContent = 'ڕیزبەندییەکە هەڵەیە — دووبارە هەوڵبدەوە.';
+            msg.className = 'kz-msg kz-err';
+            sfx.wrong();
+            setTimeout(()=> startFinal(), 1000);
+          }
+        }
+      };
+      runesWrap.appendChild(r);
+    });
+    document.getElementById('kzG5msg').textContent = '';
+    show('kz-screen-g5');
+  }
+
+  const replayBtn = document.getElementById('kzReplayBtn');
+  if(replayBtn) replayBtn.onclick = ()=>{
+    state = {unlocked:1, completed:{}, seenIntro:true};
+    saveState();
+    renderMap();
+    show('kz-screen-map');
+  };
+
+  window.__koshkiZanaInit = function(){
+    renderMap();
+    show('kz-screen-hero');
+  };
+})();
+</script>
 
 <!-- Ronaki Game Engine Script -->
 <script>
@@ -5024,37 +5570,5 @@ function closeKoshkiZanaGame(){
 })();
 </script>
 
-<!-- Koshki Zana (کۆشکی زانا) Game Script & Handlers -->
-<script>
-(function(){
-  "use strict";
-  const STORAGE_KEY = 'koshki_zana_progress_v1';
-  let state = loadState();
-  function loadState(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(raw) return JSON.parse(raw);
-    }catch(e){}
-    return {unlocked:1, completed:{}, seenIntro:false};
-  }
-  function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
-
-  let soundOn = true;
-  let actx = null;
-  function beep(freq, dur, type){
-    if(!soundOn) return;
-    try{
-      if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
-      const o = actx.createOscillator(); const g = actx.createGain();
-      o.type = type||'sine'; o.frequency.value = freq;
-      g.gain.value = .08;
-      o.connect(g); g.connect(actx.destination);
-      o.start();
-      g.gain.exponentialRampToValueAtTime(.0001, actx.currentTime + dur);
-      o.stop(actx.currentTime + dur);
-    }catch(e){}
-  }
-  const sfx = {
-    flip:()=>beep(420,.08,'triangle'),
-    match:()=>{beep(600,.1,'sine');setTimeout(()=>beep(800,.15,'sine'),90);},
-    wrong:()=>beepI encountered an error doing what you asked. Could you try again?
+</body>
+</html>
