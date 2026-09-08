@@ -1827,7 +1827,7 @@ body.dark-mode .skeleton-shimmer {
       <div class="game-menu-card" onclick="openRonakiGame()">
         <div style="font-size:2.5rem; margin-bottom:8px;">✨</div>
         <div style="font-weight:800; font-size:1rem;">گەشتی ڕووناکی (Ronaki)</div>
-        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">گەشتێکی سێ قۆناغە لەناو تاریکی</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">ڕاستەوخۆ دەست پێبکە!</div>
       </div>
     </div>
   </div>
@@ -1873,44 +1873,10 @@ body.dark-mode .skeleton-shimmer {
   </div>
 </div>
 
-<!-- Ronaki Game Overlay Integration -->
+<!-- Ronaki Game Overlay Integration (Direct Start) -->
 <div id="ronakiGameOverlay">
   <canvas id="ronakiCanvas"></canvas>
   <div id="ronakiHurtFlash"></div>
-  
-  <div id="ronakiStartScreen" class="ronaki-veil">
-    <div class="ronaki-card">
-      <div class="kicker">گەشتێکی سێ‌قۆناغە بۆ ناو جیهانی تاریکستان</div>
-      <h1>گەشتی ڕووناکی</h1>
-      <div class="best-score" id="ronakiBestScoreLine"></div>
-      <p class="story">
-        لە شەوێکی سارددا، خۆر لەناکاو لە ئاسمان ون بوو و تاریکی هەموو زەوی داپۆشی. 
-        تەنها یەک پرشنگی ڕووناکی مایەوە بە ناوی <b>ڕۆژ</b> — ئەویش تۆیت. 
-        کریستاڵەکانی ڕووناکی بەناو زەوی تاریکدا پەرشوبڵاو بوونەتەوە، 
-        و دەبێت بە سێ قۆناغدا تێپەڕیت تاکو کۆیانبکەیتەوە و ڕووناکییان بگاتە <b>قوللەی کۆن</b>. 
-        لە ڕێگاشدا، هێزە جادووییەکان (پارێزەر، خێرایی، ئاسنکێش) یارمەتیت دەدەن. لە کۆتاییدا، 
-        <b>گەورە تاریکی</b> خۆی چاوەڕوانتە — ئەویش گۆی تاریکیت بۆ دەنێرێت، جا وریابە!
-      </p>
-      <div class="goal-row">
-        <div class="goal-chip">🔶 ١٤ کریستاڵ</div>
-        <div class="goal-chip">💛 ٣ ژیان</div>
-        <div class="goal-chip">⚡ Shift = خێرا</div>
-        <div class="goal-chip">🛡️ هێزی یارمەتیدەر</div>
-        <div class="goal-chip">🌑 گەورە تاریکی</div>
-      </div>
-      <button class="primary" onclick="window.__ronakiGame.start()">دەستپێکردن</button>
-      <button class="secondary" onclick="closeRonakiGame()" style="margin-top:10px;">← گەڕانەوە بۆ ماڵپەڕ</button>
-    </div>
-  </div>
-
-  <div id="ronakiStageClearScreen" class="ronaki-veil hidden">
-    <div class="ronaki-card">
-      <div class="kicker" id="ronakiStageClearKicker"></div>
-      <h2 id="ronakiStageClearTitle"></h2>
-      <p class="story" id="ronakiStageClearStory"></p>
-      <button class="primary" onclick="window.__ronakiGame.nextStage()">بەردەوامبە</button>
-    </div>
-  </div>
 
   <div id="ronakiEndScreen" class="ronaki-veil hidden">
     <div class="ronaki-card">
@@ -1922,16 +1888,7 @@ body.dark-mode .skeleton-shimmer {
     </div>
   </div>
 
-  <div id="ronakiPauseScreen" class="ronaki-veil hidden">
-    <div class="ronaki-card">
-      <h2>وەستاوە</h2>
-      <p class="story">یاریەکە وەستاوە. کاتێک ئامادەبوویت، بەردەوامبە.</p>
-      <button class="primary" onclick="document.getElementById('ronakiPauseScreen').classList.add('hidden'); window.__ronakiGame.resume();">بەردەوامبوونەوە</button>
-      <button class="secondary" onclick="closeRonakiGame()" style="margin-top:10px;">داخستنی یاری</button>
-    </div>
-  </div>
-
-  <div id="ronakiHud" class="hidden">
+  <div id="ronakiHud">
     <div id="ronakiStageBanner"></div>
     <div class="hud-top">
       <div class="hud-box">
@@ -1954,7 +1911,7 @@ body.dark-mode .skeleton-shimmer {
     </div>
     <div id="ronakiPowerupRow"></div>
     <div id="ronakiMinimapWrap"><canvas id="ronakiMinimap" width="120" height="120"></canvas></div>
-    <div style="position:absolute; bottom:16px; right:20px; font-size:12px; color:rgba(243,234,217,0.65); direction:rtl; cursor:pointer;" onclick="window.__ronakiGame.pause()">⏸️ وەستاندن (Esc)</div>
+    <div style="position:absolute; bottom:16px; right:20px; font-size:12px; color:rgba(243,234,217,0.75); direction:rtl; cursor:pointer; background:var(--panel); padding:6px 12px; border-radius:6px; border:1px solid var(--line);" onclick="closeRonakiGame()">❌ داخستنی یاری</div>
   </div>
 
   <div id="ronakiTouchControls">
@@ -3790,16 +3747,22 @@ if ('serviceWorker' in navigator) {
 function openRonakiGame(){
   document.getElementById('fullscreenGameOverlay').style.display = 'none';
   document.getElementById('ronakiGameOverlay').style.display = 'flex';
+  // ڕاستەوخۆ دەست پێدەکات بەبێ ئەوەی پێویست بە دەستپێکردن بکات
+  if(window.__ronakiGame && typeof window.__ronakiGame.start === 'function') {
+    window.__ronakiGame.start();
+  }
   window.history.pushState({ modal: 'ronakiGame' }, "", "");
 }
 function closeRonakiGame(){
   document.getElementById('ronakiGameOverlay').style.display = 'none';
-  window.__ronakiGame.stop();
+  if(window.__ronakiGame && typeof window.__ronakiGame.stop === 'function') {
+    window.__ronakiGame.stop();
+  }
   window.history.pushState({ screen: currentScreen }, "", "");
 }
 </script>
 
-<!-- Ronaki Game Engine Script -->
+<!-- Ronaki Game Engine Script (Direct Play) -->
 <script>
 (function(){
   "use strict";
@@ -4208,10 +4171,6 @@ function closeRonakiGame(){
     if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
     const key = e.key.toLowerCase();
     state.keys[key] = true;
-    if (key === "escape"){
-      if (state.mode === "playing") pauseGame();
-      else if (state.mode === "paused") resumeGame();
-    }
     if (key === "shift"){ tryDash(); }
   });
   window.addEventListener("keyup", (e)=>{ state.keys[e.key.toLowerCase()] = false; });
@@ -4262,7 +4221,6 @@ function closeRonakiGame(){
   const elScoreVal = document.getElementById("ronakiScoreVal");
   const elDashBarFill = document.getElementById("ronakiDashBarFill");
   const elHud = document.getElementById("ronakiHud");
-  const elStart = document.getElementById("ronakiStartScreen");
   const elBestScoreLine = document.getElementById("ronakiBestScoreLine");
   const elEnd = document.getElementById("ronakiEndScreen");
   const elEndTitle = document.getElementById("ronakiEndTitle");
@@ -4273,7 +4231,6 @@ function closeRonakiGame(){
   const elStageClearKicker = document.getElementById("ronakiStageClearKicker");
   const elStageClearTitle = document.getElementById("ronakiStageClearTitle");
   const elStageClearStory = document.getElementById("ronakiStageClearStory");
-  const elPause = document.getElementById("ronakiPauseScreen");
   const elHurt = document.getElementById("ronakiHurtFlash");
   const elStageBanner = document.getElementById("ronakiStageBanner");
   const elPowerupRow = document.getElementById("ronakiPowerupRow");
@@ -4337,10 +4294,8 @@ function closeRonakiGame(){
     towerOrbGlow.material.opacity = 0.15;
     initStage(0);
     state.mode = "playing";
-    elStart.classList.add("hidden");
     elEnd.classList.add("hidden");
     elStageClear.classList.add("hidden");
-    elPause.classList.add("hidden");
     elHud.classList.remove("hidden");
   }
   function restart(){ start(); }
@@ -4353,15 +4308,6 @@ function closeRonakiGame(){
     initStage(nextIdx);
     state.mode = "playing";
     refreshHud();
-  }
-  function pauseGame(){
-    if (state.mode !== "playing") return;
-    state.mode = "paused";
-    elPause.classList.remove("hidden");
-  }
-  function resumeGame(){
-    state.mode = "playing";
-    elPause.classList.add("hidden");
   }
   function endGame(won){
     state.mode = won ? "win" : "lose";
@@ -4403,14 +4349,11 @@ function closeRonakiGame(){
     elHud.classList.add("hidden");
     elStageClear.classList.add("hidden");
     elEnd.classList.add("hidden");
-    elPause.classList.add("hidden");
-    elStart.classList.remove("hidden");
   }
 
-  window.__ronakiGame = { start, restart, nextStage: goToNextStage, resume: resumeGame, pause: pauseGame, stop: stopGameEngine };
+  window.__ronakiGame = { start, restart, nextStage: goToNextStage, stop: stopGameEngine };
 
   const clock = new THREE.Clock();
-  let idleAngle = 0;
 
   function triggerShake(mag, dur){
     state.shakeUntil = performance.now()/1000 + dur;
@@ -4646,15 +4589,6 @@ function closeRonakiGame(){
     mmCtx.beginPath(); mmCtx.arc(px,py,3.2,0,Math.PI*2); mmCtx.fill();
   }
 
-  function updateIdleCamera(delta){
-    if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
-    idleAngle += delta*0.12;
-    const r = 20;
-    camera.position.set(Math.cos(idleAngle)*r, 11, Math.sin(idleAngle)*r);
-    camera.lookAt(0, 4, 0);
-    towerOrb.rotation.y += delta*0.4;
-  }
-
   function animate(){
     requestAnimationFrame(animate);
     if (document.getElementById('ronakiGameOverlay').style.display === 'flex'){
@@ -4665,8 +4599,6 @@ function closeRonakiGame(){
         if (nowSec >= state.hitStopUntil){
           updatePlaying(delta, elapsed);
         }
-      } else if (state.mode !== "paused"){
-        updateIdleCamera(delta);
       }
       renderer.render(scene, camera);
     }
