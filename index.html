@@ -6,7 +6,7 @@
 <title id="siteLogo">عقارات دەشتی دوستەپە</title>
 <link id="appFavicon" rel="icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link id="appAppleIcon" rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;600;700&family=Lalezar&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
@@ -1623,7 +1623,6 @@ body.dark-mode .skeleton-shimmer {
   position:absolute; top:100px; right:16px;
   display:flex; flex-direction:column; gap:6px;
 }
-/* Minimap moved to top-left to avoid joystick clash */
 #ronakiMinimapWrap{
   position:absolute; top:85px; left:16px; width:95px; height:95px;
   background:var(--panel); border:1px solid var(--line); border-radius:50%; overflow:hidden;
@@ -1639,7 +1638,6 @@ body.dark-mode .skeleton-shimmer {
 }
 #ronakiStageBanner.show{ opacity:1; }
 
-/* Floating Virtual Analog Joystick for Mobile (Bottom Left) */
 #ronakiJoystickBase {
   position: fixed;
   bottom: 40px;
@@ -1670,7 +1668,6 @@ body.dark-mode .skeleton-shimmer {
   pointer-events: none;
 }
 
-/* Speed / Dash Button with Cool-down Timer */
 #ronakiDashTouch {
   position: fixed;
   bottom: 45px;
@@ -1701,8 +1698,231 @@ body.dark-mode .skeleton-shimmer {
   color: rgba(255, 255, 255, 0.5);
   box-shadow: none;
 }
-
 #ronakiHurtFlash{ position:fixed; inset:0; pointer-events:none; z-index:16; background:rgba(139,107,255,0.25); opacity:0; transition:opacity .12s ease; }
+
+/* Koshki Zana (کۆشکی زانا) Overlay & Scoped Styles */
+#koshkiZanaOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  background: radial-gradient(ellipse at 50% -10%, #212a52 0%, transparent 55%), linear-gradient(180deg, #0d1226 0%, #141a37 100%);
+  color: #efe6d3;
+  font-family: 'Vazirmatn','Tahoma',sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+  direction: rtl;
+  box-sizing: border-box;
+}
+#koshkiZanaOverlay * { box-sizing: border-box; }
+#koshkiZanaOverlay #kz-stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+#koshkiZanaOverlay #kz-stars span {
+  position: absolute; width: 2px; height: 2px; border-radius: 50%;
+  background: #e8c766; opacity: .6;
+  animation: kz-twinkle 4s ease-in-out infinite;
+}
+@keyframes kz-twinkle { 0%, 100% { opacity: .15; } 50% { opacity: .9; } }
+
+#koshkiZanaOverlay .kz-frame-strip {
+  height: 10px; width: 100%;
+  background: repeating-linear-gradient(135deg,
+    #d4af37 0 10px, transparent 10px 20px,
+    #8a3a3a 20px 30px, transparent 30px 40px);
+  opacity: .55;
+}
+
+#koshkiZanaOverlay .kz-app { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
+#koshkiZanaOverlay .kz-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 22px;
+}
+#koshkiZanaOverlay .kz-brand { display: flex; align-items: center; gap: 10px; font-family: 'Lalezar', sans-serif; font-size: 1.15rem; color: #e8c766; letter-spacing: .5px; }
+#koshkiZanaOverlay .kz-brand .kz-seal { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #d4af37; display: flex; align-items: center; justify-content: center; font-size: .8rem; }
+#koshkiZanaOverlay .kz-icon-btn {
+  background: #171e3d; border: 1px solid rgba(212,175,55,.45); color: #efe6d3;
+  border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1rem; transition: transform .15s ease, background .15s ease;
+}
+#koshkiZanaOverlay .kz-icon-btn:hover { transform: translateY(-2px); background: #1f2749; }
+#koshkiZanaOverlay .kz-icon-btn:active { transform: translateY(0); }
+
+#koshkiZanaOverlay .kz-screen { display: none; flex: 1; flex-direction: column; align-items: center; justify-content: center; padding: 24px 18px 60px; text-align: center; }
+#koshkiZanaOverlay .kz-screen.kz-active { display: flex; animation: kz-fadein .5s ease; }
+@keyframes kz-fadein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+#koshkiZanaOverlay h1.kz-title {
+  font-family: 'Lalezar', sans-serif;
+  font-size: clamp(2.2rem, 7vw, 3.6rem);
+  color: #d4af37;
+  margin: 6px 0 8px;
+  text-shadow: 0 0 24px rgba(212,175,55,.35);
+}
+#koshkiZanaOverlay .kz-subtitle { color: #a7a9c4; font-size: 1.05rem; max-width: 520px; line-height: 2; margin-bottom: 26px; }
+#koshkiZanaOverlay .kz-mountains { width: min(560px, 92vw); opacity: .9; margin: 6px 0 26px; }
+
+#koshkiZanaOverlay .kz-btn {
+  font-family: 'Noto Kufi Arabic', sans-serif; font-weight: 700; font-size: 1.02rem;
+  background: linear-gradient(180deg, #e8c766, #d4af37);
+  color: #1b1508; border: none; border-radius: 999px;
+  padding: 14px 34px; cursor: pointer;
+  box-shadow: 0 8px 24px rgba(212,175,55,.25);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+#koshkiZanaOverlay .kz-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(212,175,55,.35); }
+#koshkiZanaOverlay .kz-btn:active { transform: translateY(0); }
+#koshkiZanaOverlay .kz-btn.kz-ghost {
+  background: transparent; color: #e8c766; border: 1.5px solid rgba(212,175,55,.45);
+  box-shadow: none;
+}
+#koshkiZanaOverlay .kz-btn.kz-small { padding: 9px 20px; font-size: .9rem; }
+#koshkiZanaOverlay .kz-btn[disabled] { opacity: .4; cursor: not-allowed; filter: grayscale(.4); }
+
+#koshkiZanaOverlay .kz-map-wrap { width: min(620px, 94vw); }
+#koshkiZanaOverlay .kz-map-title { font-family: 'Lalezar', sans-serif; color: #e8c766; font-size: 1.6rem; margin-bottom: 6px; }
+#koshkiZanaOverlay .kz-map-sub { color: #a7a9c4; margin-bottom: 26px; font-size: .95rem; }
+#koshkiZanaOverlay .kz-nodes { display: flex; flex-direction: column; gap: 18px; }
+#koshkiZanaOverlay .kz-node {
+  display: flex; align-items: center; gap: 16px;
+  background: #171e3d; border: 1px solid rgba(212,175,55,.45);
+  border-radius: 16px; padding: 14px 18px; cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+  text-align: right;
+}
+#koshkiZanaOverlay .kz-node:hover { transform: translateX(-4px); background: #1f2749; }
+#koshkiZanaOverlay .kz-node.kz-locked { opacity: .45; cursor: not-allowed; }
+#koshkiZanaOverlay .kz-node.kz-locked:hover { transform: none; }
+#koshkiZanaOverlay .kz-node .kz-badge {
+  width: 52px; height: 52px; min-width: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+  border: 2px solid #d4af37; background: radial-gradient(circle at 35% 30%, #1f2749, #0d1226);
+}
+#koshkiZanaOverlay .kz-node.kz-done .kz-badge { border-color: #4a9187; background: radial-gradient(circle at 35% 30%, #234942, #0d1226); }
+#koshkiZanaOverlay .kz-node .kz-ntext { flex: 1; }
+#koshkiZanaOverlay .kz-node .kz-ntext .kz-n-name { font-weight: 700; font-size: 1.05rem; color: #efe6d3; }
+#koshkiZanaOverlay .kz-node .kz-ntext .kz-n-desc { color: #a7a9c4; font-size: .85rem; margin-top: 2px; }
+#koshkiZanaOverlay .kz-node .kz-chev { color: #e8c766; font-size: 1.2rem; }
+
+#koshkiZanaOverlay .kz-story-card {
+  width: min(560px, 94vw);
+  background: linear-gradient(180deg, #efe6d3, #e6d9ba);
+  color: #1b1508;
+  border-radius: 14px;
+  padding: 34px 28px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.45), inset 0 0 0 1px rgba(0,0,0,.06);
+  position: relative;
+  text-align: right;
+}
+#koshkiZanaOverlay .kz-story-card::before {
+  content: ""; position: absolute; inset: 10px; border: 1.5px solid rgba(122,46,46,.35); border-radius: 8px; pointer-events: none;
+}
+#koshkiZanaOverlay .kz-story-card h2 { font-family: 'Lalezar', sans-serif; color: #8a3a3a; font-size: 1.7rem; margin: 0 0 14px; }
+#koshkiZanaOverlay .kz-story-card p { line-height: 2.1; font-size: 1.02rem; margin: 0 0 22px; }
+#koshkiZanaOverlay .kz-rune-pill {
+  display: inline-flex; align-items: center; gap: 8px; background: rgba(122,46,46,.08);
+  border: 1px dashed rgba(122,46,46,.4); border-radius: 999px; padding: 6px 16px; margin-bottom: 18px; font-size: .9rem;
+}
+
+#koshkiZanaOverlay .kz-game-wrap { width: min(640px, 96vw); margin: 0 auto; }
+#koshkiZanaOverlay .kz-game-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+#koshkiZanaOverlay .kz-game-head h2 { font-family: 'Lalezar', sans-serif; color: #e8c766; font-size: 1.4rem; margin: 0; }
+#koshkiZanaOverlay .kz-stat { color: #a7a9c4; font-size: .9rem; }
+#koshkiZanaOverlay .kz-stat b { color: #efe6d3; }
+
+#koshkiZanaOverlay .kz-memory-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  width: min(420px, 92vw); margin: 0 auto;
+}
+#koshkiZanaOverlay .kz-card {
+  aspect-ratio: 1/1; border-radius: 12px; position: relative; cursor: pointer;
+  transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.3,1);
+}
+#koshkiZanaOverlay .kz-card.kz-flipped { transform: rotateY(180deg); }
+#koshkiZanaOverlay .kz-card.kz-matched { opacity: .55; cursor: default; }
+#koshkiZanaOverlay .kz-card-face {
+  position: absolute; inset: 0; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  backface-visibility: hidden; font-size: 1.7rem;
+}
+#koshkiZanaOverlay .kz-card-back {
+  background: linear-gradient(160deg, #1f2749, #171e3d);
+  border: 1px solid rgba(212,175,55,.45); color: #e8c766;
+}
+#koshkiZanaOverlay .kz-card-front {
+  background: linear-gradient(160deg, #efe6d3, #e6d9ba);
+  transform: rotateY(180deg); color: #1b1508;
+  box-shadow: inset 0 0 0 2px rgba(122,46,46,.25);
+}
+
+#koshkiZanaOverlay .kz-quiz-box {
+  background: #171e3d; border: 1px solid rgba(212,175,55,.45); border-radius: 16px;
+  padding: 28px 22px; width: min(480px, 94vw); margin: 0 auto; text-align: center;
+}
+#koshkiZanaOverlay .kz-seq { font-size: 1.7rem; letter-spacing: 3px; color: #e8c766; margin: 14px 0 22px; font-weight: 700; direction: ltr; }
+#koshkiZanaOverlay .kz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+#koshkiZanaOverlay .kz-opt-btn {
+  background: #1f2749; border: 1px solid rgba(212,175,55,.45); color: #efe6d3;
+  border-radius: 10px; padding: 14px; font-size: 1.1rem; cursor: pointer; font-weight: 700;
+  transition: background .15s, transform .1s; direction: ltr;
+}
+#koshkiZanaOverlay .kz-opt-btn:hover { background: #28305a; }
+#koshkiZanaOverlay .kz-opt-btn.kz-correct { background: #2f6a62; border-color: #4a9187; }
+#koshkiZanaOverlay .kz-opt-btn.kz-wrong { background: #8a3a3a; border-color: #b35555; }
+#koshkiZanaOverlay .kz-dots { display: flex; gap: 6px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+#koshkiZanaOverlay .kz-dots span { width: 8px; height: 8px; border-radius: 50%; background: #3a4270; }
+#koshkiZanaOverlay .kz-dots span.kz-on { background: #d4af37; }
+
+#koshkiZanaOverlay .kz-feedback-msg { margin-top: 16px; font-size: .95rem; font-weight: 700; min-height: 1.4em; }
+#koshkiZanaOverlay .kz-feedback-msg.kz-err { color: #b35555; }
+#koshkiZanaOverlay .kz-feedback-msg.kz-ok { color: #4a9187; }
+#koshkiZanaOverlay .kz-explain-box {
+  margin-top: 14px; background: rgba(212,175,55,.08); border: 1px solid rgba(212,175,55,.45);
+  border-radius: 10px; padding: 14px 16px; font-size: .9rem; color: #efe6d3; line-height: 1.9;
+  text-align: right; display: none;
+}
+#koshkiZanaOverlay .kz-explain-box.kz-show { display: block; animation: kz-fadein .35s ease; }
+#koshkiZanaOverlay .kz-row-btns { display: flex; gap: 10px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+
+#koshkiZanaOverlay .kz-simon {
+  width: min(300px, 80vw); aspect-ratio: 1/1; margin: 10px auto 20px;
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px;
+}
+#koshkiZanaOverlay .kz-stile { border-radius: 16px; cursor: pointer; opacity: .55; transition: opacity .1s, transform .1s; border: 2px solid rgba(0,0,0,.2); }
+#koshkiZanaOverlay .kz-stile.kz-lit { opacity: 1; transform: scale(.97); }
+#koshkiZanaOverlay .kz-stile[data-c="0"] { background: #d4af37; }
+#koshkiZanaOverlay .kz-stile[data-c="1"] { background: #8a3a3a; }
+#koshkiZanaOverlay .kz-stile[data-c="2"] { background: #2f6a62; }
+#koshkiZanaOverlay .kz-stile[data-c="3"] { background: #7d6bb0; }
+#koshkiZanaOverlay .kz-simon-status { color: #a7a9c4; margin-bottom: 6px; min-height: 1.4em; text-align: center; }
+
+#koshkiZanaOverlay .kz-riddle-box {
+  background: #171e3d; border: 1px solid rgba(212,175,55,.45); border-radius: 16px;
+  padding: 30px 24px; width: min(480px, 94vw); margin: 0 auto; text-align: center;
+}
+#koshkiZanaOverlay .kz-riddle-text { font-size: 1.15rem; line-height: 2; color: #efe6d3; margin-bottom: 20px; text-align: right; }
+#koshkiZanaOverlay .kz-riddle-input {
+  width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(212,175,55,.45);
+  background: #141a37; color: #efe6d3; font-size: 1rem; font-family: inherit; text-align: center; margin-bottom: 14px;
+}
+#koshkiZanaOverlay .kz-riddle-input:focus { outline: 2px solid #e8c766; }
+#koshkiZanaOverlay .kz-msg { min-height: 1.4em; font-size: .9rem; margin-bottom: 10px; }
+#koshkiZanaOverlay .kz-msg.kz-err { color: #b35555; }
+#koshkiZanaOverlay .kz-msg.kz-ok { color: #4a9187; }
+
+#koshkiZanaOverlay .kz-lock-rune-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
+#koshkiZanaOverlay .kz-lock-rune {
+  width: 70px; height: 70px; border-radius: 14px; border: 2px solid #d4af37;
+  background: #1f2749; display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; cursor: pointer; transition: transform .15s;
+}
+#koshkiZanaOverlay .kz-lock-rune:hover { transform: translateY(-3px); }
+#koshkiZanaOverlay .kz-lock-rune.kz-picked { opacity: .3; pointer-events: none; }
+#koshkiZanaOverlay .kz-lock-slots { display: flex; gap: 12px; justify-content: center; margin-bottom: 22px; }
+#koshkiZanaOverlay .kz-lock-slot {
+  width: 56px; height: 56px; border-radius: 10px; border: 1.5px dashed rgba(212,175,55,.45);
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #a7a9c4;
+}
+#koshkiZanaOverlay .kz-lock-slot.kz-filled { border-style: solid; color: #efe6d3; }
+
+#koshkiZanaOverlay footer.kz-credit { color: #5c6193; font-size: .75rem; padding: 14px; text-align: center; }
 </style>
 </head>
 <body onclick="const inp = document.getElementById('appLockPassInput'); if(document.getElementById('appLockModal').style.display !== 'none' && inp) { inp.focus(); inp.click(); }">
@@ -1855,6 +2075,11 @@ body.dark-mode .skeleton-shimmer {
         <div style="font-weight:800; font-size:1rem;">گەشتی ڕووناکی (Ronaki)</div>
         <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">ڕاستەوخۆ دەست پێبکە!</div>
       </div>
+      <div class="game-menu-card" onclick="openKoshkiZanaGame()">
+        <div style="font-size:2.5rem; margin-bottom:8px;">🏛️</div>
+        <div style="font-weight:800; font-size:1rem;">کۆشکی زانا (Koshki Zana)</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">گەشتێک بۆ ناو چیاکانی کوردستان</div>
+      </div>
     </div>
   </div>
 
@@ -1926,18 +2151,161 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </div>
     <div id="ronakiPowerupRow"></div>
-    <!-- Minimap placed safely at top-left -->
     <div id="ronakiMinimapWrap"><canvas id="ronakiMinimap" width="95" height="95"></canvas></div>
-    <!-- Close button placed at top -->
     <div style="position:absolute; top:20px; left:20px; font-size:12px; color:rgba(243,234,217,0.85); direction:rtl; cursor:pointer; background:var(--panel); padding:6px 14px; border-radius:6px; border:1px solid var(--line); pointer-events:auto; z-index:30;" onclick="closeRonakiGame()">❌ داخستنی یاری</div>
   </div>
 
-  <!-- Floating Virtual Analog Joystick (Bottom Left) -->
   <div id="ronakiJoystickBase">
     <div id="ronakiJoystickStick"></div>
   </div>
-  <!-- Dash Button with Cool-down Timer (Bottom Right) -->
   <div id="ronakiDashTouch">خێرا</div>
+</div>
+
+<!-- Koshki Zana (کۆشکی زانا) Game Overlay Integration -->
+<div id="koshkiZanaOverlay">
+  <div id="kz-stars"></div>
+  <div class="kz-frame-strip"></div>
+  <div class="kz-app">
+
+    <div class="kz-topbar">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button class="kz-icon-btn" onclick="closeKoshkiZanaGame()" title="گەڕانەوە">←</button>
+        <div class="kz-brand"><span class="kz-seal">۞</span> کۆشکی زانا</div>
+      </div>
+      <button class="kz-icon-btn" id="kzSoundBtn" title="دەنگ">🔔</button>
+    </div>
+
+    <!-- HERO -->
+    <section class="kz-screen kz-active" id="kz-screen-hero">
+      <svg class="kz-mountains" viewBox="0 0 560 160" fill="none">
+        <path d="M0 160 L90 60 L150 110 L230 30 L320 120 L400 55 L480 110 L560 70 L560 160 Z" fill="#1a2147" stroke="#d4af3733" stroke-width="1"/>
+        <circle cx="470" cy="38" r="20" fill="#e8c766" opacity=".85"/>
+      </svg>
+      <h1 class="kz-title">کۆشکی زانا</h1>
+      <p class="kz-subtitle">گەشتێک بۆ ناو چیاکانی کوردستان، بۆ دۆزینەوەی نهێنییەکانی زانایەکی کۆن. تەنها ئەوانەی مێشکیان تیژە دەتوانن دەرگاکانی کۆشکەکە بکەنەوە.</p>
+      <button class="kz-btn" id="kzStartBtn">دەستپێکردنی گەشت</button>
+    </section>
+
+    <!-- INTRO STORY -->
+    <section class="kz-screen" id="kz-screen-intro">
+      <div class="kz-story-card">
+        <h2>چیرۆکی کۆشکە</h2>
+        <p>سەدان ساڵ لەمەوبەر، زانایەکی گەورە بە ناوی «ئازاد» لە بەرزترین چیای کوردستان کۆشکێکی نهێنی دروستکرد. ئەو باوەڕی وابوو کە دانایی ڕاستەقینە بە زۆر نایەت، بەڵکو بە بیرکردنەوەی سەلیقەمەندانە دەست دەکەوێت.</p>
+        <p>کاتێک ئازاد کۆچی دوایی کرد، کۆشکەکەی داخست و پێنج تاقیکردنەوەی لێ هێشتەوە، هەر یەکێکیان کلیلی بەشێک لە دڵی کۆشکەکە بوو. ئێستا تۆ لەبەردەم دەرگاکەیدا وەستاویت. با بزانین ئایا شایانی ئەوەیت کە ببیتە پارێزەری نهێنییەکانی؟</p>
+        <button class="kz-btn" id="kzToMapBtn">بچۆ بۆ نەخشەی کۆشکە</button>
+      </div>
+    </section>
+
+    <!-- MAP -->
+    <section class="kz-screen" id="kz-screen-map">
+      <div class="kz-map-wrap">
+        <div class="kz-map-title">نەخشەی کۆشکە</div>
+        <div class="kz-map-sub">چەندین دەرگا لەبەردەمتدان. یەک بە یەک بیانکەرەوە.</div>
+        <div class="kz-nodes" id="kzNodesWrap"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER STORY -->
+    <section class="kz-screen" id="kz-screen-chapter-intro">
+      <div class="kz-story-card">
+        <div class="kz-rune-pill" id="kzChIcon">🗝️</div>
+        <h2 id="kzChTitle"></h2>
+        <p id="kzChStory"></p>
+        <button class="kz-btn" id="kzChStartBtn">دەستپێکردنی تاقیکردنەوە</button>
+        <div><button class="kz-btn kz-ghost kz-small" id="kzChBackBtn" style="margin-top:12px;">گەڕانەوە بۆ نەخشە</button></div>
+      </div>
+    </section>
+
+    <!-- GAME 1: MEMORY -->
+    <section class="kz-screen" id="kz-screen-g1">
+      <div class="kz-game-wrap">
+        <div class="kz-game-head">
+          <h2>دەرگای یادەوەری</h2>
+          <div class="kz-stat">هەوڵ: <b id="kzG1moves">0</b></div>
+        </div>
+        <div class="kz-memory-grid" id="kzMemGrid"></div>
+      </div>
+    </section>
+
+    <!-- GAME 2: NUMBERS -->
+    <section class="kz-screen" id="kz-screen-g2">
+      <div class="kz-game-wrap">
+        <div class="kz-game-head"><h2>پێچی ژمارەکان</h2><div class="kz-stat">خاڵ: <b id="kzG2score">0</b>/<span id="kzG2total">8</span></div></div>
+        <div class="kz-quiz-box">
+          <div class="kz-stat" id="kzG2label">ژمارەی داهاتوو چییە؟</div>
+          <div class="kz-seq" id="kzG2seq"></div>
+          <div class="kz-options" id="kzG2opts"></div>
+          <div class="kz-feedback-msg" id="kzG2msg"></div>
+          <div class="kz-explain-box" id="kzG2explain"></div>
+          <div class="kz-row-btns" id="kzG2btns"></div>
+          <div class="kz-dots" id="kzG2dots"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAME 3: SIMON -->
+    <section class="kz-screen" id="kz-screen-g3">
+      <div class="kz-game-wrap">
+        <div class="kz-game-head"><h2 id="kzG3title">ئاوازی ڕووناکی</h2><div class="kz-stat">قۆناغ: <b id="kzG3round">1</b>/<span id="kzG3total">8</span></div></div>
+        <div class="kz-simon-status" id="kzG3status">سەیری ئاوازەکە بکە...</div>
+        <div class="kz-simon" id="kzSimon">
+          <div class="kz-stile" data-c="0"></div>
+          <div class="kz-stile" data-c="1"></div>
+          <div class="kz-stile" data-c="2"></div>
+          <div class="kz-stile" data-c="3"></div>
+        </div>
+        <button class="kz-btn kz-ghost kz-small" id="kzG3replay">دووبارە ئاوازەکە ببیستەوە</button>
+      </div>
+    </section>
+
+    <!-- GAME 4: RIDDLES -->
+    <section class="kz-screen" id="kz-screen-g4">
+      <div class="kz-game-wrap">
+        <div class="kz-game-head"><h2 id="kzG4title">نهێنی وشەکان</h2><div class="kz-stat">مەتەڵ: <b id="kzG4idx">1</b>/<span id="kzG4total">6</span></div></div>
+        <div class="kz-riddle-box">
+          <div class="kz-riddle-text" id="kzG4text"></div>
+          <div class="kz-options" id="kzG4opts"></div>
+          <div class="kz-feedback-msg" id="kzG4msg"></div>
+          <div class="kz-explain-box" id="kzG4explain"></div>
+          <div class="kz-row-btns" id="kzG4btns"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAME 5: FINAL LOCK -->
+    <section class="kz-screen" id="kz-screen-g5">
+      <div class="kz-game-wrap">
+        <div class="kz-game-head"><h2>دڵی کۆشکە</h2></div>
+        <div class="kz-story-card" style="margin-bottom:22px;">
+          <p style="margin:0;">ئازاد لە دەقێکی کۆندا نووسیبووی: «یادەوەری سەرەتای دانایی یە، پاشان ڕێکخستن دێت، دواتر ڕووناکی ڕێگا نیشان دەدات، وشەش کۆتایی پێدەهێنێت.» کلیلەکان بەم ڕیزبەندییە دابنێ.</p>
+        </div>
+        <div class="kz-lock-slots" id="kzLockSlots"></div>
+        <div class="kz-lock-rune-row" id="kzLockRunes"></div>
+        <div class="kz-msg" id="kzG5msg"></div>
+      </div>
+    </section>
+
+    <!-- CHAPTER COMPLETE -->
+    <section class="kz-screen" id="kz-screen-complete">
+      <div class="kz-story-card">
+        <div class="kz-rune-pill" id="kzCRune">🗝️ کلیلی یادەوەری بەدەستهات</div>
+        <h2>سەرکەوتوو بوویت!</h2>
+        <p id="kzCText"></p>
+        <button class="kz-btn" id="kzCContinueBtn">بەردەوامبوون</button>
+      </div>
+    </section>
+
+    <!-- ENDING -->
+    <section class="kz-screen" id="kz-screen-end">
+      <div class="kz-story-card">
+        <h2>دەرگای کۆتایی</h2>
+        <p>دەرگای کۆتایی کرایەوە... تۆ نەک تەنها نهێنی کۆشکەکەت دۆزییەوە، بەڵکو بوویت بە یەکێک لە پارێزەرانی دانایی. زانا ئازاد لە دەقێکی کۆندا نووسیبووی: «دانایی گەنجینەیەکە کە بە بەشکردن زیاد دەبێت، نەک بە شاردنەوە.» ئێستا نۆرەی تۆیە کە چیرۆکەکە بۆ یەکێکی تر بگێڕیتەوە.</p>
+        <button class="kz-btn" id="kzReplayBtn">گەڕانەوە بۆ سەرەتا</button>
+      </div>
+    </section>
+
+    <footer class="kz-credit">کۆشکی زانا · یارییەکی مێشکی</footer>
+  </div>
 </div>
 
 <!-- Phone / WhatsApp Action Modal -->
@@ -2396,6 +2764,11 @@ window.addEventListener('load', function() {
 });
 
 window.addEventListener('popstate', function(e) {
+  const kzOverlay = document.getElementById('koshkiZanaOverlay');
+  if (kzOverlay && kzOverlay.style.display === 'block') {
+    closeKoshkiZanaGame();
+    return;
+  }
   const ronakiOverlay = document.getElementById('ronakiGameOverlay');
   if (ronakiOverlay && ronakiOverlay.style.display === 'flex') {
     closeRonakiGame();
@@ -3777,6 +4150,16 @@ function closeRonakiGame(){
   }
   window.history.pushState({ screen: currentScreen }, "", "");
 }
+
+function openKoshkiZanaGame(){
+  document.getElementById('fullscreenGameOverlay').style.display = 'none';
+  document.getElementById('koshkiZanaOverlay').style.display = 'block';
+  window.history.pushState({ modal: 'koshkiZana' }, "", "");
+}
+function closeKoshkiZanaGame(){
+  document.getElementById('koshkiZanaOverlay').style.display = 'none';
+  window.history.pushState({ screen: currentScreen }, "", "");
+}
 </script>
 
 <!-- Ronaki Game Engine Script with Joystick & Dash Cool-down Timer -->
@@ -4043,607 +4426,4 @@ function closeRonakiGame(){
   const shardGeo = new THREE.IcosahedronGeometry(0.48, 0);
   const shardMat = new THREE.MeshStandardMaterial({ color:0x6b4b12, emissive:0xffcf6b, emissiveIntensity:1.3, roughness:0.3 });
   
-  function randomPointAvoiding(existingPoints, minDist, minCenterDist, worldRadius){
-    for(let attempt=0; attempt<60; attempt++){
-      const ang = Math.random()*Math.PI*2;
-      const rad = minCenterDist + Math.random()*(worldRadius - minCenterDist - 3);
-      const x = Math.cos(ang)*rad, z = Math.sin(ang)*rad;
-      let ok = true;
-      for(const p of existingPoints){
-        if (Math.hypot(p.x-x, p.z-z) < minDist){ ok=false; break; }
-      }
-      if(ok) return {x,z};
-    }
-    const ang = Math.random()*Math.PI*2;
-    const rad = minCenterDist + Math.random()*(worldRadius - minCenterDist - 3);
-    return { x: Math.cos(ang)*rad, z: Math.sin(ang)*rad };
-  }
-  function clearShards(){ for(const s of shards){ if (s.parent) scene.remove(s); } shards = []; }
-  function buildShardsForStage(stageCfg, placedPoints){
-    clearShards();
-    for(let i=0;i<stageCfg.shardCount;i++){
-      const p = randomPointAvoiding(placedPoints, 5.5, CFG.TOWER_RADIUS_CLEAR, stageCfg.worldRadius);
-      placedPoints.push(p);
-      const mesh = new THREE.Mesh(shardGeo, shardMat);
-      const baseY = groundHeightAt(p.x, p.z) + 1.1;
-      mesh.position.set(p.x, baseY, p.z);
-      addGlowSprite(mesh, goldGlowTex, 2.2, 0xffcf6b);
-      mesh.userData = { collected:false, baseY, phase: Math.random()*Math.PI*2 };
-      scene.add(mesh);
-      shards.push(mesh);
-    }
-  }
-
-  let powerups = [];
-  const powerupGeoPool = {
-    shield: new THREE.OctahedronGeometry(0.55, 0),
-    speed: new THREE.ConeGeometry(0.45, 1.0, 5),
-    magnet: new THREE.TorusGeometry(0.45, 0.16, 8, 16)
-  };
-  const powerupColors = { shield: 0x6bc5ff, speed: 0x7dff9e, magnet: 0xffcf6b };
-  const powerupGlowTex = { shield: blueGlowTex, speed: greenGlowTex, magnet: goldGlowTex };
-  const powerupLabels = { shield: "پارێزەر", speed: "خێرایی", magnet: "ئاسنکێش" };
-
-  function clearPowerups(){ for(const p of powerups){ if (p.parent) scene.remove(p); } powerups = []; }
-  function buildPowerupsForStage(stageCfg, placedPoints){
-    clearPowerups();
-    for(const type of stageCfg.powerups){
-      const p = randomPointAvoiding(placedPoints, 5.5, CFG.TOWER_RADIUS_CLEAR, stageCfg.worldRadius);
-      placedPoints.push(p);
-      const mat = new THREE.MeshStandardMaterial({ color: powerupColors[type], emissive: powerupColors[type], emissiveIntensity: 1.2, roughness:0.3 });
-      const mesh = new THREE.Mesh(powerupGeoPool[type], mat);
-      const baseY = groundHeightAt(p.x, p.z) + 1.2;
-      mesh.position.set(p.x, baseY, p.z);
-      addGlowSprite(mesh, powerupGlowTex[type], 2.4, powerupColors[type]);
-      mesh.userData = { type, collected:false, baseY, phase: Math.random()*Math.PI*2 };
-      scene.add(mesh);
-      powerups.push(mesh);
-    }
-  }
-  function activatePowerup(type){
-    const now = performance.now()/1000;
-    state.powerupUntil[type] = now + CFG.POWERUP_DURATION;
-    sfxPowerup();
-  }
-
-  let enemies = [];
-  let bossProjectiles = [];
-  const enemyGeo = new THREE.IcosahedronGeometry(0.75, 1);
-  const enemyMat = new THREE.MeshStandardMaterial({ color:0x1a0f2e, emissive:0x8b6bff, emissiveIntensity:0.9, roughness:0.4 });
-  const bossGeo = new THREE.IcosahedronGeometry(1.9, 1);
-  const bossMat = new THREE.MeshStandardMaterial({ color:0x150a24, emissive:0xff5a5a, emissiveIntensity:0.85, roughness:0.35 });
-  const projGeo = new THREE.SphereGeometry(CFG.BOSS_PROJECTILE_RADIUS*0.55, 10, 10);
-  const projMat = new THREE.MeshStandardMaterial({ color:0x2a0f1a, emissive:0xff5a5a, emissiveIntensity:1.3 });
-
-  function clearEnemies(){ for(const e of enemies){ if (e.parent) scene.remove(e); } enemies = []; }
-  function clearProjectiles(){ for(const p of bossProjectiles){ if (p.mesh.parent) scene.remove(p.mesh); } bossProjectiles = []; }
-
-  function pickNewWanderTarget(e, worldRadius){
-    const ang = Math.random()*Math.PI*2;
-    const rad = 6 + Math.random()*(worldRadius-8);
-    e.userData.wanderTarget.set(Math.cos(ang)*rad, 0, Math.sin(ang)*rad);
-    e.userData.wanderTimer = 3 + Math.random()*3;
-  }
-  function buildEnemiesForStage(stageCfg){
-    clearEnemies();
-    clearProjectiles();
-    const minionCount = stageCfg.boss ? Math.max(0, stageCfg.enemyCount - 1) : stageCfg.enemyCount;
-    for(let i=0;i<minionCount;i++){
-      const mesh = new THREE.Mesh(enemyGeo, enemyMat);
-      const ang = (i/Math.max(1,minionCount))*Math.PI*2 + Math.random();
-      const rad = 14 + Math.random()*(stageCfg.worldRadius-16);
-      const x = Math.cos(ang)*rad, z = Math.sin(ang)*rad;
-      mesh.position.set(x, groundHeightAt(x,z)+0.8, z);
-      addGlowSprite(mesh, purpleGlowTex, 2.6, 0x8b6bff);
-      mesh.userData = {
-        isBoss:false, speed: stageCfg.enemySpeed, chaseRadius: stageCfg.chaseRadius,
-        catchRadius: CFG.CATCH_RADIUS, wanderTarget: new THREE.Vector3(x,0,z), wanderTimer: 0
-      };
-      scene.add(mesh);
-      enemies.push(mesh);
-    }
-    if (stageCfg.boss){
-      const boss = new THREE.Mesh(bossGeo, bossMat);
-      boss.position.set(0, groundHeightAt(0, stageCfg.worldRadius*0.6)+1.5, stageCfg.worldRadius*0.6);
-      addGlowSprite(boss, redGlowTex, 6, 0xff5a5a);
-      const orbitGroup = new THREE.Group();
-      for(let k=0;k<3;k++){
-        const chip = new THREE.Mesh(
-          new THREE.IcosahedronGeometry(0.35,0),
-          new THREE.MeshStandardMaterial({ color:0x2a0f1a, emissive:0xff5a5a, emissiveIntensity:0.8 })
-        );
-        const orbitAng = (k/3)*Math.PI*2;
-        chip.position.set(Math.cos(orbitAng)*2.6, 0, Math.sin(orbitAng)*2.6);
-        orbitGroup.add(chip);
-      }
-      boss.add(orbitGroup);
-      boss.userData = {
-        isBoss:true, speed: stageCfg.enemySpeed, chaseRadius: stageCfg.chaseRadius,
-        catchRadius: CFG.BOSS_CATCH_RADIUS, wanderTarget: new THREE.Vector3(boss.position.x,0,boss.position.z),
-        wanderTimer: 0, orbitGroup, attackCooldown: 2.0
-      };
-      scene.add(boss);
-      enemies.push(boss);
-    }
-  }
-  function fireBossProjectile(boss){
-    const mesh = new THREE.Mesh(projGeo, projMat);
-    mesh.position.copy(boss.position);
-    addGlowSprite(mesh, redGlowTex, 2.4, 0xff5a5a);
-    const dir = new THREE.Vector3(player.position.x-boss.position.x, 0, player.position.z-boss.position.z).normalize();
-    scene.add(mesh);
-    bossProjectiles.push({ mesh, dir, life: 0, maxLife: 6 });
-    sfxProjectile();
-  }
-
-  // Floating Virtual Analog Joystick Control Integration (Bottom Left)
-  const joystickBase = document.getElementById("ronakiJoystickBase");
-  const joystickStick = document.getElementById("ronakiJoystickStick");
-  let joystickTouchId = null;
-  let joyStartX = 0, joyStartY = 0;
-  const maxRadius = 35;
-
-  if ('ontouchstart' in window) {
-    joystickBase.classList.add("show");
-  }
-
-  window.addEventListener("touchstart", (e)=>{
-    if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
-    for (let t of e.changedTouches) {
-      if (t.clientX < window.innerWidth / 2 && joystickTouchId === null) {
-        joystickTouchId = t.identifier;
-        joyStartX = t.clientX;
-        joyStartY = t.clientY;
-        joystickBase.style.left = (joyStartX - 55) + "px";
-        joystickBase.style.bottom = (window.innerHeight - joyStartY - 55) + "px";
-        joystickBase.classList.add("show");
-        joystickStick.style.transform = `translate(0px, 0px)`;
-      }
-    }
-  }, {passive:false});
-
-  window.addEventListener("touchmove", (e)=>{
-    if (joystickTouchId === null) return;
-    for (let t of e.changedTouches) {
-      if (t.identifier === joystickTouchId) {
-        let dx = t.clientX - joyStartX;
-        let dy = t.clientY - joyStartY;
-        const dist = Math.hypot(dx, dy);
-        if (dist > maxRadius) {
-          dx = (dx / dist) * maxRadius;
-          dy = (dy / dist) * maxRadius;
-        }
-        joystickStick.style.transform = `translate(${dx}px, ${dy}px)`;
-        state.keys["a"] = dx < -10;
-        state.keys["d"] = dx > 10;
-        state.keys["w"] = dy < -10;
-        state.keys["s"] = dy > 10;
-      }
-    }
-  }, {passive:false});
-
-  window.addEventListener("touchend", (e)=>{
-    for (let t of e.changedTouches) {
-      if (t.identifier === joystickTouchId) {
-        joystickTouchId = null;
-        joystickStick.style.transform = `translate(0px, 0px)`;
-        state.keys["a"] = false;
-        state.keys["d"] = false;
-        state.keys["w"] = false;
-        state.keys["s"] = false;
-      }
-    }
-  }, {passive:false});
-
-  window.addEventListener("keydown", (e)=>{
-    if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
-    const key = e.key.toLowerCase();
-    state.keys[key] = true;
-    if (key === "shift"){ tryDash(); }
-  });
-  window.addEventListener("keyup", (e)=>{ state.keys[e.key.toLowerCase()] = false; });
-
-  const ronakiDashTouch = document.getElementById("ronakiDashTouch");
-  const dashTouchHandler = (ev)=>{ ev.preventDefault(); tryDash(); };
-  ronakiDashTouch.addEventListener("touchstart", dashTouchHandler, {passive:false});
-  ronakiDashTouch.addEventListener("mousedown", dashTouchHandler);
-
-  if ('ontouchstart' in window){
-    ronakiDashTouch.classList.add("show");
-  }
-
-  function tryDash(){
-    if (state.mode !== "playing") return;
-    const now = performance.now()/1000;
-    if (now < state.dashCooldownUntil) return;
-    const dir = lastMoveDir.clone();
-    if (dir.lengthSq() < 0.001) return;
-    dir.normalize();
-    playerVel.copy(dir.multiplyScalar(CFG.DASH_SPEED));
-    state.dashActiveUntil = now + CFG.DASH_TIME;
-    state.dashCooldownUntil = now + CFG.DASH_COOLDOWN;
-    state.invulnUntil = Math.max(state.invulnUntil, now + CFG.DASH_TIME + 0.1);
-    sfxDash();
-    spawnBurst(player.position.clone(), whiteGlowTex, 0xffe4a8, 8, 3);
-  }
-
-  const elShardCount = document.getElementById("ronakiShardCount");
-  const elShardTotal = document.getElementById("ronakiShardTotal");
-  const elStageNum = document.getElementById("ronakiStageNum");
-  const elLives = document.getElementById("ronakiLives");
-  const elScoreVal = document.getElementById("ronakiScoreVal");
-  const elDashBarFill = document.getElementById("ronakiDashBarFill");
-  const elHud = document.getElementById("ronakiHud");
-  const elHurt = document.getElementById("ronakiHurtFlash");
-  const elStageBanner = document.getElementById("ronakiStageBanner");
-  const elPowerupRow = document.getElementById("ronakiPowerupRow");
-  const minimapCanvas = document.getElementById("ronakiMinimap");
-  const mmCtx = minimapCanvas.getContext("2d");
-
-  elShardTotal.textContent = TOTAL_SHARDS_ALL;
-
-  function refreshHud(){
-    elShardCount.textContent = state.totalShardsCollected;
-    elStageNum.textContent = state.stageIndex + 1;
-    elScoreVal.textContent = state.score;
-    let hearts = "";
-    for(let i=0;i<CFG.TOTAL_LIVES;i++){ hearts += i < state.lives ? "💛" : "🖤"; }
-    elLives.textContent = hearts;
-  }
-  function refreshPowerupRow(){
-    const now = performance.now()/1000;
-    let html = "";
-    for(const type of Object.keys(state.powerupUntil)){
-      const remain = state.powerupUntil[type] - now;
-      if (remain > 0){
-        html += '<div class="powerup-chip">' + powerupLabels[type] + ' — ' + Math.ceil(remain) + 'چ</div>';
-      }
-    }
-    elPowerupRow.innerHTML = html;
-  }
-
-  let bannerTimeout = null;
-  function showBanner(text){
-    if(!text) return;
-    elStageBanner.textContent = text;
-    elStageBanner.classList.add("show");
-    if (bannerTimeout) clearTimeout(bannerTimeout);
-    bannerTimeout = setTimeout(()=>{ elStageBanner.classList.remove("show"); }, 3000);
-  }
-
-  function initStage(idx){
-    const cfg = STAGES[idx];
-    state.stageIndex = idx;
-    state.stageShardsCollected = 0;
-    player.position.set(10, 0, 10);
-    playerVel.set(0,0,0);
-    const placedPoints = [];
-    buildShardsForStage(cfg, placedPoints);
-    buildPowerupsForStage(cfg, placedPoints);
-    buildEnemiesForStage(cfg);
-    scene.fog.color.setHex(cfg.fogColor);
-    refreshHud();
-    showBanner(cfg.name);
-  }
-
-  function start(){
-    ensureAudio();
-    state.totalShardsCollected = 0;
-    state.lives = CFG.TOTAL_LIVES;
-    state.invulnUntil = 0;
-    state.dashCooldownUntil = 0;
-    state.score = 0;
-    state.powerupUntil = { shield:0, speed:0, magnet:0 };
-    towerOrbMat.emissiveIntensity = 0.08;
-    towerOrbGlow.material.opacity = 0.15;
-    initStage(0);
-    state.mode = "playing";
-    elHud.classList.remove("hidden");
-  }
-
-  function restart(){ start(); }
-
-  function goToNextStage(){
-    const nextIdx = state.stageIndex + 1;
-    elHud.classList.remove("hidden");
-    state.lives = Math.min(CFG.TOTAL_LIVES, state.lives + 1);
-    state.score += CFG.SCORE_PER_STAGE;
-    initStage(nextIdx);
-    state.mode = "playing";
-    refreshHud();
-  }
-
-  function endGame(won){
-    start();
-  }
-
-  function stageComplete(){
-    const idx = state.stageIndex;
-    const isLast = idx === STAGES.length - 1;
-    if (isLast){ 
-      start(); 
-      return; 
-    }
-    sfxStageClear();
-    state.mode = "playing";
-    goToNextStage();
-  }
-
-  function stopGameEngine(){
-    state.mode = "start";
-    elHud.classList.add("hidden");
-  }
-
-  window.__ronakiGame = { start, restart, nextStage: goToNextStage, stop: stopGameEngine };
-
-  const clock = new THREE.Clock();
-
-  function triggerShake(mag, dur){
-    state.shakeUntil = performance.now()/1000 + dur;
-    state.shakeMag = mag;
-  }
-  function triggerHitStop(){
-    state.hitStopUntil = performance.now()/1000 + (CFG.HITSTOP_MS/1000);
-  }
-  function applyDamage(sourcePos){
-    const now = performance.now()/1000;
-    if (state.powerupUntil.shield > now) return;
-    state.lives--;
-    state.invulnUntil = now + CFG.INVULN_TIME;
-    refreshHud();
-    spawnBurst(player.position.clone(), purpleGlowTex, 0x8b6bff, 8, 2.5);
-    const away = new THREE.Vector3(player.position.x-sourcePos.x, 0, player.position.z-sourcePos.z).normalize();
-    playerVel.copy(away.multiplyScalar(18));
-    sfxHurt();
-    elHurt.style.opacity = "1";
-    setTimeout(()=>{ elHurt.style.opacity = "0"; }, 140);
-    triggerShake(0.5, 0.35);
-    triggerHitStop();
-    if (state.lives <= 0){ endGame(false); }
-  }
-
-  function updatePlaying(delta, elapsed){
-    const stageCfg = STAGES[state.stageIndex];
-    const now = performance.now()/1000;
-    const dashing = now < state.dashActiveUntil;
-    const shieldOn = now < state.powerupUntil.shield;
-    const speedOn = now < state.powerupUntil.speed;
-    const magnetOn = now < state.powerupUntil.magnet;
-
-    shieldSprite.material.opacity = shieldOn ? (0.35 + Math.sin(elapsed*8)*0.12) : 0;
-
-    // Dash Cool-down Timer update on screen button
-    const cdRemain = Math.max(0, state.dashCooldownUntil - now);
-    const dashBtnEl = document.getElementById("ronakiDashTouch");
-    if (dashBtnEl) {
-      if (cdRemain > 0) {
-        dashBtnEl.classList.add("cooldown");
-        dashBtnEl.innerHTML = `خێرا<br><span style="font-size:10px;">${cdRemain.toFixed(1)}چ</span>`;
-      } else {
-        dashBtnEl.classList.remove("cooldown");
-        dashBtnEl.innerHTML = "خێرا ⚡";
-      }
-    }
-
-    const k = state.keys;
-    let ix = 0, iz = 0;
-    if (k["w"] || k["arrowup"]) iz -= 1;
-    if (k["s"] || k["arrowdown"]) iz += 1;
-    if (k["a"] || k["arrowleft"]) ix -= 1;
-    if (k["d"] || k["arrowright"]) ix += 1;
-
-    const inputVec = new THREE.Vector3(ix, 0, iz);
-    const speedMult = speedOn ? 1.6 : 1;
-    if (inputVec.lengthSq() > 0){
-      inputVec.normalize();
-      lastMoveDir.copy(inputVec);
-      inputVec.multiplyScalar(CFG.PLAYER_SPEED * speedMult);
-    }
-    if (!dashing){
-      playerVel.x += (inputVec.x - playerVel.x) * Math.min(1, delta*CFG.PLAYER_ACCEL);
-      playerVel.z += (inputVec.z - playerVel.z) * Math.min(1, delta*CFG.PLAYER_ACCEL);
-    }
-    player.position.x += playerVel.x * delta;
-    player.position.z += playerVel.z * delta;
-
-    const worldRadius = stageCfg.worldRadius;
-    const distFromCenter = Math.hypot(player.position.x, player.position.z);
-    if (distFromCenter > worldRadius){
-      const scale = worldRadius / distFromCenter;
-      player.position.x *= scale;
-      player.position.z *= scale;
-      playerVel.multiplyScalar(0.3);
-    }
-    player.position.y = groundHeightAt(player.position.x, player.position.z) + 0.9;
-
-    if (inputVec.lengthSq() > 0.01 || dashing){
-      player.rotation.y = Math.atan2(playerVel.x, playerVel.z);
-    }
-    playerCore.position.y = Math.sin(elapsed*3)*0.08;
-    playerGlow.scale.setScalar(dashing ? 4.4 : (speedOn ? 3.8 : 3.2));
-
-    if (dashing && Math.random() < 0.5){
-      spawnBurst(player.position.clone(), whiteGlowTex, 0xffe4a8, 1, 1.5);
-    }
-    playerLight.position.copy(player.position).add(new THREE.Vector3(0,1.5,0));
-
-    for(const s of shards){
-      if (s.userData.collected) continue;
-      s.rotation.y += delta*1.4;
-      let d = Math.hypot(s.position.x-player.position.x, s.position.z-player.position.z);
-      if (magnetOn && d < CFG.MAGNET_RADIUS){
-        const pullDir = new THREE.Vector3(player.position.x-s.position.x, 0, player.position.z-s.position.z).normalize();
-        s.position.x += pullDir.x * CFG.MAGNET_PULL_SPEED * delta;
-        s.position.z += pullDir.z * CFG.MAGNET_PULL_SPEED * delta;
-        d = Math.hypot(s.position.x-player.position.x, s.position.z-player.position.z);
-      } else {
-        s.position.y = s.userData.baseY + Math.sin(elapsed*2 + s.userData.phase)*0.28;
-      }
-      if (d < CFG.SHARD_PICKUP_RADIUS){
-        s.userData.collected = true;
-        spawnBurst(s.position.clone(), goldGlowTex, 0xffcf6b, 10, 2.2);
-        scene.remove(s);
-        sfxPickup();
-        state.stageShardsCollected++;
-        state.totalShardsCollected++;
-        state.score += CFG.SCORE_PER_SHARD;
-        towerOrbMat.emissiveIntensity = 0.08 + (state.totalShardsCollected/TOTAL_SHARDS_ALL)*1.4;
-        towerOrbGlow.material.opacity = 0.15 + (state.totalShardsCollected/TOTAL_SHARDS_ALL)*0.55;
-        refreshHud();
-        if (state.stageShardsCollected >= stageCfg.shardCount){ stageComplete(); return; }
-      }
-    }
-    towerOrb.rotation.y += delta*0.3;
-
-    for(const p of powerups){
-      if (p.userData.collected) continue;
-      p.rotation.y += delta*1.8;
-      p.position.y = p.userData.baseY + Math.sin(elapsed*2.4 + p.userData.phase)*0.25;
-      const d = Math.hypot(p.position.x-player.position.x, p.position.z-player.position.z);
-      if (d < CFG.POWERUP_PICKUP_RADIUS){
-        p.userData.collected = true;
-        spawnBurst(p.position.clone(), powerupGlowTex[p.userData.type], powerupColors[p.userData.type], 10, 2.2);
-        scene.remove(p);
-        activatePowerup(p.userData.type);
-      }
-    }
-
-    const invuln = now < state.invulnUntil;
-    for(const e of enemies){
-      const ud = e.userData;
-      const distToPlayer = Math.hypot(e.position.x-player.position.x, e.position.z-player.position.z);
-      let target;
-      const alwaysChase = ud.isBoss;
-      if (alwaysChase || distToPlayer < ud.chaseRadius){
-        target = new THREE.Vector3(player.position.x, 0, player.position.z);
-      } else {
-        ud.wanderTimer -= delta;
-        if (ud.wanderTimer <= 0 || Math.hypot(e.position.x-ud.wanderTarget.x, e.position.z-ud.wanderTarget.z) < 1.2){
-          pickNewWanderTarget(e, worldRadius);
-        }
-        target = ud.wanderTarget;
-      }
-      const dir = new THREE.Vector3(target.x-e.position.x, 0, target.z-e.position.z);
-      if (dir.lengthSq() > 0.0001){
-        dir.normalize();
-        const chasing = alwaysChase || distToPlayer < ud.chaseRadius;
-        const spd = chasing ? ud.speed : ud.speed*0.5;
-        e.position.x += dir.x*spd*delta;
-        e.position.z += dir.z*spd*delta;
-        e.rotation.y = Math.atan2(dir.x, dir.z);
-      }
-      e.position.y = groundHeightAt(e.position.x, e.position.z) + (ud.isBoss ? 1.5 : 0.8) + Math.sin(elapsed*3+e.position.x)*0.1;
-      if (ud.orbitGroup){ ud.orbitGroup.rotation.y += delta*1.6; }
-      if (ud.isBoss){
-        ud.attackCooldown -= delta;
-        if (ud.attackCooldown <= 0 && distToPlayer < worldRadius*0.9){
-          fireBossProjectile(e);
-          ud.attackCooldown = CFG.BOSS_PROJECTILE_COOLDOWN;
-        }
-      }
-      if (!invuln && distToPlayer < ud.catchRadius){
-        applyDamage(e.position);
-        if (state.mode !== "playing") return;
-      }
-    }
-
-    for(let i=bossProjectiles.length-1;i>=0;i--){
-      const bp = bossProjectiles[i];
-      bp.life += delta;
-      bp.mesh.position.x += bp.dir.x * CFG.BOSS_PROJECTILE_SPEED * delta;
-      bp.mesh.position.z += bp.dir.z * CFG.BOSS_PROJECTILE_SPEED * delta;
-      bp.mesh.position.y = groundHeightAt(bp.mesh.position.x, bp.mesh.position.z) + 1.2;
-      bp.mesh.rotation.y += delta*4;
-      const distFromCtr = Math.hypot(bp.mesh.position.x, bp.mesh.position.z);
-      const dToPlayer = Math.hypot(bp.mesh.position.x-player.position.x, bp.mesh.position.z-player.position.z);
-      let hit = false;
-      if (!invuln && dToPlayer < CFG.BOSS_PROJECTILE_RADIUS + 0.6){
-        applyDamage(bp.mesh.position);
-        hit = true;
-      }
-      if (hit || bp.life > bp.maxLife || distFromCtr > worldRadius + 5){
-        scene.remove(bp.mesh);
-        bossProjectiles.splice(i,1);
-      }
-      if (state.mode !== "playing") return;
-    }
-
-    playerCore.visible = invuln ? (Math.floor(elapsed*14)%2===0) : true;
-    const cdRemBar = Math.max(0, state.dashCooldownUntil - now);
-    const cdFrac = 1 - Math.min(1, cdRemBar / CFG.DASH_COOLDOWN);
-    elDashBarFill.style.width = (cdFrac*100).toFixed(0) + "%";
-
-    updateParticles(delta);
-    refreshPowerupRow();
-
-    const camOffset = new THREE.Vector3(0, 9.5, 11.5);
-    const desired = player.position.clone().add(camOffset);
-    camera.position.lerp(desired, 1 - Math.pow(0.001, delta));
-    if (now < state.shakeUntil){
-      const remain = state.shakeUntil - now;
-      const mag = state.shakeMag * (remain / 0.35);
-      camera.position.x += (Math.random()-0.5) * mag;
-      camera.position.y += (Math.random()-0.5) * mag * 0.6;
-    }
-    const lookTarget = player.position.clone().add(new THREE.Vector3(0,1.2,0));
-    camera.lookAt(lookTarget);
-
-    drawMinimap(stageCfg);
-  }
-
-  function drawMinimap(stageCfg){
-    const w = minimapCanvas.width, h = minimapCanvas.height;
-    mmCtx.clearRect(0,0,w,h);
-    mmCtx.fillStyle = "rgba(5,7,13,0.9)";
-    mmCtx.beginPath(); mmCtx.arc(w/2,h/2,w/2,0,Math.PI*2); mmCtx.fill();
-    const scale = (w/2 - 6) / stageCfg.worldRadius;
-    function toMM(x,z){ return [ w/2 + x*scale, h/2 + z*scale ]; }
-
-    let [tx,ty] = toMM(0,0);
-    mmCtx.fillStyle = "#ffcf6b";
-    mmCtx.beginPath(); mmCtx.arc(tx,ty,4,0,Math.PI*2); mmCtx.fill();
-
-    mmCtx.fillStyle = "#ffe4a8";
-    for(const s of shards){
-      if (s.userData.collected) continue;
-      const [sx,sy] = toMM(s.position.x, s.position.z);
-      mmCtx.beginPath(); mmCtx.arc(sx,sy,2.2,0,Math.PI*2); mmCtx.fill();
-    }
-    for(const p of powerups){
-      if (p.userData.collected) continue;
-      const [px2,py2] = toMM(p.position.x, p.position.z);
-      mmCtx.fillStyle = "#" + powerupColors[p.userData.type].toString(16).padStart(6,"0");
-      mmCtx.beginPath(); mmCtx.arc(px2,py2,2.6,0,Math.PI*2); mmCtx.fill();
-    }
-    for(const e of enemies){
-      const [ex,ey] = toMM(e.position.x, e.position.z);
-      mmCtx.fillStyle = e.userData.isBoss ? "#ff5a5a" : "#8b6bff";
-      mmCtx.beginPath(); mmCtx.arc(ex,ey, e.userData.isBoss?4.2:2.4, 0, Math.PI*2); mmCtx.fill();
-    }
-    const [px,py] = toMM(player.position.x, player.position.z);
-    mmCtx.fillStyle = "#ffffff";
-    mmCtx.beginPath(); mmCtx.arc(px,py,3.2,0,Math.PI*2); mmCtx.fill();
-  }
-
-  function animate(){
-    requestAnimationFrame(animate);
-    if (document.getElementById('ronakiGameOverlay').style.display === 'flex'){
-      const nowSec = performance.now()/1000;
-      const delta = Math.min(clock.getDelta(), 0.05);
-      const elapsed = clock.getElapsedTime();
-      if (state.mode === "playing"){
-        if (nowSec >= state.hitStopUntil){
-          updatePlaying(delta, elapsed);
-        }
-      }
-      renderer.render(scene, camera);
-    }
-  }
-
-  refreshHud();
-  animate();
-})();
-</script>
-
-</body>
-</html>
+  function randomPointAvoiding(existingPoints, minDist, minCenterDist,I encountered an error doing what you asked. Could you try again?
