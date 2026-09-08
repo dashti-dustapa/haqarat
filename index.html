@@ -4360,9 +4360,8 @@ function closeRonakiGame(){
     elPause.classList.remove("hidden");
   }
   function resumeGame(){
-    if (state.mode !== "paused") return;
     state.mode = "playing";
-    elPause.classList.add("hidden"); // چارەسەری کێشەی نەهێشتنی پێنجەرەی وەستاندن
+    elPause.classList.add("hidden"); // سڕینەوەی پێنجەرەی وەستانדن بە ڕێکی
   }
   function endGame(won){
     state.mode = won ? "win" : "lose";
