@@ -3799,6 +3799,7 @@ function closeRonakiGame(){
 }
 </script>
 
+<!-- Ronaki Game Engine Script -->
 <script>
 (function(){
   "use strict";
@@ -4361,7 +4362,7 @@ function closeRonakiGame(){
   function resumeGame(){
     if (state.mode !== "paused") return;
     state.mode = "playing";
-    elPause.classList.add("hidden");
+    elPause.classList.add("hidden"); // چارەسەری کێشەی نەهێشتنی پێنجەرەی وەستاندن
   }
   function endGame(won){
     state.mode = won ? "win" : "lose";
