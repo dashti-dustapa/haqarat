@@ -1873,7 +1873,7 @@ body.dark-mode .skeleton-shimmer {
   </div>
 </div>
 
-<!-- Ronaki Game Overlay Integration (Direct Start) -->
+<!-- Ronaki Game Overlay Integration (Direct Play) -->
 <div id="ronakiGameOverlay">
   <canvas id="ronakiCanvas"></canvas>
   <div id="ronakiHurtFlash"></div>
@@ -3747,7 +3747,6 @@ if ('serviceWorker' in navigator) {
 function openRonakiGame(){
   document.getElementById('fullscreenGameOverlay').style.display = 'none';
   document.getElementById('ronakiGameOverlay').style.display = 'flex';
-  // ڕاستەوخۆ دەست پێدەکات بەبێ ئەوەی پێویست بە دەستپێکردن بکات
   if(window.__ronakiGame && typeof window.__ronakiGame.start === 'function') {
     window.__ronakiGame.start();
   }
@@ -3762,7 +3761,7 @@ function closeRonakiGame(){
 }
 </script>
 
-<!-- Ronaki Game Engine Script (Direct Play) -->
+<!-- Ronaki Game Engine Script (Direct Play, No Menu) -->
 <script>
 (function(){
   "use strict";
