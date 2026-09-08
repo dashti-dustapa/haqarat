@@ -1608,7 +1608,7 @@ body.dark-mode .skeleton-shimmer {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Ronaki Game Specific UI inside Overlay with Floating Joystick */
+/* Ronaki Game Specific UI inside Overlay with Top Minimap & Left Joystick */
 #ronakiGameOverlay {
   display: none;
   position: fixed;
@@ -1623,30 +1623,32 @@ body.dark-mode .skeleton-shimmer {
   position:absolute; top:100px; right:16px;
   display:flex; flex-direction:column; gap:6px;
 }
+/* Minimap moved to top-left to avoid joystick clash */
 #ronakiMinimapWrap{
-  position:absolute; bottom:16px; left:16px; width:100px; height:100px;
+  position:absolute; top:85px; left:16px; width:95px; height:95px;
   background:var(--panel); border:1px solid var(--line); border-radius:50%; overflow:hidden;
   pointer-events: auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 #ronakiMinimap{ width:100%; height:100%; display:block; }
 #ronakiStageBanner{
-  position:absolute; top:80px; left:50%; transform:translateX(-50%);
+  position:absolute; top:140px; left:50%; transform:translateX(-50%);
   background:var(--panel); border:1px solid var(--line); border-radius:3px;
   padding:8px 18px; font-size:12.5px; color:var(--gold-soft); text-align:center;
   direction:rtl; opacity:0; transition:opacity .5s ease; max-width:78vw;
 }
 #ronakiStageBanner.show{ opacity:1; }
 
-/* Floating Virtual Analog Joystick for Mobile */
+/* Floating Virtual Analog Joystick for Mobile (Bottom Left) */
 #ronakiJoystickBase {
   position: fixed;
-  bottom: 35px;
-  left: 35px;
+  bottom: 40px;
+  left: 40px;
   width: 110px;
   height: 110px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 207, 107, 0.25);
+  border: 1.5px solid rgba(255, 207, 107, 0.3);
   z-index: 25;
   display: none;
   align-items: center;
@@ -1657,25 +1659,49 @@ body.dark-mode .skeleton-shimmer {
 }
 #ronakiJoystickBase.show { display: flex; }
 #ronakiJoystickStick {
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: rgba(255, 207, 107, 0.4);
-  border: 1px solid rgba(255, 207, 107, 0.7);
-  box-shadow: 0 0 12px rgba(255, 207, 107, 0.3);
+  background: rgba(255, 207, 107, 0.45);
+  border: 1px solid rgba(255, 207, 107, 0.8);
+  box-shadow: 0 0 14px rgba(255, 207, 107, 0.4);
   position: absolute;
   touch-action: none;
   pointer-events: none;
 }
-#ronakiDashTouch{
-  position:fixed; bottom:40px; right:35px; z-index:25;
-  width:65px; height:65px; border-radius:50%;
-  background:rgba(139,107,255,0.25); border:1.5px solid rgba(139,107,255,0.6);
-  color:var(--purple); font-size:12px; font-weight:800; display:none; align-items:center; justify-content:center;
-  text-align:center; touch-action:none; user-select:none; -webkit-user-select:none;
-  box-shadow: 0 0 15px rgba(139,107,255,0.35);
+
+/* Speed / Dash Button with Cool-down Timer */
+#ronakiDashTouch {
+  position: fixed;
+  bottom: 45px;
+  right: 45px;
+  z-index: 25;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background: rgba(139, 107, 255, 0.25);
+  border: 2px solid rgba(139, 107, 255, 0.7);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  box-shadow: 0 0 20px rgba(139, 107, 255, 0.4);
 }
-#ronakiDashTouch.show{ display:flex; }
+#ronakiDashTouch.show { display: flex; }
+#ronakiDashTouch.cooldown {
+  background: rgba(100, 100, 100, 0.3);
+  border-color: rgba(150, 150, 150, 0.4);
+  color: rgba(255, 255, 255, 0.5);
+  box-shadow: none;
+}
+
 #ronakiHurtFlash{ position:fixed; inset:0; pointer-events:none; z-index:16; background:rgba(139,107,255,0.25); opacity:0; transition:opacity .12s ease; }
 </style>
 </head>
@@ -1873,7 +1899,7 @@ body.dark-mode .skeleton-shimmer {
   </div>
 </div>
 
-<!-- Ronaki Game Overlay Integration (Direct Play + Joystick) -->
+<!-- Ronaki Game Overlay Integration -->
 <div id="ronakiGameOverlay">
   <canvas id="ronakiCanvas"></canvas>
   <div id="ronakiHurtFlash"></div>
@@ -1900,14 +1926,17 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </div>
     <div id="ronakiPowerupRow"></div>
-    <div id="ronakiMinimapWrap"><canvas id="ronakiMinimap" width="100" height="100"></canvas></div>
-    <div style="position:absolute; bottom:16px; right:20px; font-size:12px; color:rgba(243,234,217,0.75); direction:rtl; cursor:pointer; background:var(--panel); padding:6px 12px; border-radius:6px; border:1px solid var(--line); pointer-events:auto;" onclick="closeRonakiGame()">❌ داخستنی یاری</div>
+    <!-- Minimap placed safely at top-left -->
+    <div id="ronakiMinimapWrap"><canvas id="ronakiMinimap" width="95" height="95"></canvas></div>
+    <!-- Close button placed at top -->
+    <div style="position:absolute; top:20px; left:20px; font-size:12px; color:rgba(243,234,217,0.85); direction:rtl; cursor:pointer; background:var(--panel); padding:6px 14px; border-radius:6px; border:1px solid var(--line); pointer-events:auto; z-index:30;" onclick="closeRonakiGame()">❌ داخستنی یاری</div>
   </div>
 
-  <!-- Virtual Analog Joystick for Mobile -->
+  <!-- Floating Virtual Analog Joystick (Bottom Left) -->
   <div id="ronakiJoystickBase">
     <div id="ronakiJoystickStick"></div>
   </div>
+  <!-- Dash Button with Cool-down Timer (Bottom Right) -->
   <div id="ronakiDashTouch">خێرا</div>
 </div>
 
@@ -3750,7 +3779,7 @@ function closeRonakiGame(){
 }
 </script>
 
-<!-- Ronaki Game Engine Script (Direct Play + Floating Analog Joystick) -->
+<!-- Ronaki Game Engine Script with Joystick & Dash Cool-down Timer -->
 <script>
 (function(){
   "use strict";
@@ -3758,20 +3787,17 @@ function closeRonakiGame(){
     {
       name: "قۆناغی یەکەم — دابەزین بۆ تاریکی",
       shardCount: 5, enemyCount: 4, enemySpeed: 5.0, chaseRadius: 9, worldRadius: 36,
-      boss: false, fogColor: 0x05070d, powerups: ["shield"],
-      intro: "", clearStory: ""
+      boss: false, fogColor: 0x05070d, powerups: ["shield"]
     },
     {
       name: "قۆناغی دووەم — داڕی قووڵ",
       shardCount: 5, enemyCount: 6, enemySpeed: 6.1, chaseRadius: 11, worldRadius: 42,
-      boss: false, fogColor: 0x04050c, powerups: ["speed","magnet"],
-      intro: "", clearStory: ""
+      boss: false, fogColor: 0x04050c, powerups: ["speed","magnet"]
     },
     {
       name: "قۆناغی سێیەم — بەرەنگاربوونەوەی گەورە تاریکی",
       shardCount: 4, enemyCount: 2, enemySpeed: 6.6, chaseRadius: 17, worldRadius: 46,
-      boss: true, fogColor: 0x030309, powerups: ["shield"],
-      intro: "", clearStory: ""
+      boss: true, fogColor: 0x030309, powerups: ["shield"]
     }
   ];
 
@@ -4150,7 +4176,7 @@ function closeRonakiGame(){
     sfxProjectile();
   }
 
-  // Floating Virtual Analog Joystick Control Integration
+  // Floating Virtual Analog Joystick Control Integration (Bottom Left)
   const joystickBase = document.getElementById("ronakiJoystickBase");
   const joystickStick = document.getElementById("ronakiJoystickStick");
   let joystickTouchId = null;
@@ -4278,10 +4304,11 @@ function closeRonakiGame(){
 
   let bannerTimeout = null;
   function showBanner(text){
+    if(!text) return;
     elStageBanner.textContent = text;
     elStageBanner.classList.add("show");
     if (bannerTimeout) clearTimeout(bannerTimeout);
-    bannerTimeout = setTimeout(()=>{ elStageBanner.classList.remove("show"); }, 4000);
+    bannerTimeout = setTimeout(()=>{ elStageBanner.classList.remove("show"); }, 3000);
   }
 
   function initStage(idx){
@@ -4296,6 +4323,7 @@ function closeRonakiGame(){
     buildEnemiesForStage(cfg);
     scene.fog.color.setHex(cfg.fogColor);
     refreshHud();
+    showBanner(cfg.name);
   }
 
   function start(){
@@ -4383,6 +4411,19 @@ function closeRonakiGame(){
     const magnetOn = now < state.powerupUntil.magnet;
 
     shieldSprite.material.opacity = shieldOn ? (0.35 + Math.sin(elapsed*8)*0.12) : 0;
+
+    // Dash Cool-down Timer update on screen button
+    const cdRemain = Math.max(0, state.dashCooldownUntil - now);
+    const dashBtnEl = document.getElementById("ronakiDashTouch");
+    if (dashBtnEl) {
+      if (cdRemain > 0) {
+        dashBtnEl.classList.add("cooldown");
+        dashBtnEl.innerHTML = `خێرا<br><span style="font-size:10px;">${cdRemain.toFixed(1)}چ</span>`;
+      } else {
+        dashBtnEl.classList.remove("cooldown");
+        dashBtnEl.innerHTML = "خێرا ⚡";
+      }
+    }
 
     const k = state.keys;
     let ix = 0, iz = 0;
@@ -4528,8 +4569,8 @@ function closeRonakiGame(){
     }
 
     playerCore.visible = invuln ? (Math.floor(elapsed*14)%2===0) : true;
-    const cdRemain = Math.max(0, state.dashCooldownUntil - now);
-    const cdFrac = 1 - Math.min(1, cdRemain / CFG.DASH_COOLDOWN);
+    const cdRemBar = Math.max(0, state.dashCooldownUntil - now);
+    const cdFrac = 1 - Math.min(1, cdRemBar / CFG.DASH_COOLDOWN);
     elDashBarFill.style.width = (cdFrac*100).toFixed(0) + "%";
 
     updateParticles(delta);
