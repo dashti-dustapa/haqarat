@@ -1873,20 +1873,10 @@ body.dark-mode .skeleton-shimmer {
   </div>
 </div>
 
-<!-- Ronaki Game Overlay Integration (Direct Play) -->
+<!-- Ronaki Game Overlay Integration (Direct Play, No Game Over Screen) -->
 <div id="ronakiGameOverlay">
   <canvas id="ronakiCanvas"></canvas>
   <div id="ronakiHurtFlash"></div>
-
-  <div id="ronakiEndScreen" class="ronaki-veil hidden">
-    <div class="ronaki-card">
-      <h2 id="ronakiEndTitle"></h2>
-      <p class="story" id="ronakiEndStory"></p>
-      <div class="best-score" id="ronakiFinalScoreLine"></div>
-      <button class="primary" onclick="window.__ronakiGame.restart()" id="ronakiEndBtn">دووبارە هەوڵبدەوە</button>
-      <button class="secondary" onclick="closeRonakiGame()" style="margin-top:10px;">گەڕانەوە بۆ سەنتەری یارییەکان</button>
-    </div>
-  </div>
 
   <div id="ronakiHud">
     <div id="ronakiStageBanner"></div>
@@ -3761,7 +3751,7 @@ function closeRonakiGame(){
 }
 </script>
 
-<!-- Ronaki Game Engine Script (Direct Play) -->
+<!-- Ronaki Game Engine Script (Auto Restart on Lose, No Game Over Screen) -->
 <script>
 (function(){
   "use strict";
@@ -4220,12 +4210,6 @@ function closeRonakiGame(){
   const elScoreVal = document.getElementById("ronakiScoreVal");
   const elDashBarFill = document.getElementById("ronakiDashBarFill");
   const elHud = document.getElementById("ronakiHud");
-  const elBestScoreLine = document.getElementById("ronakiBestScoreLine");
-  const elEnd = document.getElementById("ronakiEndScreen");
-  const elEndTitle = document.getElementById("ronakiEndTitle");
-  const elEndStory = document.getElementById("ronakiEndStory");
-  const elFinalScoreLine = document.getElementById("ronakiFinalScoreLine");
-  const elEndBtn = document.getElementById("ronakiEndBtn");
   const elStageClear = document.getElementById("ronakiStageClearScreen");
   const elStageClearKicker = document.getElementById("ronakiStageClearKicker");
   const elStageClearTitle = document.getElementById("ronakiStageClearTitle");
@@ -4293,14 +4277,13 @@ function closeRonakiGame(){
     towerOrbGlow.material.opacity = 0.15;
     initStage(0);
     state.mode = "playing";
-    elEnd.classList.add("hidden");
-    elStageClear.classList.add("hidden");
     elHud.classList.remove("hidden");
   }
+
   function restart(){ start(); }
+
   function goToNextStage(){
     const nextIdx = state.stageIndex + 1;
-    elStageClear.classList.add("hidden");
     elHud.classList.remove("hidden");
     state.lives = Math.min(CFG.TOTAL_LIVES, state.lives + 1);
     state.score += CFG.SCORE_PER_STAGE;
@@ -4308,46 +4291,27 @@ function closeRonakiGame(){
     state.mode = "playing";
     refreshHud();
   }
+
   function endGame(won){
-    state.mode = won ? "win" : "lose";
-    elHud.classList.add("hidden");
-    if (won) state.score += 500;
-    if (state.score > state.bestScore) state.bestScore = state.score;
-    elFinalScoreLine.textContent = "خاڵی تۆ: " + state.score + "   •   باشترین خاڵ: " + state.bestScore;
-    if(won){
-      sfxWin();
-      elEndTitle.textContent = "ڕووناکی گەڕایەوە";
-      elEndStory.innerHTML = "هەموو ١٤ کریستاڵەکانی ڕووناکی کۆکرانەوە، و گەورە تاریکی شکێنرا! قوللەی کۆن بە تەواوی هەڵگەڕایەوە، و خۆر جارێکی تر لە ئاسمانی تاریکستان هەڵهات. تاریکی هەڵمژایەوە، و ڕۆژ — پرشنگە بچووکەکە — بوو بە هۆکاری زیندووبوونەوەی هەموو جیهان.";
-      elEndBtn.textContent = "گەشتێکی نوێ دەستپێبکەرەوە";
-    } else {
-      sfxLose();
-      elEndTitle.textContent = "ڕووناکی نەما...";
-      elEndStory.innerHTML = "تاریکەکان ڕۆژیان گرت، و دوایین پرشنگی ڕووناکی خامۆش بووەوە لە قۆناغی " + (state.stageIndex+1) + "ی گەشتەکەدا. بەڵام هەتا هەناسە هەیە، هیوای ڕووناکیش هەیە. دووبارە هەوڵبدەوە لە سەرەتاوە.";
-      elEndBtn.textContent = "دووبارە هەوڵبدەوە";
-    }
-    elEnd.classList.remove("hidden");
+    // ئەگەر یارییەکە دۆڕا، ڕاستەوخۆ و بێ هیچ چاوەڕوانییەک دووبارە دەست پێبکاتەوە (Auto Restart)
+    start();
   }
 
   function stageComplete(){
     const idx = state.stageIndex;
     const isLast = idx === STAGES.length - 1;
-    if (isLast){ endGame(true); return; }
+    if (isLast){ 
+      start(); // لە کۆتایی قۆناغەکاندا سەرلەنوێ دەست پێدەکاتەوە
+      return; 
+    }
     sfxStageClear();
-    state.mode = "stageClear";
-    elHud.classList.add("hidden");
-    const cfg = STAGES[idx];
-    const nextCfg = STAGES[idx+1];
-    elStageClearKicker.textContent = cfg.name + " — تەواوبوو";
-    elStageClearTitle.textContent = nextCfg.name;
-    elStageClearStory.textContent = cfg.clearStory + " " + nextCfg.intro;
-    elStageClear.classList.remove("hidden");
+    state.mode = "playing";
+    goToNextStage();
   }
 
   function stopGameEngine(){
     state.mode = "start";
     elHud.classList.add("hidden");
-    elStageClear.classList.add("hidden");
-    elEnd.classList.add("hidden");
   }
 
   window.__ronakiGame = { start, restart, nextStage: goToNextStage, stop: stopGameEngine };
