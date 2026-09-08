@@ -4426,4 +4426,72 @@ function closeKoshkiZanaGame(){
   const shardGeo = new THREE.IcosahedronGeometry(0.48, 0);
   const shardMat = new THREE.MeshStandardMaterial({ color:0x6b4b12, emissive:0xffcf6b, emissiveIntensity:1.3, roughness:0.3 });
   
-  function randomPointAvoiding(existingPoints, minDist, minCenterDist,I encountered an error doing what you asked. Could you try again?
+  function randomPointAvoiding(existingPoints, minDist, minCenterDist, worldRadius){
+    for(let attempt=0; attempt<60; attempt++){
+      const ang = Math.random()*Math.PI*2;
+      const rad = minCenterDist + Math.random()*(worldRadius - minCenterDist - 3);
+      const x = Math.cos(ang)*rad, z = Math.sin(ang)*rad;
+      let ok = true;
+      for(const p of existingPoints){
+        if (Math.hypot(p.x-x, p.z-z) < minDist){ ok=false; break; }
+      }
+      if(ok) return {x,z};
+    }
+    const ang = Math.random()*Math.PI*2;
+    const rad = minCenterDist + Math.random()*(worldRadius - minCenterDist - 3);
+    return { x: Math.cos(ang)*rad, z: Math.sin(ang)*rad };
+  }
+  function clearShards(){ for(const s of shards){ if (s.parent) scene.remove(s); } shards = []; }
+  function buildShardsForStage(stageCfg, placedPoints){
+    clearShards();
+    for(let i=0;i<stageCfg.shardCount;i++){
+      const p = randomPointAvoiding(placedPoints, 5.5, CFG.TOWER_RADIUS_CLEAR, stageCfg.worldRadius);
+      placedPoints.push(p);
+      const mesh = new THREE.Mesh(shardGeo, shardMat);
+      const baseY = groundHeightAt(p.x, p.z) + 1.1;
+      mesh.position.set(p.x, baseY, p.z);
+      addGlowSprite(mesh, goldGlowTex, 2.2, 0xffcf6b);
+      mesh.userData = { collected:false, baseY, phase: Math.random()*Math.PI*2 };
+      scene.add(mesh);
+      shards.push(mesh);
+    }
+  }
+
+  let powerups = [];
+  const powerupGeoPool = {
+    shield: new THREE.OctahedronGeometry(0.55, 0),
+    speed: new THREE.ConeGeometry(0.45, 1.0, 5),
+    magnet: new THREE.TorusGeometry(0.45, 0.16, 8, 16)
+  };
+  const powerupColors = { shield: 0x6bc5ff, speed: 0x7dff9e, magnet: 0xffcf6b };
+  const powerupGlowTex = { shield: blueGlowTex, speed: greenGlowTex, magnet: goldGlowTex };
+  const powerupLabels = { shield: "پارێزەر", speed: "خێرایی", magnet: "ئاسنکێش" };
+
+  function clearPowerups(){ for(const p of powerups){ if (p.parent) scene.remove(p); } powerups = []; }
+  function buildPowerupsForStage(stageCfg, placedPoints){
+    clearPowerups();
+    for(const type of stageCfg.powerups){
+      const p = randomPointAvoiding(placedPoints, 5.5, CFG.TOWER_RADIUS_CLEAR, stageCfg.worldRadius);
+      placedPoints.push(p);
+      const mat = new THREE.MeshStandardMaterial({ color: powerupColors[type], emissive: powerupColors[type], emissiveIntensity: 1.2, roughness:0.3 });
+      const mesh = new THREE.Mesh(powerupGeoPool[type], mat);
+      const baseY = groundHeightAt(p.x, p.z) + 1.2;
+      mesh.position.set(p.x, baseY, p.z);
+      addGlowSprite(mesh, powerupGlowTex[type], 2.4, powerupColors[type]);
+      mesh.userData = { type, collected:false, baseY, phase: Math.random()*Math.PI*2 };
+      scene.add(mesh);
+      powerups.push(mesh);
+    }
+  }
+  function activatePowerup(type){
+    const now = performance.now()/1000;
+    state.powerupUntil[type] = now + CFG.POWERUP_DURATION;
+    sfxPowerup();
+  }
+
+  let enemies = [];
+  let bossProjectiles = [];
+  const enemyGeo = new THREE.IcosahedronGeometry(0.75, 1);
+  const enemyMat = new THREE.MeshStandardMaterial({ color:0x1a0f2e, emissive:0x8b6bff, emissiveIntensity:0.9, roughness:0.4 });
+  const bossGeo = new THREE.IcosahedronGeometry(1.9, 1);
+  const bossMat = new THREE.MeshStandardMaterial({ color:0x150a24, emissive:0xff5aSorry, something went wrong. Please try your request again.
