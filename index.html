@@ -1608,7 +1608,7 @@ body.dark-mode .skeleton-shimmer {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Ronaki Game Specific UI inside Overlay with Top Minimap & Left Joystick */
+/* Ronaki Game UI */
 #ronakiGameOverlay {
   display: none;
   position: fixed;
@@ -1700,7 +1700,7 @@ body.dark-mode .skeleton-shimmer {
 }
 #ronakiHurtFlash{ position:fixed; inset:0; pointer-events:none; z-index:16; background:rgba(139,107,255,0.25); opacity:0; transition:opacity .12s ease; }
 
-/* Koshki Zana (کۆشکی زانا) Overlay Styles */
+/* Koshki Zana Overlay Styles */
 #koshkiZanaOverlay {
   display: none;
   position: fixed;
@@ -1923,6 +1923,230 @@ body.dark-mode .skeleton-shimmer {
 #koshkiZanaOverlay .kz-lock-slot.kz-filled { border-style: solid; color: #efe6d3; }
 
 #koshkiZanaOverlay footer.kz-credit { color: #5c6193; font-size: .75rem; padding: 14px; text-align: center; }
+
+/* Amaze Go (ئامەیز گۆ) Scoped Styles */
+#amazeGoOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  background: #f4ecd9;
+  overflow: hidden;
+  touch-action: none;
+  direction: rtl;
+}
+#amazeGoOverlay * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+#amazeGoOverlay .ag-app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--ag-bg, #f4ecd9);
+}
+#amazeGoOverlay .ag-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 8px 16px;
+}
+#amazeGoOverlay .ag-iconbtn {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--ag-card, #fffaf0);
+  border: 1px solid var(--ag-panel-border, #d8c6a3);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ag-line, #6b4a35);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(107,74,53,0.18);
+  font-weight: 800; font-size: 1.2rem;
+}
+#amazeGoOverlay .ag-iconbtn:active { transform: scale(0.92); }
+#amazeGoOverlay .ag-iconbtn svg { width: 20px; height: 20px; }
+#amazeGoOverlay .ag-level-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ag-accent-dark, #a9701f);
+  letter-spacing: 0.5px;
+}
+#amazeGoOverlay .ag-top-right { display: flex; gap: 8px; }
+
+#amazeGoOverlay .ag-hints-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 20px 6px 20px;
+}
+#amazeGoOverlay .ag-drop { width: 16px; height: 16px; }
+#amazeGoOverlay .ag-hints-count {
+  font-weight: 700;
+  color: #5b9bd5;
+  font-size: 15px;
+  margin-inline-start: 4px;
+}
+#amazeGoOverlay .ag-stat-chip {
+  margin-inline-start: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ag-line, #6b4a35);
+  background: var(--ag-card, #fffaf0);
+  border: 1px solid var(--ag-panel-border, #d8c6a3);
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+#amazeGoOverlay .ag-maze-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  min-height: 0;
+}
+#amazeGoOverlay #ag-mazeCanvas {
+  background: var(--ag-bg2, #ece1c8);
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 2px var(--ag-panel-border, #d8c6a3);
+  touch-action: none;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#amazeGoOverlay .ag-bottom-row {
+  display: flex;
+  justify-content: center;
+  gap: 34px;
+  padding: 10px 0 6px 0;
+}
+#amazeGoOverlay .ag-bigbtn {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--ag-card, #fffaf0);
+  border: 1px solid var(--ag-panel-border, #d8c6a3);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 8px rgba(107,74,53,0.18);
+  color: var(--ag-line, #6b4a35);
+  cursor: pointer;
+}
+#amazeGoOverlay .ag-bigbtn:active { transform: scale(0.93); }
+#amazeGoOverlay .ag-bigbtn svg { width: 26px; height: 26px; }
+
+#amazeGoOverlay .ag-footer-banner {
+  text-align: center;
+  padding: 14px 0 22px 0;
+  background: var(--ag-accent, #c78a2e);
+  color: #fffaf0;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 2px;
+  border-top: 4px solid var(--ag-accent-dark, #a9701f);
+}
+
+#amazeGoOverlay .ag-overlay {
+  position: absolute; inset: 0;
+  background: rgba(60,42,28,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 20px;
+}
+#amazeGoOverlay .ag-overlay.show { display: flex; }
+#amazeGoOverlay .ag-modal {
+  background: var(--ag-card, #fffaf0);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 440px;
+  max-height: 85%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+#amazeGoOverlay .ag-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--ag-panel-border, #d8c6a3);
+}
+#amazeGoOverlay .ag-modal-header h2 {
+  margin: 0; font-size: 20px; color: var(--ag-accent-dark, #a9701f);
+}
+#amazeGoOverlay .ag-modal-body {
+  padding: 16px 18px;
+  overflow-y: auto;
+}
+
+#amazeGoOverlay .ag-levels-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+#amazeGoOverlay .ag-lvl-cell {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  background: var(--ag-bg2, #ece1c8);
+  color: var(--ag-line, #6b4a35);
+  border: 1px solid var(--ag-panel-border, #d8c6a3);
+  cursor: pointer;
+  position: relative;
+}
+#amazeGoOverlay .ag-lvl-cell.done { background: #6faa5a; color: #fff; border-color: #6faa5a; }
+#amazeGoOverlay .ag-lvl-cell.current { background: var(--ag-accent, #c78a2e); color: #fff; border-color: var(--ag-accent-dark, #a9701f); }
+#amazeGoOverlay .ag-lvl-cell.locked { color: #b7a58a; background: #f1e8d4; cursor: default; }
+#amazeGoOverlay .ag-lvl-cell.locked svg { width: 14px; height: 14px; opacity: 0.6; }
+
+#amazeGoOverlay .ag-win-modal { text-align: center; padding: 30px 22px; }
+#amazeGoOverlay .ag-win-modal h2 { color: var(--ag-accent-dark, #a9701f); font-size: 26px; margin: 0 0 6px 0; }
+#amazeGoOverlay .ag-win-modal p { color: #8a7355; margin: 4px 0 20px 0; font-size: 15px; }
+#amazeGoOverlay .ag-win-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+#amazeGoOverlay .ag-pill-btn {
+  padding: 12px 22px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  background: var(--ag-accent, #c78a2e);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(107,74,53,0.18);
+}
+#amazeGoOverlay .ag-pill-btn.secondary {
+  background: var(--ag-card, #fffaf0);
+  color: var(--ag-accent-dark, #a9701f);
+  border: 1px solid var(--ag-panel-border, #d8c6a3);
+}
+#amazeGoOverlay .ag-pill-btn:active { transform: scale(0.96); }
+
+#amazeGoOverlay .ag-theme-swatches { display: flex; gap: 12px; flex-wrap: wrap; }
+#amazeGoOverlay .ag-swatch {
+  width: 52px; height: 52px; border-radius: 14px; cursor: pointer;
+  border: 2px solid transparent;
+  display: flex; align-items: center; justify-content: center;
+}
+#amazeGoOverlay .ag-swatch.active { border-color: var(--ag-line, #6b4a35); }
+#amazeGoOverlay .ag-setting-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--ag-panel-border, #d8c6a3); }
+#amazeGoOverlay .ag-setting-row:last-child { border-bottom: none; }
+
+#amazeGoOverlay .ag-toast {
+  position: absolute;
+  top: 70px; left: 50%; transform: translateX(-50%);
+  background: rgba(60,42,28,0.9);
+  color: #fffaf0;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 14px;
+  z-index: 80;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+#amazeGoOverlay .ag-toast.show { opacity: 1; }
 </style>
 </head>
 <body onclick="const inp = document.getElementById('appLockPassInput'); if(document.getElementById('appLockModal').style.display !== 'none' && inp) { inp.focus(); inp.click(); }">
@@ -2080,6 +2304,11 @@ body.dark-mode .skeleton-shimmer {
         <div style="font-weight:800; font-size:1rem;">کۆشکی زانا (Koshki Zana)</div>
         <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">گەشتێک بۆ ناو چیاکانی کوردستان</div>
       </div>
+      <div class="game-menu-card" onclick="openAmazeGoGame()">
+        <div style="font-size:2.5rem; margin-bottom:8px;">🌀</div>
+        <div style="font-weight:800; font-size:1rem;">ئامەیز گۆ (Amaze Go)</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">مەتەڵی دۆزینەوەی ڕێگای مەیز</div>
+      </div>
     </div>
   </div>
 
@@ -2124,7 +2353,7 @@ body.dark-mode .skeleton-shimmer {
   </div>
 </div>
 
-<!-- Ronaki Game Overlay Integration -->
+<!-- Ronaki Game Overlay -->
 <div id="ronakiGameOverlay">
   <canvas id="ronakiCanvas"></canvas>
   <div id="ronakiHurtFlash"></div>
@@ -2161,12 +2390,11 @@ body.dark-mode .skeleton-shimmer {
   <div id="ronakiDashTouch">خێرا</div>
 </div>
 
-<!-- Koshki Zana (کۆشکی زانا) Game Overlay Integration -->
+<!-- Koshki Zana Overlay -->
 <div id="koshkiZanaOverlay">
   <div id="kz-stars"></div>
   <div class="kz-frame-strip"></div>
   <div class="kz-app">
-
     <div class="kz-topbar">
       <div style="display:flex; align-items:center; gap:10px;">
         <button class="kz-icon-btn" onclick="closeKoshkiZanaGame()" title="گەڕانەوە">←</button>
@@ -2175,7 +2403,6 @@ body.dark-mode .skeleton-shimmer {
       <button class="kz-icon-btn" id="kzSoundBtn" title="دەنگ">🔔</button>
     </div>
 
-    <!-- HERO -->
     <section class="kz-screen kz-active" id="kz-screen-hero">
       <svg class="kz-mountains" viewBox="0 0 560 160" fill="none">
         <path d="M0 160 L90 60 L150 110 L230 30 L320 120 L400 55 L480 110 L560 70 L560 160 Z" fill="#1a2147" stroke="#d4af3733" stroke-width="1"/>
@@ -2186,7 +2413,6 @@ body.dark-mode .skeleton-shimmer {
       <button class="kz-btn" id="kzStartBtn">دەستپێکردنی گەشت</button>
     </section>
 
-    <!-- INTRO STORY -->
     <section class="kz-screen" id="kz-screen-intro">
       <div class="kz-story-card">
         <h2>چیرۆکی کۆشکە</h2>
@@ -2196,7 +2422,6 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </section>
 
-    <!-- MAP -->
     <section class="kz-screen" id="kz-screen-map">
       <div class="kz-map-wrap">
         <div class="kz-map-title">نەخشەی کۆشکە</div>
@@ -2205,7 +2430,6 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </section>
 
-    <!-- CHAPTER STORY -->
     <section class="kz-screen" id="kz-screen-chapter-intro">
       <div class="kz-story-card">
         <div class="kz-rune-pill" id="kzChIcon">🗝️</div>
@@ -2216,7 +2440,6 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </section>
 
-    <!-- GAME 1: MEMORY -->
     <section class="kz-screen" id="kz-screen-g1">
       <div class="kz-game-wrap">
         <div class="kz-game-head">
@@ -2227,7 +2450,6 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </section>
 
-    <!-- GAME 2: NUMBERS -->
     <section class="kz-screen" id="kz-screen-g2">
       <div class="kz-game-wrap">
         <div class="kz-game-head"><h2>پێچی ژمارەکان</h2><div class="kz-stat">خاڵ: <b id="kzG2score">0</b>/<span id="kzG2total">8</span></div></div>
@@ -2243,7 +2465,6 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </section>
 
-    <!-- GAME 3: SIMON -->
     <section class="kz-screen" id="kz-screen-g3">
       <div class="kz-game-wrap">
         <div class="kz-game-head"><h2 id="kzG3title">ئاوازی ڕووناکی</h2><div class="kz-stat">قۆناغ: <b id="kzG3round">1</b>/<span id="kzG3total">8</span></div></div>
@@ -2258,7 +2479,6 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </section>
 
-    <!-- GAME 4: RIDDLES -->
     <section class="kz-screen" id="kz-screen-g4">
       <div class="kz-game-wrap">
         <div class="kz-game-head"><h2 id="kzG4title">نهێنی وشەکان</h2><div class="kz-stat">مەتەڵ: <b id="kzG4idx">1</b>/<span id="kzG4total">6</span></div></div>
@@ -2272,7 +2492,6 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </section>
 
-    <!-- GAME 5: FINAL LOCK -->
     <section class="kz-screen" id="kz-screen-g5">
       <div class="kz-game-wrap">
         <div class="kz-game-head"><h2>دڵی کۆشکە</h2></div>
@@ -2285,7 +2504,6 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </section>
 
-    <!-- CHAPTER COMPLETE -->
     <section class="kz-screen" id="kz-screen-complete">
       <div class="kz-story-card">
         <div class="kz-rune-pill" id="kzCRune">🗝️ کلیلی یادەوەری بەدەستهات</div>
@@ -2295,7 +2513,6 @@ body.dark-mode .skeleton-shimmer {
       </div>
     </section>
 
-    <!-- ENDING -->
     <section class="kz-screen" id="kz-screen-end">
       <div class="kz-story-card">
         <h2>دەرگای کۆتایی</h2>
@@ -2308,7 +2525,125 @@ body.dark-mode .skeleton-shimmer {
   </div>
 </div>
 
-<!-- Phone / WhatsApp Action Modal -->
+<!-- Amaze Go (ئامەیز گۆ) Game Overlay -->
+<div id="amazeGoOverlay">
+  <div class="ag-app">
+    <div class="ag-topbar">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div class="ag-iconbtn" onclick="closeAmazeGoGame()" title="گەڕانەوە">←</div>
+        <div class="ag-iconbtn" id="ag-btnLevels" title="هەموو قۆناغەکان">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        </div>
+      </div>
+      <div class="ag-level-title">قۆناغ <span id="ag-levelNum">1</span></div>
+      <div class="ag-top-right">
+        <div class="ag-iconbtn" id="ag-btnTheme" title="ڕەنگ">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.3" fill="currentColor"/><circle cx="12" cy="7" r="1.3" fill="currentColor"/><circle cx="16" cy="10" r="1.3" fill="currentColor"/><circle cx="9" cy="15" r="1.3" fill="currentColor"/></svg>
+        </div>
+        <div class="ag-iconbtn" id="ag-btnSettings" title="ڕێکخستن">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13a7.9 7.9 0 000-2l2-1.6-2-3.4-2.4.9a8 8 0 00-1.7-1L15 3h-6l-.3 2.9a8 8 0 00-1.7 1l-2.4-.9-2 3.4L4.6 11a7.9 7.9 0 000 2l-2 1.6 2 3.4 2.4-.9c.5.4 1.1.75 1.7 1L9 21h6l.3-2.9c.6-.25 1.2-.6 1.7-1l2.4.9 2-3.4-2-1.6z"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="ag-hints-row">
+      <svg class="ag-drop" viewBox="0 0 24 24" fill="#5b9bd5"><path d="M12 2C9 7 5 11 5 15a7 7 0 0014 0c0-4-4-8-7-13z"/></svg>
+      <svg class="ag-drop" viewBox="0 0 24 24" fill="#5b9bd5"><path d="M12 2C9 7 5 11 5 15a7 7 0 0014 0c0-4-4-8-7-13z"/></svg>
+      <svg class="ag-drop" viewBox="0 0 24 24" fill="#5b9bd5"><path d="M12 2C9 7 5 11 5 15a7 7 0 0014 0c0-4-4-8-7-13z"/></svg>
+      <span class="ag-hints-count">x <span id="ag-hintCount">5</span></span>
+      <span class="ag-stat-chip">🚶 <span id="ag-moveCount">0</span></span>
+      <span class="ag-stat-chip">⏱ <span id="ag-timeCount">0:00</span></span>
+    </div>
+
+    <div class="ag-maze-wrap">
+      <canvas id="ag-mazeCanvas"></canvas>
+    </div>
+
+    <div class="ag-bottom-row">
+      <div class="ag-bigbtn" id="ag-btnRestart" title="دووبارە">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v6h6"/><path d="M20 20v-6h-6"/><path d="M5.6 9A8 8 0 0119 8.3M18.4 15A8 8 0 015 15.7"/></svg>
+      </div>
+      <div class="ag-bigbtn" id="ag-btnHint" title="ئاماژە">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0012 2z"/></svg>
+      </div>
+      <div class="ag-bigbtn" id="ag-btnPeek" title="سەیرکردنی هەموو مەیز">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+    </div>
+
+    <div class="ag-footer-banner">ئاستەنگ</div>
+
+    <!-- LEVEL SELECT MODAL -->
+    <div class="ag-overlay" id="ag-overlayLevels">
+      <div class="ag-modal">
+        <div class="ag-modal-header">
+          <h2>هەموو قۆناغەکان</h2>
+          <div class="ag-iconbtn" id="ag-closeLevels">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </div>
+        </div>
+        <div class="ag-modal-body">
+          <div class="ag-levels-grid" id="ag-levelsGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THEME MODAL -->
+    <div class="ag-overlay" id="ag-overlayTheme">
+      <div class="ag-modal">
+        <div class="ag-modal-header">
+          <h2>ڕەنگی مەیز</h2>
+          <div class="ag-iconbtn" id="ag-closeTheme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </div>
+        </div>
+        <div class="ag-modal-body">
+          <div class="ag-theme-swatches" id="ag-themeSwatches"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div class="ag-overlay" id="ag-overlaySettings">
+      <div class="ag-modal">
+        <div class="ag-modal-header">
+          <h2>ڕێکخستنەکان</h2>
+          <div class="ag-iconbtn" id="ag-closeSettings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </div>
+        </div>
+        <div class="ag-modal-body">
+          <div class="ag-setting-row">
+            <span>دەنگ</span>
+            <input type="checkbox" id="ag-soundToggle" checked style="width:22px;height:22px;">
+          </div>
+          <div class="ag-setting-row">
+            <span>سڕینەوەی هەموو پێشکەوتن</span>
+            <button class="ag-pill-btn secondary" id="ag-btnResetProgress" style="padding:8px 16px;font-size:13px;">سڕینەوە</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIN MODAL -->
+    <div class="ag-overlay" id="ag-overlayWin">
+      <div class="ag-modal ag-win-modal">
+        <h2>🎉 سەرکەوتوو بوویت!</h2>
+        <p>قۆناغ <span id="ag-winLevelNum">1</span> تەواو بوو</p>
+        <div id="ag-starsRow" style="font-size:34px; margin-bottom:10px;">☆☆☆</div>
+        <p style="font-size:13px; margin-top:-8px;" id="ag-winStats"></p>
+        <div class="ag-win-actions">
+          <button class="ag-pill-btn secondary" id="ag-btnWinReplay">دووبارە یاری بکە</button>
+          <button class="ag-pill-btn" id="ag-btnWinNext">قۆناغی داهاتوو ←</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ag-toast" id="ag-toast"></div>
+  </div>
+</div>
+
+<!-- Modals & Sheets of Properties -->
 <div class="phone-action-modal" id="phoneActionModal" onclick="closePhoneModal()">
   <div class="phone-action-box" onclick="event.stopPropagation()">
     <div class="action-sheet-title" id="phoneActionTitle">پەیوەندی:</div>
@@ -2604,7 +2939,6 @@ body.dark-mode .skeleton-shimmer {
     </form>
   </div>
 </div>
-
 <script>
 const FIREBASE_URL = "https://haqarat-d721a-default-rtdb.firebaseio.com";
 let properties = JSON.parse(localStorage.getItem('dashti_master_props')) || [];
@@ -2663,7 +2997,6 @@ function checkAutoNotification() {
   const lastTime = Number(localStorage.getItem('dashti_last_auto_notif') || 0);
   const now = Date.now();
   const twoDaysMs = 2 * 24 * 60 * 60 * 1000;
-  
   if (now - lastTime > twoDaysMs) {
     const msg = siteSettings.autoNotifText || "سەردانی نوسینگەی دەشتی دوستەپە بکەن بۆ نوێترین موڵکەکان ✨";
     setTimeout(() => {
@@ -2757,13 +3090,17 @@ window.addEventListener('load', function() {
       lockInput.click();
     }
   };
-  
   setTimeout(triggerKeyboard, 100);
   setTimeout(triggerKeyboard, 400);
   setTimeout(triggerKeyboard, 800);
 });
 
 window.addEventListener('popstate', function(e) {
+  const agOverlay = document.getElementById('amazeGoOverlay');
+  if (agOverlay && agOverlay.style.display === 'block') {
+    closeAmazeGoGame();
+    return;
+  }
   const kzOverlay = document.getElementById('koshkiZanaOverlay');
   if (kzOverlay && kzOverlay.style.display === 'block') {
     closeKoshkiZanaGame();
@@ -2810,16 +3147,13 @@ window.addEventListener('popstate', function(e) {
 function openPhoneActionModal(phoneNumber) {
   const cleanPhone = String(phoneNumber).trim();
   document.getElementById('phoneActionTitle').innerText = `پەیوەندی: ${cleanPhone}`;
-  
   let waNum = cleanPhone;
   if (waNum.startsWith('0')) {
     waNum = '+964' + waNum.substring(1);
   }
   waNum = waNum.replace(/[^0-9+]/g, '');
-
   document.getElementById('whatsappActionBtn').href = `https://wa.me/${waNum}`;
   document.getElementById('phoneCallActionBtn').href = `tel:${cleanPhone}`;
-  
   document.getElementById('phoneActionModal').style.display = 'flex';
   window.history.pushState({ phoneModal: true }, "", "");
 }
@@ -2861,7 +3195,6 @@ function toggleBotDifficultySetting() {
 function startGamePlay() {
   matchType = document.getElementById('matchTypeSelect').value;
   botDifficulty = document.getElementById('botDiffSelect').value;
-  
   document.getElementById('gameModeSelectorBox').style.display = 'none';
   document.getElementById('tttPlayBox').style.display = 'flex';
   initTTTGame();
@@ -2929,9 +3262,7 @@ function checkWinnerForMinimax(b) {
     [0,4,8],[2,4,6]
   ];
   for (let w of wins) {
-    if (b[w[0]] && b[w[0]] === b[w[1]] && b[w[0]] === b[w[2]]) {
-      return b[w[0]];
-    }
+    if (b[w[0]] && b[w[0]] === b[w[1]] && b[w[0]] === b[w[2]]) return b[w[0]];
   }
   if (b.every(cell => cell !== '')) return 'tie';
   return null;
@@ -2944,7 +3275,6 @@ function minimax(newBoard, depth, isMaximizing) {
     if (result === 'X') return depth - 10;
     return 0;
   }
-
   if (isMaximizing) {
     let bestScore = -Infinity;
     for (let i = 0; i < 9; i++) {
@@ -2992,7 +3322,6 @@ function aiTTTMove() {
   let emptyIndices = [];
   tttBoardState.forEach((val, i) => { if (val === '') emptyIndices.push(i); });
   if (emptyIndices.length === 0) return;
-  
   let targetIdx = emptyIndices[0];
 
   if (botDifficulty === 'easy') {
@@ -3205,11 +3534,8 @@ function handleHoldEdit() {
   closeActionSheet(false);
   const item = properties.find(p => String(p.id) === String(id));
   if (!item) return;
-  if (item.category === 'خوازیار / پێویستە') {
-    openEditWantModal(id);
-  } else {
-    openEditModal(id);
-  }
+  if (item.category === 'خوازیار / پێویستە') openEditWantModal(id);
+  else openEditModal(id);
 }
 
 async function handleHoldSold() {
@@ -3292,9 +3618,7 @@ function checkStandaloneMode() {
   const ua = navigator.userAgent || "";
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.standalone || document.referrer.includes('android-app://') || ua.includes('wv') || ua.includes('WebIntoApp');
   const installBtn = document.getElementById('apkDownloadDirectBtn');
-  if (isStandalone && installBtn) {
-    installBtn.remove();
-  }
+  if (isStandalone && installBtn) installBtn.remove();
 }
 
 function applyThemeSettings() {
@@ -3319,9 +3643,7 @@ function applyThemeSettings() {
   document.documentElement.style.setProperty('--grid-cols', `repeat(${cols}, 1fr)`);
 
   const statsSec = document.querySelector('.public-stats-section');
-  if (statsSec) {
-    statsSec.style.display = siteSettings.showStats || "block";
-  }
+  if (statsSec) statsSec.style.display = siteSettings.showStats || "block";
   applyDarkModeClass();
 }
 
@@ -3460,7 +3782,7 @@ function renderCustomTabsManageList() {
 function previewCustomCatIcon(val) {
   const preview = document.getElementById('customCatIconPreview');
   const imgData = document.getElementById('customCatImgData').value;
-  if (imgData) { return; }
+  if (imgData) return;
   preview.innerHTML = val.trim() ? val.trim() : '📁';
 }
 
@@ -3525,9 +3847,7 @@ async function handleSaveCustomCategory(e) {
 
   if (editId) {
     const idx = customCategories.findIndex(c => c.id === editId);
-    if (idx !== -1) {
-      customCategories[idx] = { ...customCategories[idx], title, icon, customImage };
-    }
+    if (idx !== -1) customCategories[idx] = { ...customCategories[idx], title, icon, customImage };
   } else {
     const newCat = { id: 'cat_' + Date.now(), title, icon, customImage, sub: '' };
     customCategories.push(newCat);
@@ -3586,11 +3906,8 @@ function renderProperties() {
   } else if (activeMainTab === 'خوازیار / پێویستە') {
     list = list.filter(p => {
       const t = p.type || '';
-      if (activeWantSubTab === 'بۆ کرێ') {
-        return t.includes('کرێ');
-      } else {
-        return t.includes('کڕین') || !t.includes('کرێ');
-      }
+      if (activeWantSubTab === 'بۆ کرێ') return t.includes('کرێ');
+      else return t.includes('کڕین') || !t.includes('کرێ');
     });
   }
 
@@ -3679,11 +3996,8 @@ function renderProperties() {
   addSlotCard.className = 'card-add-slot';
   addSlotCard.style.animationDelay = `${list.length * 0.05}s`;
   addSlotCard.onclick = () => {
-    if (activeMainTab === 'خوازیار / پێویستە') {
-      openAddWantModal();
-    } else {
-      openAddModal();
-    }
+    if (activeMainTab === 'خوازیار / پێویستە') openAddWantModal();
+    else openAddModal();
   };
   addSlotCard.innerHTML = `
     <div class="card-add-slot-icon">+</div>
@@ -4164,552 +4478,20 @@ function closeKoshkiZanaGame(){
   document.getElementById('koshkiZanaOverlay').style.display = 'none';
   window.history.pushState({ screen: currentScreen }, "", "");
 }
-</script>
-<!-- Koshki Zana (کۆشکی زانا) Game Script & Handlers -->
-<script>
-(function(){
-  "use strict";
-  const STORAGE_KEY = 'koshki_zana_progress_v1';
-  let state = loadState();
-  function loadState(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(raw) return JSON.parse(raw);
-    }catch(e){}
-    return {unlocked:1, completed:{}, seenIntro:false};
-  }
-  function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
 
-  let soundOn = true;
-  let actx = null;
-  function beep(freq, dur, type){
-    if(!soundOn) return;
-    try{
-      if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
-      const o = actx.createOscillator(); const g = actx.createGain();
-      o.type = type||'sine'; o.frequency.value = freq;
-      g.gain.value = .08;
-      o.connect(g); g.connect(actx.destination);
-      o.start();
-      g.gain.exponentialRampToValueAtTime(.0001, actx.currentTime + dur);
-      o.stop(actx.currentTime + dur);
-    }catch(e){}
+function openAmazeGoGame(){
+  document.getElementById('fullscreenGameOverlay').style.display = 'none';
+  const overlay = document.getElementById('amazeGoOverlay');
+  overlay.style.display = 'block';
+  if(window.__amazeGoInit) {
+    window.__amazeGoInit();
   }
-  const sfx = {
-    flip:()=>beep(420,.08,'triangle'),
-    match:()=>{beep(600,.1,'sine');setTimeout(()=>beep(800,.15,'sine'),90);},
-    wrong:()=>beep(180,.2,'sawtooth'),
-    win:()=>{[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.18,'sine'), i*110));},
-    tile:(f)=>beep(f,.28,'sine')
-  };
-  
-  const soundBtn = document.getElementById('kzSoundBtn');
-  if(soundBtn){
-    soundBtn.onclick = function(){
-      soundOn = !soundOn;
-      this.textContent = soundOn ? '🔔' : '🔕';
-    };
-  }
-
-  const wrap = document.getElementById('kz-stars');
-  if(wrap){
-    const n = 70;
-    for(let i=0;i<n;i++){
-      const s = document.createElement('span');
-      s.style.left = Math.random()*100+'%';
-      s.style.top = Math.random()*70+'%';
-      s.style.animationDelay = (Math.random()*4)+'s';
-      s.style.width = s.style.height = (Math.random()<.2? '3px':'1.5px');
-      wrap.appendChild(s);
-    }
-  }
-
-  function show(id){
-    document.querySelectorAll('#koshkiZanaOverlay .kz-screen').forEach(s=>s.classList.remove('kz-active'));
-    const target = document.getElementById(id);
-    if(target) target.classList.add('kz-active');
-    const overlay = document.getElementById('koshkiZanaOverlay');
-    if(overlay) overlay.scrollTo(0,0);
-  }
-
-  const startBtn = document.getElementById('kzStartBtn');
-  if(startBtn){
-    startBtn.onclick = ()=>{
-      show(state.seenIntro ? 'kz-screen-map' : 'kz-screen-intro');
-      renderMap();
-    };
-  }
-
-  const toMapBtn = document.getElementById('kzToMapBtn');
-  if(toMapBtn){
-    toMapBtn.onclick = ()=>{
-      state.seenIntro = true; saveState();
-      renderMap();
-      show('kz-screen-map');
-    };
-  }
-
-  function shuffleArr(arr){
-    const a = [...arr];
-    for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
-    return a;
-  }
-
-  const chapters = [
-    {id:1, type:'memory', pairs:8, name:'دەرگای یادەوەری', desc:'یاریی یادەوەری — جووتەکان بدۆزەرەوە', icon:'🗝️',
-     story:'یەکەم تاقیکردنەوە یادەوەریت تاقی دەکاتەوە. زانا ئازاد دەیگوت: «ئەوەی لە یاد ناکرێت، هەر بوونی نییە.» وێنە شاراوەکان بدۆزەرەوە و جووتەکانیان بگونجێنە.',
-     rune:'🗝️', runeName:'کلیلی یادەوەری',
-     complete:'یادەوەریت وەک تیغی شمشێر تیژە. یەکەم کلیل کەوتە دەستت — کۆشکە ئێستا کەمێک خۆی بۆت کردەوە.'},
-    {id:2, type:'numbers', count:5, name:'پێچی ژمارەکان', desc:'ڕێکخستنی ژمارەکان بدۆزەرەوە', icon:'📐',
-     story:'زانا ئازاد باوەڕی بە ڕێکخستنی گەردوون هەبوو. دەیگوت: «هەموو شتێک ڕێزێکی خۆی هەیە.» بۆنە شاراوەکان لە ژمارەکاندا بدۆزەرەوە.',
-     rune:'📐', runeName:'کلیلی ڕێکخستن',
-     complete:'تۆ لۆژیکی ژمارەکانت بەدی هێنا. دووەم کلیل بەدەستهات — ڕێگا ڕوونتر دەبێتەوە.'},
-    {id:3, type:'simon', rounds:5, name:'ئاوازی ڕووناکی', desc:'ئاوازی ڕووناکی لەبیر بێت و دووبارەی بکەرەوە', icon:'🕯️',
-     story:'لە شەوانی درێژی زستاندا، ئازاد بە ڕووناکی مۆم یاری دەکرد و ئاوازی گەردوونی دەخوێندەوە. ئێستا نۆرەی تۆیە کە ئاوازەکە لەبیر بکەیت و دووبارەی بکەیتەوە.',
-     rune:'🕯️', runeName:'کلیلی ڕووناکی',
-     complete:'چاوەکانت ئاوازی ڕووناکیان لەبیر کرد. سێیەم کلیل کەوتە دەستت.'},
-    {id:4, type:'riddle', count:4, name:'نهێنی وشەکان', desc:'مەتەڵەکان وەڵام بدەرەوە', icon:'📜',
-     story:'زمان بەهێزترین چەکی ئازاد بوو. چەند مەتەڵێکی کۆنی بۆ تۆ هێشتووەتەوە. وەڵامی ڕاست هەڵبژێرە بۆ ئەوەی چاوی دەرگاکە بکرێتەوە.',
-     rune:'📜', runeName:'کلیلی وشە',
-     complete:'وشەکانت شکاند. چوارەم کلیل بەدەستهات — بەڵام کۆشکە هێشتا نهێنی زۆری تێدایە.'},
-    {id:5, type:'memory', pairs:12, name:'تالاری یادەوەریی کۆن', desc:'یاریی یادەوەریی سەختتر', icon:'🏛️',
-     story:'بەرەو ژووری قووڵتری کۆشکە دەڕۆیت. تالارێکی نوێ دەبینیت پڕ لە وێنەی کۆن کە زیاتر تێکەڵ بوونەتەوە. یادەوەریت لەم جارە زیاتر تاقی دەکرێتەوە.',
-     rune:'🏛️', runeName:'کلیلی تالار',
-     complete:'تالارە قووڵەکەت گەڕایەوە یادت. کۆشکە ئێستا زیاتر باوەڕت پێ دەکات.'},
-    {id:6, type:'numbers', count:6, name:'نهێنی ژمارە قووڵەکان', desc:'ڕێکخستنی ژمارەی ئاڵۆزتر', icon:'🔢',
-     story:'لەم بەشەدا، ئازاد لۆژیکێکی ئاڵۆزتری شاردووەتەوە. ورد بە بۆچوونەکانت بکە، چونکە ڕێکخستنەکان ئێستا قووڵترن.',
-     rune:'🔢', runeName:'کلیلی قووڵایی',
-     complete:'مێشکت توانی ئاڵۆزیی ژمارەکان بشکێنێت. کلیلێکی تر کەوتە دەستت.'},
-    {id:7, type:'simon', rounds:7, name:'ئاوازی گەورە', desc:'ئاوازێکی درێژتر لەبیر بکە', icon:'🎇',
-     story:'ئاوازەکە ئێستا درێژتر و ئاڵۆزتر دەبێت، بەڵام تۆ ئێستا شارەزاتریت لەوەی پێشوو. گوێ و چاوت بەیەکەوە پێویستە.',
-     rune:'🎇', runeName:'کلیلی ئاواز',
-     complete:'ئاوازی درێژی گەورەت بەیادهێنایەوە. کلیلێکی درەوشاوەت بەدەستهات.'},
-    {id:8, type:'riddle', count:5, name:'کۆنترین مەتەڵەکان', desc:'مەتەڵی کۆنتر و سەختتر', icon:'🏺',
-     story:'کۆنترین مەتەڵەکانی ئازاد لێرە شاردراونەتەوە، لەوانەی کە تەنها شارەزاترین کەسەکان دەیانشکێنن.',
-     rune:'🏺', runeName:'کلیلی کۆنینە',
-     complete:'کۆنترین مەتەڵەکانت شکاند. ئێستا هەموو کلیلەکانت لەلایە — تەنها دەرگایەک ماوە.'},
-    {id:9, type:'final', name:'دڵی کۆشکە', desc:'کلیلەکان بە ڕیزبەندی ڕاست دابنێ', icon:'✨',
-     story:'ئێستا هەموو کلیلەکانت کۆکردووەتەوە. تەنها ڕیزبەندییەکیان ماوە بۆ ئەوەی دەرگای دوایی کۆشکە بکرێتەوە.',
-     rune:'✨', runeName:'دڵی کۆشکە',
-     complete:'هەموو کلیلەکان بە ڕێکی خۆیان دانران. دەرگای کۆتایی کۆشکە بۆت کرایەوە...'}
-  ];
-
-  function renderMap(){
-    const wrap = document.getElementById('kzNodesWrap');
-    if(!wrap) return;
-    wrap.innerHTML = '';
-    chapters.forEach(ch=>{
-      const locked = ch.id > state.unlocked;
-      const done = !!state.completed[ch.id];
-      const div = document.createElement('div');
-      div.className = 'kz-node' + (locked?' kz-locked':'') + (done?' kz-done':'');
-      div.innerHTML = `
-        <div class="kz-badge">${done ? '✔️' : ch.icon}</div>
-        <div class="kz-ntext">
-          <div class="kz-n-name">${ch.name}</div>
-          <div class="kz-n-desc">${ch.desc}</div>
-        </div>
-        <div class="kz-chev">${locked?'🔒':'‹'}</div>`;
-      if(!locked){
-        div.onclick = ()=> openChapterIntro(ch.id);
-      }
-      wrap.appendChild(div);
-    });
-  }
-
-  let currentChapter = 1;
-  function openChapterIntro(id){
-    currentChapter = id;
-    const ch = chapters[id-1];
-    document.getElementById('kzChIcon').textContent = ch.icon + ' ' + ch.name;
-    document.getElementById('kzChTitle').textContent = ch.name;
-    document.getElementById('kzChStory').textContent = ch.story;
-    show('kz-screen-chapter-intro');
-  }
-  
-  const chBackBtn = document.getElementById('kzChBackBtn');
-  if(chBackBtn) chBackBtn.onclick = ()=> show('kz-screen-map');
-  
-  const chStartBtn = document.getElementById('kzChStartBtn');
-  if(chStartBtn) chStartBtn.onclick = ()=> startGame(currentChapter);
-
-  const TOTAL_CHAPTERS = chapters.length;
-  function chapterComplete(id){
-    const ch = chapters[id-1];
-    state.completed[id] = true;
-    if(state.unlocked < id+1) state.unlocked = Math.min(TOTAL_CHAPTERS, id+1);
-    saveState();
-    sfx.win();
-    document.getElementById('kzCRune').textContent = ch.rune + ' ' + ch.runeName + ' بەدەستهات';
-    document.getElementById('kzCText').textContent = ch.complete;
-    document.getElementById('kzCContinueBtn').onclick = ()=>{
-      renderMap();
-      show(id<TOTAL_CHAPTERS ? 'kz-screen-map' : 'kz-screen-end');
-    };
-    show('kz-screen-complete');
-  }
-
-  function startGame(id){
-    const ch = chapters[id-1];
-    if(ch.type==='memory') startMemory(ch.pairs);
-    else if(ch.type==='numbers') startNumbers(ch.count);
-    else if(ch.type==='simon') startSimon(ch.rounds);
-    else if(ch.type==='riddle') startRiddles(ch.count);
-    else if(ch.type==='final') startFinal();
-  }
-
-  const memorySymbolPool = ['🌙','⭐','🔥','🍇','🦅','🐎','📜','🗡️','🏺','🌿','🐺','🦉','🌊','☀️','🍯','🪔'];
-  function startMemory(pairsCount){
-    const symbols = shuffleArr(memorySymbolPool).slice(0, pairsCount);
-    let deck = shuffleArr([...symbols, ...symbols]);
-    const grid = document.getElementById('kzMemGrid');
-    if(!grid) return;
-    grid.innerHTML = '';
-    let moves = 0, matched = 0, lock = false, first = null;
-    document.getElementById('kzG1moves').textContent = '0';
-
-    deck.forEach((sym)=>{
-      const card = document.createElement('div');
-      card.className = 'kz-card';
-      card.innerHTML = `<div class="kz-card-face kz-card-back">؟</div><div class="kz-card-face kz-card-front">${sym}</div>`;
-      card.onclick = ()=>{
-        if(lock || card.classList.contains('kz-flipped') || card.classList.contains('kz-matched')) return;
-        card.classList.add('kz-flipped');
-        sfx.flip();
-        if(!first){ first = card; return; }
-        moves++; document.getElementById('kzG1moves').textContent = moves;
-        lock = true;
-        const s1 = first.querySelector('.kz-card-front').textContent;
-        const s2 = card.querySelector('.kz-card-front').textContent;
-        if(s1 === s2){
-          first.classList.add('kz-matched'); card.classList.add('kz-matched');
-          sfx.match();
-          matched++; first = null; lock = false;
-          if(matched === symbols.length){ setTimeout(()=>chapterComplete(currentChapter), 500); }
-        } else {
-          sfx.wrong();
-          setTimeout(()=>{
-            first.classList.remove('kz-flipped'); card.classList.remove('kz-flipped');
-            first = null; lock = false;
-          }, 750);
-        }
-      };
-      grid.appendChild(card);
-    });
-    show('kz-screen-g1');
-  }
-
-  const g2Pool = [
-    {seq:'2, 4, 6, 8, ؟', opts:[9,10,12,14], correct:1, why:'هەر ژمارەیەک لە ژمارەی پێشوو ٢ زیاترە — ئەمە ڕیزی ژمارە زۆجەکانە، بۆیە ژمارەی داهاتوو ١٠ یە.'},
-    {seq:'3, 6, 12, 24, ؟', opts:[30,36,48,44], correct:2, why:'هەر ژمارەیەک دوو هێندەی ژمارەی پێشووە (لێدان بە ٢)، بۆیە دوای ٢٤ دێت ٤٨.'},
-    {seq:'1, 4, 9, 16, ؟', opts:[20,25,23,22], correct:1, why:'ئەمانە باڵای تەواون: ١×١، ٢×٢، ٣×٣، ٤×٤، دواتر ٥×٥ = ٢٥.'},
-    {seq:'5, 10, 20, 40, ؟', opts:[45,60,80,70], correct:2, why:'هەر ژمارەیەک دوو هێندەی ژمارەی پێشووە، بۆیە دوای ٤٠ دێت ٨٠.'},
-    {seq:'1, 1, 2, 3, 5, ؟', opts:[7,8,9,6], correct:1, why:'ئەمە ڕیزی فیبۆناتچییە — هەر ژمارەیەک کۆی دوو ژمارەی پێش خۆیەتی (٢+٣=٥، ٣+٥=٨).'}
-  ];
-  let g2list=[], g2i=0, g2score=0;
-  function startNumbers(count){
-    g2list = shuffleArr(g2Pool).slice(0, count);
-    g2i=0; g2score=0;
-    document.getElementById('kzG2score').textContent='0';
-    document.getElementById('kzG2total').textContent = g2list.length;
-    renderDots('kzG2dots', g2list.length, 0);
-    showG2Question();
-    show('kz-screen-g2');
-  }
-  function renderDots(id, n, active){
-    const el = document.getElementById(id);
-    if(!el) return;
-    el.innerHTML='';
-    for(let i=0;i<n;i++){
-      const d = document.createElement('span');
-      if(i<active) d.classList.add('kz-on');
-      el.appendChild(d);
-    }
-  }
-  function showG2Question(){
-    const q = g2list[g2i];
-    document.getElementById('kzG2seq').textContent = q.seq;
-    document.getElementById('kzG2msg').textContent = '';
-    document.getElementById('kzG2msg').className = 'kz-feedback-msg';
-    const explainBox = document.getElementById('kzG2explain');
-    explainBox.className = 'kz-explain-box';
-    explainBox.textContent = '';
-    document.getElementById('kzG2btns').innerHTML = '';
-    const optsWrap = document.getElementById('kzG2opts');
-    optsWrap.innerHTML = '';
-    q.opts.forEach((opt, idx)=>{
-      const b = document.createElement('button');
-      b.className = 'kz-opt-btn';
-      b.textContent = opt;
-      b.onclick = ()=> handleG2Answer(idx);
-      optsWrap.appendChild(b);
-    });
-  }
-  function goToNextG2(){
-    g2i++;
-    renderDots('kzG2dots', g2list.length, g2i);
-    if(g2i < g2list.length){ showG2Question(); }
-    else {
-      if(g2score >= Math.ceil(g2list.length*0.6)) chapterComplete(currentChapter);
-      else { alert('پێویستە زیاتر وەڵامی ڕاست بدەیت. دووبارە هەوڵبدەوە!'); startNumbers(g2list.length); }
-    }
-  }
-  function handleG2Answer(idx){
-    const q = g2list[g2i];
-    const optsWrap = document.getElementById('kzG2opts');
-    const msg = document.getElementById('kzG2msg');
-    const explainBox = document.getElementById('kzG2explain');
-    const btns = document.getElementById('kzG2btns');
-    Array.from(optsWrap.children).forEach(x=> x.onclick = null);
-    btns.innerHTML = '';
-    if(idx === q.correct){
-      optsWrap.children[idx].classList.add('kz-correct');
-      sfx.match(); g2score++;
-      document.getElementById('kzG2score').textContent = g2score;
-      msg.textContent = 'وەڵامی ڕاست! ✔️';
-      msg.className = 'kz-feedback-msg kz-ok';
-      explainBox.textContent = q.why;
-      explainBox.className = 'kz-explain-box kz-show';
-      const nextBtn = document.createElement('button');
-      nextBtn.className = 'kz-btn kz-small';
-      nextBtn.textContent = g2i < g2list.length-1 ? 'پرسیاری داهاتوو' : 'کۆتایی';
-      nextBtn.onclick = goToNextG2;
-      btns.appendChild(nextBtn);
-    } else {
-      optsWrap.children[idx].classList.add('kz-wrong');
-      sfx.wrong();
-      msg.textContent = 'نەخێر، ئەوە هەڵەیە.';
-      msg.className = 'kz-feedback-msg kz-err';
-      const showBtn = document.createElement('button');
-      showBtn.className = 'kz-btn kz-ghost kz-small';
-      showBtn.textContent = 'وەڵامی ڕاست پیشان بدە';
-      showBtn.onclick = ()=>{
-        optsWrap.children[q.correct].classList.add('kz-correct');
-        explainBox.textContent = q.why;
-        explainBox.className = 'kz-explain-box kz-show';
-        showBtn.remove();
-        const nextBtn = document.createElement('button');
-        nextBtn.className = 'kz-btn kz-small';
-        nextBtn.textContent = g2i < g2list.length-1 ? 'پرسیاری داهاتوو' : 'کۆتایی';
-        nextBtn.onclick = goToNextG2;
-        btns.appendChild(nextBtn);
-      };
-      btns.appendChild(showBtn);
-    }
-  }
-
-  const g3Freqs = [392, 330, 262, 440];
-  let g3seq=[], g3playerIdx=0, g3round=1, g3maxRound=5, g3busy=false;
-  function startSimon(rounds){
-    g3seq=[]; g3round=1; g3busy=false; g3maxRound=rounds;
-    document.getElementById('kzG3round').textContent='1';
-    document.getElementById('kzG3total').textContent = rounds;
-    document.getElementById('kzG3status').textContent = 'ئامادەبە...';
-    const tiles = document.querySelectorAll('#kzSimon .kz-stile');
-    tiles.forEach(t=> t.onclick = onSimonTileClick);
-    setTimeout(nextSimonRound, 700);
-    show('kz-screen-g3');
-  }
-  const g3replayBtn = document.getElementById('kzG3replay');
-  if(g3replayBtn) g3replayBtn.onclick = ()=>{ if(!g3busy) playSimonSeq(); };
-  
-  function nextSimonRound(){
-    g3seq.push(Math.floor(Math.random()*4));
-    document.getElementById('kzG3round').textContent = Math.min(g3round, g3maxRound);
-    playSimonSeq();
-  }
-  function playSimonSeq(){
-    g3busy = true; g3playerIdx = 0;
-    document.getElementById('kzG3status').textContent = 'سەیری ئاوازەکە بکە...';
-    const tiles = document.querySelectorAll('#kzSimon .kz-stile');
-    g3seq.forEach((c, i)=>{
-      setTimeout(()=>{
-        tiles[c].classList.add('kz-lit');
-        sfx.tile(g3Freqs[c]);
-        setTimeout(()=> tiles[c].classList.remove('kz-lit'), 320);
-      }, i*550);
-    });
-    setTimeout(()=>{
-      g3busy = false;
-      document.getElementById('kzG3status').textContent = 'ئێستا نۆرەی تۆیە — ئاوازەکە دووبارە بکەرەوە';
-    }, g3seq.length*550 + 200);
-  }
-  function onSimonTileClick(){
-    if(g3busy) return;
-    const c = parseInt(this.dataset.c);
-    this.classList.add('kz-lit');
-    sfx.tile(g3Freqs[c]);
-    setTimeout(()=> this.classList.remove('kz-lit'), 200);
-    if(c === g3seq[g3playerIdx]){
-      g3playerIdx++;
-      if(g3playerIdx === g3seq.length){
-        if(g3seq.length >= g3maxRound){
-          document.getElementById('kzG3status').textContent = 'وا نییە! تۆ سەرکەوتوویت.';
-          setTimeout(()=>chapterComplete(currentChapter), 500);
-        } else {
-          g3round++;
-          document.getElementById('kzG3status').textContent = 'زۆر باشە! ئامادەبە بۆ قۆناغی داهاتوو...';
-          setTimeout(nextSimonRound, 900);
-        }
-      }
-    } else {
-      sfx.wrong();
-      document.getElementById('kzG3status').textContent = 'هەڵەیەک ڕوویدا — دووبارە هەوڵبدەوە.';
-      setTimeout(()=>{ g3seq=[]; g3round=1; document.getElementById('kzG3round').textContent='1'; setTimeout(nextSimonRound,600); }, 900);
-    }
-  }
-
-  const g4Pool = [
-    {text:'هەرچی زیاتر لێی دەبەیت، گەورەتر دەبێت. ئەوە چیە?', opts:['چاڵ','دەریا','کێو','دار'], correct:0, why:'کاتێک خاک لە چاڵێکەوە دەردەهێنیت، ئەو چاڵە خۆی گەورەتر دەبێت.'},
-    {text:'شەو دێت بێ بانگهێشت، بەیانیان دەڕوات بێ ئەوەی کەس بیدزێت. ئەوە چیە?', opts:['شەبنم','مانگ','باران','تاریکی'], correct:0, why:'شەبنم لە شەودا دروست دەبێت و بە هەڵاتنی خۆر دەڕوات.'},
-    {text:'دەبزوێت بەبێ ئەوەی پێی هەبێت، دەگرێت بەبێ ئەوەی دەستی هەبێت. ئەوە چیە?', opts:['با','ئاو','مرۆڤ','باڵندە'], correct:0, why:'با بەبێ پێ دەجوڵێت و دەتوانێت گەڵا هەڵبگرێت.'},
-    {text:'هەرچی تاریکتر بێت، زیاتر دەردەکەوێت. ئەوە چیە?', opts:['ئەستێرە','خۆر','مانگ','هەور'], correct:0, why:'لە شەوی تاریکدا ئەستێرەکان ڕوونتر دەردەکەون.'}
-  ];
-  let g4list=[], g4i=0;
-  function startRiddles(count){
-    g4list = shuffleArr(g4Pool).slice(0, count);
-    g4i=0;
-    document.getElementById('kzG4total').textContent = g4list.length;
-    showG4();
-    show('kz-screen-g4');
-  }
-  function showG4(){
-    const r = g4list[g4i];
-    document.getElementById('kzG4idx').textContent = g4i+1;
-    document.getElementById('kzG4text').textContent = r.text;
-    document.getElementById('kzG4msg').textContent = '';
-    document.getElementById('kzG4msg').className = 'kz-feedback-msg';
-    const explainBox = document.getElementById('kzG4explain');
-    explainBox.className = 'kz-explain-box';
-    explainBox.textContent = '';
-    document.getElementById('kzG4btns').innerHTML = '';
-    const optsWrap = document.getElementById('kzG4opts');
-    optsWrap.innerHTML = '';
-    const shuffledOpts = r.opts.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
-    shuffledOpts.forEach(({t,i})=>{
-      const b = document.createElement('button');
-      b.className = 'kz-opt-btn';
-      b.style.direction = 'rtl';
-      b.textContent = t;
-      b.onclick = ()=> handleG4Answer(i);
-      optsWrap.appendChild(b);
-    });
-  }
-  function goToNextG4(){
-    g4i++;
-    if(g4i < g4list.length) showG4();
-    else chapterComplete(currentChapter);
-  }
-  function handleG4Answer(originalIdx){
-    const r = g4list[g4i];
-    const optsWrap = document.getElementById('kzG4opts');
-    const msg = document.getElementById('kzG4msg');
-    const explainBox = document.getElementById('kzG4explain');
-    const btns = document.getElementById('kzG4btns');
-    const clickedBtn = Array.from(optsWrap.children).find(b => b.textContent === r.opts[originalIdx]);
-    const correctBtn = Array.from(optsWrap.children).find(b => b.textContent === r.opts[r.correct]);
-    Array.from(optsWrap.children).forEach(x=> x.onclick = null);
-    btns.innerHTML = '';
-    if(originalIdx === r.correct){
-      clickedBtn.classList.add('kz-correct');
-      sfx.match();
-      msg.textContent = 'وەڵامی ڕاست! ✔️';
-      msg.className = 'kz-feedback-msg kz-ok';
-      explainBox.textContent = r.why;
-      explainBox.className = 'kz-explain-box kz-show';
-      const nextBtn = document.createElement('button');
-      nextBtn.className = 'kz-btn kz-small';
-      nextBtn.textContent = g4i < g4list.length-1 ? 'مەتەڵی داهاتوو' : 'کۆتایی';
-      nextBtn.onclick = goToNextG4;
-      btns.appendChild(nextBtn);
-    } else {
-      clickedBtn.classList.add('kz-wrong');
-      sfx.wrong();
-      msg.textContent = 'نەخێر، ئەوە هەڵەیە.';
-      msg.className = 'kz-feedback-msg kz-err';
-      const showBtn = document.createElement('button');
-      showBtn.className = 'kz-btn kz-ghost kz-small';
-      showBtn.textContent = 'وەڵامی ڕاست پیشان بدە';
-      showBtn.onclick = ()=>{
-        correctBtn.classList.add('kz-correct');
-        explainBox.textContent = r.why;
-        explainBox.className = 'kz-explain-box kz-show';
-        showBtn.remove();
-        const nextBtn = document.createElement('button');
-        nextBtn.className = 'kz-btn kz-small';
-        nextBtn.textContent = g4i < g4list.length-1 ? 'مەتەڵی داهاتوو' : 'کۆتایی';
-        nextBtn.onclick = goToNextG4;
-        btns.appendChild(nextBtn);
-      };
-      btns.appendChild(showBtn);
-    }
-  }
-
-  const finalRunes = [
-    {key:1, icon:'🗝️', label:'یادەوەری'},
-    {key:2, icon:'📐', label:'ڕێکخستن'},
-    {key:3, icon:'🕯️', label:'ڕووناکی'},
-    {key:4, icon:'📜', label:'وشە'}
-  ];
-  function startFinal(){
-    const order = [1,2,3,4];
-    const shuffled = shuffleArr(order);
-    const slotsWrap = document.getElementById('kzLockSlots');
-    const runesWrap = document.getElementById('kzLockRunes');
-    if(!slotsWrap || !runesWrap) return;
-    slotsWrap.innerHTML=''; runesWrap.innerHTML='';
-    let picked = [];
-    order.forEach(()=>{
-      const s = document.createElement('div');
-      s.className = 'kz-lock-slot';
-      slotsWrap.appendChild(s);
-    });
-    shuffled.forEach(key=>{
-      const rune = finalRunes.find(r=>r.key===key);
-      const r = document.createElement('div');
-      r.className = 'kz-lock-rune';
-      r.textContent = rune.icon;
-      r.onclick = ()=>{
-        if(r.classList.contains('kz-picked')) return;
-        picked.push(key);
-        r.classList.add('kz-picked');
-        const slot = slotsWrap.children[picked.length-1];
-        slot.textContent = rune.icon;
-        slot.classList.add('kz-filled');
-        if(picked.length === order.length){
-          const correct = picked.every((v,i)=>v===order[i]);
-          const msg = document.getElementById('kzG5msg');
-          if(correct){
-            msg.textContent = 'دەرگای کۆتایی دەکرێتەوە...';
-            msg.className = 'kz-msg kz-ok';
-            setTimeout(()=>chapterComplete(currentChapter), 900);
-          } else {
-            msg.textContent = 'ڕیزبەندییەکە هەڵەیە — دووبارە هەوڵبدەوە.';
-            msg.className = 'kz-msg kz-err';
-            sfx.wrong();
-            setTimeout(()=> startFinal(), 1000);
-          }
-        }
-      };
-      runesWrap.appendChild(r);
-    });
-    document.getElementById('kzG5msg').textContent = '';
-    show('kz-screen-g5');
-  }
-
-  const replayBtn = document.getElementById('kzReplayBtn');
-  if(replayBtn) replayBtn.onclick = ()=>{
-    state = {unlocked:1, completed:{}, seenIntro:true};
-    saveState();
-    renderMap();
-    show('kz-screen-map');
-  };
-
-  window.__koshkiZanaInit = function(){
-    renderMap();
-    show('kz-screen-hero');
-  };
-})();
+  window.history.pushState({ modal: 'amazeGo' }, "", "");
+}
+function closeAmazeGoGame(){
+  document.getElementById('amazeGoOverlay').style.display = 'none';
+  window.history.pushState({ screen: currentScreen }, "", "");
+}
 </script>
 
 <!-- Ronaki Game Engine Script -->
@@ -5569,6 +5351,1094 @@ function closeKoshkiZanaGame(){
   animate();
 })();
 </script>
+<!-- Koshki Zana (کۆشکی زانا) Game Logic Script -->
+<script>
+(function(){
+  "use strict";
+  const STORAGE_KEY = 'koshki_zana_progress_v1';
+  let state = loadState();
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return {unlocked:1, completed:{}, seenIntro:false};
+  }
+  function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
 
+  let soundOn = true;
+  let actx = null;
+  function beep(freq, dur, type){
+    if(!soundOn) return;
+    try{
+      if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+      const o = actx.createOscillator(); const g = actx.createGain();
+      o.type = type||'sine'; o.frequency.value = freq;
+      g.gain.value = .08;
+      o.connect(g); g.connect(actx.destination);
+      o.start();
+      g.gain.exponentialRampToValueAtTime(.0001, actx.currentTime + dur);
+      o.stop(actx.currentTime + dur);
+    }catch(e){}
+  }
+  const sfx = {
+    flip:()=>beep(420,.08,'triangle'),
+    match:()=>{beep(600,.1,'sine');setTimeout(()=>beep(800,.15,'sine'),90);},
+    wrong:()=>beep(180,.2,'sawtooth'),
+    win:()=>{[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.18,'sine'), i*110));},
+    tile:(f)=>beep(f,.28,'sine')
+  };
+
+  const soundBtn = document.getElementById('kzSoundBtn');
+  if(soundBtn){
+    soundBtn.onclick = function(){
+      soundOn = !soundOn;
+      this.textContent = soundOn ? '🔔' : '🔕';
+    };
+  }
+
+  const starWrap = document.getElementById('kz-stars');
+  if(starWrap && starWrap.children.length === 0){
+    for(let i=0;i<70;i++){
+      const s = document.createElement('span');
+      s.style.left = Math.random()*100+'%';
+      s.style.top = Math.random()*70+'%';
+      s.style.animationDelay = (Math.random()*4)+'s';
+      s.style.width = s.style.height = (Math.random()<.2? '3px':'1.5px');
+      starWrap.appendChild(s);
+    }
+  }
+
+  function show(id){
+    document.querySelectorAll('#koshkiZanaOverlay .kz-screen').forEach(s=>s.classList.remove('kz-active'));
+    const target = document.getElementById(id);
+    if(target) target.classList.add('kz-active');
+    const overlay = document.getElementById('koshkiZanaOverlay');
+    if(overlay) overlay.scrollTo(0,0);
+  }
+
+  const startBtn = document.getElementById('kzStartBtn');
+  if(startBtn){
+    startBtn.onclick = ()=>{
+      show(state.seenIntro ? 'kz-screen-map' : 'kz-screen-intro');
+      renderMap();
+    };
+  }
+
+  const toMapBtn = document.getElementById('kzToMapBtn');
+  if(toMapBtn){
+    toMapBtn.onclick = ()=>{
+      state.seenIntro = true; saveState();
+      renderMap();
+      show('kz-screen-map');
+    };
+  }
+
+  function shuffleArr(arr){
+    const a = [...arr];
+    for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+    return a;
+  }
+
+  const chapters = [
+    {id:1, type:'memory', pairs:8, name:'دەرگای یادەوەری', desc:'یاریی یادەوەری — جووتەکان بدۆزەرەوە', icon:'🗝️',
+     story:'یەکەم تاقیکردنەوە یادەوەریت تاقی دەکاتەوە. زانا ئازاد دەیگوت: «ئەوەی لە یاد ناکرێت، هەر بوونی نییە.» وێنە شاراوەکان بدۆزەرەوە و جووتەکانیان بگونجێنە.',
+     rune:'🗝️', runeName:'کلیلی یادەوەری',
+     complete:'یادەوەریت وەک تیغی شمشێر تیژە. یەکەم کلیل کەوتە دەستت — کۆشکە ئێستا کەمێک خۆی بۆت کردەوە.'},
+    {id:2, type:'numbers', count:5, name:'پێچی ژمارەکان', desc:'ڕێکخستنی ژمارەکان بدۆزەرەوە', icon:'📐',
+     story:'زانا ئازاد باوەڕی بە ڕێکخستنی گەردوون هەبوو. دەیگوت: «هەموو شتێک ڕێزێکی خۆی هەیە.» بۆنە شاراوەکان لە ژمارەکاندا بدۆزەرەوە.',
+     rune:'📐', runeName:'کلیلی ڕێکخستن',
+     complete:'تۆ لۆژیکی ژمارەکانت بەدی هێنا. دووەم کلیل بەدەستهات — ڕێگا ڕوونتر دەبێتەوە.'},
+    {id:3, type:'simon', rounds:5, name:'ئاوازی ڕووناکی', desc:'ئاوازی ڕووناکی لەبیر بێت و دووبارەی بکەرەوە', icon:'🕯️',
+     story:'لە شەوانی درێژی زستاندا، ئازاد بە ڕووناکی مۆم یاری دەکرد و ئاوازی گەردوونی دەخوێندەوە. ئێستا نۆرەی تۆیە کە ئاوازەکە لەبیر بکەیت و دووبارەی بکەیتەوە.',
+     rune:'🕯️', runeName:'کلیلی ڕووناکی',
+     complete:'چاوەکانت ئاوازی ڕووناکیان لەبیر کرد. سێیەم کلیل کەوتە دەستت.'},
+    {id:4, type:'riddle', count:4, name:'نهێنی وشەکان', desc:'مەتەڵەکان وەڵام بدەرەوە', icon:'📜',
+     story:'زمان بەهێزترین چەکی ئازاد بوو. چەند مەتەڵێکی کۆنی بۆ تۆ هێشتووەتەوە. وەڵامی ڕاست هەڵبژێرە بۆ ئەوەی چاوی دەرگاکە بکرێتەوە.',
+     rune:'📜', runeName:'کلیلی وشە',
+     complete:'وشەکانت شکاند. چوارەم کلیل بەدەستهات — بەڵام کۆشکە هێشتا نهێنی زۆری تێدایە.'},
+    {id:5, type:'final', name:'دڵی کۆشکە', desc:'کلیلەکان بە ڕیزبەندی ڕاست دابنێ', icon:'✨',
+     story:'ئێستا هەموو کلیلەکانت کۆکردووەتەوە. تەنها ڕیزبەندییەکیان ماوە بۆ ئەوەی دەرگای دوایی کۆشکە بکرێتەوە.',
+     rune:'✨', runeName:'دڵی کۆشکە',
+     complete:'هەموو کلیلەکان بە ڕێکی خۆیان دانران. دەرگای کۆتایی کۆشکە بۆت کرایەوە...'}
+  ];
+
+  function renderMap(){
+    const wrap = document.getElementById('kzNodesWrap');
+    if(!wrap) return;
+    wrap.innerHTML = '';
+    chapters.forEach(ch=>{
+      const locked = ch.id > state.unlocked;
+      const done = !!state.completed[ch.id];
+      const div = document.createElement('div');
+      div.className = 'kz-node' + (locked?' kz-locked':'') + (done?' kz-done':'');
+      div.innerHTML = `
+        <div class="kz-badge">${done ? '✔️' : ch.icon}</div>
+        <div class="kz-ntext">
+          <div class="kz-n-name">${ch.name}</div>
+          <div class="kz-n-desc">${ch.desc}</div>
+        </div>
+        <div class="kz-chev">${locked?'🔒':'‹'}</div>`;
+      if(!locked){
+        div.onclick = ()=> openChapterIntro(ch.id);
+      }
+      wrap.appendChild(div);
+    });
+  }
+
+  let currentChapter = 1;
+  function openChapterIntro(id){
+    currentChapter = id;
+    const ch = chapters[id-1];
+    document.getElementById('kzChIcon').textContent = ch.icon + ' ' + ch.name;
+    document.getElementById('kzChTitle').textContent = ch.name;
+    document.getElementById('kzChStory').textContent = ch.story;
+    show('kz-screen-chapter-intro');
+  }
+
+  const chBackBtn = document.getElementById('kzChBackBtn');
+  if(chBackBtn) chBackBtn.onclick = ()=> show('kz-screen-map');
+
+  const chStartBtn = document.getElementById('kzChStartBtn');
+  if(chStartBtn) chStartBtn.onclick = ()=> startGame(currentChapter);
+
+  function chapterComplete(id){
+    const ch = chapters[id-1];
+    state.completed[id] = true;
+    if(state.unlocked < id+1) state.unlocked = Math.min(chapters.length, id+1);
+    saveState();
+    sfx.win();
+    document.getElementById('kzCRune').textContent = ch.rune + ' ' + ch.runeName + ' بەدەستهات';
+    document.getElementById('kzCText').textContent = ch.complete;
+    document.getElementById('kzCContinueBtn').onclick = ()=>{
+      renderMap();
+      show(id<chapters.length ? 'kz-screen-map' : 'kz-screen-end');
+    };
+    show('kz-screen-complete');
+  }
+
+  function startGame(id){
+    const ch = chapters[id-1];
+    if(ch.type==='memory') startMemory(ch.pairs);
+    else if(ch.type==='numbers') startNumbers(ch.count);
+    else if(ch.type==='simon') startSimon(ch.rounds);
+    else if(ch.type==='riddle') startRiddles(ch.count);
+    else if(ch.type==='final') startFinal();
+  }
+
+  const memorySymbolPool = ['🌙','⭐','🔥','🍇','🦅','🐎','📜','🗡️','🏺','🌿','🐺','🦉'];
+  function startMemory(pairsCount){
+    const symbols = shuffleArr(memorySymbolPool).slice(0, pairsCount);
+    let deck = shuffleArr([...symbols, ...symbols]);
+    const grid = document.getElementById('kzMemGrid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    let moves = 0, matched = 0, lock = false, first = null;
+    document.getElementById('kzG1moves').textContent = '0';
+
+    deck.forEach((sym)=>{
+      const card = document.createElement('div');
+      card.className = 'kz-card';
+      card.innerHTML = `<div class="kz-card-face kz-card-back">؟</div><div class="kz-card-face kz-card-front">${sym}</div>`;
+      card.onclick = ()=>{
+        if(lock || card.classList.contains('kz-flipped') || card.classList.contains('kz-matched')) return;
+        card.classList.add('kz-flipped');
+        sfx.flip();
+        if(!first){ first = card; return; }
+        moves++; document.getElementById('kzG1moves').textContent = moves;
+        lock = true;
+        const s1 = first.querySelector('.kz-card-front').textContent;
+        const s2 = card.querySelector('.kz-card-front').textContent;
+        if(s1 === s2){
+          first.classList.add('kz-matched'); card.classList.add('kz-matched');
+          sfx.match();
+          matched++; first = null; lock = false;
+          if(matched === symbols.length){ setTimeout(()=>chapterComplete(currentChapter), 500); }
+        } else {
+          sfx.wrong();
+          setTimeout(()=>{
+            first.classList.remove('kz-flipped'); card.classList.remove('kz-flipped');
+            first = null; lock = false;
+          }, 750);
+        }
+      };
+      grid.appendChild(card);
+    });
+    show('kz-screen-g1');
+  }
+
+  const g2Pool = [
+    {seq:'2, 4, 6, 8, ؟', opts:[9,10,12,14], correct:1, why:'هەر ژمارەیەک لە ژمارەی پێشوو ٢ زیاترە — ژمارەی داهاتوو ١٠ یە.'},
+    {seq:'3, 6, 12, 24, ؟', opts:[30,36,48,44], correct:2, why:'هەر ژمارەیەک دوو هێندەی ژمارەی پێشووە، دوای ٢٤ دێت ٤٨.'},
+    {seq:'1, 4, 9, 16, ؟', opts:[20,25,23,22], correct:1, why:'ئەمانە دووجای ژمارەکانن (١، ٤، ٩، ١٦، ٢٥).'},
+    {seq:'5, 10, 20, 40, ؟', opts:[45,60,80,70], correct:2, why:'هەر ژمارەیەک دوو هێندەی ژمارەی پێشووە، بۆیە ٨٠ دروستە.'},
+    {seq:'1, 1, 2, 3, 5, ؟', opts:[7,8,9,6], correct:1, why:'ڕیزی فیبۆناتچییە: هەر ژمارەیەک کۆی دوو ژمارەی پێشووە (٣+٥=٨).'}
+  ];
+  let g2list=[], g2i=0, g2score=0;
+  function startNumbers(count){
+    g2list = shuffleArr(g2Pool).slice(0, count);
+    g2i=0; g2score=0;
+    document.getElementById('kzG2score').textContent='0';
+    document.getElementById('kzG2total').textContent = g2list.length;
+    renderDots('kzG2dots', g2list.length, 0);
+    showG2Question();
+    show('kz-screen-g2');
+  }
+  function renderDots(id, n, active){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML='';
+    for(let i=0;i<n;i++){
+      const d = document.createElement('span');
+      if(i<active) d.classList.add('kz-on');
+      el.appendChild(d);
+    }
+  }
+  function showG2Question(){
+    const q = g2list[g2i];
+    document.getElementById('kzG2seq').textContent = q.seq;
+    document.getElementById('kzG2msg').textContent = '';
+    document.getElementById('kzG2msg').className = 'kz-feedback-msg';
+    const explainBox = document.getElementById('kzG2explain');
+    explainBox.className = 'kz-explain-box';
+    explainBox.textContent = '';
+    document.getElementById('kzG2btns').innerHTML = '';
+    const optsWrap = document.getElementById('kzG2opts');
+    optsWrap.innerHTML = '';
+    q.opts.forEach((opt, idx)=>{
+      const b = document.createElement('button');
+      b.className = 'kz-opt-btn';
+      b.textContent = opt;
+      b.onclick = ()=> handleG2Answer(idx);
+      optsWrap.appendChild(b);
+    });
+  }
+  function goToNextG2(){
+    g2i++;
+    renderDots('kzG2dots', g2list.length, g2i);
+    if(g2i < g2list.length){ showG2Question(); }
+    else {
+      if(g2score >= Math.ceil(g2list.length*0.6)) chapterComplete(currentChapter);
+      else { alert('پێویستە زیاتر وەڵامی ڕاست بدەیت. دووبارە هەوڵبدەوە!'); startNumbers(g2list.length); }
+    }
+  }
+  function handleG2Answer(idx){
+    const q = g2list[g2i];
+    const optsWrap = document.getElementById('kzG2opts');
+    const msg = document.getElementById('kzG2msg');
+    const explainBox = document.getElementById('kzG2explain');
+    const btns = document.getElementById('kzG2btns');
+    Array.from(optsWrap.children).forEach(x=> x.onclick = null);
+    btns.innerHTML = '';
+    if(idx === q.correct){
+      optsWrap.children[idx].classList.add('kz-correct');
+      sfx.match(); g2score++;
+      document.getElementById('kzG2score').textContent = g2score;
+      msg.textContent = 'وەڵامی ڕاست! ✔️';
+      msg.className = 'kz-feedback-msg kz-ok';
+      explainBox.textContent = q.why;
+      explainBox.className = 'kz-explain-box kz-show';
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'kz-btn kz-small';
+      nextBtn.textContent = g2i < g2list.length-1 ? 'پرسیاری داهاتوو' : 'کۆتایی';
+      nextBtn.onclick = goToNextG2;
+      btns.appendChild(nextBtn);
+    } else {
+      optsWrap.children[idx].classList.add('kz-wrong');
+      sfx.wrong();
+      msg.textContent = 'نەخێر، ئەوە هەڵەیە.';
+      msg.className = 'kz-feedback-msg kz-err';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'kz-btn kz-ghost kz-small';
+      showBtn.textContent = 'وەڵامی ڕاست پیشان بدە';
+      showBtn.onclick = ()=>{
+        optsWrap.children[q.correct].classList.add('kz-correct');
+        explainBox.textContent = q.why;
+        explainBox.className = 'kz-explain-box kz-show';
+        showBtn.remove();
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'kz-btn kz-small';
+        nextBtn.textContent = g2i < g2list.length-1 ? 'پرسیاری داهاتوو' : 'کۆتایی';
+        nextBtn.onclick = goToNextG2;
+        btns.appendChild(nextBtn);
+      };
+      btns.appendChild(showBtn);
+    }
+  }
+
+  const g3Freqs = [392, 330, 262, 440];
+  let g3seq=[], g3playerIdx=0, g3round=1, g3maxRound=5, g3busy=false;
+  function startSimon(rounds){
+    g3seq=[]; g3round=1; g3busy=false; g3maxRound=rounds;
+    document.getElementById('kzG3round').textContent='1';
+    document.getElementById('kzG3total').textContent = rounds;
+    document.getElementById('kzG3status').textContent = 'ئامادەبە...';
+    const tiles = document.querySelectorAll('#kzSimon .kz-stile');
+    tiles.forEach(t=> t.onclick = onSimonTileClick);
+    setTimeout(nextSimonRound, 700);
+    show('kz-screen-g3');
+  }
+  const g3replayBtn = document.getElementById('kzG3replay');
+  if(g3replayBtn) g3replayBtn.onclick = ()=>{ if(!g3busy) playSimonSeq(); };
+
+  function nextSimonRound(){
+    g3seq.push(Math.floor(Math.random()*4));
+    document.getElementById('kzG3round').textContent = Math.min(g3round, g3maxRound);
+    playSimonSeq();
+  }
+  function playSimonSeq(){
+    g3busy = true; g3playerIdx = 0;
+    document.getElementById('kzG3status').textContent = 'سەیری ئاوازەکە بکە...';
+    const tiles = document.querySelectorAll('#kzSimon .kz-stile');
+    g3seq.forEach((c, i)=>{
+      setTimeout(()=>{
+        tiles[c].classList.add('kz-lit');
+        sfx.tile(g3Freqs[c]);
+        setTimeout(()=> tiles[c].classList.remove('kz-lit'), 320);
+      }, i*550);
+    });
+    setTimeout(()=>{
+      g3busy = false;
+      document.getElementById('kzG3status').textContent = 'ئێستا نۆرەی تۆیە — ئاوازەکە دووبارە بکەرەوە';
+    }, g3seq.length*550 + 200);
+  }
+  function onSimonTileClick(){
+    if(g3busy) return;
+    const c = parseInt(this.dataset.c);
+    this.classList.add('kz-lit');
+    sfx.tile(g3Freqs[c]);
+    setTimeout(()=> this.classList.remove('kz-lit'), 200);
+    if(c === g3seq[g3playerIdx]){
+      g3playerIdx++;
+      if(g3playerIdx === g3seq.length){
+        if(g3seq.length >= g3maxRound){
+          document.getElementById('kzG3status').textContent = 'وا نییە! تۆ سەرکەوتوویت.';
+          setTimeout(()=>chapterComplete(currentChapter), 500);
+        } else {
+          g3round++;
+          document.getElementById('kzG3status').textContent = 'زۆر باشە! ئامادەبە بۆ قۆناغی داهاتوو...';
+          setTimeout(nextSimonRound, 900);
+        }
+      }
+    } else {
+      sfx.wrong();
+      document.getElementById('kzG3status').textContent = 'هەڵەیەک ڕوویدا — دووبارە هەوڵبدەوە.';
+      setTimeout(()=>{ g3seq=[]; g3round=1; document.getElementById('kzG3round').textContent='1'; setTimeout(nextSimonRound,600); }, 900);
+    }
+  }
+
+  const g4Pool = [
+    {text:'هەرچی زیاتر لێی دەبەیت، گەورەتر دەبێت. ئەوە چیە؟', opts:['چاڵ','دەریا','کێو','دار'], correct:0, why:'کاتێک خاک لە چاڵێکەوە دەردەهێنیت، چاڵەکە گەورەتر دەبێت.'},
+    {text:'شەو دێت بێ بانگهێشت، بەیانیان دەڕوات بێ ئەوەی کەس بیدزێت. ئەوە چیە؟', opts:['شەبنم','مانگ','باران','تاریکی'], correct:0, why:'شەبنم شەوانە دروست دەبێت و بە هەڵاتنی خۆر دەڕوات.'},
+    {text:'دەبزوێت بەبێ ئەوەی پێی هەبێت، دەگرێت بەبێ ئەوەی دەستی هەبێت. ئەوە چیە؟', opts:['با','ئاو','مرۆڤ','باڵندە'], correct:0, why:'با بەبێ پێ دەجوڵێت و شتەکان هەڵدەگرێت.'},
+    {text:'هەرچی تاریکتر بێت، زیاتر دەردەکەوێت. ئەوە چیە؟', opts:['ئەستێرە','خۆر','مانگ','هەور'], correct:0, why:'لە شەوی تاریکدا ئەستێرەکان ڕوونتر دەردەکەون.'}
+  ];
+  let g4list=[], g4i=0;
+  function startRiddles(count){
+    g4list = shuffleArr(g4Pool).slice(0, count);
+    g4i=0;
+    document.getElementById('kzG4total').textContent = g4list.length;
+    showG4();
+    show('kz-screen-g4');
+  }
+  function showG4(){
+    const r = g4list[g4i];
+    document.getElementById('kzG4idx').textContent = g4i+1;
+    document.getElementById('kzG4text').textContent = r.text;
+    document.getElementById('kzG4msg').textContent = '';
+    document.getElementById('kzG4msg').className = 'kz-feedback-msg';
+    const explainBox = document.getElementById('kzG4explain');
+    explainBox.className = 'kz-explain-box';
+    explainBox.textContent = '';
+    document.getElementById('kzG4btns').innerHTML = '';
+    const optsWrap = document.getElementById('kzG4opts');
+    optsWrap.innerHTML = '';
+    const shuffledOpts = r.opts.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+    shuffledOpts.forEach(({t,i})=>{
+      const b = document.createElement('button');
+      b.className = 'kz-opt-btn';
+      b.style.direction = 'rtl';
+      b.textContent = t;
+      b.onclick = ()=> handleG4Answer(i);
+      optsWrap.appendChild(b);
+    });
+  }
+  function goToNextG4(){
+    g4i++;
+    if(g4i < g4list.length) showG4();
+    else chapterComplete(currentChapter);
+  }
+  function handleG4Answer(originalIdx){
+    const r = g4list[g4i];
+    const optsWrap = document.getElementById('kzG4opts');
+    const msg = document.getElementById('kzG4msg');
+    const explainBox = document.getElementById('kzG4explain');
+    const btns = document.getElementById('kzG4btns');
+    const clickedBtn = Array.from(optsWrap.children).find(b => b.textContent === r.opts[originalIdx]);
+    const correctBtn = Array.from(optsWrap.children).find(b => b.textContent === r.opts[r.correct]);
+    Array.from(optsWrap.children).forEach(x=> x.onclick = null);
+    btns.innerHTML = '';
+    if(originalIdx === r.correct){
+      clickedBtn.classList.add('kz-correct');
+      sfx.match();
+      msg.textContent = 'وەڵامی ڕاست! ✔️';
+      msg.className = 'kz-feedback-msg kz-ok';
+      explainBox.textContent = r.why;
+      explainBox.className = 'kz-explain-box kz-show';
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'kz-btn kz-small';
+      nextBtn.textContent = g4i < g4list.length-1 ? 'مەتەڵی داهاتوو' : 'کۆتایی';
+      nextBtn.onclick = goToNextG4;
+      btns.appendChild(nextBtn);
+    } else {
+      clickedBtn.classList.add('kz-wrong');
+      sfx.wrong();
+      msg.textContent = 'نەخێر، ئەوە هەڵەیە.';
+      msg.className = 'kz-feedback-msg kz-err';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'kz-btn kz-ghost kz-small';
+      showBtn.textContent = 'وەڵامی ڕاست پیشان بدە';
+      showBtn.onclick = ()=>{
+        correctBtn.classList.add('kz-correct');
+        explainBox.textContent = r.why;
+        explainBox.className = 'kz-explain-box kz-show';
+        showBtn.remove();
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'kz-btn kz-small';
+        nextBtn.textContent = g4i < g4list.length-1 ? 'مەتەڵی داهاتوو' : 'کۆتایی';
+        nextBtn.onclick = goToNextG4;
+        btns.appendChild(nextBtn);
+      };
+      btns.appendChild(showBtn);
+    }
+  }
+
+  const finalRunes = [
+    {key:1, icon:'🗝️', label:'یادەوەری'},
+    {key:2, icon:'📐', label:'ڕێکخستن'},
+    {key:3, icon:'🕯️', label:'ڕووناکی'},
+    {key:4, icon:'📜', label:'وشە'}
+  ];
+  function startFinal(){
+    const order = [1,2,3,4];
+    const shuffled = shuffleArr(order);
+    const slotsWrap = document.getElementById('kzLockSlots');
+    const runesWrap = document.getElementById('kzLockRunes');
+    if(!slotsWrap || !runesWrap) return;
+    slotsWrap.innerHTML=''; runesWrap.innerHTML='';
+    let picked = [];
+    order.forEach(()=>{
+      const s = document.createElement('div');
+      s.className = 'kz-lock-slot';
+      slotsWrap.appendChild(s);
+    });
+    shuffled.forEach(key=>{
+      const rune = finalRunes.find(r=>r.key===key);
+      const r = document.createElement('div');
+      r.className = 'kz-lock-rune';
+      r.textContent = rune.icon;
+      r.onclick = ()=>{
+        if(r.classList.contains('kz-picked')) return;
+        picked.push(key);
+        r.classList.add('kz-picked');
+        const slot = slotsWrap.children[picked.length-1];
+        slot.textContent = rune.icon;
+        slot.classList.add('kz-filled');
+        if(picked.length === order.length){
+          const correct = picked.every((v,i)=>v===order[i]);
+          const msg = document.getElementById('kzG5msg');
+          if(correct){
+            msg.textContent = 'دەرگای کۆتایی دەکرێتەوە...';
+            msg.className = 'kz-msg kz-ok';
+            setTimeout(()=>chapterComplete(currentChapter), 900);
+          } else {
+            msg.textContent = 'ڕیزبەندییەکە هەڵەیە — دووبارە هەوڵبدەوە.';
+            msg.className = 'kz-msg kz-err';
+            sfx.wrong();
+            setTimeout(()=> startFinal(), 1000);
+          }
+        }
+      };
+      runesWrap.appendChild(r);
+    });
+    document.getElementById('kzG5msg').textContent = '';
+    show('kz-screen-g5');
+  }
+
+  const replayBtn = document.getElementById('kzReplayBtn');
+  if(replayBtn) replayBtn.onclick = ()=>{
+    state = {unlocked:1, completed:{}, seenIntro:true};
+    saveState();
+    renderMap();
+    show('kz-screen-map');
+  };
+
+  window.__koshkiZanaInit = function(){
+    renderMap();
+    show('kz-screen-hero');
+  };
+})();
+</script>
+
+<!-- Amaze Go (ئامەیز گۆ) Game Logic Script -->
+<script>
+(function(){
+  "use strict";
+  const TOTAL_LEVELS = 120;
+  const STORAGE_KEY = "amazego_save_v1";
+
+  const THEMES = {
+    sand:  { bg:"#f4ecd9", bg2:"#ece1c8", line:"#6b4a35", accent:"#c78a2e", accentDark:"#a9701f", card:"#fffaf0", panel:"#d8c6a3", player:"#c0392b", goal:"#6faa5a" },
+    mint:  { bg:"#eaf3ec", bg2:"#dcebe0", line:"#3f5e4c", accent:"#5ea87a", accentDark:"#3f8a5c", card:"#f7fbf7", panel:"#c8ded0", player:"#c0392b", goal:"#d19a3d" },
+    dusk:  { bg:"#eae6f4", bg2:"#ded6ee", line:"#4a3f6b", accent:"#8a6fc7", accentDark:"#6c50a9", card:"#f8f6fc", panel:"#cbc0e6", player:"#c0392b", goal:"#5ea87a" },
+    blush: { bg:"#f7e9ec", bg2:"#f1dade", line:"#7a3f4b", accent:"#d97a92", accentDark:"#b95a73", card:"#fff5f7", panel:"#e9c4cd", player:"#3f6b8a", goal:"#6faa5a" }
+  };
+
+  let state = { unlocked: 1, completed: {}, stars: {}, currentLevel: 1, hints: 5, theme: "sand" };
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) state = Object.assign(state, JSON.parse(raw));
+    }catch(e){}
+  }
+  function saveState(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  function mulberry32(seed){
+    return function(){
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function gridSizeForLevel(level){
+    const size = 7 + Math.floor((level - 1) / 1.7);
+    return Math.min(size, 34);
+  }
+  function braidFactorForLevel(level){
+    const t = Math.min(level / 15, 1);
+    return Math.max(0, 0.16 - t * 0.16);
+  }
+  function fogRadiusForLevel(level){
+    if(level <= 4) return Infinity;
+    const t = Math.min((level - 4) / 60, 1);
+    return Math.max(2.5, 7 - t * 4.5);
+  }
+
+  function generateMaze(level){
+    const size = gridSizeForLevel(level);
+    const rng = mulberry32(level * 7919 + 1337);
+    const W = size, H = size;
+    const cells = [];
+    for(let y=0;y<H;y++){
+      const row = [];
+      for(let x=0;x<W;x++) row.push({N:true,E:true,S:true,W:true,visited:false});
+      cells.push(row);
+    }
+    const stack = [[0,0]];
+    cells[0][0].visited = true;
+    const dirs = [["N",0,-1,"S"], ["E",1,0,"W"], ["S",0,1,"N"], ["W",-1,0,"E"]];
+    while(stack.length){
+      const [cx,cy] = stack[stack.length-1];
+      const order = dirs.slice();
+      for(let i=order.length-1;i>0;i--){
+        const j = Math.floor(rng()*(i+1));
+        [order[i],order[j]] = [order[j],order[i]];
+      }
+      let moved = false;
+      for(const [name,dx,dy,opp] of order){
+        const nx = cx+dx, ny = cy+dy;
+        if(nx>=0 && nx<W && ny>=0 && ny<H && !cells[ny][nx].visited){
+          cells[cy][cx][name] = false;
+          cells[ny][nx][opp] = false;
+          cells[ny][nx].visited = true;
+          stack.push([nx,ny]);
+          moved = true;
+          break;
+        }
+      }
+      if(!moved) stack.pop();
+    }
+
+    const braid = braidFactorForLevel(level);
+    for(let y=0;y<H;y++){
+      for(let x=0;x<W;x++){
+        const c = cells[y][x];
+        const openCount = [c.N,c.E,c.S,c.W].filter(w=>!w).length;
+        if(openCount === 1 && rng() < braid){
+          const order = dirs.slice();
+          for(let i=order.length-1;i>0;i--){
+            const j = Math.floor(rng()*(i+1));
+            [order[i],order[j]] = [order[j],order[i]];
+          }
+          for(const [name,dx,dy,opp] of order){
+            const nx=x+dx, ny=y+dy;
+            if(nx>=0&&nx<W&&ny>=0&&ny<H && c[name]){
+              c[name] = false;
+              cells[ny][nx][opp] = false;
+              break;
+            }
+          }
+        }
+      }
+    }
+    return { size:W, H, cells, start:{x:0,y:0}, goal:{x:W-1,y:H-1} };
+  }
+
+  function solveMaze(mazeObj){
+    const {cells, start, goal, size, H} = mazeObj;
+    const W = size;
+    const visited = Array.from({length:H},()=>Array(W).fill(false));
+    const prev = Array.from({length:H},()=>Array(W).fill(null));
+    const queue = [[start.x,start.y]];
+    visited[start.y][start.x] = true;
+    const dirs = [["N",0,-1],["E",1,0],["S",0,1],["W",-1,0]];
+    while(queue.length){
+      const [cx,cy] = queue.shift();
+      if(cx===goal.x && cy===goal.y) break;
+      for(const [name,dx,dy] of dirs){
+        if(cells[cy][cx][name]) continue;
+        const nx=cx+dx, ny=cy+dy;
+        if(nx<0||nx>=W||ny<0||ny>=H) continue;
+        if(visited[ny][nx]) continue;
+        visited[ny][nx] = true;
+        prev[ny][nx] = [cx,cy];
+        queue.push([nx,ny]);
+      }
+    }
+    const path = [];
+    let cur = [goal.x, goal.y];
+    if(!visited[goal.y][goal.x]) return path;
+    while(cur){
+      path.push(cur);
+      const [cx,cy] = cur;
+      cur = prev[cy][cx];
+    }
+    path.reverse();
+    return path;
+  }
+
+  const canvas = document.getElementById("ag-mazeCanvas");
+  const ctx = canvas ? canvas.getContext("2d") : null;
+  const mazeWrap = document.querySelector(".ag-maze-wrap");
+
+  let maze = null;
+  let player = {x:0,y:0};
+  let trail = [];
+  let visitedSet = new Set();
+  let cellPx = 20;
+  let padding = 14;
+  let hintPath = null;
+  let hintTimer = null;
+  let solvedPath = null;
+  let moveCount = 0;
+  let elapsedSeconds = 0;
+  let timerInterval = null;
+  let peekUntil = 0;
+
+  let audioCtx = null;
+  function soundOn(){ const el = document.getElementById("ag-soundToggle"); return el ? el.checked : true; }
+  function beep(freq, dur, type){
+    if(!soundOn()) return;
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type || "sine";
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + dur);
+    }catch(e){}
+  }
+
+  function formatTime(sec){
+    const m = Math.floor(sec/60), s = sec%60;
+    return m + ":" + (s<10?"0":"") + s;
+  }
+  function startTimer(){
+    if(timerInterval) clearInterval(timerInterval);
+    elapsedSeconds = 0;
+    document.getElementById("ag-timeCount").textContent = formatTime(0);
+    timerInterval = setInterval(()=>{
+      elapsedSeconds++;
+      document.getElementById("ag-timeCount").textContent = formatTime(elapsedSeconds);
+    }, 1000);
+  }
+  function stopTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+
+  function currentTheme(){ return THEMES[state.theme] || THEMES.sand; }
+
+  function applyThemeVars(){
+    const t = currentTheme();
+    const root = document.getElementById("amazeGoOverlay");
+    if(!root) return;
+    root.style.setProperty("--ag-bg", t.bg);
+    root.style.setProperty("--ag-bg2", t.bg2);
+    root.style.setProperty("--ag-line", t.line);
+    root.style.setProperty("--ag-accent", t.accent);
+    root.style.setProperty("--ag-accent-dark", t.accentDark);
+    root.style.setProperty("--ag-card", t.card);
+    root.style.setProperty("--ag-panel-border", t.panel);
+  }
+
+  function resizeCanvas(){
+    if(!maze || !canvas || !mazeWrap) return;
+    const wrapRect = mazeWrap.getBoundingClientRect();
+    const avail = Math.min(wrapRect.width, wrapRect.height) - 4;
+    const dpr = window.devicePixelRatio || 1;
+    const size = Math.max(200, avail);
+    canvas.style.width = size+"px";
+    canvas.style.height = size+"px";
+    canvas.width = Math.floor(size*dpr);
+    canvas.height = Math.floor(size*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    cellPx = (size - padding*2) / maze.size;
+    draw();
+  }
+
+  function loadLevel(levelNum){
+    state.currentLevel = levelNum;
+    maze = generateMaze(levelNum);
+    player = {x:maze.start.x, y:maze.start.y};
+    trail = [{x:player.x,y:player.y}];
+    visitedSet = new Set([player.x+","+player.y]);
+    hintPath = null;
+    solvedPath = null;
+    moveCount = 0;
+    peekUntil = 0;
+    document.getElementById("ag-moveCount").textContent = 0;
+    document.getElementById("ag-levelNum").textContent = levelNum;
+    saveState();
+    startTimer();
+    resizeCanvas();
+  }
+
+  function draw(){
+    if(!ctx || !maze) return;
+    const t = currentTheme();
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = t.bg2;
+    ctx.fillRect(0,0,w,h);
+
+    const size = maze.size;
+    const ox = padding, oy = padding;
+
+    if(trail.length>1){
+      ctx.strokeStyle = t.accent;
+      ctx.globalAlpha = 0.35;
+      ctx.lineWidth = Math.max(3, cellPx*0.35);
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      trail.forEach((p,i)=>{
+        const px = ox + p.x*cellPx + cellPx/2;
+        const py = oy + p.y*cellPx + cellPx/2;
+        if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      });
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+
+    if(hintPath && hintPath.length>1){
+      ctx.strokeStyle = t.player;
+      ctx.globalAlpha = 0.55;
+      ctx.setLineDash([cellPx*0.25, cellPx*0.25]);
+      ctx.lineWidth = Math.max(2, cellPx*0.22);
+      ctx.beginPath();
+      hintPath.forEach((p,i)=>{
+        const px = ox + p[0]*cellPx + cellPx/2;
+        const py = oy + p[1]*cellPx + cellPx/2;
+        if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      });
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
+    }
+
+    const foggy = fogRadiusForLevel(state.currentLevel) !== Infinity && Date.now() > peekUntil;
+    const radius = fogRadiusForLevel(state.currentLevel);
+
+    function isVisible(cx,cy){
+      if(!foggy) return true;
+      if(visitedSet.has(cx+","+cy)) return true;
+      return Math.max(Math.abs(cx-player.x), Math.abs(cy-player.y)) <= radius;
+    }
+
+    ctx.strokeStyle = t.line;
+    ctx.lineWidth = Math.max(2, cellPx*0.12);
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    for(let y=0;y<size;y++){
+      for(let x=0;x<size;x++){
+        if(!isVisible(x,y)) continue;
+        const c = maze.cells[y][x];
+        const x0 = ox + x*cellPx, y0 = oy + y*cellPx;
+        const x1 = x0+cellPx, y1 = y0+cellPx;
+        if(c.N){ ctx.moveTo(x0,y0); ctx.lineTo(x1,y0); }
+        if(c.W){ ctx.moveTo(x0,y0); ctx.lineTo(x0,y1); }
+        if(c.S && y===size-1){ ctx.moveTo(x0,y1); ctx.lineTo(x1,y1); }
+        if(c.E && x===size-1){ ctx.moveTo(x1,y0); ctx.lineTo(x1,y1); }
+      }
+    }
+    ctx.stroke();
+
+    if(foggy){
+      ctx.fillStyle = t.line;
+      for(let y=0;y<size;y++){
+        for(let x=0;x<size;x++){
+          if(isVisible(x,y)) continue;
+          ctx.globalAlpha = 0.9;
+          ctx.fillRect(ox+x*cellPx, oy+y*cellPx, cellPx+0.5, cellPx+0.5);
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    if(isVisible(maze.start.x, maze.start.y)){
+      const sx = ox + maze.start.x*cellPx + cellPx/2;
+      const sy = oy + maze.start.y*cellPx + cellPx/2;
+      ctx.fillStyle = t.accent;
+      ctx.globalAlpha = 0.5;
+      ctx.beginPath(); ctx.arc(sx, sy, cellPx*0.18, 0, Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    if(isVisible(maze.goal.x, maze.goal.y)){
+      const gx = ox + maze.goal.x*cellPx + cellPx/2;
+      const gy = oy + maze.goal.y*cellPx + cellPx/2;
+      ctx.fillStyle = t.goal;
+      ctx.beginPath();
+      const r = cellPx*0.28;
+      ctx.moveTo(gx, gy-r); ctx.lineTo(gx+r, gy); ctx.lineTo(gx, gy+r); ctx.lineTo(gx-r, gy);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    const px = ox + player.x*cellPx + cellPx/2;
+    const py = oy + player.y*cellPx + cellPx/2;
+    ctx.fillStyle = t.player;
+    ctx.beginPath();
+    ctx.arc(px, py, cellPx*0.3, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = Math.max(1.5, cellPx*0.06);
+    ctx.stroke();
+  }
+
+  function canMove(x,y,dir){
+    const c = maze.cells[y][x];
+    if(dir==="N") return !c.N && y>0;
+    if(dir==="S") return !c.S && y<maze.size-1;
+    if(dir==="E") return !c.E && x<maze.size-1;
+    if(dir==="W") return !c.W && x>0;
+    return false;
+  }
+
+  function tryMove(dx,dy){
+    let dir = null;
+    if(dx===1) dir="E"; else if(dx===-1) dir="W";
+    else if(dy===1) dir="S"; else if(dy===-1) dir="N";
+    if(!dir) return;
+    if(canMove(player.x,player.y,dir)){
+      player.x += dx; player.y += dy;
+      trail.push({x:player.x,y:player.y});
+      visitedSet.add(player.x+","+player.y);
+      moveCount++;
+      document.getElementById("ag-moveCount").textContent = moveCount;
+      hintPath = null;
+      beep(320 + Math.random()*40, 0.06, "sine");
+      draw();
+      checkWin();
+    } else {
+      beep(140, 0.08, "square");
+    }
+  }
+
+  function checkWin(){
+    if(player.x===maze.goal.x && player.y===maze.goal.y){
+      stopTimer();
+      [523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,0.25,"triangle"), i*110));
+      state.completed[state.currentLevel] = true;
+      if(state.currentLevel >= state.unlocked && state.unlocked < TOTAL_LEVELS){
+        state.unlocked = state.currentLevel + 1;
+      }
+      if(!solvedPath) solvedPath = solveMaze(maze);
+      const optimal = Math.max(1, solvedPath.length - 1);
+      const ratio = moveCount / optimal;
+      let stars = 1;
+      if(ratio <= 1.15) stars = 3;
+      else if(ratio <= 1.6) stars = 2;
+      if(!state.stars) state.stars = {};
+      state.stars[state.currentLevel] = Math.max(state.stars[state.currentLevel]||0, stars);
+      saveState();
+      buildLevelsGrid();
+      setTimeout(()=>{
+        document.getElementById("ag-winLevelNum").textContent = state.currentLevel;
+        document.getElementById("ag-starsRow").textContent = "★".repeat(stars) + "☆".repeat(3-stars);
+        document.getElementById("ag-winStats").textContent = moveCount + " هەنگاو · " + formatTime(elapsedSeconds);
+        document.getElementById("ag-overlayWin").classList.add("show");
+      }, 220);
+    }
+  }
+
+  let dragging=false, pointerPos = null;
+  if(canvas){
+    canvas.addEventListener("pointerdown", (e)=>{
+      dragging = true;
+      pointerPos = {x:e.clientX, y:e.clientY};
+    });
+    canvas.addEventListener("pointermove",(e)=>{
+      if(!dragging || !pointerPos) return;
+      const dx = e.clientX - pointerPos.x;
+      const dy = e.clientY - pointerPos.y;
+      const threshold = cellPx*0.6;
+      if(Math.abs(dx) > threshold || Math.abs(dy) > threshold){
+        if(Math.abs(dx) > Math.abs(dy)) tryMove(dx>0?1:-1, 0);
+        else tryMove(0, dy>0?1:-1);
+        pointerPos = {x:e.clientX, y:e.clientY};
+      }
+    });
+    window.addEventListener("pointerup", ()=>{ dragging=false; pointerPos=null; });
+  }
+
+  window.addEventListener("keydown",(e)=>{
+    if(document.getElementById("amazeGoOverlay").style.display !== "block") return;
+    if(e.key==="ArrowUp") tryMove(0,-1);
+    else if(e.key==="ArrowDown") tryMove(0,1);
+    else if(e.key==="ArrowLeft") tryMove(-1,0);
+    else if(e.key==="ArrowRight") tryMove(1,0);
+  });
+
+  window.addEventListener("resize", ()=>{
+    if(document.getElementById("amazeGoOverlay").style.display === "block") resizeCanvas();
+  });
+
+  function buildLevelsGrid(){
+    const grid = document.getElementById("ag-levelsGrid");
+    if(!grid) return;
+    grid.innerHTML = "";
+    for(let i=1;i<=TOTAL_LEVELS;i++){
+      const cell = document.createElement("div");
+      const locked = i > state.unlocked;
+      const done = !!state.completed[i];
+      const isCurrent = i === state.currentLevel;
+      cell.className = "ag-lvl-cell" + (locked?" locked":"") + (done?" done":"") + (isCurrent && !done ?" current":"");
+      if(locked){
+        cell.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>`;
+      } else {
+        const st = (state.stars && state.stars[i]) || 0;
+        cell.innerHTML = `<div><span>${i}</span>${done ? `<div style="font-size:9px;">${"★".repeat(st)}</div>` : ""}</div>`;
+        cell.onclick = ()=>{
+          loadLevel(i);
+          closeOverlay("ag-overlayLevels");
+        };
+      }
+      grid.appendChild(cell);
+    }
+  }
+
+  function buildThemeSwatches(){
+    const wrap = document.getElementById("ag-themeSwatches");
+    if(!wrap) return;
+    wrap.innerHTML = "";
+    Object.keys(THEMES).forEach(key=>{
+      const t = THEMES[key];
+      const sw = document.createElement("div");
+      sw.className = "ag-swatch" + (state.theme===key ? " active":"");
+      sw.style.background = t.bg2;
+      sw.style.boxShadow = "inset 0 0 0 3px " + t.accent;
+      sw.onclick = ()=>{
+        state.theme = key;
+        saveState();
+        applyThemeVars();
+        buildThemeSwatches();
+        draw();
+      };
+      wrap.appendChild(sw);
+    });
+  }
+
+  function openOverlay(id){ document.getElementById(id).classList.add("show"); }
+  function closeOverlay(id){ document.getElementById(id).classList.remove("show"); }
+
+  document.getElementById("ag-btnLevels").onclick = ()=>{ buildLevelsGrid(); openOverlay("ag-overlayLevels"); };
+  document.getElementById("ag-closeLevels").onclick = ()=>closeOverlay("ag-overlayLevels");
+  document.getElementById("ag-btnTheme").onclick = ()=>{ buildThemeSwatches(); openOverlay("ag-overlayTheme"); };
+  document.getElementById("ag-closeTheme").onclick = ()=>closeOverlay("ag-overlayTheme");
+  document.getElementById("ag-btnSettings").onclick = ()=>openOverlay("ag-overlaySettings");
+  document.getElementById("ag-closeSettings").onclick = ()=>closeOverlay("ag-overlaySettings");
+
+  document.getElementById("ag-btnResetProgress").onclick = ()=>{
+    state.unlocked = 1; state.completed = {}; state.hints = 5;
+    saveState();
+    showToast("پێشکەوتن سڕایەوە");
+    loadLevel(1);
+    buildLevelsGrid();
+  };
+
+  document.getElementById("ag-btnRestart").onclick = ()=> loadLevel(state.currentLevel);
+
+  document.getElementById("ag-btnPeek").onclick = ()=>{
+    if(fogRadiusForLevel(state.currentLevel) === Infinity){ showToast("مەیزەکە پێشتر ڕوونە"); return; }
+    if(state.hints <= 0){ showToast("دڵۆپەت نەماوە!"); return; }
+    state.hints -= 1;
+    document.getElementById("ag-hintCount").textContent = state.hints;
+    saveState();
+    peekUntil = Date.now() + 3000;
+    beep(880,0.12,"sine");
+    draw();
+    setTimeout(draw, 3050);
+  };
+
+  document.getElementById("ag-btnHint").onclick = ()=>{
+    if(state.hints <= 0){ showToast("دڵۆپەت نەماوە!"); return; }
+    state.hints -= 1;
+    document.getElementById("ag-hintCount").textContent = state.hints;
+    saveState();
+    beep(880,0.12,"sine");
+    if(!solvedPath) solvedPath = solveMaze(maze);
+    const idx = solvedPath.findIndex(p=>p[0]===player.x && p[1]===player.y);
+    hintPath = idx>=0 ? solvedPath.slice(idx) : solvedPath;
+    draw();
+    if(hintTimer) clearTimeout(hintTimer);
+    hintTimer = setTimeout(()=>{ hintPath=null; draw(); }, 3500);
+  };
+
+  document.getElementById("ag-btnWinReplay").onclick = ()=>{
+    closeOverlay("ag-overlayWin");
+    loadLevel(state.currentLevel);
+  };
+  document.getElementById("ag-btnWinNext").onclick = ()=>{
+    closeOverlay("ag-overlayWin");
+    loadLevel(Math.min(state.currentLevel+1, TOTAL_LEVELS));
+  };
+
+  document.querySelectorAll(".ag-overlay").forEach(ov=>{
+    ov.onclick = (e)=>{ if(e.target===ov) ov.classList.remove("show"); };
+  });
+
+  function showToast(msg){
+    const t = document.getElementById("ag-toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(()=>t.classList.remove("show"), 1600);
+  }
+
+  window.__amazeGoInit = function(){
+    loadState();
+    document.getElementById("ag-hintCount").textContent = state.hints;
+    applyThemeVars();
+    loadLevel(state.currentLevel || 1);
+    buildLevelsGrid();
+  };
+})();
+</script>
 </body>
 </html>
