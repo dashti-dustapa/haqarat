@@ -1815,7 +1815,12 @@ body.dark-mode .skeleton-shimmer {
 /* ============ MOBILE TWEAKS ============ */
 @media (max-width: 640px) {
   .logo { font-size: 1rem; max-width: 120px; }
-  .btn-install { display: none; }
+  .btn-install { 
+    display: inline-flex; 
+    font-size: 0.68rem; 
+    padding: 0.35rem 0.55rem;
+    white-space: nowrap;
+  }
   .header-btns { gap: 2px; }
   .admin-tab-btn { font-size: 0.72rem; padding: 0.6rem 0.35rem; gap: 3px; }
   .filter-search-input { font-size: 0.85rem; }
@@ -1847,7 +1852,12 @@ body.dark-mode .skeleton-shimmer {
   #ronakiMinimapWrap { width: 70px !important; height: 70px !important; top: 70px !important; left: 10px !important; }
 }
 @media (max-width: 400px) {
-  .header-btns .btn-install { display: none !important; }
+  /* دوگمەی داگرتن دیاربێت لەسەر مۆبایلی بچووکیش */
+  .header-btns .btn-install { 
+    display: inline-flex !important; 
+    font-size: 0.62rem; 
+    padding: 0.3rem 0.45rem;
+  }
   header { padding: 0.6rem 0.5rem; }
   .logo { font-size: 0.9rem; max-width: 100px; }
   .logo-icon { width: 22px; height: 22px; }
