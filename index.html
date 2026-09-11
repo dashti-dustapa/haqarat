@@ -23,6 +23,45 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
+/* ===== AI MATCH BADGE ===== */
+#aiFloatingBtn { position: fixed; }
+.ai-match-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 900;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  box-shadow: 0 2px 8px rgba(239,68,68,0.5);
+  border: 2px solid var(--card-bg);
+}
+
+/* ===== AI MENU BUTTONS ===== */
+.ai-menu-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 4px 0;
+  text-align: right;
+  width: 100%;
+  font-family: inherit;
+  transition: transform 0.15s, background 0.2s;
+}
+.ai-menu-btn:active { transform: scale(0.97); }
+.ai-menu-btn:hover { background: var(--card-bg); }
 :root {
   --primary: #0284c7;
   --primary-dark: #0369a1;
@@ -4477,14 +4516,17 @@ function hideSplashScreen() {
 }
 function checkStandaloneMode() {
   const ua = navigator.userAgent || "";
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.standalone || document.referrer.includes('android-app://') || ua.includes('wv') || ua.includes('WebIntoApp');
+  const isStandalone = 
+    window.matchMedia('(display-mode: standalone)').matches || 
+    window.matchMedia('(display-mode: fullscreen)').matches || 
+    window.navigator.standalone === true || 
+    document.referrer.includes('android-app://') || 
+    ua.includes('wv') || 
+    ua.includes('WebIntoApp');
+
   const installBtn = document.getElementById('apkDownloadDirectBtn');
-  if (installBtn) {
-    if (isStandalone) {
-      installBtn.style.display = 'none';
-    } else {
-      installBtn.style.display = 'inline-flex';
-    }
+  if (installBtn && isStandalone) {
+    installBtn.remove();   /* ← بیسڕەوە، نەک style.display */
   }
 }
 
@@ -5879,14 +5921,28 @@ function aiGreetUser() {
 function buildQuickActions() {
   const actions = [
     { label: '🔢 حسابکردن', query: 'یارمەتیم بدە حساب بکەم' },
-    { label: '🏠 موڵکەکان', query: 'چەند موڵک هەیە؟' },
-    { label: '🎯 گونجان', query: 'گونجانی هەیە؟' },
+    { label: '🎯 گونجانی نوێ', query: 'چەند گونجانی نوێ هەیە؟' },
+    { label: '🏠 گونجانەکانم', query: 'گونجانەکانم بۆ فرۆشیار و کڕیار' },
     { label: '💰 نرخەکان', query: 'نرخی موڵکەکان چەندە؟' },
-    { label: '📍 شوێنەکان', query: 'شوێنەکان کامانەن؟' },
-    { label: '📞 پەیوەندی', query: 'چۆن پەیوەندی بکەم؟' }
+    { label: '📊 ئامار', query: 'چەند موڵک هەیە؟' },
+    { label: '📍 شوێنەکان', query: 'شوێنەکان کامانەن؟' }
   ];
   const wrap = document.getElementById('aiQuickActions');
   wrap.innerHTML = '';
+  
+  // دوگمەی بینینی هەموو گونجانەکان
+  const viewAllBtn = document.createElement('button');
+  viewAllBtn.className = 'ai-quick-btn';
+  viewAllBtn.textContent = `🎯 بینینی هەموو گونجانەکان (${trackedMatches.length})`;
+  viewAllBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+  viewAllBtn.style.color = '#fff';
+  viewAllBtn.style.border = 'none';
+  viewAllBtn.onclick = () => {
+    closeAiAssistant();
+    setTimeout(showAllMatchesModal, 200);
+  };
+  wrap.appendChild(viewAllBtn);
+  
   actions.forEach(a => {
     const btn = document.createElement('button');
     btn.className = 'ai-quick-btn';
@@ -8080,5 +8136,286 @@ if ('serviceWorker' in navigator) {
   };
 })();
 </script>
+/* ============================================================
+   AI MATCH TRACKING SYSTEM
+   چاودێری بەردەوامی گونجاندن لە نێوان فرۆشیار و کڕیار
+   ============================================================ */
+
+let trackedMatches = JSON.parse(localStorage.getItem('dashti_tracked_matches') || '[]');
+let unseenMatchCount = Number(localStorage.getItem('dashti_unseen_matches') || 0);
+
+/* ===== 1. تۆمارکردنی گونجانەکان ===== */
+function recordMatch(propId, wantId, score, reasons) {
+  const existing = trackedMatches.find(m => 
+    String(m.propId) === String(propId) && String(m.wantId) === String(wantId)
+  );
+  
+  if (existing) {
+    if (existing.score !== score) {
+      existing.score = score;
+      existing.reasons = reasons;
+      existing.updatedAt = Date.now();
+      return false; // نوێ نەکراوە بەڵکو ئەپدەیتکراوە
+    }
+    return false;
+  }
+  
+  trackedMatches.push({
+    id: 'match_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+    propId: String(propId),
+    wantId: String(wantId),
+    score: score,
+    reasons: reasons,
+    createdAt: Date.now(),
+    seen: false
+  });
+  
+  unseenMatchCount++;
+  localStorage.setItem('dashti_unseen_matches', unseenMatchCount);
+  return true;
+}
+
+/* ===== 2. سکانکردنی هەموو موڵکەکان بۆ گونجانی نوێ ===== */
+function scanAllForNewMatches() {
+  const newMatches = [];
+  const props = properties.filter(p => p.category !== 'خوازیار / پێویستە');
+  const wants = properties.filter(p => p.category === 'خوازیار / پێویستە');
+  
+  props.forEach(prop => {
+    wants.forEach(want => {
+      const res = calculateMatchScore(want, prop);
+      if (res.score >= getMatchThreshold()) {
+        const isNew = recordMatch(prop.id, want.id, res.score, res.reasons);
+        if (isNew) {
+          newMatches.push({
+            prop: prop,
+            want: want,
+            score: res.score,
+            reasons: res.reasons
+          });
+        }
+      }
+    });
+  });
+  
+  if (newMatches.length > 0) {
+    localStorage.setItem('dashti_tracked_matches', JSON.stringify(trackedMatches));
+    scheduleFirebaseSync();
+    updateMatchNotificationBadge();
+    notifyNewMatches(newMatches);
+  }
+  
+  return newMatches;
+}
+
+/* ===== 3. ئاگاداری بۆ گونجانە نوێیەکان ===== */
+function notifyNewMatches(matches) {
+  if (matches.length === 0) return;
+  
+  matches.sort((a, b) => b.score - a.score);
+  const top = matches[0];
+  
+  const propTitle = top.prop.title || 'موڵک';
+  const wantTitle = top.want.title || 'داواکاری';
+  
+  if (matches.length === 1) {
+    showMatchFloatingNotif(`🎯 گونجانێکی نوێ! "${propTitle}" ↔ "${wantTitle}" (${top.score}٪)`);
+  } else {
+    showMatchFloatingNotif(`🎯 ${matches.length} گونجانی نوێ دۆزرایەوە! باشترین: ${top.score}٪`);
+  }
+  
+  // Notification push بۆ وێبگەڕ (ئەگەر ڕێگەپێدراو بێت)
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('🎯 گونجانی نوێ - ' + (siteSettings.siteName || 'عقارات'), {
+      body: matches.length === 1 
+        ? `${propTitle} ↔ ${wantTitle} (${top.score}٪)`
+        : `${matches.length} گونجانی نوێ دۆزرایەوە`,
+      icon: siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png"
+    });
+  }
+}
+
+/* ===== 4. نیشاندەری ژمارەی گونجانی نوێ ===== */
+function updateMatchNotificationBadge() {
+  const btn = document.getElementById('aiFloatingBtn');
+  if (!btn) return;
+  
+  // لابەرەوەی باجی کۆن
+  const oldBadge = btn.querySelector('.ai-match-badge');
+  if (oldBadge) oldBadge.remove();
+  
+  if (unseenMatchCount > 0) {
+    const badge = document.createElement('div');
+    badge.className = 'ai-match-badge';
+    badge.textContent = unseenMatchCount > 99 ? '99+' : unseenMatchCount;
+    badge.style.cssText = `
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 900;
+      min-width: 22px;
+      height: 22px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+      box-shadow: 0 2px 8px rgba(239,68,68,0.5);
+      border: 2px solid var(--card-bg);
+      animation: badgePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    `;
+    btn.style.position = 'fixed';
+    btn.appendChild(badge);
+  }
+}
+
+/* ===== 5. وەرگرتنی لیستی گونجانەکان بۆ AI ===== */
+function getAIMatchReport() {
+  if (trackedMatches.length === 0) {
+    return `🎯 هیچ گونجانێک تۆمار نەکراوە هێشتا.\n\nدەست پێبکە بە زیادکردنی موڵک و داواکاری، ئەوسا سیستەمەکە بە خۆکاری گونجانەکان دەدۆزێتەوە.`;
+  }
+  
+  const unseen = trackedMatches.filter(m => !m.seen);
+  const highScore = trackedMatches.filter(m => m.score >= 75).length;
+  const midScore = trackedMatches.filter(m => m.score >= 55 && m.score < 75).length;
+  
+  let report = `🎯 ڕاپۆرتی گونجانەکان:\n\n`;
+  report += `• کۆی گونجانەکان: ${trackedMatches.length}\n`;
+  report += `• گونجانی بەرز (75%+): ${highScore}\n`;
+  report += `• گونجانی مامناوەند (55-74%): ${midScore}\n`;
+  report += `• نوێی نەبینراو: ${unseen.length}\n\n`;
+  
+  if (unseen.length > 0) {
+    report += `📌 ٣ گونجانی نوێی سەرەکی:\n`;
+    unseen.sort((a, b) => b.score - a.score).slice(0, 3).forEach((m, i) => {
+      const prop = properties.find(p => String(p.id) === String(m.propId));
+      const want = properties.find(p => String(p.id) === String(m.wantId));
+      if (prop && want) {
+        report += `\n${i+1}. "${prop.title}" ↔ "${want.title}" (${m.score}٪)`;
+      }
+    });
+  }
+  
+  return report;
+}
+
+/* ===== 6. نیشاندانی لیستی گونجانەکان لە AI دا ===== */
+function getAIMatchListForSeller() {
+  // گونجانەکان بۆ فرۆشیار (موڵکەکانی هەیە)
+  const sellerMatches = trackedMatches
+    .filter(m => {
+      const prop = properties.find(p => String(p.id) === String(m.propId));
+      return prop && prop.category !== 'خوازیار / پێویستە';
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 10);
+  
+  if (sellerMatches.length === 0) {
+    return 'هیچ گونجانێک بۆ موڵکەکانت نییە هێشتا.';
+  }
+  
+  let report = `🏠 گونجانەکان بۆ موڵکەکانت:\n\n`;
+  sellerMatches.forEach((m, i) => {
+    const prop = properties.find(p => String(p.id) === String(m.propId));
+    const want = properties.find(p => String(p.id) === String(m.wantId));
+    if (prop && want) {
+      report += `${i+1}. "${prop.title}"\n   → کڕیار دەوێت: "${want.title}" (${m.score}٪)\n   📞 ${want.ownerPhone || 'بێ ژمارە'}\n\n`;
+    }
+  });
+  return report;
+}
+
+function getAIMatchListForBuyer() {
+  // گونجانەکان بۆ کڕیار (داواکارییەکانی هەیە)
+  const buyerMatches = trackedMatches
+    .filter(m => {
+      const want = properties.find(p => String(p.id) === String(m.wantId));
+      return want && want.category === 'خوازیار / پێویستە';
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 10);
+  
+  if (buyerMatches.length === 0) {
+    return 'هیچ گونجانێک بۆ داواکارییەکانت نییە هێشتا.';
+  }
+  
+  let report = `🔍 گونجانەکان بۆ داواکارییەکانت:\n\n`;
+  buyerMatches.forEach((m, i) => {
+    const prop = properties.find(p => String(p.id) === String(m.propId));
+    const want = properties.find(p => String(p.id) === String(m.wantId));
+    if (prop && want) {
+      report += `${i+1}. "${want.title}"\n   → موڵکی گونجاو: "${prop.title}" (${m.score}٪)\n   💰 ${prop.price || 'نرخ نییە'}\n   📞 ${prop.ownerPhone || 'بێ ژمارە'}\n\n`;
+    }
+  });
+  return report;
+}
+
+/* ===== 7. نیشاندانی دوایین گونجانەکان لە مۆداڵێکدا ===== */
+function showAllMatchesModal() {
+  const seenMatches = trackedMatches.sort((a, b) => b.score - a.score);
+  
+  let html = '';
+  if (seenMatches.length === 0) {
+    html = `<div class="no-match-msg">
+      <div style="font-size:2rem; margin-bottom:10px;">🎯</div>
+      <div>هێشتا هیچ گونجانێک تۆمار نەکراوە.</div>
+      <div style="font-size:0.75rem; margin-top:8px; color:var(--muted);">موڵک و داواکاری زیاد بکە، سیستەمەکە بە خۆکاری گونجانەکان دەدۆزێتەوە.</div>
+    </div>`;
+  } else {
+    html = seenMatches.slice(0, 20).map(m => {
+      const prop = properties.find(p => String(p.id) === String(m.propId));
+      const want = properties.find(p => String(p.id) === String(m.wantId));
+      if (!prop || !want) return '';
+      
+      const isHigh = m.score >= 75;
+      const isMid = m.score >= 55;
+      const pillClass = isHigh ? '' : (isMid ? 'mid' : 'low');
+      const rowClass = isHigh ? 'match-item-row high-match' : 'match-item-row';
+      
+      return `<div class="${rowClass}">
+        <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+          <div class="match-info">
+            <div class="title">🏠 ${prop.title || 'موڵک'}</div>
+            <div class="sub" style="color:#d97706;">🔍 دەوێت: ${want.title || 'داواکاری'}</div>
+            <div class="sub">💰 ${prop.price || '—'} · 📍 ${prop.location || '—'}</div>
+            <div class="match-reasons">${(m.reasons || []).join(' · ')}</div>
+          </div>
+        </div>
+        <div class="match-score-pill ${pillClass}">${m.score}٪</div>
+      </div>`;
+    }).join('');
+  }
+  
+  document.getElementById('matchListModalTitle').innerText = `🎯 هەموو گونجانەکان (${trackedMatches.length})`;
+  document.getElementById('matchListContent').innerHTML = html;
+  document.getElementById('matchListModal').style.display = 'flex';
+  window.history.pushState({ modal: 'allMatches' }, "", "");
+  
+  // نیشانکردن وەک بینراو
+  trackedMatches.forEach(m => m.seen = true);
+  unseenMatchCount = 0;
+  localStorage.setItem('dashti_unseen_matches', 0);
+  localStorage.setItem('dashti_tracked_matches', JSON.stringify(trackedMatches));
+  updateMatchNotificationBadge();
+}
+
+/* ===== 8. داواکردنی مۆڵەتی ئاگاداری ===== */
+function requestNotificationPermission() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+
+/* ===== 9. بانگکردنی سکانکردن لە کاتی گۆڕانکاری داتا ===== */
+const __originalRefreshAfterDataChange = refreshAfterDataChange;
+refreshAfterDataChange = function(options) {
+  __originalRefreshAfterDataChange(options);
+  setTimeout(() => {
+    scanAllForNewMatches();
+  }, 500);
+};
 </body>
 </html>
