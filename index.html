@@ -6,6 +6,19 @@
 <title id="siteLogo">عقارات دەشتی دوستەپە</title>
 <link id="appFavicon" rel="icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link id="appAppleIcon" rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
+
+<!-- ================= iOS PWA TAGS (NEW) ================= -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" id="appTitleMeta" content="عقارات دەشتی دوستەپە">
+<meta name="theme-color" content="#0284c7">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" sizes="180x180" id="appAppleIcon180" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
+<link rel="apple-touch-icon" sizes="152x152" id="appAppleIcon152" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
+<link rel="apple-touch-icon" sizes="120x120" id="appAppleIcon120" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
+<!-- ================= END iOS PWA TAGS ================= -->
+
 <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;600;700&family=Lalezar&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1873,6 +1886,184 @@ textarea:focus-visible {
   gap: 6px;
 }
 #pullRefreshIndicator.show { top: 0; }
+
+/* ================= DOWNLOAD CHOICE MODAL (NEW) ================= */
+.download-choice-btn {
+  width: 100%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  text-align: right;
+  direction: rtl;
+  transition: transform 0.15s, border-color 0.2s, background 0.2s;
+  font-family: inherit;
+}
+.download-choice-btn:active { transform: scale(0.97); }
+.download-choice-btn.android { border-color: #10b981; background: linear-gradient(135deg, rgba(16,185,129,0.08), transparent); }
+.download-choice-btn.iphone { border-color: #0f172a; background: linear-gradient(135deg, rgba(15,23,42,0.08), transparent); }
+body.dark-mode .download-choice-btn.iphone { border-color: #94a3b8; background: linear-gradient(135deg, rgba(148,163,184,0.12), transparent); }
+.download-choice-btn.cancel { border-color: var(--border); background: transparent; padding: 10px; }
+
+.dc-icon {
+  font-size: 1.8rem;
+  width: 48px; height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.dc-text { flex: 1; min-width: 0; }
+.dc-title { font-size: 0.92rem; font-weight: 800; color: var(--text); }
+.dc-sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+.dc-arrow {
+  font-size: 1.3rem;
+  color: var(--muted);
+  font-weight: 800;
+  transform: rotate(180deg);
+  flex-shrink: 0;
+}
+
+/* ================= iPhone How-to Steps (NEW) ================= */
+.howto-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  text-align: right;
+  direction: rtl;
+}
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.step-text {
+  flex: 1;
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.7;
+  padding-top: 3px;
+}
+.share-btn-icon {
+  display: inline-block;
+  background: #0284c7;
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+.iphone-note {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.75rem;
+  color: #78350f;
+  line-height: 1.7;
+  margin-top: 12px;
+  text-align: right;
+  direction: rtl;
+}
+body.dark-mode .iphone-note {
+  background: #422006;
+  border-color: #78350f;
+  color: #fde68a;
+}
+
+/* NEW: iOS Install Banner */
+#iosInstallBanner {
+  display: none;
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 24px);
+  max-width: 460px;
+  z-index: 999998;
+  animation: iosBannerSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#iosInstallBanner.show { display: block; }
+
+@keyframes iosBannerSlide {
+  0% { opacity: 0; transform: translateX(-50%) translateY(30px); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.ios-install-card {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  border: 1.5px solid #0284c7;
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(2, 132, 199, 0.35);
+  color: #fff;
+  position: relative;
+}
+.ios-install-card img {
+  width: 46px; height: 46px;
+  border-radius: 10px;
+  object-fit: contain;
+  background: #fff;
+  padding: 4px;
+  flex-shrink: 0;
+}
+.ios-install-text { flex: 1; min-width: 0; text-align: right; direction: rtl; }
+.ios-install-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #38bdf8;
+  margin-bottom: 3px;
+}
+.ios-install-sub {
+  font-size: 0.72rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+.ios-share-icon {
+  display: inline-block;
+  background: #0284c7;
+  color: #fff;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+.ios-install-close {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.ios-install-close:active { transform: scale(0.9); }
+/* ================= END DOWNLOAD MODAL CSS ================= */
 </style>
 </head>
 <body>
@@ -1949,10 +2140,107 @@ textarea:focus-visible {
   </div>
   <div class="header-btns">
     <button class="btn btn-dark-toggle" id="darkModeBtn" onclick="toggleDarkMode()">🌙</button>
-    <button class="btn btn-install" id="apkDownloadDirectBtn" onclick="triggerDirectDownload()">📲 APK</button>
+    <button class="btn btn-install" id="apkDownloadDirectBtn" onclick="openDownloadModal()">📲 داگرتن</button>
     <button class="btn btn-admin" onclick="toggleAdminBar()">⚙️</button>
   </div>
 </header>
+
+<!-- ================= DOWNLOAD CHOICE MODAL (NEW) ================= -->
+<div class="modal" id="downloadChoiceModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeDownloadModal()">×</span>
+    <div class="modal-title" style="text-align:center; font-size:1.1rem;">📲 دابەزاندنی ئەپ</div>
+    <p style="text-align:center; font-size:0.78rem; color:var(--muted); margin-bottom:14px;">
+      سیستەمی مۆبایلەکەت هەڵبژێرە
+    </p>
+
+    <button class="download-choice-btn android" onclick="handleDownloadAndroid()">
+      <div class="dc-icon">🤖</div>
+      <div class="dc-text">
+        <div class="dc-title">ئەندرۆید (Android)</div>
+        <div class="dc-sub">داگرتنی فایلی APK بە ڕاستەوخۆیی</div>
+      </div>
+      <div class="dc-arrow">‹</div>
+    </button>
+
+    <button class="download-choice-btn iphone" onclick="handleDownloadIphone()">
+      <div class="dc-icon">🍎</div>
+      <div class="dc-text">
+        <div class="dc-title">ئایفۆن (iPhone)</div>
+        <div class="dc-sub">دامەزراندن بە شێوازی Add to Home Screen</div>
+      </div>
+      <div class="dc-arrow">‹</div>
+    </button>
+
+    <button class="download-choice-btn cancel" onclick="closeDownloadModal()">
+      <div class="dc-text" style="text-align:center; width:100%;">
+        <div class="dc-title" style="color:var(--text);">داخستن</div>
+      </div>
+    </button>
+  </div>
+</div>
+
+<!-- ================= IPHONE INSTRUCTIONS MODAL (NEW) ================= -->
+<div class="modal" id="iphoneHowtoModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeIphoneHowto()">×</span>
+    <div class="modal-title" style="text-align:center; font-size:1.1rem;">🍎 دامەزراندن لەسەر ئایفۆن</div>
+    <p style="text-align:center; font-size:0.78rem; color:var(--muted); margin-bottom:16px;">
+      تەنها لە ڕێگەی وێبگەڕی <b>Safari</b> دەکرێت
+    </p>
+
+    <div class="howto-step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        ماڵپەڕەکە لە وێبگەڕی <b>Safari</b> بکەرەوە (نەک Chrome)
+      </div>
+    </div>
+
+    <div class="howto-step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        لە خوارەوەی شاشەکە کلیک لە دوگمەی <span class="share-btn-icon">⬆️</span> <b>Share</b> بکە
+      </div>
+    </div>
+
+    <div class="howto-step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        بڕۆ خوارەوە و <b>«Add to Home Screen»</b> هەڵبژێرە
+      </div>
+    </div>
+
+    <div class="howto-step">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        لە سەرەوە کلیک لە <b>«Add»</b> بکە — ئایکۆنی ئەپەکە دەردەکەوێت لەسەر شاشەی ماڵەوە
+      </div>
+    </div>
+
+    <div class="iphone-note">
+      ⚠️ <b>تێبینی:</b> ئەمە وەک ئەپێکی ڕاستەقینە کار دەکات بەبێ ئەوەی پێویستت بە داگرتنی فایل هەبێت لە App Store.
+    </div>
+
+    <button class="btn btn-primary" style="width:100%; padding:0.7rem; margin-top:10px;" onclick="closeIphoneHowto()">تێگەیشتم ✓</button>
+  </div>
+</div>
+<!-- ================= END DOWNLOAD MODALS ================= -->
+
+<!-- ================= iOS INSTALL BANNER (NEW) ================= -->
+<div id="iosInstallBanner">
+  <div class="ios-install-card">
+    <img id="iosInstallLogo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
+    <div class="ios-install-text">
+      <div class="ios-install-title">📲 دامەزراندنی ئەپی ئایفۆن</div>
+      <div class="ios-install-sub">
+        لە Safari: کلیک لە <span class="ios-share-icon">⬆️</span> بکە، پاشان
+        <b>«Add to Home Screen»</b> هەڵبژێرە
+      </div>
+    </div>
+    <button class="ios-install-close" onclick="dismissIosBanner()">✕</button>
+  </div>
+</div>
+<!-- ================= END iOS INSTALL BANNER ================= -->
 
 <!-- ============ ADMIN VIEW ============ -->
 <div id="adminViewContainer">
@@ -2236,7 +2524,6 @@ textarea:focus-visible {
   </div>
 
   <div class="game-screen-box" id="tttPlayBox">
-    <!-- NEW: TTT Score Board -->
     <div class="ttt-score-board">
       <div class="ttt-score-item win">
         <span>X بردن</span>
@@ -2976,6 +3263,85 @@ let tttScoreDraw = 0;
 let currentPinInput = '';
 
 /* ============================================================
+   NEW: DOWNLOAD CHOICE LOGIC (ANDROID / IPHONE)
+   ============================================================ */
+function isIOSDevice() {
+  const ua = navigator.userAgent || "";
+  return /iPad|iPhone|iPod/.test(ua) ||
+         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+function openDownloadModal() {
+  const modal = document.getElementById('downloadChoiceModal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+  window.history.pushState({ modal: 'downloadChoice' }, "", "");
+}
+
+function closeDownloadModal(doPush = true) {
+  const modal = document.getElementById('downloadChoiceModal');
+  if (modal) modal.style.display = 'none';
+  if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
+}
+
+function handleDownloadAndroid() {
+  closeDownloadModal(false);
+  if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
+    showToastNotification('📥 داگرتنی APK دەستیپێکرد...');
+    window.location.href = siteSettings.apkUrl;
+  } else {
+    alert("تکایە سەرەتا لینکی داگرتنی APK لە پنێڵی ڕێکخستنی سایت دابنێ.");
+  }
+}
+
+function handleDownloadIphone() {
+  closeDownloadModal(false);
+  const modal = document.getElementById('iphoneHowtoModal');
+  if (modal) modal.style.display = 'flex';
+  window.history.pushState({ modal: 'iphoneHowto' }, "", "");
+}
+
+function closeIphoneHowto(doPush = true) {
+  const modal = document.getElementById('iphoneHowtoModal');
+  if (modal) modal.style.display = 'none';
+  if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
+}
+
+/* ناسینەوەی ئامێر بە خۆکاری و کردنەوەی هەڵبژاردنی گونجاو */
+function smartDownload() {
+  if (isIOSDevice()) {
+    handleDownloadIphone();
+  } else {
+    handleDownloadAndroid();
+  }
+}
+
+/* ===== iOS Install Banner Detection ===== */
+function isInStandaloneMode() {
+  return window.navigator.standalone === true ||
+         window.matchMedia('(display-mode: standalone)').matches;
+}
+function checkIosInstallBanner() {
+  if (!isIOSDevice()) return;
+  if (isInStandaloneMode()) return;
+  if (localStorage.getItem('ios_banner_dismissed') === 'true') return;
+  setTimeout(() => {
+    const banner = document.getElementById('iosInstallBanner');
+    if (banner) {
+      const logo = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
+      const logoEl = document.getElementById('iosInstallLogo');
+      if (logoEl) logoEl.src = logo;
+      banner.classList.add('show');
+    }
+  }, 3000);
+}
+function dismissIosBanner() {
+  const banner = document.getElementById('iosInstallBanner');
+  if (banner) banner.classList.remove('show');
+  localStorage.setItem('ios_banner_dismissed', 'true');
+}
+
+/* ============================================================
    NEW: GLOBAL HELPERS (Loading + Match Notifications)
    ============================================================ */
 function showGlobalLoading(text) {
@@ -3026,11 +3392,9 @@ function refreshAfterDataChange(options) {
   if (refreshMatchBanner) {
     try { updateMatchSummaryBanner(getFilteredList()); } catch (e) {}
   }
-  // Sync to firebase
   scheduleFirebaseSync();
 }
 
-// Debounced firebase sync
 let __syncTimer = null;
 function scheduleFirebaseSync() {
   if (__syncTimer) clearTimeout(__syncTimer);
@@ -3084,7 +3448,6 @@ async function syncAllToFirebase() {
     pulling = false;
     indicator = document.getElementById('pullRefreshIndicator');
     if (indicator && indicator.classList.contains('show')) {
-      // Trigger refresh
       showGlobalLoading('نوێکردنەوە...');
       try {
         await loadData(true);
@@ -3268,6 +3631,13 @@ window.addEventListener('load', function() {
 });
 
 window.addEventListener('popstate', function(e) {
+  /* NEW: handle download modals in back button */
+  const dlModal = document.getElementById('downloadChoiceModal');
+  if (dlModal && dlModal.style.display === 'flex') { closeDownloadModal(false); return; }
+
+  const iosModal = document.getElementById('iphoneHowtoModal');
+  if (iosModal && iosModal.style.display === 'flex') { closeIphoneHowto(false); return; }
+
   const agOverlay = document.getElementById('amazeGoOverlay');
   if (agOverlay && agOverlay.style.display === 'block') { closeAmazeGoGame(); return; }
   const kzOverlay = document.getElementById('koshkiZanaOverlay');
@@ -3693,7 +4063,7 @@ async function handleHoldStoryDownload() {
   await downloadPropertyAsStory(id);
 }
 
-/* ============ DIRECT DOWNLOAD ============ */
+/* ============ DIRECT DOWNLOAD (LEGACY - still works from settings button) ============ */
 function triggerDirectDownload() {
   if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
     window.location.href = siteSettings.apkUrl;
@@ -3782,15 +4152,36 @@ async function loadData(silent) {
   updatePublicStats();
   renderProperties();
   checkStandaloneMode();
+  checkIosInstallBanner();
   if (!silent) setTimeout(hideSplashScreen, 300);
 }
 
 function applySettings() {
-  document.getElementById('siteLogo').innerText = siteSettings.siteName;
+  const siteNameEl = document.getElementById('siteLogo');
+  if (siteNameEl) siteNameEl.innerText = siteSettings.siteName;
+
   const logo = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
   document.getElementById('siteLogoIcon').src = logo;
   document.getElementById('appFavicon').href = logo;
   document.getElementById('appAppleIcon').href = logo;
+
+  /* NEW: Update all apple touch icons */
+  ['appAppleIcon', 'appAppleIcon180', 'appAppleIcon152', 'appAppleIcon120'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.href = logo;
+  });
+
+  /* NEW: Update apple-mobile-web-app-title */
+  const titleMeta = document.getElementById('appTitleMeta');
+  if (titleMeta) titleMeta.setAttribute('content', siteSettings.siteName);
+
+  /* NEW: Update iOS banner logo */
+  const iosLogo = document.getElementById('iosInstallLogo');
+  if (iosLogo) iosLogo.src = logo;
+
+  /* NEW: Update page title */
+  document.title = siteSettings.siteName;
+
   const splashLogo = document.getElementById('splashLogoImg');
   if (splashLogo) splashLogo.src = logo;
   const splashTitle = document.getElementById('splashTitleText');
@@ -3953,7 +4344,6 @@ async function handleSaveCustomCategory(e) {
   document.getElementById('customCatImgData').value = '';
   document.getElementById('customCatIconPreview').innerHTML = '📁';
   document.getElementById('saveCatBtn').innerText = '+ زیادکردنی تاب';
-  // NEW: Auto refresh
   scheduleFirebaseSync();
   showToastNotification('✅ تابەکە پاشەکەوتکرا');
   refreshAfterDataChange({ refreshLocations: false });
@@ -4860,8 +5250,6 @@ async function handleFormSubmit(e) {
   }
   localStorage.setItem('dashti_master_props', JSON.stringify(properties));
   closeModals();
-
-  // NEW: Auto-refresh everything
   refreshAfterDataChange();
 
   saveBtn.innerHTML = "پاشەکەوتکردن";
@@ -4920,8 +5308,6 @@ async function handleWantFormSubmit(e) {
   }
   localStorage.setItem('dashti_master_props', JSON.stringify(properties));
   closeModals();
-
-  // NEW: Auto-refresh everything
   refreshAfterDataChange();
 
   saveBtn.innerText = "پاشەکەوتکردنی داواکاری";
@@ -4935,7 +5321,6 @@ async function toggleSoldStatus(id) {
     properties[idx].isSold = !properties[idx].isSold;
     localStorage.setItem('dashti_master_props', JSON.stringify(properties));
     showToastNotification(properties[idx].isSold ? '🔒 دۆخ گۆڕدرا بۆ: فرۆشراو' : '✅ دۆخ گۆڕدرا بۆ: بەردەست');
-    // NEW: Auto-refresh
     refreshAfterDataChange({ refreshLocations: false });
   }
 }
@@ -4970,8 +5355,6 @@ async function handleSettingsSubmit(e) {
   updateViewModeUI();
   checkStandaloneMode();
   closeModals();
-
-  // NEW: Auto sync + refresh
   await syncAllToFirebase();
   refreshAfterDataChange();
 
@@ -4984,7 +5367,6 @@ async function deleteProperty(id) {
     showGlobalLoading('سڕینەوە...');
     properties = properties.filter(p => String(p.id) !== String(id));
     localStorage.setItem('dashti_master_props', JSON.stringify(properties));
-    // NEW: Auto-refresh
     refreshAfterDataChange();
     showToastNotification('🗑️ بابەتەکە سڕایەوە');
     hideGlobalLoading();
@@ -5628,12 +6010,10 @@ if ('serviceWorker' in navigator) {
     const idx = state.stageIndex;
     const isLast = idx === STAGES.length - 1;
     if (isLast){
-      // Save best score
       if (state.score > state.bestScore) {
         state.bestScore = state.score;
         localStorage.setItem('ronaki_best_score', state.bestScore);
       }
-      // Show completion banner then restart
       showBanner('🎉 تەواو! خاڵی کۆتایی: ' + state.score + ' (باشترین: ' + state.bestScore + ')');
       setTimeout(() => start(), 3000);
       return;
