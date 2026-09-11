@@ -7,7 +7,6 @@
 <link id="appFavicon" rel="icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link id="appAppleIcon" rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 
-<!-- ================= iOS PWA TAGS ================= -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -17,7 +16,6 @@
 <link rel="apple-touch-icon" sizes="180x180" id="appAppleIcon180" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link rel="apple-touch-icon" sizes="152x152" id="appAppleIcon152" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link rel="apple-touch-icon" sizes="120x120" id="appAppleIcon120" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
-<!-- ================= END iOS PWA TAGS ================= -->
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;600;700&family=Lalezar&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -50,6 +48,8 @@
   --green:#7dff9e;
   --red:#ff6b6b;
   --line:rgba(255,207,107,0.35);
+  --ai-color-1:#8b5cf6;
+  --ai-color-2:#6366f1;
 }
 
 body.dark-mode {
@@ -123,7 +123,6 @@ body {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ============ LOCK SCREEN ============ */
 #appLockModal {
   position: fixed; top: 0; left: 0;
   width: 100vw; height: 100vh;
@@ -274,7 +273,6 @@ body {
   color: #fff;
 }
 
-/* ============ HEADER ============ */
 header {
   background: var(--header-bg);
   border-bottom: 1px solid var(--border);
@@ -1553,7 +1551,6 @@ body.dark-mode .skeleton-shimmer {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ============ RONAKI GAME UI ============ */
 #ronakiGameOverlay { display: none; position: fixed; inset: 0; background: var(--bg-night); z-index: 9999999; flex-direction: column; }
 #ronakiCanvas{position:fixed; inset:0; display:block;}
 #ronakiHud{ position:fixed; inset:0; pointer-events:none; z-index:10; direction:rtl; }
@@ -1655,7 +1652,6 @@ body.dark-mode .skeleton-shimmer {
   100% { box-shadow: 0 3px 20px rgba(139, 107, 255, 0.9); }
 }
 
-/* ============ Koshki Zana Overlay ============ */
 #koshkiZanaOverlay { display: none; position: fixed; inset: 0; z-index: 9999999; background: radial-gradient(ellipse at 50% -10%, #212a52 0%, transparent 55%), linear-gradient(180deg, #0d1226 0%, #141a37 100%); color: #efe6d3; font-family: 'Vazirmatn','Tahoma',sans-serif; overflow-x: hidden; overflow-y: auto; direction: rtl; box-sizing: border-box; }
 #koshkiZanaOverlay * { box-sizing: border-box; }
 #koshkiZanaOverlay #kz-stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
@@ -1752,7 +1748,6 @@ body.dark-mode .skeleton-shimmer {
 #koshkiZanaOverlay .kz-lock-slot.kz-filled { border-style: solid; color: #efe6d3; }
 #koshkiZanaOverlay footer.kz-credit { color: #5c6193; font-size: .75rem; padding: 14px; text-align: center; }
 
-/* ============ Amaze Go ============ */
 #amazeGoOverlay { display: none; position: fixed; inset: 0; z-index: 9999999; background: #f4ecd9; overflow: hidden; touch-action: none; direction: rtl; }
 #amazeGoOverlay * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 #amazeGoOverlay .ag-app { position: relative; width: 100%; height: 100%; max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; background: var(--ag-bg, #f4ecd9); }
@@ -1801,7 +1796,6 @@ body.dark-mode .skeleton-shimmer {
 #amazeGoOverlay .ag-toast { position: absolute; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(60,42,28,0.9); color: #fffaf0; padding: 10px 18px; border-radius: 30px; font-size: 14px; z-index: 80; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; white-space: nowrap; }
 #amazeGoOverlay .ag-toast.show { opacity: 1; }
 
-/* ============ MOBILE TWEAKS ============ */
 @media (max-width: 640px) {
   .logo { font-size: 1rem; max-width: 120px; }
   .btn-install { 
@@ -1883,7 +1877,6 @@ textarea:focus-visible {
 }
 #pullRefreshIndicator.show { top: 0; }
 
-/* ================= DOWNLOAD CHOICE MODAL ================= */
 .download-choice-btn {
   width: 100%;
   background: var(--bg);
@@ -1928,7 +1921,6 @@ body.dark-mode .download-choice-btn.iphone { border-color: #94a3b8; background: 
   flex-shrink: 0;
 }
 
-/* ===== INSTALL BUTTON CUSTOM ICONS ===== */
 .install-btn-icon {
   display: inline-flex;
   align-items: center;
@@ -1963,7 +1955,6 @@ body.dark-mode .download-choice-btn.iphone .install-btn-icon {
   background: linear-gradient(135deg, #312e81, #3730a3);
 }
 
-/* ===== ICON PICKER IN SETTINGS ===== */
 .icon-picker-row {
   display: flex;
   gap: 6px;
@@ -1990,7 +1981,6 @@ body.dark-mode .download-choice-btn.iphone .install-btn-icon {
   padding: 4px;
 }
 
-/* ================= iPhone How-to Steps ================= */
 .howto-step {
   display: flex;
   align-items: flex-start;
@@ -2119,7 +2109,7 @@ body.dark-mode .iphone-note {
 }
 .ios-install-close:active { transform: scale(0.9); }
 
-/* ================= AI ASSISTANT ================= */
+/* ================= AI ASSISTANT (UPDATED — DRAGGABLE) ================= */
 #aiFloatingBtn {
   position: fixed;
   bottom: 90px;
@@ -2127,20 +2117,33 @@ body.dark-mode .iphone-note {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  background: linear-gradient(135deg, var(--ai-color-1, #8b5cf6), var(--ai-color-2, #6366f1));
   color: #fff;
   font-size: 1.6rem;
   border: none;
-  cursor: pointer;
+  cursor: grab;
   z-index: 9997;
   box-shadow: 0 8px 24px rgba(139, 92, 246, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.25s;
+  transition: transform 0.2s, box-shadow 0.2s;
   animation: aiPulse 2.5s ease-in-out infinite;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  will-change: transform, left, top;
 }
 #aiFloatingBtn:active { transform: scale(0.92); }
+#aiFloatingBtn.dragging {
+  cursor: grabbing;
+  transform: scale(1.12);
+  animation: none;
+  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.7);
+  transition: none;
+}
+#aiFloatingBtn.dragging:active { transform: scale(1.12); }
 @keyframes aiPulse {
   0%, 100% { box-shadow: 0 8px 24px rgba(139, 92, 246, 0.45); }
   50% { box-shadow: 0 8px 32px rgba(139, 92, 246, 0.75); }
@@ -2165,26 +2168,52 @@ body.dark-mode .iphone-note {
   box-shadow: 0 2px 8px rgba(239,68,68,0.5);
   border: 2px solid var(--card-bg);
   animation: badgePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
 }
 
-/* ===== AI MENU BUTTONS ===== */
-.ai-menu-btn {
+/* ===== AI COLOR PREVIEW IN SETTINGS ===== */
+.ai-color-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px;
   background: var(--bg);
   border: 1px solid var(--border);
-  color: var(--text);
+  border-radius: 10px;
+}
+.ai-color-preview-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ===== AI POSITION RESET ===== */
+.ai-reset-btn {
+  width: 100%;
+  background: var(--bg);
+  border: 1px dashed #f59e0b;
+  color: #d97706;
   padding: 10px 14px;
   border-radius: 10px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 800;
+  font-size: 0.82rem;
   cursor: pointer;
-  margin: 4px 0;
-  text-align: right;
-  width: 100%;
+  margin-top: 6px;
   font-family: inherit;
-  transition: transform 0.15s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
-.ai-menu-btn:active { transform: scale(0.97); }
-.ai-menu-btn:hover { background: var(--card-bg); }
+.ai-reset-btn:active { transform: scale(0.97); }
 
 #aiAssistantModal {
   display: none;
@@ -2220,7 +2249,7 @@ body.dark-mode .iphone-note {
   }
 }
 .ai-chat-header {
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  background: linear-gradient(135deg, var(--ai-color-1, #8b5cf6), var(--ai-color-2, #6366f1));
   color: #fff;
   padding: 14px 16px;
   display: flex;
@@ -2281,7 +2310,7 @@ body.dark-mode .iphone-note {
   border-bottom-right-radius: 4px;
 }
 .ai-msg.user {
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  background: linear-gradient(135deg, var(--ai-color-1, #8b5cf6), var(--ai-color-2, #6366f1));
   color: #fff;
   align-self: flex-end;
   border-bottom-left-radius: 4px;
@@ -2296,7 +2325,7 @@ body.dark-mode .iphone-note {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #8b5cf6;
+  background: var(--ai-color-1, #8b5cf6);
   animation: aiTyping 1.2s ease-in-out infinite;
 }
 .ai-msg.typing span:nth-child(2) { animation-delay: 0.15s; }
@@ -2348,9 +2377,9 @@ body.dark-mode .iphone-note {
   font-family: inherit;
   outline: none;
 }
-#aiChatInput:focus { border-color: #8b5cf6; }
+#aiChatInput:focus { border-color: var(--ai-color-1, #8b5cf6); }
 #aiSendBtn {
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  background: linear-gradient(135deg, var(--ai-color-1, #8b5cf6), var(--ai-color-2, #6366f1));
   color: #fff;
   border: none;
   width: 44px;
@@ -3423,6 +3452,42 @@ body.dark-mode .iphone-note {
         <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">ئیمۆجی بنووسە یان فایلێکی وێنە هەڵبژێرە</small>
       </div>
 
+      <!-- ================= AI CUSTOMIZATION ================= -->
+      <div style="background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(99,102,241,0.08)); padding: 12px; border-radius: 10px; border: 1.5px solid rgba(139,92,246,0.35); margin-bottom: 12px;">
+        <label style="color:#8b5cf6; font-weight:800; display:block; margin-bottom:8px; font-size:0.85rem;">🤖 ڕێکخستنی یاریدەدەری زیرەک (AI)</label>
+        
+        <div class="form-group">
+          <label style="color:#8b5cf6; font-weight:800;">🎨 ڕەنگی یەکەم:</label>
+          <input type="color" id="setAiColor1" value="#8b5cf6" style="width:100%; height:40px; padding:3px; border-radius:8px; border:1px solid var(--border); cursor:pointer;">
+        </div>
+        <div class="form-group">
+          <label style="color:#8b5cf6; font-weight:800;">🎨 ڕەنگی دووەم (Gradient):</label>
+          <input type="color" id="setAiColor2" value="#6366f1" style="width:100%; height:40px; padding:3px; border-radius:8px; border:1px solid var(--border); cursor:pointer;">
+        </div>
+        <div class="ai-color-preview">
+          <div class="ai-color-preview-circle" id="aiColorPreviewCircle">🤖</div>
+          <span style="font-size:0.75rem; color:var(--muted);">پێشبینینی دوگمەکە</span>
+        </div>
+        
+        <div class="form-group" style="margin-top:10px;">
+          <label style="color:#8b5cf6; font-weight:800;">📍 شوێنی دوگمەی AI:</label>
+          <select id="setAiPosition">
+            <option value="bottom-left">خوارەوەی چپ</option>
+            <option value="bottom-right">خوارەوەی ڕاست</option>
+            <option value="top-left">سەرەوەی چپ</option>
+            <option value="top-right">سەرەوەی ڕاست</option>
+            <option value="middle-left">ناوەڕاستی چپ</option>
+            <option value="middle-right">ناوەڕاستی ڕاست</option>
+            <option value="custom">📍 شوێنی تایبەت (بە دەست جوڵاوە)</option>
+          </select>
+          <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">یان بە دەست ڕایبکێشە بۆ هەر شوێنێک</small>
+        </div>
+        
+        <button type="button" class="ai-reset-btn" onclick="resetAiPosition()">
+          🔄 گەڕاندنەوە بۆ شوێنی سەرەکی (خوارەوەی چپ)
+        </button>
+      </div>
+
       <div class="form-group">
         <label>وێنەی لۆگۆی ماڵپەڕ:</label>
         <input type="file" id="logoFileInput" accept="image/*" onchange="processLogoUpload(event)">
@@ -3521,8 +3586,8 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- ===== AI FLOATING BUTTON ===== -->
-<button id="aiFloatingBtn" onclick="openAiAssistant()" title="یاریدەدەری زیرەک">🤖</button>
+<!-- ===== AI FLOATING BUTTON (DRAGGABLE) ===== -->
+<button id="aiFloatingBtn" onclick="handleAiButtonClick(event)" title="یاریدەدەری زیرەک — دەست بکێشە بۆ جوڵاندن">🤖</button>
 
 <!-- ===== AI ASSISTANT MODAL ===== -->
 <div id="aiAssistantModal">
@@ -3572,13 +3637,20 @@ let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) ||
   defaultViewMode: "card",
   matchSensitivity: "normal",
   androidIcon: "🤖",
-  iphoneIcon: "🍎"
+  iphoneIcon: "🍎",
+  aiColor1: "#8b5cf6",
+  aiColor2: "#6366f1",
+  aiPosition: "bottom-left",
+  aiCustomPos: null
 };
 
 if (!siteSettings.defaultViewMode) siteSettings.defaultViewMode = "card";
 if (!siteSettings.matchSensitivity) siteSettings.matchSensitivity = "normal";
 if (!siteSettings.androidIcon) siteSettings.androidIcon = "🤖";
 if (!siteSettings.iphoneIcon) siteSettings.iphoneIcon = "🍎";
+if (!siteSettings.aiColor1) siteSettings.aiColor1 = "#8b5cf6";
+if (!siteSettings.aiColor2) siteSettings.aiColor2 = "#6366f1";
+if (!siteSettings.aiPosition) siteSettings.aiPosition = "bottom-left";
 
 let uploadedImagesList = [];
 let currentGalleryImages = [];
@@ -3608,6 +3680,234 @@ let tttScoreO = 0;
 let tttScoreDraw = 0;
 
 let currentPinInput = '';
+
+/* ============================================================
+   AI BUTTON DRAG & DROP SYSTEM
+   ============================================================ */
+let aiButtonDragging = false;
+let aiButtonWasDragged = false;
+let aiDragStartX = 0;
+let aiDragStartY = 0;
+let aiDragStartBtnX = 0;
+let aiDragStartBtnY = 0;
+let aiDragMoveThreshold = 8;
+
+function getAiButton() {
+  return document.getElementById('aiFloatingBtn');
+}
+
+function applyAiColors() {
+  const c1 = siteSettings.aiColor1 || '#8b5cf6';
+  const c2 = siteSettings.aiColor2 || '#6366f1';
+  document.documentElement.style.setProperty('--ai-color-1', c1);
+  document.documentElement.style.setProperty('--ai-color-2', c2);
+  const previewCircle = document.getElementById('aiColorPreviewCircle');
+  if (previewCircle) {
+    previewCircle.style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
+  }
+}
+
+function applyAiPosition() {
+  const btn = getAiButton();
+  if (!btn) return;
+  
+  const pos = siteSettings.aiPosition || 'bottom-left';
+  
+  btn.style.top = '';
+  btn.style.bottom = '';
+  btn.style.left = '';
+  btn.style.right = '';
+  btn.style.transform = '';
+  
+  if (pos === 'custom' && siteSettings.aiCustomPos) {
+    const { x, y } = siteSettings.aiCustomPos;
+    const maxX = window.innerWidth - 60;
+    const maxY = window.innerHeight - 60;
+    const safeX = Math.max(8, Math.min(x, maxX));
+    const safeY = Math.max(8, Math.min(y, maxY));
+    btn.style.left = safeX + 'px';
+    btn.style.top = safeY + 'px';
+  } else {
+    switch (pos) {
+      case 'bottom-left':
+        btn.style.bottom = '90px';
+        btn.style.left = '16px';
+        break;
+      case 'bottom-right':
+        btn.style.bottom = '90px';
+        btn.style.right = '16px';
+        break;
+      case 'top-left':
+        btn.style.top = '80px';
+        btn.style.left = '16px';
+        break;
+      case 'top-right':
+        btn.style.top = '80px';
+        btn.style.right = '16px';
+        break;
+      case 'middle-left':
+        btn.style.top = '50%';
+        btn.style.left = '16px';
+        btn.style.transform = 'translateY(-50%)';
+        break;
+      case 'middle-right':
+        btn.style.top = '50%';
+        btn.style.right = '16px';
+        btn.style.transform = 'translateY(-50%)';
+        break;
+      default:
+        btn.style.bottom = '90px';
+        btn.style.left = '16px';
+    }
+  }
+}
+
+function makeAiButtonDraggable() {
+  const btn = getAiButton();
+  if (!btn) return;
+  
+  let longPressTimer = null;
+  let isLongPress = false;
+  let activePointerId = null;
+  
+  const startDrag = (clientX, clientY) => {
+    const rect = btn.getBoundingClientRect();
+    aiButtonDragging = true;
+    aiButtonWasDragged = false;
+    aiDragStartX = clientX;
+    aiDragStartY = clientY;
+    aiDragStartBtnX = rect.left;
+    aiDragStartBtnY = rect.top;
+    
+    btn.style.transition = 'none';
+    btn.classList.add('dragging');
+    
+    btn.style.left = rect.left + 'px';
+    btn.style.top = rect.top + 'px';
+    btn.style.bottom = '';
+    btn.style.right = '';
+    btn.style.transform = '';
+  };
+  
+  const moveDrag = (clientX, clientY) => {
+    if (!aiButtonDragging) return;
+    const dx = clientX - aiDragStartX;
+    const dy = clientY - aiDragStartY;
+    
+    if (Math.abs(dx) > aiDragMoveThreshold || Math.abs(dy) > aiDragMoveThreshold) {
+      aiButtonWasDragged = true;
+    }
+    
+    let newX = aiDragStartBtnX + dx;
+    let newY = aiDragStartBtnY + dy;
+    
+    const maxX = window.innerWidth - btn.offsetWidth - 8;
+    const maxY = window.innerHeight - btn.offsetHeight - 8;
+    
+    newX = Math.max(8, Math.min(newX, maxX));
+    newY = Math.max(8, Math.min(newY, maxY));
+    
+    btn.style.left = newX + 'px';
+    btn.style.top = newY + 'px';
+  };
+  
+  const endDrag = () => {
+    if (!aiButtonDragging) return;
+    aiButtonDragging = false;
+    btn.classList.remove('dragging');
+    btn.style.transition = '';
+    
+    if (aiButtonWasDragged) {
+      const rect = btn.getBoundingClientRect();
+      siteSettings.aiCustomPos = { x: rect.left, y: rect.top };
+      siteSettings.aiPosition = 'custom';
+      localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
+      
+      const posSel = document.getElementById('setAiPosition');
+      if (posSel) posSel.value = 'custom';
+      
+      showToastNotification('📍 شوێنی AI پاشەکەوتکرا');
+      scheduleFirebaseSync();
+    }
+  };
+  
+  btn.addEventListener('pointerdown', (e) => {
+    if (e.button !== undefined && e.button !== 0) return;
+    activePointerId = e.pointerId;
+    btn.setPointerCapture(e.pointerId);
+    
+    isLongPress = false;
+    if (longPressTimer) clearTimeout(longPressTimer);
+    longPressTimer = setTimeout(() => {
+      isLongPress = true;
+      startDrag(e.clientX, e.clientY);
+    }, 200);
+  });
+  
+  btn.addEventListener('pointermove', (e) => {
+    if (activePointerId !== e.pointerId) return;
+    
+    if (!aiButtonDragging) {
+      const dx = e.clientX - aiDragStartX;
+      const dy = e.clientY - aiDragStartY;
+      if (longPressTimer && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
+        if (aiDragStartX || aiDragStartY) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+          startDrag(aiDragStartX, aiDragStartY);
+        }
+      }
+    }
+    
+    if (aiButtonDragging) {
+      moveDrag(e.clientX, e.clientY);
+    }
+  });
+  
+  btn.addEventListener('pointerdown', (e) => {
+    aiDragStartX = e.clientX;
+    aiDragStartY = e.clientY;
+  });
+  
+  btn.addEventListener('pointerup', (e) => {
+    if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
+    endDrag();
+    activePointerId = null;
+  });
+  
+  btn.addEventListener('pointercancel', (e) => {
+    if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
+    endDrag();
+    activePointerId = null;
+  });
+  
+  btn.addEventListener('contextmenu', (e) => e.preventDefault());
+}
+
+function handleAiButtonClick(event) {
+  if (aiButtonWasDragged) {
+    aiButtonWasDragged = false;
+    return;
+  }
+  openAiAssistant();
+}
+
+function resetAiPosition() {
+  siteSettings.aiPosition = 'bottom-left';
+  siteSettings.aiCustomPos = null;
+  localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
+  applyAiPosition();
+  const posSel = document.getElementById('setAiPosition');
+  if (posSel) posSel.value = 'bottom-left';
+  showToastNotification('✅ شوێنی AI گەڕێندراوە');
+  scheduleFirebaseSync();
+}
+
+window.addEventListener('resize', () => {
+  if (siteSettings.aiPosition === 'custom') {
+    setTimeout(applyAiPosition, 100);
+  }
+});
 
 /* ============================================================
    DOWNLOAD CHOICE LOGIC (ANDROID / IPHONE)
@@ -3792,7 +4092,6 @@ function refreshAfterDataChange(options) {
   }
   scheduleFirebaseSync();
 
-  /* AI MATCH TRACKING SCAN */
   try {
     setTimeout(() => {
       scanAllForNewMatches();
@@ -4034,6 +4333,9 @@ window.addEventListener('load', function() {
   applyDarkModeClass();
   checkAutoNotification();
   updatePinDisplay();
+  applyAiColors();
+  applyAiPosition();
+  makeAiButtonDraggable();
 });
 
 window.addEventListener('popstate', function(e) {
@@ -4407,6 +4709,8 @@ function importAllDataBackup(event) {
       await syncAllToFirebase();
       applySettings();
       applyThemeSettings();
+      applyAiColors();
+      applyAiPosition();
       renderCustomCategoriesHub();
       refreshAfterDataChange();
       alert("هەموو داتاکانی باکئەپ بە سەرکەوتوویی گەڕێندرانەوە!");
@@ -4527,7 +4831,7 @@ function hideSplashScreen() {
   }
 }
 
-/* ============ CHECK STANDALONE MODE (FIXED) ============ */
+/* ============ CHECK STANDALONE MODE ============ */
 function checkStandaloneMode() {
   const ua = navigator.userAgent || "";
   const isStandalone = 
@@ -4587,6 +4891,9 @@ async function loadData(silent) {
         if (!siteSettings.matchSensitivity) siteSettings.matchSensitivity = "normal";
         if (!siteSettings.androidIcon) siteSettings.androidIcon = "🤖";
         if (!siteSettings.iphoneIcon) siteSettings.iphoneIcon = "🍎";
+        if (!siteSettings.aiColor1) siteSettings.aiColor1 = "#8b5cf6";
+        if (!siteSettings.aiColor2) siteSettings.aiColor2 = "#6366f1";
+        if (!siteSettings.aiPosition) siteSettings.aiPosition = "bottom-left";
         localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
       }
       if (data && data.properties) {
@@ -4612,6 +4919,8 @@ async function loadData(silent) {
   updateViewModeUI();
   applySettings();
   applyThemeSettings();
+  applyAiColors();
+  applyAiPosition();
   renderCustomCategoriesHub();
   updatePublicStats();
   renderProperties();
@@ -5658,6 +5967,22 @@ function openSettingsModal() {
     document.getElementById('iphoneIconPreview').innerHTML = iphoneIcon;
   }
 
+  document.getElementById('setAiColor1').value = siteSettings.aiColor1 || '#8b5cf6';
+  document.getElementById('setAiColor2').value = siteSettings.aiColor2 || '#6366f1';
+  document.getElementById('setAiPosition').value = siteSettings.aiPosition || 'bottom-left';
+  applyAiColors();
+
+  const aiColor1El = document.getElementById('setAiColor1');
+  const aiColor2El = document.getElementById('setAiColor2');
+  if (aiColor1El) aiColor1El.oninput = function() {
+    siteSettings.aiColor1 = this.value;
+    applyAiColors();
+  };
+  if (aiColor2El) aiColor2El.oninput = function() {
+    siteSettings.aiColor2 = this.value;
+    applyAiColors();
+  };
+
   document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
   document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
   document.getElementById('setGridCols').value = siteSettings.gridCols || "1";
@@ -5825,6 +6150,9 @@ async function handleSettingsSubmit(e) {
     apkUrl: document.getElementById('setApkUrl').value || "",
     androidIcon: document.getElementById('setAndroidIconImg').value || document.getElementById('setAndroidIconEmoji').value.trim() || '🤖',
     iphoneIcon: document.getElementById('setIphoneIconImg').value || document.getElementById('setIphoneIconEmoji').value.trim() || '🍎',
+    aiColor1: document.getElementById('setAiColor1').value || '#8b5cf6',
+    aiColor2: document.getElementById('setAiColor2').value || '#6366f1',
+    aiPosition: document.getElementById('setAiPosition').value || 'bottom-left',
     logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
     gridCols: document.getElementById('setGridCols').value || "1",
     cardImgHeight: document.getElementById('setCardImgHeight').value || "160px",
@@ -5839,9 +6167,14 @@ async function handleSettingsSubmit(e) {
     cardColor: document.getElementById('setCardColor').value,
     textColor: document.getElementById('setTextColor').value
   };
+  if (siteSettings.aiPosition !== 'custom') {
+    siteSettings.aiCustomPos = null;
+  }
   localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
   applySettings();
   applyThemeSettings();
+  applyAiColors();
+  applyAiPosition();
   currentViewMode = siteSettings.defaultViewMode || 'card';
   updateViewModeUI();
   checkStandaloneMode();
@@ -5904,7 +6237,7 @@ function closeAmazeGoGame() {
 }
 
 /* ============================================================
-   AI ASSISTANT
+   AI ASSISTANT — SMART SORANI KURDISH ENGINE
    ============================================================ */
 let aiChatHistory = [];
 let aiIsResponding = false;
@@ -5926,18 +6259,20 @@ function aiGreetUser() {
   let greeting = 'سڵاو';
   if (hour < 12) greeting = 'بەیانیت باش';
   else if (hour < 17) greeting = 'ڕۆژ باش';
-  else greeting = 'ئێوارە باش';
+  else if (hour < 20) greeting = 'ئێوارە باش';
+  else greeting = 'شەو باش';
 
   const welcome = `${greeting}! 👋 من یاریدەدەری زیرەکی "${siteSettings.siteName}"ـم.
 
 دەتوانم یارمەتیت بدەم بە:
-• 🔢 حسابکردن (وەک: 50000 * 3)
+• 🔢 حسابکردن و لێکدان (وەک: "50000 لێکدانی 3")
 • 🎯 گونجانی نوێ و ڕاپۆرت
 • 🏠 گونجانەکان بۆ فرۆشیار و کڕیار
-• 🔍 گەڕان بۆ موڵک
+• 🔍 گەڕان بۆ موڵک و داواکاری
 • 💰 نرخ و ئامارەکان
+• 💡 ئامۆژگاری بۆ کڕین و فرۆشتن
 
-پرسیارەکەت بنووسە یان یەکێک لە دوگمە خێراکان دابگرە.`;
+بە کوردی سۆرانی یان هەر شێوەزمانێکی تر پرسیارم لێ بکە.`;
 
   addAiMessage('bot', welcome);
   buildQuickActions();
@@ -5949,7 +6284,7 @@ function buildQuickActions() {
 
   const viewAllBtn = document.createElement('button');
   viewAllBtn.className = 'ai-quick-btn';
-  viewAllBtn.textContent = `🎯 بینینی هەموو گونجانەکان (${trackedMatches.length})`;
+  viewAllBtn.textContent = `🎯 بینینی گونجانەکان (${trackedMatches.length})`;
   viewAllBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
   viewAllBtn.style.color = '#fff';
   viewAllBtn.style.border = 'none';
@@ -5965,7 +6300,7 @@ function buildQuickActions() {
     { label: '💰 نرخەکان', query: 'نرخی موڵکەکان چەندە؟' },
     { label: '📊 ئامار', query: 'چەند موڵک هەیە؟' },
     { label: '📍 شوێنەکان', query: 'شوێنەکان کامانەن؟' },
-    { label: '🔢 حسابکردن', query: 'یارمەتیم بدە حساب بکەم' }
+    { label: '🔢 حسابکردن', query: '50000 * 3' }
   ];
   actions.forEach(a => {
     const btn = document.createElement('button');
@@ -6021,28 +6356,36 @@ function sendAiMessage() {
     const response = processAiQuery(text);
     addAiMessage('bot', response);
     aiIsResponding = false;
-  }, 600 + Math.random() * 500);
+  }, 500 + Math.random() * 400);
 }
 
+/* ===== KURDISH SORANI SMART TEXT PROCESSING ===== */
 function normalizeAiText(text) {
   return text
     .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
     .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+    .replace(/[ەﻩ]/g, 'ه')
+    .replace(/[ىﻯ]/g, 'ی')
+    .replace(/[ك]/g, 'ک')
     .toLowerCase()
     .trim();
 }
 
 function kurdishNumbersToDigits(text) {
   const map = {
-    'سفر': '0', 'یەک': '1', 'دوو': '2', 'سێ': '3', 'چوار': '4',
-    'پێنج': '5', 'شەش': '6', 'حەوت': '7', 'هەشت': '8', 'نۆ': '9', 'دە': '10',
-    'بیست': '20', 'سی': '30', 'چل': '40', 'پەنجا': '50',
-    'شەست': '60', 'حەفتا': '70', 'هەشتا': '80', 'نەوەد': '90', 'سەد': '100',
-    'هەزار': '1000', 'ملیۆن': '1000000'
+    'سفر': '0', 'یەک': '1', 'یەکێک': '1', 'دوو': '2', 'دووان': '2', 'سێ': '3',
+    'چوار': '4', 'پێنج': '5', 'شەش': '6', 'حەوت': '7', 'هەشت': '8', 'نۆ': '9',
+    'دە': '10', 'یازدە': '11', 'دوازدە': '12', 'سێزدە': '13', 'چواردە': '14',
+    'پازدە': '15', 'شازدە': '16', 'حەڤدە': '17', 'هەژدە': '18', 'نۆزدە': '19',
+    'بیست': '20', 'سی': '30', 'سیی': '30', 'چل': '40', 'پەنجا': '50',
+    'شەست': '60', 'حەفتا': '70', 'هەشتا': '80', 'نەوەد': '90',
+    'سەد': '100', 'دوو سەد': '200', 'سێ سەد': '300',
+    'هەزار': '1000', 'دوو هەزار': '2000', 'ملیۆن': '1000000', 'ملیار': '1000000000'
   };
   let result = text;
-  for (const [k, v] of Object.entries(map)) {
-    result = result.replace(new RegExp(k, 'g'), v);
+  const sortedKeys = Object.keys(map).sort((a, b) => b.length - a.length);
+  for (const k of sortedKeys) {
+    result = result.split(k).join(map[k]);
   }
   return result;
 }
@@ -6051,63 +6394,77 @@ function processAiQuery(query) {
   const q = normalizeAiText(query);
   const qNum = kurdishNumbersToDigits(q);
 
+  /* ===== CALCULATOR ===== */
   const calcResult = tryCalculate(qNum);
   if (calcResult !== null) return calcResult;
 
   /* ===== MATCH TRACKING QUERIES ===== */
-  if (q.includes('گونجانی نوێ') || q.includes('گونجانەکان') || q.includes('چەند گونجان') || q.includes('ڕاپۆرت')) {
+  if (q.includes('گونجانی نوێ') || q.includes('گونجانەکان') || q.includes('چەند گونجان') || q.includes('ڕاپۆرت') || q.includes('راپۆرت')) {
     return getAIMatchReport();
   }
 
-  if (q.includes('گونجانی من') || q.includes('گونجانەکانم')) {
+  if (q.includes('گونجانی من') || q.includes('گونجانەکانم') || q.includes('گونجانی خۆم')) {
     return getAIMatchListForSeller() + '\n\n' + getAIMatchListForBuyer();
   }
 
-  if (q.includes('فرۆشیار') || q.includes('بفرۆشم') || q.includes('موڵکەکانم')) {
+  if (q.includes('فرۆشیار') || q.includes('بفرۆشم') || q.includes('موڵکەکانم') || q.includes('موڵکەکەم')) {
     return getAIMatchListForSeller();
   }
 
-  if (q.includes('کڕیار') || q.includes('بکڕم') || q.includes('داواکارییەکانم')) {
+  if (q.includes('کڕیار') || q.includes('بکڕم') || q.includes('داواکارییەکانم') || q.includes('داواکارییەکەم')) {
     return getAIMatchListForBuyer();
   }
 
-  if (q.includes('چەند موڵک') || q.includes('ژمارەی موڵک') || q.includes('چەند خانوو')) {
+  /* ===== STATS ===== */
+  if (q.includes('چەند موڵک') || q.includes('ژمارەی موڵک') || q.includes('چەند خانوو') || q.includes('چەند ماڵ') || q.includes('ژمارەی خانوو')) {
     const total = properties.length;
     const houses = properties.filter(p => p.category === 'خانوو').length;
     const lands = properties.filter(p => p.category === 'زەوی').length;
     const commercial = properties.filter(p => p.category === 'شوێنی تیجاری').length;
     const farms = properties.filter(p => p.category === 'مەزرەعە').length;
     const wants = properties.filter(p => p.category === 'خوازیار / پێویستە').length;
-    return `📊 لە ئێستادا:
+    const sold = properties.filter(p => p.isSold).length;
+    return `📊 ئاماری گشتی:
+
 • کۆی گشتی: ${total} موڵک
 • 🏠 خانوو: ${houses}
 • 📐 زەوی: ${lands}
-• 🏢 تیجاری: ${commercial}
+• 🏢 شوێنی تیجاری: ${commercial}
 • 🌳 مەزرەعە: ${farms}
-• 🔍 داواکاری: ${wants}`;
+• 🔍 داواکاری: ${wants}
+• ✅ فرۆشراو/دابینکراو: ${sold}`;
   }
 
-  if (q.includes('نرخ') || q.includes('نرخی')) {
+  /* ===== PRICE ===== */
+  if (q.includes('نرخ') || q.includes('نرخی') || q.includes('بەها') || q.includes('بهای')) {
     const withPrice = properties.filter(p => getNumericPrice(p) !== null);
     if (withPrice.length === 0) return '💰 هیچ موڵکێک نییە کە نرخی تێدا نووسرابێت.';
     const prices = withPrice.map(p => getNumericPrice(p));
     const min = Math.min(...prices);
     const max = Math.max(...prices);
     const avg = Math.round(prices.reduce((a, b) => a + b, 0) / prices.length);
+    const total = prices.reduce((a, b) => a + b, 0);
     return `💰 ئاماری نرخەکان:
-• کەمترین: $${min.toLocaleString()}
-• زۆرترین: $${max.toLocaleString()}
-• تێکڕا: $${avg.toLocaleString()}
+
+• کەمترین نرخ: $${min.toLocaleString()}
+• زۆرترین نرخ: $${max.toLocaleString()}
+• تێکڕای نرخ: $${avg.toLocaleString()}
+• کۆی گشتی: $${total.toLocaleString()}
 • ژمارەی موڵکی نرخدار: ${withPrice.length}`;
   }
 
-  if (q.includes('شوێن') || q.includes('گەڕەک') || q.includes('ناوچە')) {
+  /* ===== LOCATIONS ===== */
+  if (q.includes('شوێن') || q.includes('گەڕەک') || q.includes('ناوچە') || q.includes('شار') || q.includes('دەڤەر')) {
     const locations = [...new Set(properties.map(p => p.location).filter(Boolean))];
     if (locations.length === 0) return '📍 هیچ شوێنێک تۆمار نەکراوە.';
     return `📍 شوێنەکان (${locations.length}):
-${locations.map(l => '• ' + l).join('\n')}`;
+
+${locations.map(l => '• ' + l).join('\n')}
+
+💡 دەتوانیت لە فلتەرەکان شوێنەکان هەڵبژێریت.`;
   }
 
+  /* ===== MATCHES ===== */
   if (q.includes('گونجان') || q.includes('گونجاو') || q.includes('match')) {
     let total = 0;
     let strong = 0;
@@ -6120,378 +6477,74 @@ ${locations.map(l => '• ' + l).join('\n')}`;
     });
     if (total === 0) return '🎯 لە ئێستادا هیچ گونجانێک نییە.';
     return `🎯 ئاماری گونجان:
+
 • بابەتی گونجاویان هەیە: ${total}
 • گونجانی بەرز (75%+): ${strong}
 • کۆی گشتی: ${total}
 
-بۆ بینینیان، بڕۆ بۆ بەشەکە و کلیک لە باجی 🎯 بکە.`;
+💡 بۆ بینینیان، بڕۆ بۆ بەشەکە و کلیک لە باجی 🎯 بکە.`;
   }
 
-  if (q.includes('پەیوەندی') || q.includes('ژمارە') || q.includes('تەلەفۆن')) {
+  /* ===== CONTACT ===== */
+  if (q.includes('پەیوەندی') || q.includes('ژمارە') || q.includes('تەلەفۆن') || q.includes('مۆبایل') || q.includes('واتس')) {
     return `📞 بۆ پەیوەندی:
+
 • کلیک لە ژمارەی مۆبایلی هەر موڵکێک بکە
 • دەتوانیت هەڵبژێریت: WhatsApp یان پەیوەندی تەلەفۆنی
-• هەموو ژمارەکان لەسەر کارتی موڵکەکان نیشان دراون`;
+• هەموو ژمارەکان لەسەر کارتی موڵکەکان نیشان دراون
+
+💡 بە کلیک لە ژمارە، هەردوو هەڵبژاردەکە دەردەکەوێت.`;
   }
 
-  if (q.includes('چۆن زیاد') || q.includes('چۆن تۆمار') || q.includes('زیادکردن')) {
+  /* ===== HOW TO ADD ===== */
+  if (q.includes('چۆن زیاد') || q.includes('چۆن تۆمار') || q.includes('زیادکردن') || q.includes('تۆمارکردن') || q.includes('چۆن دابنێم')) {
     return `📝 بۆ زیادکردنی موڵک:
+
 1. بڕۆ بۆ بەشی موڵکەکان
 2. کلیک لە کارتی "+ زیادکردن" بکە
-3. فۆرمەکە پڕ بکەرەوە
+3. فۆرمەکە پڕ بکەرەوە:
+   • ناوی موڵک
+   • نرخی ژمارەیی (گرنگ بۆ گونجاندن)
+   • ڕووبەر (دەفتەر یان مەتر)
+   • شوێن
+   • ژمارەی مۆبایل
 4. وێنەکان هەڵبژێرە
 5. "پاشەکەوتکردن" دابگرە`;
   }
 
-  if (q.includes('ئامۆژگاری') || q.includes('ڕاوێژ') || q.includes('یارمەتی')) {
+  /* ===== ADVICE ===== */
+  if (q.includes('ئامۆژگاری') || q.includes('ڕاوێژ') || q.includes('یارمەتی') || q.includes('ڕێنمایی') || q.includes('ئامۆژگاریت پێیە')) {
     return `💡 ئامۆژگارییەکان:
-• بۆ کڕیار: نرخەکان بەراورد بکە، شوێن و ڕووبەر تاقی بکەرەوە
-• بۆ فرۆشیار: وێنەی جوان دابنێ، نرخێکی گونجاو دابنێ، ناوبانگت بپارێزە
-• بۆ هەردوو: سیستەمی گونجاندنی زیرەک بەکاربهێنە 🎯`;
+
+🏠 بۆ فرۆشیار:
+• وێنەی جوان و ڕوون دابنێ
+• نرخێکی گونجاو لەگەڵ بازاڕ دابنێ
+• ناوی موڵک زۆر ڕوون بنووسە
+• شوێن و ڕووبەر بە وردی دابنێ
+
+🛒 بۆ کڕیار:
+• نرخەکان بەراورد بکە
+• شوێن و ڕووبەر تاقی بکەرەوە
+• سیستەمی گونجاندن بەکاربهێنە 🎯
+
+📊 بۆ هەردوو:
+• سیستەمی گونجاندنی زیرەک بەکاربهێنە — بە خۆکاری گونجانەکان دەدۆزێتەوە`;
   }
 
-  if (q.includes('سڵاو') || q.includes('بەیانیت') || q.includes('ئێوارە') || q.includes('ڕۆژباش')) {
-    return 'سڵاو! 👋 چۆن دەتوانم یارمەتیت بدەم؟';
+  /* ===== GREETING ===== */
+  if (q.includes('سڵاو') || q.includes('بەیانیت') || q.includes('ئێوارە') || q.includes('ڕۆژباش') || q.includes('شەوباش') || q.includes('سلام')) {
+    const hour = new Date().getHours();
+    let reply = 'سڵاو! 👋 چۆن دەتوانم یارمەتیت بدەم؟';
+    if (hour < 12) reply = 'بەیانیت باش! 🌅 چۆن دەتوانم یارمەتیت بدەم؟';
+    else if (hour < 17) reply = 'ڕۆژ باش! ☀️ چۆن دەتوانم یارمەتیت بدەم؟';
+    else reply = 'ئێوارە باش! 🌆 چۆن دەتوانم یارمەتیت بدەم؟';
+    return reply;
   }
 
-  if (q.includes('سوپاس') || q.includes('دەستخۆش') || q.includes('زۆر سوپاس')) {
-    return 'زۆر بەخێربێیت! 🌟 ئەگەر پرسیارێکی ترت هەیە، من ئامادەم.';
-  }
-
-  return `🤔 ببورە، تێنەگەیشتم. دەتوانیت ئەمانە تاقی بکەیتەوە:
-
-• 🔢 حسابکردن: "50000 * 3" یان "100 + 250"
-• 🎯 گونجانی نوێ: "چەند گونجانی نوێ هەیە؟"
-• 🏠 گونجانەکانم: "گونجانەکانم بۆ فرۆشیار"
-• 📊 ئامار: "چەند موڵک هەیە؟"
-• 💰 نرخ: "نرخی موڵکەکان چەندە؟"
-• 📍 شوێن: "شوێنەکان کامانەن؟"`;
-}
-
-function tryCalculate(text) {
-  let t = text
-    .replace(/[×✕✖]/g, '*')
-    .replace(/[÷]/g, '/')
-    .replace(/[،,]/g, '')
-    .replace(/بەرامبەر/g, '=')
-    .replace(/کۆکردنەوە|کۆبکەرەوە|زیادبکە|کۆی|جمع/g, '+')
-    .replace(/لێدەرکردن|لێدەرکە|کەمبکە|فەرق/g, '-')
-    .replace(/لێکدان|لێکبدە|ضرب/g, '*')
-    .replace(/دابەشکردن|دابەش|تقسیم/g, '/')
-    .replace(/ڕێژە|فیصد|%ی/g, '%');
-
-  const mathRegex = /(-?\d+(?:\.\d+)?)\s*([\+\-\*\/])\s*(-?\d+(?:\.\d+)?)/g;
-  const matches = [...t.matchAll(mathRegex)];
-
-  if (matches.length === 0) return null;
-
-  let result = matches[0][1] + ' ' + matches[0][2] + ' ' + matches[0][3] + ' = ';
-  let val = parseFloat(matches[0][1]);
-  for (const m of matches) {
-    const op = m[2];
-    const num = parseFloat(m[3]);
-    if (op === '+') val += num;
-    else if (op === '-') val -= num;
-    else if (op === '*') val *= num;
-    else if (op === '/') {
-      if (num === 0) return '⚠️ ناتوانرێت بە سفر دابەش بکرێت.';
-      val /= num;
-    }
-  }
-
-  if (t.includes('%') || t.includes('ڕێژە') || t.includes('فیصد')) {
-    const pctMatch = t.match(/(\d+(?:\.\d+)?)\s*(?:%|ڕێژە|فیصد)/);
-    if (pctMatch) {
-      const pct = parseFloat(pctMatch[1]);
-      const pctResult = (val * pct) / 100;
-      return `🔢 ئەنجام:
-
-${result}${val.toLocaleString()}
-
-📊 ڕێژەی ${pct}%: ${pctResult.toLocaleString()}`;
-    }
-  }
-
-  return `🔢 ئەنجام:
-
-${result}${val.toLocaleString()}`;
-}
-
-/* ============================================================
-   AI MATCH TRACKING SYSTEM (NEW)
-   چاودێری بەردەوامی گونجاندن لە نێوان فرۆشیار و کڕیار
-   ============================================================ */
-
-let trackedMatches = JSON.parse(localStorage.getItem('dashti_tracked_matches') || '[]');
-let unseenMatchCount = Number(localStorage.getItem('dashti_unseen_matches') || 0);
-
-function recordMatch(propId, wantId, score, reasons) {
-  const existing = trackedMatches.find(m => 
-    String(m.propId) === String(propId) && String(m.wantId) === String(wantId)
-  );
-  
-  if (existing) {
-    if (existing.score !== score) {
-      existing.score = score;
-      existing.reasons = reasons;
-      existing.updatedAt = Date.now();
-    }
-    return false;
-  }
-  
-  trackedMatches.push({
-    id: 'match_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
-    propId: String(propId),
-    wantId: String(wantId),
-    score: score,
-    reasons: reasons,
-    createdAt: Date.now(),
-    seen: false
-  });
-  
-  unseenMatchCount++;
-  localStorage.setItem('dashti_unseen_matches', unseenMatchCount);
-  return true;
-}
-
-function scanAllForNewMatches() {
-  const newMatches = [];
-  const props = properties.filter(p => p.category !== 'خوازیار / پێویستە');
-  const wants = properties.filter(p => p.category === 'خوازیار / پێویستە');
-  
-  props.forEach(prop => {
-    wants.forEach(want => {
-      const res = calculateMatchScore(want, prop);
-      if (res.score >= getMatchThreshold()) {
-        const isNew = recordMatch(prop.id, want.id, res.score, res.reasons);
-        if (isNew) {
-          newMatches.push({
-            prop: prop,
-            want: want,
-            score: res.score,
-            reasons: res.reasons
-          });
-        }
-      }
-    });
-  });
-  
-  if (newMatches.length > 0) {
-    localStorage.setItem('dashti_tracked_matches', JSON.stringify(trackedMatches));
-    scheduleFirebaseSync();
-    updateMatchNotificationBadge();
-    notifyNewMatches(newMatches);
-  }
-  
-  return newMatches;
-}
-
-function notifyNewMatches(matches) {
-  if (matches.length === 0) return;
-  
-  matches.sort((a, b) => b.score - a.score);
-  const top = matches[0];
-  
-  const propTitle = top.prop.title || 'موڵک';
-  const wantTitle = top.want.title || 'داواکاری';
-  
-  if (matches.length === 1) {
-    showMatchFloatingNotif(`🎯 گونجانێکی نوێ! "${propTitle}" ↔ "${wantTitle}" (${top.score}٪)`);
-  } else {
-    showMatchFloatingNotif(`🎯 ${matches.length} گونجانی نوێ دۆزرایەوە! باشترین: ${top.score}٪`);
-  }
-  
-  if ('Notification' in window && Notification.permission === 'granted') {
-    try {
-      new Notification('🎯 گونجانی نوێ - ' + (siteSettings.siteName || 'عقارات'), {
-        body: matches.length === 1 
-          ? `${propTitle} ↔ ${wantTitle} (${top.score}٪)`
-          : `${matches.length} گونجانی نوێ دۆزرایەوە`,
-        icon: siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png"
-      });
-    } catch (e) {}
-  }
-}
-
-function updateMatchNotificationBadge() {
-  const btn = document.getElementById('aiFloatingBtn');
-  if (!btn) return;
-  
-  const oldBadge = btn.querySelector('.ai-match-badge');
-  if (oldBadge) oldBadge.remove();
-  
-  if (unseenMatchCount > 0) {
-    const badge = document.createElement('div');
-    badge.className = 'ai-match-badge';
-    badge.textContent = unseenMatchCount > 99 ? '99+' : unseenMatchCount;
-    btn.appendChild(badge);
-  }
-}
-
-function getAIMatchReport() {
-  if (trackedMatches.length === 0) {
-    return `🎯 هیچ گونجانێک تۆمار نەکراوە هێشتا.
-
-دەست پێبکە بە زیادکردنی موڵک و داواکاری، ئەوسا سیستەمەکە بە خۆکاری گونجانەکان دەدۆزێتەوە.`;
-  }
-  
-  const unseen = trackedMatches.filter(m => !m.seen);
-  const highScore = trackedMatches.filter(m => m.score >= 75).length;
-  const midScore = trackedMatches.filter(m => m.score >= 55 && m.score < 75).length;
-  
-  let report = `🎯 ڕاپۆرتی گونجانەکان:\n\n`;
-  report += `• کۆی گونجانەکان: ${trackedMatches.length}\n`;
-  report += `• گونجانی بەرز (75%+): ${highScore}\n`;
-  report += `• گونجانی مامناوەند (55-74%): ${midScore}\n`;
-  report += `• نوێی نەبینراو: ${unseen.length}\n\n`;
-  
-  if (unseen.length > 0) {
-    report += `📌 ٣ گونجانی نوێی سەرەکی:\n`;
-    unseen.sort((a, b) => b.score - a.score).slice(0, 3).forEach((m, i) => {
-      const prop = properties.find(p => String(p.id) === String(m.propId));
-      const want = properties.find(p => String(p.id) === String(m.wantId));
-      if (prop && want) {
-        report += `\n${i+1}. "${prop.title}" ↔ "${want.title}" (${m.score}٪)`;
-      }
-    });
-  }
-  
-  return report;
-}
-
-function getAIMatchListForSeller() {
-  const sellerMatches = trackedMatches
-    .filter(m => {
-      const prop = properties.find(p => String(p.id) === String(m.propId));
-      return prop && prop.category !== 'خوازیار / پێویستە';
-    })
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 10);
-  
-  if (sellerMatches.length === 0) {
-    return 'هیچ گونجانێک بۆ موڵکەکانت نییە هێشتا.';
-  }
-  
-  let report = `🏠 گونجانەکان بۆ موڵکەکانت:\n\n`;
-  sellerMatches.forEach((m, i) => {
-    const prop = properties.find(p => String(p.id) === String(m.propId));
-    const want = properties.find(p => String(p.id) === String(m.wantId));
-    if (prop && want) {
-      report += `${i+1}. "${prop.title}"\n   → کڕیار دەوێت: "${want.title}" (${m.score}٪)\n   📞 ${want.ownerPhone || 'بێ ژمارە'}\n\n`;
-    }
-  });
-  return report;
-}
-
-function getAIMatchListForBuyer() {
-  const buyerMatches = trackedMatches
-    .filter(m => {
-      const want = properties.find(p => String(p.id) === String(m.wantId));
-      return want && want.category === 'خوازیار / پێویستە';
-    })
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 10);
-  
-  if (buyerMatches.length === 0) {
-    return 'هیچ گونجانێک بۆ داواکارییەکانت نییە هێشتا.';
-  }
-  
-  let report = `🔍 گونجانەکان بۆ داواکارییەکانت:\n\n`;
-  buyerMatches.forEach((m, i) => {
-    const prop = properties.find(p => String(p.id) === String(m.propId));
-    const want = properties.find(p => String(p.id) === String(m.wantId));
-    if (prop && want) {
-      report += `${i+1}. "${want.title}"\n   → موڵکی گونجاو: "${prop.title}" (${m.score}٪)\n   💰 ${prop.price || 'نرخ نییە'}\n   📞 ${prop.ownerPhone || 'بێ ژمارە'}\n\n`;
-    }
-  });
-  return report;
-}
-
-function showAllMatchesModal() {
-  const seenMatches = trackedMatches.sort((a, b) => b.score - a.score);
-  
-  let html = '';
-  if (seenMatches.length === 0) {
-    html = `<div class="no-match-msg">
-      <div style="font-size:2rem; margin-bottom:10px;">🎯</div>
-      <div>هێشتا هیچ گونجانێک تۆمار نەکراوە.</div>
-      <div style="font-size:0.75rem; margin-top:8px; color:var(--muted);">موڵک و داواکاری زیاد بکە، سیستەمەکە بە خۆکاری گونجانەکان دەدۆزێتەوە.</div>
-    </div>`;
-  } else {
-    html = seenMatches.slice(0, 20).map(m => {
-      const prop = properties.find(p => String(p.id) === String(m.propId));
-      const want = properties.find(p => String(p.id) === String(m.wantId));
-      if (!prop || !want) return '';
-      
-      const isHigh = m.score >= 75;
-      const isMid = m.score >= 55;
-      const pillClass = isHigh ? '' : (isMid ? 'mid' : 'low');
-      const rowClass = isHigh ? 'match-item-row high-match' : 'match-item-row';
-      
-      return `<div class="${rowClass}">
-        <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
-          <div class="match-info">
-            <div class="title">🏠 ${prop.title || 'موڵک'}</div>
-            <div class="sub" style="color:#d97706;">🔍 دەوێت: ${want.title || 'داواکاری'}</div>
-            <div class="sub">💰 ${prop.price || '—'} · 📍 ${prop.location || '—'}</div>
-            <div class="match-reasons">${(m.reasons || []).join(' · ')}</div>
-          </div>
-        </div>
-        <div class="match-score-pill ${pillClass}">${m.score}٪</div>
-      </div>`;
-    }).join('');
-  }
-  
-  document.getElementById('matchListModalTitle').innerText = `🎯 هەموو گونجانەکان (${trackedMatches.length})`;
-  document.getElementById('matchListContent').innerHTML = html;
-  document.getElementById('matchListModal').style.display = 'flex';
-  window.history.pushState({ modal: 'allMatches' }, "", "");
-  
-  trackedMatches.forEach(m => m.seen = true);
-  unseenMatchCount = 0;
-  localStorage.setItem('dashti_unseen_matches', 0);
-  localStorage.setItem('dashti_tracked_matches', JSON.stringify(trackedMatches));
-  updateMatchNotificationBadge();
-}
-
-function requestNotificationPermission() {
-  if ('Notification' in window && Notification.permission === 'default') {
-    try {
-      Notification.requestPermission();
-    } catch (e) {}
-  }
-}
-
-/* ============ INIT ============ */
-applySettings();
-applyThemeSettings();
-checkStandaloneMode();
-loadData();
-
-setInterval(async () => {
-  try {
-    const res = await fetch(`${FIREBASE_URL}/properties.json`);
-    if (res.ok) {
-      const data = await res.json();
-      if (data) {
-        const remoteProps = Object.values(data);
-        const remoteStr = JSON.stringify(remoteProps);
-        const localStr = JSON.stringify(properties);
-        if (remoteStr !== localStr) {
-          properties = remoteProps;
-          localStorage.setItem('dashti_master_props', JSON.stringify(properties));
-          refreshAfterDataChange();
-        }
-      }
-    }
-  } catch (e) {}
-}, 30000);
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').catch(function() {});
-}
-</script>
-<!-- Ronaki Game Engine Script -->
+  /* ===== THANKS ===== */
+  if (q.includes('سوپاس') || q.includes('دەستخۆش') || q.includes('زۆر سوپاس') || q.includes('مەمنون')) {
+    return 'زۆر بەخێربێیت! 🌟 ئەگەر پرسی
+  <!-- Ronaki Game Engine Script -->
 <script>
 (function(){
   "use strict";
