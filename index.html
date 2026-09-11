@@ -2133,6 +2133,7 @@ body.dark-mode .iphone-note {
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  overscroll-behavior: contain;
   will-change: transform, left, top;
 }
 #aiFloatingBtn:active { transform: scale(0.92); }
@@ -3781,6 +3782,8 @@ function makeAiButtonDraggable() {
     
     btn.style.transition = 'none';
     btn.classList.add('dragging');
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     
     btn.style.left = rect.left + 'px';
     btn.style.top = rect.top + 'px';
@@ -3816,6 +3819,8 @@ function makeAiButtonDraggable() {
     aiButtonDragging = false;
     btn.classList.remove('dragging');
     btn.style.transition = '';
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
     
     if (aiButtonWasDragged) {
       const rect = btn.getBoundingClientRect();
@@ -3882,6 +3887,12 @@ function makeAiButtonDraggable() {
   });
   
   btn.addEventListener('contextmenu', (e) => e.preventDefault());
+  
+  btn.addEventListener('touchmove', (e) => {
+    if (aiButtonDragging) {
+      e.preventDefault();
+    }
+  }, { passive: false });
 }
 
 function handleAiButtonClick(event) {
@@ -8779,4 +8790,12 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 </body>
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  padding-bottom: 35px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
 </html>
