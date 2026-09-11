@@ -46,8 +46,6 @@
   --green:#7dff9e;
   --red:#ff6b6b;
   --line:rgba(255,207,107,0.35);
-  --ai-color-1:#8b5cf6;
-  --ai-color-2:#6366f1;
 }
 
 body.dark-mode {
@@ -63,7 +61,6 @@ html {
   font-size: var(--base-font-size);
   background-color: var(--bg);
   scroll-behavior: smooth;
-  overscroll-behavior-y: none;
 }
 
 * {
@@ -80,14 +77,6 @@ body {
   padding-bottom: 35px;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
-  overscroll-behavior-y: none;
-}
-
-body.ai-dragging {
-  overflow: hidden !important;
-  touch-action: none !important;
-  user-select: none;
-  -webkit-user-select: none;
 }
 
 #customSplashScreen {
@@ -380,6 +369,7 @@ body.dark-mode .btn-map {
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
 }
 .match-floating-notif.show {
   opacity: 1;
@@ -503,6 +493,7 @@ body.dark-mode .btn-map {
 .admin-stacked-btn {
   width: 100%; padding: 0.9rem;
   font-size: 0.95rem; border-radius: 12px;
+  position: relative;
 }
 .admin-stacked-btn.games-btn {
   background: linear-gradient(135deg, #8b5cf6, #6366f1);
@@ -523,6 +514,33 @@ body.dark-mode .btn-map {
   50% { left: 100%; }
   100% { left: 100%; }
 }
+
+/* ============ MATCH ADMIN BUTTON (NEW) ============ */
+.admin-match-btn {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 800;
+}
+.match-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 900;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  padding: 0 6px;
+  box-shadow: 0 2px 8px rgba(239,68,68,0.5);
+  animation: badgePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.match-count-badge.hidden { display: none; }
 
 .filter-panel {
   background: var(--card-bg);
@@ -2085,321 +2103,13 @@ body.dark-mode .iphone-note {
   flex-shrink: 0;
 }
 .ios-install-close:active { transform: scale(0.9); }
-
-/* ================= AI ASSISTANT (FIXED DRAG) ================= */
-#aiFloatingBtn {
-  position: fixed;
-  bottom: 90px;
-  left: 16px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--ai-color-1, #8b5cf6), var(--ai-color-2, #6366f1));
-  color: #fff;
-  font-size: 1.6rem;
-  border: none;
-  cursor: grab;
-  z-index: 9997;
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s, box-shadow 0.2s;
-  animation: aiPulse 2.5s ease-in-out infinite;
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  overscroll-behavior: contain;
-  will-change: transform, left, top;
-}
-#aiFloatingBtn:active { transform: scale(0.92); }
-#aiFloatingBtn.dragging {
-  cursor: grabbing;
-  transform: scale(1.15);
-  animation: none;
-  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.7);
-  transition: none;
-}
-#aiFloatingBtn.dragging:active { transform: scale(1.15); }
-#aiFloatingBtn.move-mode {
-  background: linear-gradient(135deg, #10b981, #059669);
-  animation: aiMoveModePulse 1s ease-in-out infinite alternate;
-}
-#aiFloatingBtn.move-mode::after {
-  content: "✥";
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  background: #f59e0b;
-  color: #fff;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  border: 2px solid #fff;
-}
-@keyframes aiPulse {
-  0%, 100% { box-shadow: 0 8px 24px rgba(139, 92, 246, 0.45); }
-  50% { box-shadow: 0 8px 32px rgba(139, 92, 246, 0.75); }
-}
-@keyframes aiMoveModePulse {
-  0% { box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5); }
-  100% { box-shadow: 0 12px 40px rgba(16, 185, 129, 0.9); }
-}
-
-.ai-match-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background: #ef4444;
-  color: #fff;
-  font-size: 0.7rem;
-  font-weight: 900;
-  min-width: 22px;
-  height: 22px;
-  border-radius: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5px;
-  box-shadow: 0 2px 8px rgba(239,68,68,0.5);
-  border: 2px solid var(--card-bg);
-  animation: badgePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  pointer-events: none;
-}
-
-.ai-color-preview {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 8px;
-  padding: 10px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-}
-.ai-color-preview-circle {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.ai-reset-btn {
-  width: 100%;
-  background: var(--bg);
-  border: 1px dashed #f59e0b;
-  color: #d97706;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-weight: 800;
-  font-size: 0.82rem;
-  cursor: pointer;
-  margin-top: 6px;
-  font-family: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-.ai-reset-btn:active { transform: scale(0.97); }
-
-#aiAssistantModal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(6px);
-  z-index: 9999;
-  align-items: flex-end;
-  justify-content: center;
-  animation: overlayFade 0.25s ease;
-}
-@media (min-width: 640px) { #aiAssistantModal { align-items: center; } }
-#aiAssistantModal.show { display: flex; }
-
-.ai-chat-box {
-  background: var(--card-bg);
-  color: var(--text);
-  width: 100%;
-  max-width: 480px;
-  height: 85vh;
-  border-radius: 20px 20px 0 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  animation: modalSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-}
-@media (min-width: 640px) {
-  .ai-chat-box {
-    height: 600px;
-    border-radius: 18px;
-    animation: modalPopupSmooth 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-}
-.ai-chat-header {
-  background: linear-gradient(135deg, var(--ai-color-1, #8b5cf6), var(--ai-color-2, #6366f1));
-  color: #fff;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-.ai-chat-header-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.ai-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-}
-.ai-chat-title { font-weight: 800; font-size: 0.95rem; }
-.ai-chat-subtitle { font-size: 0.7rem; opacity: 0.85; }
-.ai-close-btn {
-  background: rgba(255,255,255,0.2);
-  border: none;
-  color: #fff;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 800;
-}
-.ai-chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background: var(--bg);
-}
-.ai-msg {
-  max-width: 85%;
-  padding: 10px 14px;
-  border-radius: 14px;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  word-wrap: break-word;
-  animation: contentFadeIn 0.3s ease;
-}
-.ai-msg.bot {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  align-self: flex-start;
-  border-bottom-right-radius: 4px;
-}
-.ai-msg.user {
-  background: linear-gradient(135deg, var(--ai-color-1, #8b5cf6), var(--ai-color-2, #6366f1));
-  color: #fff;
-  align-self: flex-end;
-  border-bottom-left-radius: 4px;
-}
-.ai-msg.typing {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  padding: 12px 16px;
-}
-.ai-msg.typing span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--ai-color-1, #8b5cf6);
-  animation: aiTyping 1.2s ease-in-out infinite;
-}
-.ai-msg.typing span:nth-child(2) { animation-delay: 0.15s; }
-.ai-msg.typing span:nth-child(3) { animation-delay: 0.3s; }
-@keyframes aiTyping {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-  30% { transform: translateY(-6px); opacity: 1; }
-}
-.ai-chat-quick-actions {
-  display: flex;
-  gap: 6px;
-  padding: 8px 12px;
-  overflow-x: auto;
-  background: var(--card-bg);
-  border-top: 1px solid var(--border);
-  scrollbar-width: none;
-  flex-shrink: 0;
-}
-.ai-chat-quick-actions::-webkit-scrollbar { display: none; }
-.ai-quick-btn {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  white-space: nowrap;
-  cursor: pointer;
-  font-family: inherit;
-}
-.ai-quick-btn:active { transform: scale(0.95); }
-.ai-chat-input-row {
-  display: flex;
-  gap: 8px;
-  padding: 10px 12px;
-  background: var(--card-bg);
-  border-top: 1px solid var(--border);
-  flex-shrink: 0;
-}
-#aiChatInput {
-  flex: 1;
-  padding: 12px 16px;
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 0.85rem;
-  font-family: inherit;
-  outline: none;
-}
-#aiChatInput:focus { border-color: var(--ai-color-1, #8b5cf6); }
-#aiSendBtn {
-  background: linear-gradient(135deg, var(--ai-color-1, #8b5cf6), var(--ai-color-2, #6366f1));
-  color: #fff;
-  border: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-#aiSendBtn:active { transform: scale(0.9); }
 </style>
 </head>
 <body>
 
 <div id="toastNotificationBox">🔔 <span id="toastMsgText">ئاگاداری نوێ</span></div>
 
-<div class="match-floating-notif" id="matchFloatingNotif">
+<div class="match-floating-notif" id="matchFloatingNotif" onclick="showAllMatchesModal()">
   <span>🎯</span>
   <span id="matchFloatingNotifText">گونجان دۆزرایەوە!</span>
 </div>
@@ -2566,6 +2276,10 @@ body.dark-mode .iphone-note {
   <div class="admin-tab-content active" id="adminContentSettings">
     <div class="admin-actions-stacked">
       <button class="btn btn-primary admin-stacked-btn" onclick="openSettingsModal()">🎨 ڕێکخستنی ماڵپەڕ</button>
+      <button class="btn btn-primary admin-stacked-btn admin-match-btn" onclick="showAllMatchesModal()">
+        🎯 بینینی هەموو گونجانەکان
+        <span class="match-count-badge hidden" id="adminMatchCountBadge">0</span>
+      </button>
       <button class="btn btn-primary admin-stacked-btn" style="background: #10b981;" onclick="exportAllDataBackup()">💾 داگرتنی باکئەپی هەموو داتا</button>
       <button class="btn btn-primary admin-stacked-btn" style="background: #6366f1;" onclick="document.getElementById('importBackupFileInputAdmin').click()">📥 هێنانەوەی باکئەپ</button>
       <input type="file" id="importBackupFileInputAdmin" accept=".json" style="display:none;" onchange="importAllDataBackup(event)">
@@ -3434,41 +3148,6 @@ body.dark-mode .iphone-note {
         <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">ئیمۆجی بنووسە یان فایلێکی وێنە هەڵبژێرە</small>
       </div>
 
-      <div style="background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(99,102,241,0.08)); padding: 12px; border-radius: 10px; border: 1.5px solid rgba(139,92,246,0.35); margin-bottom: 12px;">
-        <label style="color:#8b5cf6; font-weight:800; display:block; margin-bottom:8px; font-size:0.85rem;">🤖 ڕێکخستنی یاریدەدەری زیرەک (AI)</label>
-        
-        <div class="form-group">
-          <label style="color:#8b5cf6; font-weight:800;">🎨 ڕەنگی یەکەم:</label>
-          <input type="color" id="setAiColor1" value="#8b5cf6" style="width:100%; height:40px; padding:3px; border-radius:8px; border:1px solid var(--border); cursor:pointer;">
-        </div>
-        <div class="form-group">
-          <label style="color:#8b5cf6; font-weight:800;">🎨 ڕەنگی دووەم (Gradient):</label>
-          <input type="color" id="setAiColor2" value="#6366f1" style="width:100%; height:40px; padding:3px; border-radius:8px; border:1px solid var(--border); cursor:pointer;">
-        </div>
-        <div class="ai-color-preview">
-          <div class="ai-color-preview-circle" id="aiColorPreviewCircle">🤖</div>
-          <span style="font-size:0.75rem; color:var(--muted);">پێشبینینی دوگمەکە</span>
-        </div>
-        
-        <div class="form-group" style="margin-top:10px;">
-          <label style="color:#8b5cf6; font-weight:800;">📍 شوێنی دوگمەی AI:</label>
-          <select id="setAiPosition">
-            <option value="bottom-left">خوارەوەی چپ</option>
-            <option value="bottom-right">خوارەوەی ڕاست</option>
-            <option value="top-left">سەرەوەی چپ</option>
-            <option value="top-right">سەرەوەی ڕاست</option>
-            <option value="middle-left">ناوەڕاستی چپ</option>
-            <option value="middle-right">ناوەڕاستی ڕاست</option>
-            <option value="custom">📍 شوێنی تایبەت (بە دەست جوڵاوە)</option>
-          </select>
-          <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">یان دوگمەی AI دەست بگرە و بیبە بۆ شوێنی دڵخوازت</small>
-        </div>
-        
-        <button type="button" class="ai-reset-btn" onclick="resetAiPosition()">
-          🔄 گەڕاندنەوە بۆ شوێنی سەرەکی (خوارەوەی چپ)
-        </button>
-      </div>
-
       <div class="form-group">
         <label>وێنەی لۆگۆی ماڵپەڕ:</label>
         <input type="file" id="logoFileInput" accept="image/*" onchange="processLogoUpload(event)">
@@ -3566,29 +3245,6 @@ body.dark-mode .iphone-note {
     </form>
   </div>
 </div>
-
-<button id="aiFloatingBtn" onclick="handleAiButtonClick(event)" title="یاریدەدەری زیرەک — دەست بگرە بۆ جوڵاندن">🤖</button>
-
-<div id="aiAssistantModal">
-  <div class="ai-chat-box">
-    <div class="ai-chat-header">
-      <div class="ai-chat-header-info">
-        <div class="ai-avatar">🤖</div>
-        <div>
-          <div class="ai-chat-title">یاریدەدەری زیرەک</div>
-          <div class="ai-chat-subtitle" id="aiStatusText">ئامادەیە یارمەتیت بدات</div>
-        </div>
-      </div>
-      <button class="ai-close-btn" onclick="closeAiAssistant()">✕</button>
-    </div>
-    <div class="ai-chat-messages" id="aiChatMessages"></div>
-    <div class="ai-chat-quick-actions" id="aiQuickActions"></div>
-    <div class="ai-chat-input-row">
-      <input type="text" id="aiChatInput" placeholder="پرسیارەکەت بنووسە..." onkeypress="if(event.key==='Enter') sendAiMessage()">
-      <button id="aiSendBtn" onclick="sendAiMessage()">➤</button>
-    </div>
-  </div>
-</div>
 <script>
 /* ============================================================
    MAIN APPLICATION SCRIPT
@@ -3616,20 +3272,13 @@ let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) ||
   defaultViewMode: "card",
   matchSensitivity: "normal",
   androidIcon: "🤖",
-  iphoneIcon: "🍎",
-  aiColor1: "#8b5cf6",
-  aiColor2: "#6366f1",
-  aiPosition: "bottom-left",
-  aiCustomPos: null
+  iphoneIcon: "🍎"
 };
 
 if (!siteSettings.defaultViewMode) siteSettings.defaultViewMode = "card";
 if (!siteSettings.matchSensitivity) siteSettings.matchSensitivity = "normal";
 if (!siteSettings.androidIcon) siteSettings.androidIcon = "🤖";
 if (!siteSettings.iphoneIcon) siteSettings.iphoneIcon = "🍎";
-if (!siteSettings.aiColor1) siteSettings.aiColor1 = "#8b5cf6";
-if (!siteSettings.aiColor2) siteSettings.aiColor2 = "#6366f1";
-if (!siteSettings.aiPosition) siteSettings.aiPosition = "bottom-left";
 
 let uploadedImagesList = [];
 let currentGalleryImages = [];
@@ -3659,236 +3308,6 @@ let tttScoreO = 0;
 let tttScoreDraw = 0;
 
 let currentPinInput = '';
-
-/* ============================================================
-   AI BUTTON MOVE MODE (TAP-TO-MOVE — NO DRAG!)
-   ============================================================ */
-let aiMoveMode = false;
-let aiLongPressTimer = null;
-let aiJustMoved = false;
-
-function getAiButton() {
-  return document.getElementById('aiFloatingBtn');
-}
-
-function applyAiColors() {
-  const c1 = siteSettings.aiColor1 || '#8b5cf6';
-  const c2 = siteSettings.aiColor2 || '#6366f1';
-  document.documentElement.style.setProperty('--ai-color-1', c1);
-  document.documentElement.style.setProperty('--ai-color-2', c2);
-  const previewCircle = document.getElementById('aiColorPreviewCircle');
-  if (previewCircle) {
-    previewCircle.style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
-  }
-}
-
-function applyAiPosition() {
-  const btn = getAiButton();
-  if (!btn) return;
-  
-  const pos = siteSettings.aiPosition || 'bottom-left';
-  
-  btn.style.top = '';
-  btn.style.bottom = '';
-  btn.style.left = '';
-  btn.style.right = '';
-  btn.style.transform = '';
-  
-  if (pos === 'custom' && siteSettings.aiCustomPos) {
-    const { x, y } = siteSettings.aiCustomPos;
-    const maxX = window.innerWidth - 60;
-    const maxY = window.innerHeight - 60;
-    const safeX = Math.max(8, Math.min(x, maxX));
-    const safeY = Math.max(8, Math.min(y, maxY));
-    btn.style.left = safeX + 'px';
-    btn.style.top = safeY + 'px';
-  } else {
-    switch (pos) {
-      case 'bottom-left':
-        btn.style.bottom = '90px';
-        btn.style.left = '16px';
-        break;
-      case 'bottom-right':
-        btn.style.bottom = '90px';
-        btn.style.right = '16px';
-        break;
-      case 'top-left':
-        btn.style.top = '80px';
-        btn.style.left = '16px';
-        break;
-      case 'top-right':
-        btn.style.top = '80px';
-        btn.style.right = '16px';
-        break;
-      case 'middle-left':
-        btn.style.top = '50%';
-        btn.style.left = '16px';
-        btn.style.transform = 'translateY(-50%)';
-        break;
-      case 'middle-right':
-        btn.style.top = '50%';
-        btn.style.right = '16px';
-        btn.style.transform = 'translateY(-50%)';
-        break;
-      default:
-        btn.style.bottom = '90px';
-        btn.style.left = '16px';
-    }
-  }
-}
-
-function enterAiMoveMode() {
-  const btn = getAiButton();
-  if (!btn) return;
-  aiMoveMode = true;
-  btn.classList.add('move-mode');
-  btn.title = 'ئێستا لە هەر شوێنێک پەنجەی لێ بنێ بۆ جێگیرکردنی';
-  
-  showToastNotification('📍 ئێستا پەنجە بنێ لە هەر شوێنێکی شاشەکە بۆ دانانی AI');
-  
-  document.body.classList.add('ai-dragging');
-  
-  setTimeout(() => {
-    document.addEventListener('click', handleAiMoveModeClick, true);
-    document.addEventListener('touchstart', handleAiMoveModeClick, true);
-  }, 300);
-}
-
-function exitAiMoveMode() {
-  const btn = getAiButton();
-  if (!btn) return;
-  aiMoveMode = false;
-  btn.classList.remove('move-mode');
-  btn.title = 'یاریدەدەری زیرەک';
-  document.body.classList.remove('ai-dragging');
-  
-  document.removeEventListener('click', handleAiMoveModeClick, true);
-  document.removeEventListener('touchstart', handleAiMoveModeClick, true);
-}
-
-function handleAiMoveModeClick(e) {
-  if (!aiMoveMode) return;
-  
-  const btn = getAiButton();
-  if (!btn) return;
-  
-  if (btn.contains(e.target)) {
-    return;
-  }
-  
-  e.preventDefault();
-  e.stopPropagation();
-  
-  const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : null);
-  const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : null);
-  
-  if (clientX === null || clientY === null) return;
-  
-  const btnW = btn.offsetWidth || 56;
-  const btnH = btn.offsetHeight || 56;
-  
-  let newX = clientX - btnW / 2;
-  let newY = clientY - btnH / 2;
-  
-  const maxX = window.innerWidth - btnW - 8;
-  const maxY = window.innerHeight - btnH - 8;
-  
-  newX = Math.max(8, Math.min(newX, maxX));
-  newY = Math.max(8, Math.min(newY, maxY));
-  
-  btn.style.left = newX + 'px';
-  btn.style.top = newY + 'px';
-  btn.style.bottom = '';
-  btn.style.right = '';
-  btn.style.transform = '';
-  
-  siteSettings.aiCustomPos = { x: newX, y: newY };
-  siteSettings.aiPosition = 'custom';
-  localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
-  
-  const posSel = document.getElementById('setAiPosition');
-  if (posSel) posSel.value = 'custom';
-  
-  aiJustMoved = true;
-  
-  showToastNotification('✅ شوێنی AI پاشەکەوتکرا');
-  scheduleFirebaseSync();
-  
-  setTimeout(() => {
-    exitAiMoveMode();
-    setTimeout(() => { aiJustMoved = false; }, 500);
-  }, 100);
-}
-
-function handleAiButtonClick(event) {
-  if (aiJustMoved) return;
-  
-  if (aiMoveMode) {
-    exitAiMoveMode();
-    showToastNotification('❌ دۆخی جوڵان هەڵوەشێنرایەوە');
-    return;
-  }
-  
-  openAiAssistant();
-}
-
-function handleAiButtonLongPress() {
-  if (aiMoveMode) return;
-  if (navigator.vibrate) {
-    try { navigator.vibrate(50); } catch(e) {}
-  }
-  enterAiMoveMode();
-}
-
-function makeAiButtonInteractive() {
-  const btn = getAiButton();
-  if (!btn) return;
-  
-  btn.addEventListener('contextmenu', (e) => e.preventDefault());
-  
-  btn.addEventListener('pointerdown', (e) => {
-    if (e.button !== undefined && e.button !== 1 && e.button !== 0) return;
-    if (e.button === 1) {
-      e.preventDefault();
-      handleAiButtonLongPress();
-      return;
-    }
-    if (aiLongPressTimer) clearTimeout(aiLongPressTimer);
-    aiLongPressTimer = setTimeout(() => {
-      aiLongPressTimer = null;
-      handleAiButtonLongPress();
-    }, 600);
-  });
-  
-  btn.addEventListener('pointerup', () => {
-    if (aiLongPressTimer) { clearTimeout(aiLongPressTimer); aiLongPressTimer = null; }
-  });
-  
-  btn.addEventListener('pointercancel', () => {
-    if (aiLongPressTimer) { clearTimeout(aiLongPressTimer); aiLongPressTimer = null; }
-  });
-  
-  btn.addEventListener('pointerleave', () => {
-    if (aiLongPressTimer) { clearTimeout(aiLongPressTimer); aiLongPressTimer = null; }
-  });
-}
-
-function resetAiPosition() {
-  siteSettings.aiPosition = 'bottom-left';
-  siteSettings.aiCustomPos = null;
-  localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
-  applyAiPosition();
-  const posSel = document.getElementById('setAiPosition');
-  if (posSel) posSel.value = 'bottom-left';
-  showToastNotification('✅ شوێنی AI گەڕێندراوە');
-  scheduleFirebaseSync();
-}
-
-window.addEventListener('resize', () => {
-  if (siteSettings.aiPosition === 'custom') {
-    setTimeout(applyAiPosition, 100);
-  }
-});
 
 /* ============================================================
    DOWNLOAD CHOICE LOGIC
@@ -3965,6 +3384,9 @@ function dismissIosBanner() {
   localStorage.setItem('ios_banner_dismissed', 'true');
 }
 
+/* ============================================================
+   CUSTOM INSTALL ICONS
+   ============================================================ */
 function previewCustomIcon(which, val) {
   const imgField = document.getElementById(which === 'android' ? 'setAndroidIconImg' : 'setIphoneIconImg');
   const preview = document.getElementById(which === 'android' ? 'androidIconPreview' : 'iphoneIconPreview');
@@ -4013,6 +3435,9 @@ function applyInstallIcons() {
   }
 }
 
+/* ============================================================
+   GLOBAL HELPERS
+   ============================================================ */
 function showGlobalLoading(text) {
   const overlay = document.getElementById('globalLoadingOverlay');
   const textEl = document.getElementById('globalLoadingText');
@@ -4074,6 +3499,9 @@ async function syncAllToFirebase() {
   } catch (err) { console.warn('Firebase sync failed:', err); }
 }
 
+/* ============================================================
+   PULL TO REFRESH
+   ============================================================ */
 (function setupPullToRefresh() {
   let startY = 0;
   let pulling = false;
@@ -4081,7 +3509,6 @@ async function syncAllToFirebase() {
   const threshold = 80;
 
   document.addEventListener('touchstart', (e) => {
-    if (aiMoveMode) return;
     if (window.scrollY > 5) return;
     if (document.getElementById('appLockModal').style.display !== 'none') return;
     startY = e.touches[0].clientY;
@@ -4089,7 +3516,7 @@ async function syncAllToFirebase() {
   }, { passive: true });
 
   document.addEventListener('touchmove', (e) => {
-    if (aiMoveMode || !pulling) return;
+    if (!pulling) return;
     const dy = e.touches[0].clientY - startY;
     if (dy > threshold) {
       indicator = document.getElementById('pullRefreshIndicator');
@@ -4098,7 +3525,7 @@ async function syncAllToFirebase() {
   }, { passive: true });
 
   document.addEventListener('touchend', async () => {
-    if (aiMoveMode || !pulling) return;
+    if (!pulling) return;
     pulling = false;
     indicator = document.getElementById('pullRefreshIndicator');
     if (indicator && indicator.classList.contains('show')) {
@@ -4112,6 +3539,7 @@ async function syncAllToFirebase() {
   }, { passive: true });
 })();
 
+/* ============ TOAST ============ */
 function showToastNotification(msg) {
   const toast = document.getElementById('toastNotificationBox');
   const textEl = document.getElementById('toastMsgText');
@@ -4132,6 +3560,7 @@ function checkAutoNotification() {
   }
 }
 
+/* ============ DARK MODE ============ */
 function toggleDarkMode() {
   isDarkMode = !isDarkMode;
   localStorage.setItem('dashti_theme_dark', isDarkMode);
@@ -4148,6 +3577,7 @@ function applyDarkModeClass() {
   }
 }
 
+/* ============ TIME FORMATTING ============ */
 function formatTimeAgo(timestamp) {
   if (!timestamp) return 'ئەمڕۆ';
   const now = Date.now();
@@ -4165,6 +3595,7 @@ function formatTimeAgo(timestamp) {
   return `پێش ${Math.floor(diffMonths / 12)} ساڵ`;
 }
 
+/* ============ SKELETON ============ */
 function renderSkeletonLoading() {
   const grid = document.getElementById('propertiesGrid');
   if (!grid) return;
@@ -4181,6 +3612,9 @@ function renderSkeletonLoading() {
   }
 }
 
+/* ============================================================
+   LOCK SCREEN - PIN PAD
+   ============================================================ */
 function updatePinDisplay() {
   const dots = document.querySelectorAll('.lock-pin-dot');
   dots.forEach((dot, i) => {
@@ -4235,6 +3669,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (hiddenInput) hiddenInput.addEventListener('focus', function() { this.blur(); });
 });
 
+/* ============ ADMIN TABS ============ */
 function switchAdminTab(tab, btn) {
   document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
@@ -4259,14 +3694,12 @@ function openAmazeGoGameDirect() {
   openAmazeGoGame();
 }
 
+/* ============ WINDOW INIT ============ */
 window.addEventListener('load', function() {
   window.history.pushState({ screen: 'home' }, "", "");
   applyDarkModeClass();
   checkAutoNotification();
   updatePinDisplay();
-  applyAiColors();
-  applyAiPosition();
-  makeAiButtonInteractive();
 });
 
 window.addEventListener('popstate', function(e) {
@@ -4275,11 +3708,6 @@ window.addEventListener('popstate', function(e) {
 
   const iosModal = document.getElementById('iphoneHowtoModal');
   if (iosModal && iosModal.style.display === 'flex') { closeIphoneHowto(false); return; }
-
-  const aiModal = document.getElementById('aiAssistantModal');
-  if (aiModal && aiModal.classList.contains('show')) { closeAiAssistant(); return; }
-
-  if (aiMoveMode) { exitAiMoveMode(); return; }
 
   const agOverlay = document.getElementById('amazeGoOverlay');
   if (agOverlay && agOverlay.style.display === 'block') { closeAmazeGoGame(); return; }
@@ -4301,6 +3729,7 @@ window.addEventListener('popstate', function(e) {
   window.history.back();
 });
 
+/* ============ CLOSE MODALS ON BACKDROP CLICK ============ */
 document.addEventListener('DOMContentLoaded', function() {
   const modalsToClose = [
     'downloadChoiceModal', 'iphoneHowtoModal', 'propertyModal',
@@ -4318,14 +3747,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-  const aiModal = document.getElementById('aiAssistantModal');
-  if (aiModal) {
-    aiModal.addEventListener('click', function(e) {
-      if (e.target === aiModal) closeAiAssistant();
-    });
-  }
 });
 
+/* ============ PHONE MODAL ============ */
 function openPhoneActionModal(phoneNumber) {
   const cleanPhone = String(phoneNumber).trim();
   document.getElementById('phoneActionTitle').innerText = `پەیوەندی: ${cleanPhone}`;
@@ -4342,6 +3766,7 @@ function closePhoneModal(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
+/* ============ GAME HUB ============ */
 function openGameHubModal() {
   const overlay = document.getElementById('fullscreenGameOverlay');
   overlay.style.display = 'flex';
@@ -4376,6 +3801,7 @@ function backToGameHub() {
   document.getElementById('tttPlayBox').style.display = 'none';
 }
 
+/* ============ TIC TAC TOE ============ */
 function updateTTTScoreBoard() {
   const sx = document.getElementById('tttScoreX');
   const so = document.getElementById('tttScoreO');
@@ -4525,6 +3951,7 @@ function findSmartMove(player) {
   return null;
 }
 
+/* ============ NAVIGATION ============ */
 function navigateToCategory(cat) {
   activeMainTab = cat;
   currentScreen = 'category';
@@ -4563,6 +3990,7 @@ function switchWantSubTab(type, btn) {
   renderProperties();
 }
 
+/* ============ ADMIN ============ */
 function toggleAdminBar() {
   isAdmin = !isAdmin;
   updateAdminViewDisplay();
@@ -4579,12 +4007,25 @@ function updateAdminViewDisplay() {
   if (isAdmin) {
     adminContainer.style.display = 'flex';
     publicContainer.style.display = 'none';
+    updateAdminMatchBadge();
   } else {
     adminContainer.style.display = 'none';
     publicContainer.style.display = 'block';
   }
 }
 
+function updateAdminMatchBadge() {
+  const badge = document.getElementById('adminMatchCountBadge');
+  if (!badge) return;
+  if (unseenMatchCount > 0) {
+    badge.textContent = unseenMatchCount > 99 ? '99+' : unseenMatchCount;
+    badge.classList.remove('hidden');
+  } else {
+    badge.classList.add('hidden');
+  }
+}
+
+/* ============ BACKUP / RESTORE ============ */
 function exportAllDataBackup() {
   const backupData = {
     settings: siteSettings,
@@ -4628,8 +4069,6 @@ function importAllDataBackup(event) {
       await syncAllToFirebase();
       applySettings();
       applyThemeSettings();
-      applyAiColors();
-      applyAiPosition();
       renderCustomCategoriesHub();
       refreshAfterDataChange();
       alert("هەموو داتاکانی باکئەپ بە سەرکەوتوویی گەڕێندرانەوە!");
@@ -4642,6 +4081,7 @@ function importAllDataBackup(event) {
   event.target.value = '';
 }
 
+/* ============ STATS ============ */
 function updatePublicStats() {
   document.getElementById('statHousesSale').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ فرۆشتن').length;
   document.getElementById('statHousesRent').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ بەکرێدان').length;
@@ -4651,6 +4091,7 @@ function updatePublicStats() {
   document.getElementById('statWants').innerText = properties.filter(p => p.category === 'خوازیار / پێویستە').length;
 }
 
+/* ============ HOLD / ACTION SHEET ============ */
 function startHold(id) {
   holdTimer = setTimeout(() => {
     selectedHoldItemId = id;
@@ -4694,6 +4135,7 @@ function handleHoldMatch() {
   openMatchListModal(id);
 }
 
+/* ============ STORY DOWNLOAD ============ */
 async function downloadPropertyAsStory(id) {
   const item = properties.find(p => String(p.id) === String(id));
   if (!item) return;
@@ -4729,6 +4171,7 @@ async function handleHoldStoryDownload() {
   await downloadPropertyAsStory(id);
 }
 
+/* ============ DIRECT DOWNLOAD ============ */
 function triggerDirectDownload() {
   if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
     window.location.href = siteSettings.apkUrl;
@@ -4737,6 +4180,7 @@ function triggerDirectDownload() {
   }
 }
 
+/* ============ SPLASH ============ */
 function hideSplashScreen() {
   const splash = document.getElementById('customSplashScreen');
   if (splash) {
@@ -4745,6 +4189,7 @@ function hideSplashScreen() {
   }
 }
 
+/* ============ CHECK STANDALONE MODE ============ */
 function checkStandaloneMode() {
   const ua = navigator.userAgent || "";
   const isStandalone = 
@@ -4762,6 +4207,7 @@ function checkStandaloneMode() {
   }
 }
 
+/* ============ THEME ============ */
 function applyThemeSettings() {
   const primary = siteSettings.primaryColor || "#0284c7";
   const headerBg = siteSettings.headerBgColor || "#ffffff";
@@ -4788,6 +4234,7 @@ function applyThemeSettings() {
   applyDarkModeClass();
 }
 
+/* ============ DATA LOADING ============ */
 async function loadData(silent) {
   if (!silent) renderSkeletonLoading();
   try {
@@ -4802,9 +4249,6 @@ async function loadData(silent) {
         if (!siteSettings.matchSensitivity) siteSettings.matchSensitivity = "normal";
         if (!siteSettings.androidIcon) siteSettings.androidIcon = "🤖";
         if (!siteSettings.iphoneIcon) siteSettings.iphoneIcon = "🍎";
-        if (!siteSettings.aiColor1) siteSettings.aiColor1 = "#8b5cf6";
-        if (!siteSettings.aiColor2) siteSettings.aiColor2 = "#6366f1";
-        if (!siteSettings.aiPosition) siteSettings.aiPosition = "bottom-left";
         localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
       }
       if (data && data.properties) {
@@ -4830,14 +4274,13 @@ async function loadData(silent) {
   updateViewModeUI();
   applySettings();
   applyThemeSettings();
-  applyAiColors();
-  applyAiPosition();
   renderCustomCategoriesHub();
   updatePublicStats();
   renderProperties();
   checkStandaloneMode();
   checkIosInstallBanner();
   updateMatchNotificationBadge();
+  updateAdminMatchBadge();
   requestNotificationPermission();
   setTimeout(() => { scanAllForNewMatches(); }, 2000);
   if (!silent) setTimeout(hideSplashScreen, 300);
@@ -4870,6 +4313,7 @@ function applySettings() {
   applyInstallIcons();
 }
 
+/* ============ CUSTOM CATEGORIES ============ */
 function renderCustomCategoriesHub() {
   const hub = document.getElementById('categoriesHubGrid');
   const wantsCard = document.getElementById('wantsCardBtn');
@@ -5035,6 +4479,9 @@ async function deleteCustomCategory(id) {
   }
 }
 
+/* ============================================================
+   FILTERS SYSTEM
+   ============================================================ */
 function toggleFilterDropdowns() {
   document.getElementById('filterDropdowns').classList.toggle('show');
 }
@@ -5164,6 +4611,9 @@ function matchesFilters(item) {
   return true;
 }
 
+/* ============================================================
+   VIEW MODE TOGGLE
+   ============================================================ */
 function switchViewMode(mode) {
   currentViewMode = mode;
   updateViewModeUI();
@@ -5188,6 +4638,9 @@ function updateViewModeUI() {
   }
 }
 
+/* ============================================================
+   SMART MATCHING ENGINE
+   ============================================================ */
 function normalizeNumerals(str) {
   if (str === null || str === undefined) return '';
   return String(str)
@@ -5387,6 +4840,9 @@ function getMatchBadgeHtml(item) {
   return `<span class="match-badge ${cls}" onclick="event.stopPropagation(); openMatchListModal('${item.id}')" title="گونجان: ${top.score}٪">${label} · ${matches.length}</span>`;
 }
 
+/* ============================================================
+   RENDER PROPERTIES
+   ============================================================ */
 function getFilteredList() {
   let list = properties.filter(p => p.category === activeMainTab);
   if (activeMainTab === 'خانوو') {
@@ -5614,6 +5070,9 @@ function formatMapUrl(link, loc) {
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
+/* ============================================================
+   IMAGE COMPRESSION
+   ============================================================ */
 function compressImageUltraFast(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -5703,6 +5162,7 @@ function processLogoUpload(event) {
   }
 }
 
+/* ============ GALLERY ============ */
 function openGallery(id) {
   const item = properties.find(p => String(p.id) === String(id));
   if (!item) return;
@@ -5739,6 +5199,7 @@ function closeGallery(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
+/* ============ FORM HELPERS ============ */
 function toggleFormSubCategory() {
   const cat = document.getElementById('category').value;
   const subGroup = document.getElementById('formSubCatGroup');
@@ -5839,22 +5300,6 @@ function openSettingsModal() {
     document.getElementById('iphoneIconPreview').innerHTML = iphoneIcon;
   }
 
-  document.getElementById('setAiColor1').value = siteSettings.aiColor1 || '#8b5cf6';
-  document.getElementById('setAiColor2').value = siteSettings.aiColor2 || '#6366f1';
-  document.getElementById('setAiPosition').value = siteSettings.aiPosition || 'bottom-left';
-  applyAiColors();
-
-  const aiColor1El = document.getElementById('setAiColor1');
-  const aiColor2El = document.getElementById('setAiColor2');
-  if (aiColor1El) aiColor1El.oninput = function() {
-    siteSettings.aiColor1 = this.value;
-    applyAiColors();
-  };
-  if (aiColor2El) aiColor2El.oninput = function() {
-    siteSettings.aiColor2 = this.value;
-    applyAiColors();
-  };
-
   document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
   document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
   document.getElementById('setGridCols').value = siteSettings.gridCols || "1";
@@ -5878,6 +5323,9 @@ function closeModals(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
+/* ============================================================
+   FORM SUBMISSIONS
+   ============================================================ */
 async function handleFormSubmit(e) {
   e.preventDefault();
   const saveBtn = document.getElementById('savePropBtn');
@@ -6019,9 +5467,6 @@ async function handleSettingsSubmit(e) {
     apkUrl: document.getElementById('setApkUrl').value || "",
     androidIcon: document.getElementById('setAndroidIconImg').value || document.getElementById('setAndroidIconEmoji').value.trim() || '🤖',
     iphoneIcon: document.getElementById('setIphoneIconImg').value || document.getElementById('setIphoneIconEmoji').value.trim() || '🍎',
-    aiColor1: document.getElementById('setAiColor1').value || '#8b5cf6',
-    aiColor2: document.getElementById('setAiColor2').value || '#6366f1',
-    aiPosition: document.getElementById('setAiPosition').value || 'bottom-left',
     logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
     gridCols: document.getElementById('setGridCols').value || "1",
     cardImgHeight: document.getElementById('setCardImgHeight').value || "160px",
@@ -6036,14 +5481,9 @@ async function handleSettingsSubmit(e) {
     cardColor: document.getElementById('setCardColor').value,
     textColor: document.getElementById('setTextColor').value
   };
-  if (siteSettings.aiPosition !== 'custom') {
-    siteSettings.aiCustomPos = null;
-  }
   localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
   applySettings();
   applyThemeSettings();
-  applyAiColors();
-  applyAiPosition();
   currentViewMode = siteSettings.defaultViewMode || 'card';
   updateViewModeUI();
   checkStandaloneMode();
@@ -6066,6 +5506,7 @@ async function deleteProperty(id) {
   }
 }
 
+/* ============ GAME OPENERS ============ */
 function openRonakiGame() {
   document.getElementById('fullscreenGameOverlay').style.display = 'none';
   document.getElementById('ronakiGameOverlay').style.display = 'flex';
@@ -6105,369 +5546,7 @@ function closeAmazeGoGame() {
 }
 
 /* ============================================================
-   AI ASSISTANT — SMART SORANI KURDISH ENGINE (POWERFUL)
-   ============================================================ */
-let aiChatHistory = [];
-let aiIsResponding = false;
-
-function openAiAssistant() {
-  document.getElementById('aiAssistantModal').classList.add('show');
-  if (aiChatHistory.length === 0) aiGreetUser();
-  setTimeout(() => document.getElementById('aiChatInput').focus(), 300);
-}
-
-function closeAiAssistant() {
-  document.getElementById('aiAssistantModal').classList.remove('show');
-}
-
-function aiGreetUser() {
-  const hour = new Date().getHours();
-  let greeting = 'سڵاو';
-  if (hour < 12) greeting = 'بەیانیت باش';
-  else if (hour < 17) greeting = 'ڕۆژ باش';
-  else if (hour < 20) greeting = 'ئێوارە باش';
-  else greeting = 'شەو باش';
-
-  const welcome = `${greeting}! 👋 من یاریدەدەری زیرەکی "${siteSettings.siteName}"ـم.
-
-دەتوانم یارمەتیت بدەم بە:
-• 🔢 حسابکردن، لێکدان، کۆکردنەوە، ڕێژە
-• 🎯 گونجانی نوێ و ڕاپۆرتی تەواو
-• 🏠 گونجانەکان بۆ فرۆشیار و کڕیار
-• 🔍 گەڕان بۆ موڵک، داواکاری، شوێن
-• 💰 نرخ، ئامار، ڕووبەر
-• 💡 ئامۆژگاری زیرەک بۆ کڕین و فرۆشتن
-
-بە کوردی سۆرانی یان هەر شێوەزمانێکی تر پرسیارم لێ بکە.`;
-
-  addAiMessage('bot', welcome);
-  buildQuickActions();
-}
-
-function buildQuickActions() {
-  const wrap = document.getElementById('aiQuickActions');
-  wrap.innerHTML = '';
-
-  const viewAllBtn = document.createElement('button');
-  viewAllBtn.className = 'ai-quick-btn';
-  viewAllBtn.textContent = `🎯 بینینی گونجانەکان (${trackedMatches.length})`;
-  viewAllBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-  viewAllBtn.style.color = '#fff';
-  viewAllBtn.style.border = 'none';
-  viewAllBtn.onclick = () => {
-    closeAiAssistant();
-    setTimeout(showAllMatchesModal, 200);
-  };
-  wrap.appendChild(viewAllBtn);
-
-  const actions = [
-    { label: '🎯 گونجانی نوێ', query: 'چەند گونجانی نوێ هەیە؟' },
-    { label: '🏠 گونجانەکانم', query: 'گونجانەکانم بۆ فرۆشیار و کڕیار' },
-    { label: '💰 نرخەکان', query: 'نرخی موڵکەکان چەندە؟' },
-    { label: '📊 ئامار', query: 'چەند موڵک هەیە؟' },
-    { label: '📍 شوێنەکان', query: 'شوێنەکان کامانەن؟' },
-    { label: '🔢 حسابکردن', query: '50000 * 3' }
-  ];
-  actions.forEach(a => {
-    const btn = document.createElement('button');
-    btn.className = 'ai-quick-btn';
-    btn.textContent = a.label;
-    btn.onclick = () => {
-      document.getElementById('aiChatInput').value = a.query;
-      sendAiMessage();
-    };
-    wrap.appendChild(btn);
-  });
-}
-
-function addAiMessage(role, text) {
-  const container = document.getElementById('aiChatMessages');
-  const msg = document.createElement('div');
-  msg.className = 'ai-msg ' + role;
-  msg.innerHTML = text.replace(/\n/g, '<br>');
-  container.appendChild(msg);
-  container.scrollTop = container.scrollHeight;
-  aiChatHistory.push({ role, text });
-}
-
-function showAiTyping() {
-  const container = document.getElementById('aiChatMessages');
-  const typing = document.createElement('div');
-  typing.className = 'ai-msg bot typing';
-  typing.id = 'aiTypingIndicator';
-  typing.innerHTML = '<span></span><span></span><span></span>';
-  container.appendChild(typing);
-  container.scrollTop = container.scrollHeight;
-}
-
-function hideAiTyping() {
-  const t = document.getElementById('aiTypingIndicator');
-  if (t) t.remove();
-}
-
-function sendAiMessage() {
-  if (aiIsResponding) return;
-  const input = document.getElementById('aiChatInput');
-  const text = input.value.trim();
-  if (!text) return;
-
-  addAiMessage('user', text);
-  input.value = '';
-
-  aiIsResponding = true;
-  showAiTyping();
-
-  setTimeout(() => {
-    hideAiTyping();
-    const response = processAiQuery(text);
-    addAiMessage('bot', response);
-    aiIsResponding = false;
-  }, 500 + Math.random() * 400);
-}
-
-function normalizeAiText(text) {
-  return text
-    .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
-    .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
-    .replace(/[ەﻩ]/g, 'ه')
-    .replace(/[ىﻯ]/g, 'ی')
-    .replace(/[ك]/g, 'ک')
-    .toLowerCase()
-    .trim();
-}
-
-function kurdishNumbersToDigits(text) {
-  const map = {
-    'سفر': '0', 'یەک': '1', 'یەکێک': '1', 'دوو': '2', 'دووان': '2', 'سێ': '3',
-    'چوار': '4', 'پێنج': '5', 'شەش': '6', 'حەوت': '7', 'هەشت': '8', 'نۆ': '9',
-    'دە': '10', 'یازدە': '11', 'دوازدە': '12', 'سێزدە': '13', 'چواردە': '14',
-    'پازدە': '15', 'شازدە': '16', 'حەڤدە': '17', 'هەژدە': '18', 'نۆزدە': '19',
-    'بیست': '20', 'سی': '30', 'سیی': '30', 'چل': '40', 'پەنجا': '50',
-    'شەست': '60', 'حەفتا': '70', 'هەشتا': '80', 'نەوەد': '90',
-    'سەد': '100', 'دوو سەد': '200', 'سێ سەد': '300',
-    'هەزار': '1000', 'دوو هەزار': '2000', 'ملیۆن': '1000000', 'ملیار': '1000000000'
-  };
-  let result = text;
-  const sortedKeys = Object.keys(map).sort((a, b) => b.length - a.length);
-  for (const k of sortedKeys) {
-    result = result.split(k).join(map[k]);
-  }
-  return result;
-}
-
-function processAiQuery(query) {
-  const q = normalizeAiText(query);
-  const qNum = kurdishNumbersToDigits(q);
-
-  /* CALCULATOR */
-  const calcResult = tryCalculate(qNum);
-  if (calcResult !== null) return calcResult;
-
-  /* MATCH TRACKING */
-  if (q.includes('گونجانی نوێ') || q.includes('گونجانەکان') || q.includes('چەند گونجان') || q.includes('ڕاپۆرت') || q.includes('راپۆرت')) {
-    return getAIMatchReport();
-  }
-  if (q.includes('گونجانی من') || q.includes('گونجانەکانم') || q.includes('گونجانی خۆم')) {
-    return getAIMatchListForSeller() + '\n\n' + getAIMatchListForBuyer();
-  }
-  if (q.includes('فرۆشیار') || q.includes('بفرۆشم') || q.includes('موڵکەکانم') || q.includes('موڵکەکەم')) {
-    return getAIMatchListForSeller();
-  }
-  if (q.includes('کڕیار') || q.includes('بکڕم') || q.includes('داواکارییەکانم') || q.includes('داواکارییەکەم')) {
-    return getAIMatchListForBuyer();
-  }
-
-  /* STATS */
-  if (q.includes('چەند موڵک') || q.includes('ژمارەی موڵک') || q.includes('چەند خانوو') || q.includes('چەند ماڵ') || q.includes('ژمارەی خانوو') || q.includes('ئامار')) {
-    const total = properties.length;
-    const houses = properties.filter(p => p.category === 'خانوو').length;
-    const lands = properties.filter(p => p.category === 'زەوی').length;
-    const commercial = properties.filter(p => p.category === 'شوێنی تیجاری').length;
-    const farms = properties.filter(p => p.category === 'مەزرەعە').length;
-    const wants = properties.filter(p => p.category === 'خوازیار / پێویستە').length;
-    const sold = properties.filter(p => p.isSold).length;
-    return `📊 ئاماری گشتی:
-
-• کۆی گشتی: ${total} موڵک
-• 🏠 خانوو: ${houses}
-• 📐 زەوی: ${lands}
-• 🏢 شوێنی تیجاری: ${commercial}
-• 🌳 مەزرەعە: ${farms}
-• 🔍 داواکاری: ${wants}
-• ✅ فرۆشراو/دابینکراو: ${sold}`;
-  }
-
-  /* PRICE */
-  if (q.includes('نرخ') || q.includes('نرخی') || q.includes('بەها') || q.includes('بهای') || q.includes('چەندە')) {
-    const withPrice = properties.filter(p => getNumericPrice(p) !== null);
-    if (withPrice.length === 0) return '💰 هیچ موڵکێک نییە کە نرخی تێدا نووسرابێت.';
-    const prices = withPrice.map(p => getNumericPrice(p));
-    const min = Math.min(...prices);
-    const max = Math.max(...prices);
-    const avg = Math.round(prices.reduce((a, b) => a + b, 0) / prices.length);
-    const total = prices.reduce((a, b) => a + b, 0);
-    return `💰 ئاماری نرخەکان:
-
-• کەمترین نرخ: $${min.toLocaleString()}
-• زۆرترین نرخ: $${max.toLocaleString()}
-• تێکڕای نرخ: $${avg.toLocaleString()}
-• کۆی گشتی: $${total.toLocaleString()}
-• ژمارەی موڵکی نرخدار: ${withPrice.length}`;
-  }
-
-  /* LOCATIONS */
-  if (q.includes('شوێن') || q.includes('گەڕەک') || q.includes('ناوچە') || q.includes('شار') || q.includes('دەڤەر') || q.includes('کامانەن')) {
-    const locations = [...new Set(properties.map(p => p.location).filter(Boolean))];
-    if (locations.length === 0) return '📍 هیچ شوێنێک تۆمار نەکراوە.';
-    return `📍 شوێنەکان (${locations.length}):
-
-${locations.map(l => '• ' + l).join('\n')}
-
-💡 دەتوانیت لە فلتەرەکان شوێنەکان هەڵبژێریت.`;
-  }
-
-  /* MATCHES */
-  if (q.includes('گونجان') || q.includes('گونجاو') || q.includes('match')) {
-    let total = 0;
-    let strong = 0;
-    properties.forEach(p => {
-      const m = findMatchesForItem(p.id);
-      if (m.length > 0) {
-        total++;
-        if (m[0].score >= 75) strong++;
-      }
-    });
-    if (total === 0) return '🎯 لە ئێستادا هیچ گونجانێک نییە.';
-    return `🎯 ئاماری گونجان:
-
-• بابەتی گونجاویان هەیە: ${total}
-• گونجانی بەرز (75%+): ${strong}
-• کۆی گشتی: ${total}
-
-💡 بۆ بینینیان، بڕۆ بۆ بەشەکە و کلیک لە باجی 🎯 بکە.`;
-  }
-
-  /* CONTACT */
-  if (q.includes('پەیوەندی') || q.includes('ژمارە') || q.includes('تەلەفۆن') || q.includes('مۆبایل') || q.includes('واتس')) {
-    return `📞 بۆ پەیوەندی:
-
-• کلیک لە ژمارەی مۆبایلی هەر موڵکێک بکە
-• دەتوانیت هەڵبژێریت: WhatsApp یان پەیوەندی تەلەفۆنی
-• هەموو ژمارەکان لەسەر کارتی موڵکەکان نیشان دراون`;
-  }
-
-  /* HOW TO ADD */
-  if (q.includes('چۆن زیاد') || q.includes('چۆن تۆمار') || q.includes('زیادکردن') || q.includes('تۆمارکردن') || q.includes('چۆن دابنێم')) {
-    return `📝 بۆ زیادکردنی موڵک:
-
-1. بڕۆ بۆ بەشی موڵکەکان
-2. کلیک لە کارتی "+ زیادکردن" بکە
-3. فۆرمەکە پڕ بکەرەوە:
-   • ناوی موڵک
-   • نرخی ژمارەیی (گرنگ بۆ گونجاندن)
-   • ڕووبەر (دەفتەر یان مەتر)
-   • شوێن
-   • ژمارەی مۆبایل
-4. وێنەکان هەڵبژێرە
-5. "پاشەکەوتکردن" دابگرە`;
-  }
-
-  /* ADVICE */
-  if (q.includes('ئامۆژگاری') || q.includes('ڕاوێژ') || q.includes('یارمەتی') || q.includes('ڕێنمایی')) {
-    return `💡 ئامۆژگارییەکان:
-
-🏠 بۆ فرۆشیار:
-• وێنەی جوان و ڕوون دابنێ
-• نرخێکی گونجاو لەگەڵ بازاڕ دابنێ
-• ناوی موڵک زۆر ڕوون بنووسە
-• شوێن و ڕووبەر بە وردی دابنێ
-
-🛒 بۆ کڕیار:
-• نرخەکان بەراورد بکە
-• شوێن و ڕووبەر تاقی بکەرەوە
-• سیستەمی گونجاندن بەکاربهێنە 🎯
-
-📊 بۆ هەردوو:
-• سیستەمی گونجاندنی زیرەک بەکاربهێنە — بە خۆکاری گونجانەکان دەدۆزێتەوە`;
-  }
-
-  /* GREETING */
-  if (q.includes('سڵاو') || q.includes('بەیانیت') || q.includes('ئێوارە') || q.includes('ڕۆژباش') || q.includes('شەوباش') || q.includes('سلام')) {
-    const hour = new Date().getHours();
-    let reply = 'سڵاو! 👋 چۆن دەتوانم یارمەتیت بدەم؟';
-    if (hour < 12) reply = 'بەیانیت باش! 🌅 چۆن دەتوانم یارمەتیت بدەم؟';
-    else if (hour < 17) reply = 'ڕۆژ باش! ☀️ چۆن دەتوانم یارمەتیت بدەم؟';
-    else reply = 'ئێوارە باش! 🌆 چۆن دەتوانم یارمەتیت بدەم؟';
-    return reply;
-  }
-
-  /* THANKS */
-  if (q.includes('سوپاس') || q.includes('دەستخۆش') || q.includes('زۆر سوپاس') || q.includes('مەمنون')) {
-    return 'زۆر بەخێربێیت! 🌟 ئەگەر پرسیارێکی ترت هەیە، من ئامادەم.';
-  }
-
-  /* FALLBACK */
-  return `🤔 ببورە، تێنەگەیشتم. دەتوانیت ئەمانە تاقی بکەیتەوە:
-
-• 🔢 حسابکردن: "50000 * 3" یان "100 + 250"
-• 🎯 گونجانی نوێ: "چەند گونجانی نوێ هەیە؟"
-• 🏠 گونجانەکانم: "گونجانەکانم بۆ فرۆشیار"
-• 📊 ئامار: "چەند موڵک هەیە؟"
-• 💰 نرخ: "نرخی موڵکەکان چەندە؟"
-• 📍 شوێن: "شوێنەکان کامانەن؟"`;
-}
-
-function tryCalculate(text) {
-  let t = text
-    .replace(/[×✕✖]/g, '*')
-    .replace(/[÷]/g, '/')
-    .replace(/[،,]/g, '')
-    .replace(/بەرامبەر/g, '=')
-    .replace(/کۆکردنەوە|کۆبکەرەوە|زیادبکە|کۆی|جمع/g, '+')
-    .replace(/لێدەرکردن|لێدەرکە|کەمبکە|فەرق/g, '-')
-    .replace(/لێکدان|لێکبدە|ضرب/g, '*')
-    .replace(/دابەشکردن|دابەش|تقسیم/g, '/')
-    .replace(/ڕێژە|فیصد|%ی/g, '%');
-
-  const mathRegex = /(-?\d+(?:\.\d+)?)\s*([\+\-\*\/])\s*(-?\d+(?:\.\d+)?)/g;
-  const matches = [...t.matchAll(mathRegex)];
-
-  if (matches.length === 0) return null;
-
-  let result = matches[0][1] + ' ' + matches[0][2] + ' ' + matches[0][3] + ' = ';
-  let val = parseFloat(matches[0][1]);
-  for (const m of matches) {
-    const op = m[2];
-    const num = parseFloat(m[3]);
-    if (op === '+') val += num;
-    else if (op === '-') val -= num;
-    else if (op === '*') val *= num;
-    else if (op === '/') {
-      if (num === 0) return '⚠️ ناتوانرێت بە سفر دابەش بکرێت.';
-      val /= num;
-    }
-  }
-
-  if (t.includes('%') || t.includes('ڕێژە') || t.includes('فیصد')) {
-    const pctMatch = t.match(/(\d+(?:\.\d+)?)\s*(?:%|ڕێژە|فیصد)/);
-    if (pctMatch) {
-      const pct = parseFloat(pctMatch[1]);
-      const pctResult = (val * pct) / 100;
-      return `🔢 ئەنجام:
-
-${result}${val.toLocaleString()}
-
-📊 ڕێژەی ${pct}%: ${pctResult.toLocaleString()}`;
-    }
-  }
-
-  return `🔢 ئەنجام:
-
-${result}${val.toLocaleString()}`;
-}
-
-/* ============================================================
-   AI MATCH TRACKING SYSTEM
+   MATCH TRACKING SYSTEM (AUTONOMOUS — NO USER INTERACTION)
    ============================================================ */
 let trackedMatches = JSON.parse(localStorage.getItem('dashti_tracked_matches') || '[]');
 let unseenMatchCount = Number(localStorage.getItem('dashti_unseen_matches') || 0);
@@ -6517,6 +5596,7 @@ function scanAllForNewMatches() {
     localStorage.setItem('dashti_tracked_matches', JSON.stringify(trackedMatches));
     scheduleFirebaseSync();
     updateMatchNotificationBadge();
+    updateAdminMatchBadge();
     notifyNewMatches(newMatches);
   }
   return newMatches;
@@ -6546,83 +5626,7 @@ function notifyNewMatches(matches) {
 }
 
 function updateMatchNotificationBadge() {
-  const btn = document.getElementById('aiFloatingBtn');
-  if (!btn) return;
-  const oldBadge = btn.querySelector('.ai-match-badge');
-  if (oldBadge) oldBadge.remove();
-  if (unseenMatchCount > 0) {
-    const badge = document.createElement('div');
-    badge.className = 'ai-match-badge';
-    badge.textContent = unseenMatchCount > 99 ? '99+' : unseenMatchCount;
-    btn.appendChild(badge);
-  }
-}
-
-function getAIMatchReport() {
-  if (trackedMatches.length === 0) {
-    return `🎯 هیچ گونجانێک تۆمار نەکراوە هێشتا.
-
-دەست پێبکە بە زیادکردنی موڵک و داواکاری، ئەوسا سیستەمەکە بە خۆکاری گونجانەکان دەدۆزێتەوە.`;
-  }
-  const unseen = trackedMatches.filter(m => !m.seen);
-  const highScore = trackedMatches.filter(m => m.score >= 75).length;
-  const midScore = trackedMatches.filter(m => m.score >= 55 && m.score < 75).length;
-  let report = `🎯 ڕاپۆرتی گونجانەکان:\n\n`;
-  report += `• کۆی گونجانەکان: ${trackedMatches.length}\n`;
-  report += `• گونجانی بەرز (75%+): ${highScore}\n`;
-  report += `• گونجانی مامناوەند (55-74%): ${midScore}\n`;
-  report += `• نوێی نەبینراو: ${unseen.length}\n\n`;
-  if (unseen.length > 0) {
-    report += `📌 ٣ گونجانی نوێی سەرەکی:\n`;
-    unseen.sort((a, b) => b.score - a.score).slice(0, 3).forEach((m, i) => {
-      const prop = properties.find(p => String(p.id) === String(m.propId));
-      const want = properties.find(p => String(p.id) === String(m.wantId));
-      if (prop && want) {
-        report += `\n${i+1}. "${prop.title}" ↔ "${want.title}" (${m.score}٪)`;
-      }
-    });
-  }
-  return report;
-}
-
-function getAIMatchListForSeller() {
-  const sellerMatches = trackedMatches
-    .filter(m => {
-      const prop = properties.find(p => String(p.id) === String(m.propId));
-      return prop && prop.category !== 'خوازیار / پێویستە';
-    })
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 10);
-  if (sellerMatches.length === 0) return 'هیچ گونجانێک بۆ موڵکەکانت نییە هێشتا.';
-  let report = `🏠 گونجانەکان بۆ موڵکەکانت:\n\n`;
-  sellerMatches.forEach((m, i) => {
-    const prop = properties.find(p => String(p.id) === String(m.propId));
-    const want = properties.find(p => String(p.id) === String(m.wantId));
-    if (prop && want) {
-      report += `${i+1}. "${prop.title}"\n   → کڕیار دەوێت: "${want.title}" (${m.score}٪)\n   📞 ${want.ownerPhone || 'بێ ژمارە'}\n\n`;
-    }
-  });
-  return report;
-}
-
-function getAIMatchListForBuyer() {
-  const buyerMatches = trackedMatches
-    .filter(m => {
-      const want = properties.find(p => String(p.id) === String(m.wantId));
-      return want && want.category === 'خوازیار / پێویستە';
-    })
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 10);
-  if (buyerMatches.length === 0) return 'هیچ گونجانێک بۆ داواکارییەکانت نییە هێشتا.';
-  let report = `🔍 گونجانەکان بۆ داواکارییەکانت:\n\n`;
-  buyerMatches.forEach((m, i) => {
-    const prop = properties.find(p => String(p.id) === String(m.propId));
-    const want = properties.find(p => String(p.id) === String(m.wantId));
-    if (prop && want) {
-      report += `${i+1}. "${want.title}"\n   → موڵکی گونجاو: "${prop.title}" (${m.score}٪)\n   💰 ${prop.price || 'نرخ نییە'}\n   📞 ${prop.ownerPhone || 'بێ ژمارە'}\n\n`;
-    }
-  });
-  return report;
+  updateAdminMatchBadge();
 }
 
 function showAllMatchesModal() {
@@ -6635,7 +5639,7 @@ function showAllMatchesModal() {
       <div style="font-size:0.75rem; margin-top:8px; color:var(--muted);">موڵک و داواکاری زیاد بکە، سیستەمەکە بە خۆکاری گونجانەکان دەدۆزێتەوە.</div>
     </div>`;
   } else {
-    html = seenMatches.slice(0, 20).map(m => {
+    html = seenMatches.slice(0, 30).map(m => {
       const prop = properties.find(p => String(p.id) === String(m.propId));
       const want = properties.find(p => String(p.id) === String(m.wantId));
       if (!prop || !want) return '';
@@ -6665,6 +5669,7 @@ function showAllMatchesModal() {
   localStorage.setItem('dashti_unseen_matches', 0);
   localStorage.setItem('dashti_tracked_matches', JSON.stringify(trackedMatches));
   updateMatchNotificationBadge();
+  updateAdminMatchBadge();
 }
 
 function requestNotificationPermission() {
@@ -8074,565 +7079,1375 @@ if ('serviceWorker' in navigator) {
   };
 })();
 </script>
-<!-- Amaze Go (ئامەیز گۆ) Game Logic Script -->
+<!-- Ronaki Game Engine Script -->
 <script>
 (function(){
   "use strict";
-  const TOTAL_LEVELS = 120;
-  const STORAGE_KEY = "amazego_save_v1";
+  const STAGES = [
+    {
+      name: "قۆناغی یەکەم — دابەزین بۆ تاریکی",
+      shardCount: 5, enemyCount: 4, enemySpeed: 5.0, chaseRadius: 9, worldRadius: 36,
+      boss: false, fogColor: 0x05070d, powerups: ["shield"]
+    },
+    {
+      name: "قۆناغی دووەم — داڕی قووڵ",
+      shardCount: 5, enemyCount: 6, enemySpeed: 6.1, chaseRadius: 11, worldRadius: 42,
+      boss: false, fogColor: 0x04050c, powerups: ["speed","magnet"]
+    },
+    {
+      name: "قۆناغی سێیەم — بەرەنگاربوونەوەی گەورە تاریکی",
+      shardCount: 4, enemyCount: 2, enemySpeed: 6.6, chaseRadius: 17, worldRadius: 46,
+      boss: true, fogColor: 0x030309, powerups: ["shield"]
+    }
+  ];
 
-  const THEMES = {
-    sand:  { bg:"#f4ecd9", bg2:"#ece1c8", line:"#6b4a35", accent:"#c78a2e", accentDark:"#a9701f", card:"#fffaf0", panel:"#d8c6a3", player:"#c0392b", goal:"#6faa5a" },
-    mint:  { bg:"#eaf3ec", bg2:"#dcebe0", line:"#3f5e4c", accent:"#5ea87a", accentDark:"#3f8a5c", card:"#f7fbf7", panel:"#c8ded0", player:"#c0392b", goal:"#d19a3d" },
-    dusk:  { bg:"#eae6f4", bg2:"#ded6ee", line:"#4a3f6b", accent:"#8a6fc7", accentDark:"#6c50a9", card:"#f8f6fc", panel:"#cbc0e6", player:"#c0392b", goal:"#5ea87a" },
-    blush: { bg:"#f7e9ec", bg2:"#f1dade", line:"#7a3f4b", accent:"#d97a92", accentDark:"#b95a73", card:"#fff5f7", panel:"#e9c4cd", player:"#3f6b8a", goal:"#6faa5a" }
+  const CFG = {
+    TOTAL_LIVES: 3,
+    PLAYER_SPEED: 15,
+    PLAYER_ACCEL: 10,
+    CATCH_RADIUS: 1.35,
+    BOSS_CATCH_RADIUS: 2.1,
+    SHARD_PICKUP_RADIUS: 1.5,
+    POWERUP_PICKUP_RADIUS: 1.6,
+    INVULN_TIME: 1.6,
+    TOWER_RADIUS_CLEAR: 6,
+    DASH_SPEED: 34,
+    DASH_TIME: 0.22,
+    DASH_COOLDOWN: 3.2,
+    SCORE_PER_SHARD: 100,
+    SCORE_PER_STAGE: 250,
+    POWERUP_DURATION: 9,
+    MAGNET_RADIUS: 9,
+    MAGNET_PULL_SPEED: 14,
+    BOSS_PROJECTILE_SPEED: 8.5,
+    BOSS_PROJECTILE_COOLDOWN: 2.6,
+    BOSS_PROJECTILE_RADIUS: 1.1,
+    HITSTOP_MS: 80,
+    SHAKE_DECAY: 3.2
+  };
+  const TOTAL_SHARDS_ALL = STAGES.reduce((a,s)=>a+s.shardCount, 0);
+
+  let state = {
+    mode: "start",
+    stageIndex: 0,
+    stageShardsCollected: 0,
+    totalShardsCollected: 0,
+    lives: CFG.TOTAL_LIVES,
+    invulnUntil: 0,
+    dashCooldownUntil: 0,
+    dashActiveUntil: 0,
+    score: 0,
+    bestScore: Number(localStorage.getItem('ronaki_best_score') || 0),
+    powerupUntil: { shield: 0, speed: 0, magnet: 0 },
+    hitStopUntil: 0,
+    shakeUntil: 0,
+    shakeMag: 0,
+    keys: {}
   };
 
-  let state = { unlocked: 1, completed: {}, stars: {}, currentLevel: 1, hints: 5, theme: "sand" };
+  let audioCtx = null;
+  function ensureAudio(){
+    if (!audioCtx){
+      try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ audioCtx = null; }
+    }
+  }
+  function tone(freq, dur, type, gainVal, delay){
+    if (!audioCtx) return;
+    delay = delay || 0;
+    const t0 = audioCtx.currentTime + delay;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type || "sine";
+    osc.frequency.setValueAtTime(freq, t0);
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(gainVal || 0.15, t0 + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.02);
+  }
+  function sfxPickup(){ tone(660,0.12,"sine",0.18); tone(990,0.14,"sine",0.13,0.05); }
+  function sfxPowerup(){ tone(440,0.1,"triangle",0.15); tone(660,0.1,"triangle",0.15,0.08); tone(880,0.16,"triangle",0.16,0.16); }
+  function sfxHurt(){ tone(140,0.28,"sawtooth",0.2); }
+  function sfxDash(){ tone(320,0.1,"square",0.08); }
+  function sfxProjectile(){ tone(200,0.15,"sawtooth",0.09); }
+  function sfxStageClear(){ tone(523,0.18,"sine",0.15); tone(659,0.18,"sine",0.15,0.12); tone(784,0.3,"sine",0.16,0.24); }
 
+  const canvas = document.getElementById("ronakiCanvas");
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x05070d, 0.026);
+  const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 260);
+  camera.position.set(0, 16, 20);
+
+  function resize(){
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  const ambient = new THREE.AmbientLight(0x25305a, 0.9);
+  scene.add(ambient);
+  const moon = new THREE.DirectionalLight(0x8fb3ff, 0.35);
+  moon.position.set(-20, 30, -10);
+  scene.add(moon);
+  const playerLight = new THREE.PointLight(0xffd9a0, 1.6, 18, 2);
+  scene.add(playerLight);
+
+  function makeGlowTexture(hex){
+    const size = 128;
+    const c = document.createElement("canvas");
+    c.width = c.height = size;
+    const ctx = c.getContext("2d");
+    const grd = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+    grd.addColorStop(0, "rgba(255,255,255,0.95)");
+    grd.addColorStop(0.25, hex);
+    grd.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = grd;
+    ctx.fillRect(0,0,size,size);
+    return new THREE.CanvasTexture(c);
+  }
+  const goldGlowTex = makeGlowTexture("rgba(255,207,107,0.9)");
+  const purpleGlowTex = makeGlowTexture("rgba(139,107,255,0.85)");
+  const redGlowTex = makeGlowTexture("rgba(255,90,90,0.85)");
+  const whiteGlowTex = makeGlowTexture("rgba(255,244,214,0.95)");
+  const blueGlowTex = makeGlowTexture("rgba(107,197,255,0.85)");
+  const greenGlowTex = makeGlowTexture("rgba(125,255,158,0.85)");
+
+  function addGlowSprite(parent, tex, scale, color){
+    const mat = new THREE.SpriteMaterial({ map: tex, color: color || 0xffffff, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false });
+    const sprite = new THREE.Sprite(mat);
+    sprite.scale.set(scale, scale, 1);
+    parent.add(sprite);
+    return sprite;
+  }
+
+  (function stars(){
+    const count = 900;
+    const geo = new THREE.BufferGeometry();
+    const pos = new Float32Array(count*3);
+    for(let i=0;i<count;i++){
+      const r = 90 + Math.random()*70;
+      const theta = Math.random()*Math.PI*2;
+      const phi = Math.acos((Math.random()*2)-1) * 0.55;
+      pos[i*3]   = r * Math.sin(phi) * Math.cos(theta);
+      pos[i*3+1] = Math.abs(r * Math.cos(phi)) + 5;
+      pos[i*3+2] = r * Math.sin(phi) * Math.sin(theta);
+    }
+    geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    const mat = new THREE.PointsMaterial({ color:0xffffff, size:0.7, transparent:true, opacity:0.8 });
+    scene.add(new THREE.Points(geo, mat));
+  })();
+
+  const groundGeo = new THREE.PlaneGeometry(150, 150, 60, 60);
+  groundGeo.rotateX(-Math.PI/2);
+  {
+    const pos = groundGeo.attributes.position;
+    for(let i=0;i<pos.count;i++){
+      const x = pos.getX(i), z = pos.getZ(i);
+      const h = Math.sin(x*0.09)*Math.cos(z*0.09)*1.1 + Math.sin(x*0.21+z*0.13)*0.5;
+      pos.setY(i, h);
+    }
+    groundGeo.computeVertexNormals();
+  }
+  const groundMat = new THREE.MeshStandardMaterial({ color:0x121a30, roughness:1, metalness:0.05 });
+  const ground = new THREE.Mesh(groundGeo, groundMat);
+  scene.add(ground);
+
+  function groundHeightAt(x,z){
+    return Math.sin(x*0.09)*Math.cos(z*0.09)*1.1 + Math.sin(x*0.21+z*0.13)*0.5;
+  }
+
+  const rockGeoPool = [
+    new THREE.DodecahedronGeometry(1, 0),
+    new THREE.DodecahedronGeometry(0.6, 0),
+    new THREE.DodecahedronGeometry(1.4, 0)
+  ];
+  const rockMat = new THREE.MeshStandardMaterial({ color:0x1b2338, roughness:0.95, flatShading:true });
+  for(let i=0;i<40;i++){
+    const geo = rockGeoPool[Math.floor(Math.random()*rockGeoPool.length)];
+    const rock = new THREE.Mesh(geo, rockMat);
+    const ang = Math.random()*Math.PI*2;
+    const rad = 8 + Math.random()*40;
+    const x = Math.cos(ang)*rad, z = Math.sin(ang)*rad;
+    rock.position.set(x, groundHeightAt(x,z)+0.3, z);
+    rock.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+    const s = 0.6+Math.random()*0.9;
+    rock.scale.set(s,s,s);
+    scene.add(rock);
+  }
+
+  const tower = new THREE.Group();
+  const towerBase = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 3, 3, 8), new THREE.MeshStandardMaterial({ color:0x232a44, roughness:0.8 }));
+  towerBase.position.y = 1.5;
+  tower.add(towerBase);
+  const towerMid = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 2.2, 7, 8), new THREE.MeshStandardMaterial({ color:0x1d2440, roughness:0.8 }));
+  towerMid.position.y = 3 + 3.5;
+  tower.add(towerMid);
+  const towerOrbMat = new THREE.MeshStandardMaterial({ color:0x554015, emissive:0xffcf6b, emissiveIntensity:0.08, roughness:0.3, metalness:0.2 });
+  const towerOrb = new THREE.Mesh(new THREE.IcosahedronGeometry(1.35, 1), towerOrbMat);
+  towerOrb.position.y = 3 + 7 + 1.2;
+  tower.add(towerOrb);
+  const towerOrbGlow = addGlowSprite(towerOrb, goldGlowTex, 3, 0xffcf6b);
+  towerOrbGlow.material.opacity = 0.15;
+  tower.position.set(0, 0, 0);
+  scene.add(tower);
+
+  const player = new THREE.Group();
+  const playerCore = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(0.62, 1),
+    new THREE.MeshStandardMaterial({ color:0xfff3d6, emissive:0xffd88a, emissiveIntensity:1.1, roughness:0.25 })
+  );
+  player.add(playerCore);
+  const playerGlow = addGlowSprite(player, whiteGlowTex, 3.2, 0xffe4a8);
+  const shieldSprite = addGlowSprite(player, blueGlowTex, 4.6, 0x6bc5ff);
+  shieldSprite.material.opacity = 0;
+  player.position.set(10, 0, 10);
+  scene.add(player);
+  const playerVel = new THREE.Vector3();
+  let lastMoveDir = new THREE.Vector3(0,0,-1);
+
+  const particles = [];
+  function spawnBurst(position, tex, color, count, speed){
+    for(let i=0;i<count;i++){
+      const mat = new THREE.SpriteMaterial({ map: tex, color: color, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false });
+      const sprite = new THREE.Sprite(mat);
+      sprite.scale.set(0.6,0.6,1);
+      sprite.position.copy(position);
+      const ang = Math.random()*Math.PI*2;
+      const spd = (0.5 + Math.random()*0.5) * speed;
+      const vel = new THREE.Vector3(Math.cos(ang)*spd, 1.5+Math.random()*1.5, Math.sin(ang)*spd);
+      sprite.userData = { vel, life: 0, maxLife: 0.55 + Math.random()*0.25 };
+      scene.add(sprite);
+      particles.push(sprite);
+    }
+  }
+  function updateParticles(delta){
+    for(let i=particles.length-1;i>=0;i--){
+      const p = particles[i];
+      p.userData.life += delta;
+      const t = p.userData.life / p.userData.maxLife;
+      if (t >= 1){ scene.remove(p); particles.splice(i,1); continue; }
+      p.userData.vel.y -= delta*4;
+      p.position.addScaledVector(p.userData.vel, delta);
+      p.material.opacity = 1 - t;
+      const sc = 0.6 * (1 - t*0.5);
+      p.scale.set(sc, sc, 1);
+    }
+  }
+
+  let shards = [];
+  const shardGeo = new THREE.IcosahedronGeometry(0.48, 0);
+  const shardMat = new THREE.MeshStandardMaterial({ color:0x6b4b12, emissive:0xffcf6b, emissiveIntensity:1.3, roughness:0.3 });
+
+  function randomPointAvoiding(existingPoints, minDist, minCenterDist, worldRadius){
+    for(let attempt=0; attempt<60; attempt++){
+      const ang = Math.random()*Math.PI*2;
+      const rad = minCenterDist + Math.random()*(worldRadius - minCenterDist - 3);
+      const x = Math.cos(ang)*rad, z = Math.sin(ang)*rad;
+      let ok = true;
+      for(const p of existingPoints){
+        if (Math.hypot(p.x-x, p.z-z) < minDist){ ok=false; break; }
+      }
+      if(ok) return {x,z};
+    }
+    const ang = Math.random()*Math.PI*2;
+    const rad = minCenterDist + Math.random()*(worldRadius - minCenterDist - 3);
+    return { x: Math.cos(ang)*rad, z: Math.sin(ang)*rad };
+  }
+  function clearShards(){ for(const s of shards){ if (s.parent) scene.remove(s); } shards = []; }
+  function buildShardsForStage(stageCfg, placedPoints){
+    clearShards();
+    for(let i=0;i<stageCfg.shardCount;i++){
+      const p = randomPointAvoiding(placedPoints, 5.5, CFG.TOWER_RADIUS_CLEAR, stageCfg.worldRadius);
+      placedPoints.push(p);
+      const mesh = new THREE.Mesh(shardGeo, shardMat);
+      const baseY = groundHeightAt(p.x, p.z) + 1.1;
+      mesh.position.set(p.x, baseY, p.z);
+      addGlowSprite(mesh, goldGlowTex, 2.2, 0xffcf6b);
+      mesh.userData = { collected:false, baseY, phase: Math.random()*Math.PI*2 };
+      scene.add(mesh);
+      shards.push(mesh);
+    }
+  }
+
+  let powerups = [];
+  const powerupGeoPool = {
+    shield: new THREE.OctahedronGeometry(0.55, 0),
+    speed: new THREE.ConeGeometry(0.45, 1.0, 5),
+    magnet: new THREE.TorusGeometry(0.45, 0.16, 8, 16)
+  };
+  const powerupColors = { shield: 0x6bc5ff, speed: 0x7dff9e, magnet: 0xffcf6b };
+  const powerupGlowTex = { shield: blueGlowTex, speed: greenGlowTex, magnet: goldGlowTex };
+  const powerupLabels = { shield: "پارێزەر", speed: "خێرایی", magnet: "ئاسنکێش" };
+
+  function clearPowerups(){ for(const p of powerups){ if (p.parent) scene.remove(p); } powerups = []; }
+  function buildPowerupsForStage(stageCfg, placedPoints){
+    clearPowerups();
+    for(const type of stageCfg.powerups){
+      const p = randomPointAvoiding(placedPoints, 5.5, CFG.TOWER_RADIUS_CLEAR, stageCfg.worldRadius);
+      placedPoints.push(p);
+      const mat = new THREE.MeshStandardMaterial({ color: powerupColors[type], emissive: powerupColors[type], emissiveIntensity: 1.2, roughness:0.3 });
+      const mesh = new THREE.Mesh(powerupGeoPool[type], mat);
+      const baseY = groundHeightAt(p.x, p.z) + 1.2;
+      mesh.position.set(p.x, baseY, p.z);
+      addGlowSprite(mesh, powerupGlowTex[type], 2.4, powerupColors[type]);
+      mesh.userData = { type, collected:false, baseY, phase: Math.random()*Math.PI*2 };
+      scene.add(mesh);
+      powerups.push(mesh);
+    }
+  }
+  function activatePowerup(type){
+    const now = performance.now()/1000;
+    state.powerupUntil[type] = now + CFG.POWERUP_DURATION;
+    sfxPowerup();
+  }
+
+  let enemies = [];
+  let bossProjectiles = [];
+  const enemyGeo = new THREE.IcosahedronGeometry(0.75, 1);
+  const enemyMat = new THREE.MeshStandardMaterial({ color:0x1a0f2e, emissive:0x8b6bff, emissiveIntensity:0.9, roughness:0.4 });
+  const bossGeo = new THREE.IcosahedronGeometry(1.9, 1);
+  const bossMat = new THREE.MeshStandardMaterial({ color:0x150a24, emissive:0xff5a5a, emissiveIntensity:0.85, roughness:0.35 });
+  const projGeo = new THREE.SphereGeometry(CFG.BOSS_PROJECTILE_RADIUS*0.55, 10, 10);
+  const projMat = new THREE.MeshStandardMaterial({ color:0x2a0f1a, emissive:0xff5a5a, emissiveIntensity:1.3 });
+
+  function clearEnemies(){ for(const e of enemies){ if (e.parent) scene.remove(e); } enemies = []; }
+  function clearProjectiles(){ for(const p of bossProjectiles){ if (p.mesh.parent) scene.remove(p.mesh); } bossProjectiles = []; }
+
+  function pickNewWanderTarget(e, worldRadius){
+    const ang = Math.random()*Math.PI*2;
+    const rad = 6 + Math.random()*(worldRadius-8);
+    e.userData.wanderTarget.set(Math.cos(ang)*rad, 0, Math.sin(ang)*rad);
+    e.userData.wanderTimer = 3 + Math.random()*3;
+  }
+  function buildEnemiesForStage(stageCfg){
+    clearEnemies();
+    clearProjectiles();
+    const minionCount = stageCfg.boss ? Math.max(0, stageCfg.enemyCount - 1) : stageCfg.enemyCount;
+    for(let i=0;i<minionCount;i++){
+      const mesh = new THREE.Mesh(enemyGeo, enemyMat);
+      const ang = (i/Math.max(1,minionCount))*Math.PI*2 + Math.random();
+      const rad = 14 + Math.random()*(stageCfg.worldRadius-16);
+      const x = Math.cos(ang)*rad, z = Math.sin(ang)*rad;
+      mesh.position.set(x, groundHeightAt(x,z)+0.8, z);
+      addGlowSprite(mesh, purpleGlowTex, 2.6, 0x8b6bff);
+      mesh.userData = {
+        isBoss:false, speed: stageCfg.enemySpeed, chaseRadius: stageCfg.chaseRadius,
+        catchRadius: CFG.CATCH_RADIUS, wanderTarget: new THREE.Vector3(x,0,z), wanderTimer: 0
+      };
+      scene.add(mesh);
+      enemies.push(mesh);
+    }
+    if (stageCfg.boss){
+      const boss = new THREE.Mesh(bossGeo, bossMat);
+      boss.position.set(0, groundHeightAt(0, stageCfg.worldRadius*0.6)+1.5, stageCfg.worldRadius*0.6);
+      addGlowSprite(boss, redGlowTex, 6, 0xff5a5a);
+      const orbitGroup = new THREE.Group();
+      for(let k=0;k<3;k++){
+        const chip = new THREE.Mesh(
+          new THREE.IcosahedronGeometry(0.35,0),
+          new THREE.MeshStandardMaterial({ color:0x2a0f1a, emissive:0xff5a5a, emissiveIntensity:0.8 })
+        );
+        const orbitAng = (k/3)*Math.PI*2;
+        chip.position.set(Math.cos(orbitAng)*2.6, 0, Math.sin(orbitAng)*2.6);
+        orbitGroup.add(chip);
+      }
+      boss.add(orbitGroup);
+      boss.userData = {
+        isBoss:true, speed: stageCfg.enemySpeed, chaseRadius: stageCfg.chaseRadius,
+        catchRadius: CFG.BOSS_CATCH_RADIUS, wanderTarget: new THREE.Vector3(boss.position.x,0,boss.position.z),
+        wanderTimer: 0, orbitGroup, attackCooldown: 2.0
+      };
+      scene.add(boss);
+      enemies.push(boss);
+    }
+  }
+  function fireBossProjectile(boss){
+    const mesh = new THREE.Mesh(projGeo, projMat);
+    mesh.position.copy(boss.position);
+    addGlowSprite(mesh, redGlowTex, 2.4, 0xff5a5a);
+    const dir = new THREE.Vector3(player.position.x-boss.position.x, 0, player.position.z-boss.position.z).normalize();
+    scene.add(mesh);
+    bossProjectiles.push({ mesh, dir, life: 0, maxLife: 6 });
+    sfxProjectile();
+  }
+
+  const joystickBase = document.getElementById("ronakiJoystickBase");
+  const joystickStick = document.getElementById("ronakiJoystickStick");
+  let joystickTouchId = null;
+  let joyStartX = 0, joyStartY = 0;
+  const maxRadius = 35;
+
+  if ('ontouchstart' in window) joystickBase.classList.add("show");
+
+  window.addEventListener("touchstart", (e)=>{
+    if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
+    for (let t of e.changedTouches) {
+      if (t.clientX < window.innerWidth / 2 && joystickTouchId === null) {
+        joystickTouchId = t.identifier;
+        joyStartX = t.clientX;
+        joyStartY = t.clientY;
+        joystickBase.style.left = (joyStartX - 55) + "px";
+        joystickBase.style.bottom = (window.innerHeight - joyStartY - 55) + "px";
+        joystickBase.classList.add("show");
+        joystickStick.style.transform = `translate(0px, 0px)`;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("touchmove", (e)=>{
+    if (joystickTouchId === null) return;
+    for (let t of e.changedTouches) {
+      if (t.identifier === joystickTouchId) {
+        let dx = t.clientX - joyStartX;
+        let dy = t.clientY - joyStartY;
+        const dist = Math.hypot(dx, dy);
+        if (dist > maxRadius) { dx = (dx / dist) * maxRadius; dy = (dy / dist) * maxRadius; }
+        joystickStick.style.transform = `translate(${dx}px, ${dy}px)`;
+        state.keys["a"] = dx < -10;
+        state.keys["d"] = dx > 10;
+        state.keys["w"] = dy < -10;
+        state.keys["s"] = dy > 10;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("touchend", (e)=>{
+    for (let t of e.changedTouches) {
+      if (t.identifier === joystickTouchId) {
+        joystickTouchId = null;
+        joystickStick.style.transform = `translate(0px, 0px)`;
+        state.keys["a"] = false;
+        state.keys["d"] = false;
+        state.keys["w"] = false;
+        state.keys["s"] = false;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("keydown", (e)=>{
+    if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
+    const key = e.key.toLowerCase();
+    state.keys[key] = true;
+    if (key === "shift") tryDash();
+  });
+  window.addEventListener("keyup", (e)=>{ state.keys[e.key.toLowerCase()] = false; });
+
+  const ronakiDashTouch = document.getElementById("ronakiDashTouch");
+  const dashTouchHandler = (ev)=>{ ev.preventDefault(); tryDash(); };
+  ronakiDashTouch.addEventListener("touchstart", dashTouchHandler, {passive:false});
+  ronakiDashTouch.addEventListener("mousedown", dashTouchHandler);
+  if ('ontouchstart' in window) ronakiDashTouch.classList.add("show");
+
+  function tryDash(){
+    if (state.mode !== "playing") return;
+    const now = performance.now()/1000;
+    if (now < state.dashCooldownUntil) return;
+    const dir = lastMoveDir.clone();
+    if (dir.lengthSq() < 0.001) return;
+    dir.normalize();
+    playerVel.copy(dir.multiplyScalar(CFG.DASH_SPEED));
+    state.dashActiveUntil = now + CFG.DASH_TIME;
+    state.dashCooldownUntil = now + CFG.DASH_COOLDOWN;
+    state.invulnUntil = Math.max(state.invulnUntil, now + CFG.DASH_TIME + 0.1);
+    sfxDash();
+    spawnBurst(player.position.clone(), whiteGlowTex, 0xffe4a8, 8, 3);
+  }
+
+  const elShardCount = document.getElementById("ronakiShardCount");
+  const elShardTotal = document.getElementById("ronakiShardTotal");
+  const elStageNum = document.getElementById("ronakiStageNum");
+  const elLives = document.getElementById("ronakiLives");
+  const elScoreVal = document.getElementById("ronakiScoreVal");
+  const elDashBarFill = document.getElementById("ronakiDashBarFill");
+  const elHud = document.getElementById("ronakiHud");
+  const elHurt = document.getElementById("ronakiHurtFlash");
+  const elStageBanner = document.getElementById("ronakiStageBanner");
+  const elPowerupRow = document.getElementById("ronakiPowerupRow");
+  const minimapCanvas = document.getElementById("ronakiMinimap");
+  const mmCtx = minimapCanvas.getContext("2d");
+
+  elShardTotal.textContent = TOTAL_SHARDS_ALL;
+
+  function refreshHud(){
+    elShardCount.textContent = state.totalShardsCollected;
+    elStageNum.textContent = state.stageIndex + 1;
+    elScoreVal.textContent = state.score;
+    let hearts = "";
+    for(let i=0;i<CFG.TOTAL_LIVES;i++){ hearts += i < state.lives ? "💛" : "🖤"; }
+    elLives.textContent = hearts;
+  }
+  function refreshPowerupRow(){
+    const now = performance.now()/1000;
+    let html = "";
+    for(const type of Object.keys(state.powerupUntil)){
+      const remain = state.powerupUntil[type] - now;
+      if (remain > 0){ html += '<div class="powerup-chip">' + powerupLabels[type] + ' — ' + Math.ceil(remain) + 'چ</div>'; }
+    }
+    elPowerupRow.innerHTML = html;
+  }
+
+  let bannerTimeout = null;
+  function showBanner(text){
+    if(!text) return;
+    elStageBanner.textContent = text;
+    elStageBanner.classList.add("show");
+    if (bannerTimeout) clearTimeout(bannerTimeout);
+    bannerTimeout = setTimeout(()=>{ elStageBanner.classList.remove("show"); }, 3000);
+  }
+
+  function initStage(idx){
+    const cfg = STAGES[idx];
+    state.stageIndex = idx;
+    state.stageShardsCollected = 0;
+    player.position.set(10, 0, 10);
+    playerVel.set(0,0,0);
+    const placedPoints = [];
+    buildShardsForStage(cfg, placedPoints);
+    buildPowerupsForStage(cfg, placedPoints);
+    buildEnemiesForStage(cfg);
+    scene.fog.color.setHex(cfg.fogColor);
+    refreshHud();
+    showBanner(cfg.name);
+  }
+
+  function start(){
+    ensureAudio();
+    state.totalShardsCollected = 0;
+    state.lives = CFG.TOTAL_LIVES;
+    state.invulnUntil = 0;
+    state.dashCooldownUntil = 0;
+    state.score = 0;
+    state.powerupUntil = { shield:0, speed:0, magnet:0 };
+    towerOrbMat.emissiveIntensity = 0.08;
+    towerOrbGlow.material.opacity = 0.15;
+    initStage(0);
+    state.mode = "playing";
+    elHud.classList.remove("hidden");
+  }
+
+  function goToNextStage(){
+    const nextIdx = state.stageIndex + 1;
+    elHud.classList.remove("hidden");
+    state.lives = Math.min(CFG.TOTAL_LIVES, state.lives + 1);
+    state.score += CFG.SCORE_PER_STAGE;
+    initStage(nextIdx);
+    state.mode = "playing";
+    refreshHud();
+  }
+
+  function stageComplete(){
+    const idx = state.stageIndex;
+    const isLast = idx === STAGES.length - 1;
+    if (isLast){
+      if (state.score > state.bestScore) {
+        state.bestScore = state.score;
+        localStorage.setItem('ronaki_best_score', state.bestScore);
+      }
+      showBanner('🎉 تەواو! خاڵی کۆتایی: ' + state.score + ' (باشترین: ' + state.bestScore + ')');
+      setTimeout(() => start(), 3000);
+      return;
+    }
+    sfxStageClear();
+    state.mode = "playing";
+    goToNextStage();
+  }
+
+  function stopGameEngine(){
+    state.mode = "start";
+    elHud.classList.add("hidden");
+  }
+
+  window.__ronakiGame = { start, restart: start, nextStage: goToNextStage, stop: stopGameEngine };
+
+  const clock = new THREE.Clock();
+
+  function triggerShake(mag, dur){
+    state.shakeUntil = performance.now()/1000 + dur;
+    state.shakeMag = mag;
+  }
+  function triggerHitStop(){
+    state.hitStopUntil = performance.now()/1000 + (CFG.HITSTOP_MS/1000);
+  }
+  function applyDamage(sourcePos){
+    const now = performance.now()/1000;
+    if (state.powerupUntil.shield > now) return;
+    state.lives--;
+    state.invulnUntil = now + CFG.INVULN_TIME;
+    refreshHud();
+    spawnBurst(player.position.clone(), purpleGlowTex, 0x8b6bff, 8, 2.5);
+    const away = new THREE.Vector3(player.position.x-sourcePos.x, 0, player.position.z-sourcePos.z).normalize();
+    playerVel.copy(away.multiplyScalar(18));
+    sfxHurt();
+    elHurt.style.opacity = "1";
+    setTimeout(()=>{ elHurt.style.opacity = "0"; }, 140);
+    triggerShake(0.5, 0.35);
+    triggerHitStop();
+    if (state.lives <= 0){ start(); }
+  }
+
+  function updatePlaying(delta, elapsed){
+    const stageCfg = STAGES[state.stageIndex];
+    const now = performance.now()/1000;
+    const dashing = now < state.dashActiveUntil;
+    const shieldOn = now < state.powerupUntil.shield;
+    const speedOn = now < state.powerupUntil.speed;
+    const magnetOn = now < state.powerupUntil.magnet;
+
+    shieldSprite.material.opacity = shieldOn ? (0.35 + Math.sin(elapsed*8)*0.12) : 0;
+
+    const cdRemain = Math.max(0, state.dashCooldownUntil - now);
+    const dashBtnEl = document.getElementById("ronakiDashTouch");
+    if (dashBtnEl) {
+      if (cdRemain > 0) {
+        dashBtnEl.classList.add("cooldown");
+        dashBtnEl.innerHTML = `خێرا<br><span style="font-size:10px;">${cdRemain.toFixed(1)}چ</span>`;
+      } else {
+        dashBtnEl.classList.remove("cooldown");
+        dashBtnEl.innerHTML = "خێرا ⚡";
+      }
+    }
+
+    const k = state.keys;
+    let ix = 0, iz = 0;
+    if (k["w"] || k["arrowup"]) iz -= 1;
+    if (k["s"] || k["arrowdown"]) iz += 1;
+    if (k["a"] || k["arrowleft"]) ix -= 1;
+    if (k["d"] || k["arrowright"]) ix += 1;
+
+    const inputVec = new THREE.Vector3(ix, 0, iz);
+    const speedMult = speedOn ? 1.6 : 1;
+    if (inputVec.lengthSq() > 0){
+      inputVec.normalize();
+      lastMoveDir.copy(inputVec);
+      inputVec.multiplyScalar(CFG.PLAYER_SPEED * speedMult);
+    }
+    if (!dashing){
+      playerVel.x += (inputVec.x - playerVel.x) * Math.min(1, delta*CFG.PLAYER_ACCEL);
+      playerVel.z += (inputVec.z - playerVel.z) * Math.min(1, delta*CFG.PLAYER_ACCEL);
+    }
+    player.position.x += playerVel.x * delta;
+    player.position.z += playerVel.z * delta;
+
+    const worldRadius = stageCfg.worldRadius;
+    const distFromCenter = Math.hypot(player.position.x, player.position.z);
+    if (distFromCenter > worldRadius){
+      const scale = worldRadius / distFromCenter;
+      player.position.x *= scale;
+      player.position.z *= scale;
+      playerVel.multiplyScalar(0.3);
+    }
+    player.position.y = groundHeightAt(player.position.x, player.position.z) + 0.9;
+
+    if (inputVec.lengthSq() > 0.01 || dashing) player.rotation.y = Math.atan2(playerVel.x, playerVel.z);
+    playerCore.position.y = Math.sin(elapsed*3)*0.08;
+    playerGlow.scale.setScalar(dashing ? 4.4 : (speedOn ? 3.8 : 3.2));
+
+    if (dashing && Math.random() < 0.5) spawnBurst(player.position.clone(), whiteGlowTex, 0xffe4a8, 1, 1.5);
+    playerLight.position.copy(player.position).add(new THREE.Vector3(0,1.5,0));
+
+    for(const s of shards){
+      if (s.userData.collected) continue;
+      s.rotation.y += delta*1.4;
+      let d = Math.hypot(s.position.x-player.position.x, s.position.z-player.position.z);
+      if (magnetOn && d < CFG.MAGNET_RADIUS){
+        const pullDir = new THREE.Vector3(player.position.x-s.position.x, 0, player.position.z-s.position.z).normalize();
+        s.position.x += pullDir.x * CFG.MAGNET_PULL_SPEED * delta;
+        s.position.z += pullDir.z * CFG.MAGNET_PULL_SPEED * delta;
+        d = Math.hypot(s.position.x-player.position.x, s.position.z-player.position.z);
+      } else {
+        s.position.y = s.userData.baseY + Math.sin(elapsed*2 + s.userData.phase)*0.28;
+      }
+      if (d < CFG.SHARD_PICKUP_RADIUS){
+        s.userData.collected = true;
+        spawnBurst(s.position.clone(), goldGlowTex, 0xffcf6b, 10, 2.2);
+        scene.remove(s);
+        sfxPickup();
+        state.stageShardsCollected++;
+        state.totalShardsCollected++;
+        state.score += CFG.SCORE_PER_SHARD;
+        towerOrbMat.emissiveIntensity = 0.08 + (state.totalShardsCollected/TOTAL_SHARDS_ALL)*1.4;
+        towerOrbGlow.material.opacity = 0.15 + (state.totalShardsCollected/TOTAL_SHARDS_ALL)*0.55;
+        refreshHud();
+        if (state.stageShardsCollected >= stageCfg.shardCount){ stageComplete(); return; }
+      }
+    }
+    towerOrb.rotation.y += delta*0.3;
+
+    for(const p of powerups){
+      if (p.userData.collected) continue;
+      p.rotation.y += delta*1.8;
+      p.position.y = p.userData.baseY + Math.sin(elapsed*2.4 + p.userData.phase)*0.25;
+      const d = Math.hypot(p.position.x-player.position.x, p.position.z-player.position.z);
+      if (d < CFG.POWERUP_PICKUP_RADIUS){
+        p.userData.collected = true;
+        spawnBurst(p.position.clone(), powerupGlowTex[p.userData.type], powerupColors[p.userData.type], 10, 2.2);
+        scene.remove(p);
+        activatePowerup(p.userData.type);
+      }
+    }
+
+    const invuln = now < state.invulnUntil;
+    for(const e of enemies){
+      const ud = e.userData;
+      const distToPlayer = Math.hypot(e.position.x-player.position.x, e.position.z-player.position.z);
+      let target;
+      const alwaysChase = ud.isBoss;
+      if (alwaysChase || distToPlayer < ud.chaseRadius){
+        target = new THREE.Vector3(player.position.x, 0, player.position.z);
+      } else {
+        ud.wanderTimer -= delta;
+        if (ud.wanderTimer <= 0 || Math.hypot(e.position.x-ud.wanderTarget.x, e.position.z-ud.wanderTarget.z) < 1.2){
+          pickNewWanderTarget(e, worldRadius);
+        }
+        target = ud.wanderTarget;
+      }
+      const dir = new THREE.Vector3(target.x-e.position.x, 0, target.z-e.position.z);
+      if (dir.lengthSq() > 0.0001){
+        dir.normalize();
+        const chasing = alwaysChase || distToPlayer < ud.chaseRadius;
+        const spd = chasing ? ud.speed : ud.speed*0.5;
+        e.position.x += dir.x*spd*delta;
+        e.position.z += dir.z*spd*delta;
+        e.rotation.y = Math.atan2(dir.x, dir.z);
+      }
+      e.position.y = groundHeightAt(e.position.x, e.position.z) + (ud.isBoss ? 1.5 : 0.8) + Math.sin(elapsed*3+e.position.x)*0.1;
+      if (ud.orbitGroup){ ud.orbitGroup.rotation.y += delta*1.6; }
+      if (ud.isBoss){
+        ud.attackCooldown -= delta;
+        if (ud.attackCooldown <= 0 && distToPlayer < worldRadius*0.9){
+          fireBossProjectile(e);
+          ud.attackCooldown = CFG.BOSS_PROJECTILE_COOLDOWN;
+        }
+      }
+      if (!invuln && distToPlayer < ud.catchRadius){
+        applyDamage(e.position);
+        if (state.mode !== "playing") return;
+      }
+    }
+
+    for(let i=bossProjectiles.length-1;i>=0;i--){
+      const bp = bossProjectiles[i];
+      bp.life += delta;
+      bp.mesh.position.x += bp.dir.x * CFG.BOSS_PROJECTILE_SPEED * delta;
+      bp.mesh.position.z += bp.dir.z * CFG.BOSS_PROJECTILE_SPEED * delta;
+      bp.mesh.position.y = groundHeightAt(bp.mesh.position.x, bp.mesh.position.z) + 1.2;
+      bp.mesh.rotation.y += delta*4;
+      const distFromCtr = Math.hypot(bp.mesh.position.x, bp.mesh.position.z);
+      const dToPlayer = Math.hypot(bp.mesh.position.x-player.position.x, bp.mesh.position.z-player.position.z);
+      let hit = false;
+      if (!invuln && dToPlayer < CFG.BOSS_PROJECTILE_RADIUS + 0.6){ applyDamage(bp.mesh.position); hit = true; }
+      if (hit || bp.life > bp.maxLife || distFromCtr > worldRadius + 5){
+        scene.remove(bp.mesh);
+        bossProjectiles.splice(i,1);
+      }
+      if (state.mode !== "playing") return;
+    }
+
+    playerCore.visible = invuln ? (Math.floor(elapsed*14)%2===0) : true;
+    const cdRemBar = Math.max(0, state.dashCooldownUntil - now);
+    const cdFrac = 1 - Math.min(1, cdRemBar / CFG.DASH_COOLDOWN);
+    elDashBarFill.style.width = (cdFrac*100).toFixed(0) + "%";
+
+    updateParticles(delta);
+    refreshPowerupRow();
+
+    const camOffset = new THREE.Vector3(0, 9.5, 11.5);
+    const desired = player.position.clone().add(camOffset);
+    camera.position.lerp(desired, 1 - Math.pow(0.001, delta));
+    if (now < state.shakeUntil){
+      const remain = state.shakeUntil - now;
+      const mag = state.shakeMag * (remain / 0.35);
+      camera.position.x += (Math.random()-0.5) * mag;
+      camera.position.y += (Math.random()-0.5) * mag * 0.6;
+    }
+    const lookTarget = player.position.clone().add(new THREE.Vector3(0,1.2,0));
+    camera.lookAt(lookTarget);
+
+    drawMinimap(stageCfg);
+  }
+
+  function drawMinimap(stageCfg){
+    const w = minimapCanvas.width, h = minimapCanvas.height;
+    mmCtx.clearRect(0,0,w,h);
+    mmCtx.fillStyle = "rgba(5,7,13,0.9)";
+    mmCtx.beginPath(); mmCtx.arc(w/2,h/2,w/2,0,Math.PI*2); mmCtx.fill();
+    const scale = (w/2 - 6) / stageCfg.worldRadius;
+    function toMM(x,z){ return [ w/2 + x*scale, h/2 + z*scale ]; }
+
+    let [tx,ty] = toMM(0,0);
+    mmCtx.fillStyle = "#ffcf6b";
+    mmCtx.beginPath(); mmCtx.arc(tx,ty,4,0,Math.PI*2); mmCtx.fill();
+
+    mmCtx.fillStyle = "#ffe4a8";
+    for(const s of shards){
+      if (s.userData.collected) continue;
+      const [sx,sy] = toMM(s.position.x, s.position.z);
+      mmCtx.beginPath(); mmCtx.arc(sx,sy,2.2,0,Math.PI*2); mmCtx.fill();
+    }
+    for(const p of powerups){
+      if (p.userData.collected) continue;
+      const [px2,py2] = toMM(p.position.x, p.position.z);
+      mmCtx.fillStyle = "#" + powerupColors[p.userData.type].toString(16).padStart(6,"0");
+      mmCtx.beginPath(); mmCtx.arc(px2,py2,2.6,0,Math.PI*2); mmCtx.fill();
+    }
+    for(const e of enemies){
+      const [ex,ey] = toMM(e.position.x, e.position.z);
+      mmCtx.fillStyle = e.userData.isBoss ? "#ff5a5a" : "#8b6bff";
+      mmCtx.beginPath(); mmCtx.arc(ex,ey, e.userData.isBoss?4.2:2.4, 0, Math.PI*2); mmCtx.fill();
+    }
+    const [px,py] = toMM(player.position.x, player.position.z);
+    mmCtx.fillStyle = "#ffffff";
+    mmCtx.beginPath(); mmCtx.arc(px,py,3.2,0,Math.PI*2); mmCtx.fill();
+  }
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if (document.getElementById('ronakiGameOverlay').style.display === 'flex'){
+      const nowSec = performance.now()/1000;
+      const delta = Math.min(clock.getDelta(), 0.05);
+      const elapsed = clock.getElapsedTime();
+      if (state.mode === "playing"){
+        if (nowSec >= state.hitStopUntil) updatePlaying(delta, elapsed);
+      }
+      renderer.render(scene, camera);
+    }
+  }
+
+  refreshHud();
+  animate();
+})();
+</script>
+
+<!-- Koshki Zana (کۆشکی زانا) Game Logic Script -->
+<script>
+(function(){
+  "use strict";
+  const STORAGE_KEY = 'koshki_zana_progress_v1';
+  let state = loadState();
   function loadState(){
     try{
       const raw = localStorage.getItem(STORAGE_KEY);
-      if(raw) state = Object.assign(state, JSON.parse(raw));
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return {unlocked:1, completed:{}, seenIntro:false};
+  }
+  function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+
+  let soundOn = true;
+  let actx = null;
+  function beep(freq, dur, type){
+    if(!soundOn) return;
+    try{
+      if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+      const o = actx.createOscillator(); const g = actx.createGain();
+      o.type = type||'sine'; o.frequency.value = freq;
+      g.gain.value = .08;
+      o.connect(g); g.connect(actx.destination);
+      o.start();
+      g.gain.exponentialRampToValueAtTime(.0001, actx.currentTime + dur);
+      o.stop(actx.currentTime + dur);
     }catch(e){}
   }
-  function saveState(){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
-  }
+  const sfx = {
+    flip:()=>beep(420,.08,'triangle'),
+    match:()=>{beep(600,.1,'sine');setTimeout(()=>beep(800,.15,'sine'),90);},
+    wrong:()=>beep(180,.2,'sawtooth'),
+    win:()=>{[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.18,'sine'), i*110));},
+    tile:(f)=>beep(f,.28,'sine')
+  };
 
-  function mulberry32(seed){
-    return function(){
-      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
-      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  const soundBtn = document.getElementById('kzSoundBtn');
+  if(soundBtn){
+    soundBtn.onclick = function(){
+      soundOn = !soundOn;
+      this.textContent = soundOn ? '🔔' : '🔕';
     };
   }
 
-  function gridSizeForLevel(level){
-    const size = 7 + Math.floor((level - 1) / 1.7);
-    return Math.min(size, 34);
-  }
-  function braidFactorForLevel(level){
-    const t = Math.min(level / 15, 1);
-    return Math.max(0, 0.16 - t * 0.16);
-  }
-  function fogRadiusForLevel(level){
-    if(level <= 4) return Infinity;
-    const t = Math.min((level - 4) / 60, 1);
-    return Math.max(2.5, 7 - t * 4.5);
-  }
-
-  function generateMaze(level){
-    const size = gridSizeForLevel(level);
-    const rng = mulberry32(level * 7919 + 1337);
-    const W = size, H = size;
-    const cells = [];
-    for(let y=0;y<H;y++){
-      const row = [];
-      for(let x=0;x<W;x++) row.push({N:true,E:true,S:true,W:true,visited:false});
-      cells.push(row);
-    }
-    const stack = [[0,0]];
-    cells[0][0].visited = true;
-    const dirs = [["N",0,-1,"S"], ["E",1,0,"W"], ["S",0,1,"N"], ["W",-1,0,"E"]];
-    while(stack.length){
-      const [cx,cy] = stack[stack.length-1];
-      const order = dirs.slice();
-      for(let i=order.length-1;i>0;i--){
-        const j = Math.floor(rng()*(i+1));
-        [order[i],order[j]] = [order[j],order[i]];
-      }
-      let moved = false;
-      for(const [name,dx,dy,opp] of order){
-        const nx = cx+dx, ny = cy+dy;
-        if(nx>=0 && nx<W && ny>=0 && ny<H && !cells[ny][nx].visited){
-          cells[cy][cx][name] = false;
-          cells[ny][nx][opp] = false;
-          cells[ny][nx].visited = true;
-          stack.push([nx,ny]);
-          moved = true;
-          break;
-        }
-      }
-      if(!moved) stack.pop();
-    }
-
-    const braid = braidFactorForLevel(level);
-    for(let y=0;y<H;y++){
-      for(let x=0;x<W;x++){
-        const c = cells[y][x];
-        const openCount = [c.N,c.E,c.S,c.W].filter(w=>!w).length;
-        if(openCount === 1 && rng() < braid){
-          const order = dirs.slice();
-          for(let i=order.length-1;i>0;i--){
-            const j = Math.floor(rng()*(i+1));
-            [order[i],order[j]] = [order[j],order[i]];
-          }
-          for(const [name,dx,dy,opp] of order){
-            const nx=x+dx, ny=y+dy;
-            if(nx>=0&&nx<W&&ny>=0&&ny<H && c[name]){
-              c[name] = false;
-              cells[ny][nx][opp] = false;
-              break;
-            }
-          }
-        }
-      }
-    }
-    return { size:W, H, cells, start:{x:0,y:0}, goal:{x:W-1,y:H-1} };
-  }
-
-  function solveMaze(mazeObj){
-    const {cells, start, goal, size, H} = mazeObj;
-    const W = size;
-    const visited = Array.from({length:H},()=>Array(W).fill(false));
-    const prev = Array.from({length:H},()=>Array(W).fill(null));
-    const queue = [[start.x,start.y]];
-    visited[start.y][start.x] = true;
-    const dirs = [["N",0,-1],["E",1,0],["S",0,1],["W",-1,0]];
-    while(queue.length){
-      const [cx,cy] = queue.shift();
-      if(cx===goal.x && cy===goal.y) break;
-      for(const [name,dx,dy] of dirs){
-        if(cells[cy][cx][name]) continue;
-        const nx=cx+dx, ny=cy+dy;
-        if(nx<0||nx>=W||ny<0||ny>=H) continue;
-        if(visited[ny][nx]) continue;
-        visited[ny][nx] = true;
-        prev[ny][nx] = [cx,cy];
-        queue.push([nx,ny]);
-      }
-    }
-    const path = [];
-    let cur = [goal.x, goal.y];
-    if(!visited[goal.y][goal.x]) return path;
-    while(cur){
-      path.push(cur);
-      const [cx,cy] = cur;
-      cur = prev[cy][cx];
-    }
-    path.reverse();
-    return path;
-  }
-
-  const canvas = document.getElementById("ag-mazeCanvas");
-  const ctx = canvas ? canvas.getContext("2d") : null;
-  const mazeWrap = document.querySelector(".ag-maze-wrap");
-
-  let maze = null;
-  let player = {x:0,y:0};
-  let trail = [];
-  let visitedSet = new Set();
-  let cellPx = 20;
-  let padding = 14;
-  let hintPath = null;
-  let hintTimer = null;
-  let solvedPath = null;
-  let moveCount = 0;
-  let elapsedSeconds = 0;
-  let timerInterval = null;
-  let peekUntil = 0;
-
-  let audioCtx = null;
-  function soundOn(){ const el = document.getElementById("ag-soundToggle"); return el ? el.checked : true; }
-  function beep(freq, dur, type){
-    if(!soundOn()) return;
-    try{
-      if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = type || "sine";
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-      osc.connect(gain); gain.connect(audioCtx.destination);
-      osc.start(); osc.stop(audioCtx.currentTime + dur);
-    }catch(e){}
-  }
-
-  function formatTime(sec){
-    const m = Math.floor(sec/60), s = sec%60;
-    return m + ":" + (s<10?"0":"") + s;
-  }
-  function startTimer(){
-    if(timerInterval) clearInterval(timerInterval);
-    elapsedSeconds = 0;
-    document.getElementById("ag-timeCount").textContent = formatTime(0);
-    timerInterval = setInterval(()=>{
-      elapsedSeconds++;
-      document.getElementById("ag-timeCount").textContent = formatTime(elapsedSeconds);
-    }, 1000);
-  }
-  function stopTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
-
-  function currentTheme(){ return THEMES[state.theme] || THEMES.sand; }
-
-  function applyThemeVars(){
-    const t = currentTheme();
-    const root = document.getElementById("amazeGoOverlay");
-    if(!root) return;
-    root.style.setProperty("--ag-bg", t.bg);
-    root.style.setProperty("--ag-bg2", t.bg2);
-    root.style.setProperty("--ag-line", t.line);
-    root.style.setProperty("--ag-accent", t.accent);
-    root.style.setProperty("--ag-accent-dark", t.accentDark);
-    root.style.setProperty("--ag-card", t.card);
-    root.style.setProperty("--ag-panel-border", t.panel);
-  }
-
-  function resizeCanvas(){
-    if(!maze || !canvas || !mazeWrap) return;
-    const wrapRect = mazeWrap.getBoundingClientRect();
-    const avail = Math.min(wrapRect.width, wrapRect.height) - 4;
-    const dpr = window.devicePixelRatio || 1;
-    const size = Math.max(200, avail);
-    canvas.style.width = size+"px";
-    canvas.style.height = size+"px";
-    canvas.width = Math.floor(size*dpr);
-    canvas.height = Math.floor(size*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    cellPx = (size - padding*2) / maze.size;
-    draw();
-  }
-
-  function loadLevel(levelNum){
-    state.currentLevel = levelNum;
-    maze = generateMaze(levelNum);
-    player = {x:maze.start.x, y:maze.start.y};
-    trail = [{x:player.x,y:player.y}];
-    visitedSet = new Set([player.x+","+player.y]);
-    hintPath = null;
-    solvedPath = null;
-    moveCount = 0;
-    peekUntil = 0;
-    document.getElementById("ag-moveCount").textContent = 0;
-    document.getElementById("ag-levelNum").textContent = levelNum;
-    saveState();
-    startTimer();
-    resizeCanvas();
-  }
-
-  function draw(){
-    if(!ctx || !maze) return;
-    const t = currentTheme();
-    const w = canvas.clientWidth, h = canvas.clientHeight;
-    ctx.clearRect(0,0,w,h);
-    ctx.fillStyle = t.bg2;
-    ctx.fillRect(0,0,w,h);
-
-    const size = maze.size;
-    const ox = padding, oy = padding;
-
-    if(trail.length>1){
-      ctx.strokeStyle = t.accent;
-      ctx.globalAlpha = 0.35;
-      ctx.lineWidth = Math.max(3, cellPx*0.35);
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.beginPath();
-      trail.forEach((p,i)=>{
-        const px = ox + p.x*cellPx + cellPx/2;
-        const py = oy + p.y*cellPx + cellPx/2;
-        if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
-      });
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-    }
-
-    if(hintPath && hintPath.length>1){
-      ctx.strokeStyle = t.player;
-      ctx.globalAlpha = 0.55;
-      ctx.setLineDash([cellPx*0.25, cellPx*0.25]);
-      ctx.lineWidth = Math.max(2, cellPx*0.22);
-      ctx.beginPath();
-      hintPath.forEach((p,i)=>{
-        const px = ox + p[0]*cellPx + cellPx/2;
-        const py = oy + p[1]*cellPx + cellPx/2;
-        if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
-      });
-      ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.globalAlpha = 1;
-    }
-
-    const foggy = fogRadiusForLevel(state.currentLevel) !== Infinity && Date.now() > peekUntil;
-    const radius = fogRadiusForLevel(state.currentLevel);
-
-    function isVisible(cx,cy){
-      if(!foggy) return true;
-      if(visitedSet.has(cx+","+cy)) return true;
-      return Math.max(Math.abs(cx-player.x), Math.abs(cy-player.y)) <= radius;
-    }
-
-    ctx.strokeStyle = t.line;
-    ctx.lineWidth = Math.max(2, cellPx*0.12);
-    ctx.lineCap = "round";
-    ctx.beginPath();
-    for(let y=0;y<size;y++){
-      for(let x=0;x<size;x++){
-        if(!isVisible(x,y)) continue;
-        const c = maze.cells[y][x];
-        const x0 = ox + x*cellPx, y0 = oy + y*cellPx;
-        const x1 = x0+cellPx, y1 = y0+cellPx;
-        if(c.N){ ctx.moveTo(x0,y0); ctx.lineTo(x1,y0); }
-        if(c.W){ ctx.moveTo(x0,y0); ctx.lineTo(x0,y1); }
-        if(c.S && y===size-1){ ctx.moveTo(x0,y1); ctx.lineTo(x1,y1); }
-        if(c.E && x===size-1){ ctx.moveTo(x1,y0); ctx.lineTo(x1,y1); }
-      }
-    }
-    ctx.stroke();
-
-    if(foggy){
-      ctx.fillStyle = t.line;
-      for(let y=0;y<size;y++){
-        for(let x=0;x<size;x++){
-          if(isVisible(x,y)) continue;
-          ctx.globalAlpha = 0.9;
-          ctx.fillRect(ox+x*cellPx, oy+y*cellPx, cellPx+0.5, cellPx+0.5);
-        }
-      }
-      ctx.globalAlpha = 1;
-    }
-
-    if(isVisible(maze.start.x, maze.start.y)){
-      const sx = ox + maze.start.x*cellPx + cellPx/2;
-      const sy = oy + maze.start.y*cellPx + cellPx/2;
-      ctx.fillStyle = t.accent;
-      ctx.globalAlpha = 0.5;
-      ctx.beginPath(); ctx.arc(sx, sy, cellPx*0.18, 0, Math.PI*2); ctx.fill();
-      ctx.globalAlpha = 1;
-    }
-
-    if(isVisible(maze.goal.x, maze.goal.y)){
-      const gx = ox + maze.goal.x*cellPx + cellPx/2;
-      const gy = oy + maze.goal.y*cellPx + cellPx/2;
-      ctx.fillStyle = t.goal;
-      ctx.beginPath();
-      const r = cellPx*0.28;
-      ctx.moveTo(gx, gy-r); ctx.lineTo(gx+r, gy); ctx.lineTo(gx, gy+r); ctx.lineTo(gx-r, gy);
-      ctx.closePath();
-      ctx.fill();
-    }
-
-    const px = ox + player.x*cellPx + cellPx/2;
-    const py = oy + player.y*cellPx + cellPx/2;
-    ctx.fillStyle = t.player;
-    ctx.beginPath();
-    ctx.arc(px, py, cellPx*0.3, 0, Math.PI*2);
-    ctx.fill();
-    ctx.strokeStyle = "#fff";
-    ctx.lineWidth = Math.max(1.5, cellPx*0.06);
-    ctx.stroke();
-  }
-
-  function canMove(x,y,dir){
-    const c = maze.cells[y][x];
-    if(dir==="N") return !c.N && y>0;
-    if(dir==="S") return !c.S && y<maze.size-1;
-    if(dir==="E") return !c.E && x<maze.size-1;
-    if(dir==="W") return !c.W && x>0;
-    return false;
-  }
-
-  function tryMove(dx,dy){
-    let dir = null;
-    if(dx===1) dir="E"; else if(dx===-1) dir="W";
-    else if(dy===1) dir="S"; else if(dy===-1) dir="N";
-    if(!dir) return;
-    if(canMove(player.x,player.y,dir)){
-      player.x += dx; player.y += dy;
-      trail.push({x:player.x,y:player.y});
-      visitedSet.add(player.x+","+player.y);
-      moveCount++;
-      document.getElementById("ag-moveCount").textContent = moveCount;
-      hintPath = null;
-      beep(320 + Math.random()*40, 0.06, "sine");
-      draw();
-      checkWin();
-    } else {
-      beep(140, 0.08, "square");
+  const starWrap = document.getElementById('kz-stars');
+  if(starWrap && starWrap.children.length === 0){
+    for(let i=0;i<70;i++){
+      const s = document.createElement('span');
+      s.style.left = Math.random()*100+'%';
+      s.style.top = Math.random()*70+'%';
+      s.style.animationDelay = (Math.random()*4)+'s';
+      s.style.width = s.style.height = (Math.random()<.2? '3px':'1.5px');
+      starWrap.appendChild(s);
     }
   }
 
-  function checkWin(){
-    if(player.x===maze.goal.x && player.y===maze.goal.y){
-      stopTimer();
-      [523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,0.25,"triangle"), i*110));
-      state.completed[state.currentLevel] = true;
-      if(state.currentLevel >= state.unlocked && state.unlocked < TOTAL_LEVELS){
-        state.unlocked = state.currentLevel + 1;
-      }
-      if(!solvedPath) solvedPath = solveMaze(maze);
-      const optimal = Math.max(1, solvedPath.length - 1);
-      const ratio = moveCount / optimal;
-      let stars = 1;
-      if(ratio <= 1.15) stars = 3;
-      else if(ratio <= 1.6) stars = 2;
-      if(!state.stars) state.stars = {};
-      state.stars[state.currentLevel] = Math.max(state.stars[state.currentLevel]||0, stars);
-      saveState();
-      buildLevelsGrid();
-      setTimeout(()=>{
-        document.getElementById("ag-winLevelNum").textContent = state.currentLevel;
-        document.getElementById("ag-starsRow").textContent = "★".repeat(stars) + "☆".repeat(3-stars);
-        document.getElementById("ag-winStats").textContent = moveCount + " هەنگاو · " + formatTime(elapsedSeconds);
-        document.getElementById("ag-overlayWin").classList.add("show");
-      }, 220);
-    }
+  function show(id){
+    document.querySelectorAll('#koshkiZanaOverlay .kz-screen').forEach(s=>s.classList.remove('kz-active'));
+    const target = document.getElementById(id);
+    if(target) target.classList.add('kz-active');
+    const overlay = document.getElementById('koshkiZanaOverlay');
+    if(overlay) overlay.scrollTo(0,0);
   }
 
-  let dragging=false, pointerPos = null;
-  if(canvas){
-    canvas.addEventListener("pointerdown", (e)=>{
-      dragging = true;
-      pointerPos = {x:e.clientX, y:e.clientY};
-    });
-    canvas.addEventListener("pointermove",(e)=>{
-      if(!dragging || !pointerPos) return;
-      const dx = e.clientX - pointerPos.x;
-      const dy = e.clientY - pointerPos.y;
-      const threshold = cellPx*0.6;
-      if(Math.abs(dx) > threshold || Math.abs(dy) > threshold){
-        if(Math.abs(dx) > Math.abs(dy)) tryMove(dx>0?1:-1, 0);
-        else tryMove(0, dy>0?1:-1);
-        pointerPos = {x:e.clientX, y:e.clientY};
-      }
-    });
-    window.addEventListener("pointerup", ()=>{ dragging=false; pointerPos=null; });
+  const startBtn = document.getElementById('kzStartBtn');
+  if(startBtn){
+    startBtn.onclick = ()=>{
+      show(state.seenIntro ? 'kz-screen-map' : 'kz-screen-intro');
+      renderMap();
+    };
   }
 
-  window.addEventListener("keydown",(e)=>{
-    if(document.getElementById("amazeGoOverlay").style.display !== "block") return;
-    if(e.key==="ArrowUp") tryMove(0,-1);
-    else if(e.key==="ArrowDown") tryMove(0,1);
-    else if(e.key==="ArrowLeft") tryMove(-1,0);
-    else if(e.key==="ArrowRight") tryMove(1,0);
-  });
-
-  window.addEventListener("resize", ()=>{
-    if(document.getElementById("amazeGoOverlay").style.display === "block") resizeCanvas();
-  });
-
-  function buildLevelsGrid(){
-    const grid = document.getElementById("ag-levelsGrid");
-    if(!grid) return;
-    grid.innerHTML = "";
-    for(let i=1;i<=TOTAL_LEVELS;i++){
-      const cell = document.createElement("div");
-      const locked = i > state.unlocked;
-      const done = !!state.completed[i];
-      const isCurrent = i === state.currentLevel;
-      cell.className = "ag-lvl-cell" + (locked?" locked":"") + (done?" done":"") + (isCurrent && !done ?" current":"");
-      if(locked){
-        cell.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>`;
-      } else {
-        const st = (state.stars && state.stars[i]) || 0;
-        cell.innerHTML = `<div><span>${i}</span>${done ? `<div style="font-size:9px;">${"★".repeat(st)}</div>` : ""}</div>`;
-        cell.onclick = ()=>{
-          loadLevel(i);
-          closeOverlay("ag-overlayLevels");
-        };
-      }
-      grid.appendChild(cell);
-    }
+  const toMapBtn = document.getElementById('kzToMapBtn');
+  if(toMapBtn){
+    toMapBtn.onclick = ()=>{
+      state.seenIntro = true; saveState();
+      renderMap();
+      show('kz-screen-map');
+    };
   }
 
-  function buildThemeSwatches(){
-    const wrap = document.getElementById("ag-themeSwatches");
+  function shuffleArr(arr){
+    const a = [...arr];
+    for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+    return a;
+  }
+
+  const chapters = [
+    {id:1, type:'memory', pairs:8, name:'دەرگای یادەوەری', desc:'یاریی یادەوەری — جووتەکان بدۆزەرەوە', icon:'🗝️',
+     story:'یەکەم تاقیکردنەوە یادەوەریت تاقی دەکاتەوە. زانا ئازاد دەیگوت: «ئەوەی لە یاد ناکرێت، هەر بوونی نییە.» وێنە شاراوەکان بدۆزەرەوە و جووتەکانیان بگونجێنە.',
+     rune:'🗝️', runeName:'کلیلی یادەوەری',
+     complete:'یادەوەریت وەک تیغی شمشێر تیژە. یەکەم کلیل کەوتە دەستت — کۆشکە ئێستا کەمێک خۆی بۆت کردەوە.'},
+    {id:2, type:'numbers', count:5, name:'پێچی ژمارەکان', desc:'ڕێکخستنی ژمارەکان بدۆزەرەوە', icon:'📐',
+     story:'زانا ئازاد باوەڕی بە ڕێکخستنی گەردوون هەبوو. دەیگوت: «هەموو شتێک ڕێزێکی خۆی هەیە.» بۆنە شاراوەکان لە ژمارەکاندا بدۆزەرەوە.',
+     rune:'📐', runeName:'کلیلی ڕێکخستن',
+     complete:'تۆ لۆژیکی ژمارەکانت بەدی هێنا. دووەم کلیل بەدەستهات — ڕێگا ڕوونتر دەبێتەوە.'},
+    {id:3, type:'simon', rounds:5, name:'ئاوازی ڕووناکی', desc:'ئاوازی ڕووناکی لەبیر بێت و دووبارەی بکەرەوە', icon:'🕯️',
+     story:'لە شەوانی درێژی زستاندا، ئازاد بە ڕووناکی مۆم یاری دەکرد و ئاوازی گەردوونی دەخوێندەوە. ئێستا نۆرەی تۆیە کە ئاوازەکە لەبیر بکەیت و دووبارەی بکەیتەوە.',
+     rune:'🕯️', runeName:'کلیلی ڕووناکی',
+     complete:'چاوەکانت ئاوازی ڕووناکیان لەبیر کرد. سێیەم کلیل کەوتە دەستت.'},
+    {id:4, type:'riddle', count:4, name:'نهێنی وشەکان', desc:'مەتەڵەکان وەڵام بدەرەوە', icon:'📜',
+     story:'زمان بەهێزترین چەکی ئازاد بوو. چەند مەتەڵێکی کۆنی بۆ تۆ هێشتووەتەوە. وەڵامی ڕاست هەڵبژێرە بۆ ئەوەی چاوی دەرگاکە بکرێتەوە.',
+     rune:'📜', runeName:'کلیلی وشە',
+     complete:'وشەکانت شکاند. چوارەم کلیل بەدەستهات — بەڵام کۆشکە هێشتا نهێنی زۆری تێدایە.'},
+    {id:5, type:'final', name:'دڵی کۆشکە', desc:'کلیلەکان بە ڕیزبەندی ڕاست دابنێ', icon:'✨',
+     story:'ئێستا هەموو کلیلەکانت کۆکردووەتەوە. تەنها ڕیزبەندییەکیان ماوە بۆ ئەوەی دەرگای دوایی کۆشکە بکرێتەوە.',
+     rune:'✨', runeName:'دڵی کۆشکە',
+     complete:'هەموو کلیلەکان بە ڕێکی خۆیان دانران. دەرگای کۆتایی کۆشکە بۆت کرایەوە...'}
+  ];
+
+  function renderMap(){
+    const wrap = document.getElementById('kzNodesWrap');
     if(!wrap) return;
-    wrap.innerHTML = "";
-    Object.keys(THEMES).forEach(key=>{
-      const t = THEMES[key];
-      const sw = document.createElement("div");
-      sw.className = "ag-swatch" + (state.theme===key ? " active":"");
-      sw.style.background = t.bg2;
-      sw.style.boxShadow = "inset 0 0 0 3px " + t.accent;
-      sw.onclick = ()=>{
-        state.theme = key;
-        saveState();
-        applyThemeVars();
-        buildThemeSwatches();
-        draw();
-      };
-      wrap.appendChild(sw);
+    wrap.innerHTML = '';
+    chapters.forEach(ch=>{
+      const locked = ch.id > state.unlocked;
+      const done = !!state.completed[ch.id];
+      const div = document.createElement('div');
+      div.className = 'kz-node' + (locked?' kz-locked':'') + (done?' kz-done':'');
+      div.innerHTML = `
+        <div class="kz-badge">${done ? '✔️' : ch.icon}</div>
+        <div class="kz-ntext">
+          <div class="kz-n-name">${ch.name}</div>
+          <div class="kz-n-desc">${ch.desc}</div>
+        </div>
+        <div class="kz-chev">${locked?'🔒':'‹'}</div>`;
+      if(!locked){
+        div.onclick = ()=> openChapterIntro(ch.id);
+      }
+      wrap.appendChild(div);
     });
   }
 
-  function openOverlay(id){ document.getElementById(id).classList.add("show"); }
-  function closeOverlay(id){ document.getElementById(id).classList.remove("show"); }
-
-  document.getElementById("ag-btnLevels").onclick = ()=>{ buildLevelsGrid(); openOverlay("ag-overlayLevels"); };
-  document.getElementById("ag-closeLevels").onclick = ()=>closeOverlay("ag-overlayLevels");
-  document.getElementById("ag-btnTheme").onclick = ()=>{ buildThemeSwatches(); openOverlay("ag-overlayTheme"); };
-  document.getElementById("ag-closeTheme").onclick = ()=>closeOverlay("ag-overlayTheme");
-  document.getElementById("ag-btnSettings").onclick = ()=>openOverlay("ag-overlaySettings");
-  document.getElementById("ag-closeSettings").onclick = ()=>closeOverlay("ag-overlaySettings");
-
-  document.getElementById("ag-btnResetProgress").onclick = ()=>{
-    state.unlocked = 1; state.completed = {}; state.hints = 5;
-    saveState();
-    showToast("پێشکەوتن سڕایەوە");
-    loadLevel(1);
-    buildLevelsGrid();
-  };
-
-  document.getElementById("ag-btnRestart").onclick = ()=> loadLevel(state.currentLevel);
-
-  document.getElementById("ag-btnPeek").onclick = ()=>{
-    if(fogRadiusForLevel(state.currentLevel) === Infinity){ showToast("مەیزەکە پێشتر ڕوونە"); return; }
-    if(state.hints <= 0){ showToast("دڵۆپەت نەماوە!"); return; }
-    state.hints -= 1;
-    document.getElementById("ag-hintCount").textContent = state.hints;
-    saveState();
-    peekUntil = Date.now() + 3000;
-    beep(880,0.12,"sine");
-    draw();
-    setTimeout(draw, 3050);
-  };
-
-  document.getElementById("ag-btnHint").onclick = ()=>{
-    if(state.hints <= 0){ showToast("دڵۆپەت نەماوە!"); return; }
-    state.hints -= 1;
-    document.getElementById("ag-hintCount").textContent = state.hints;
-    saveState();
-    beep(880,0.12,"sine");
-    if(!solvedPath) solvedPath = solveMaze(maze);
-    const idx = solvedPath.findIndex(p=>p[0]===player.x && p[1]===player.y);
-    hintPath = idx>=0 ? solvedPath.slice(idx) : solvedPath;
-    draw();
-    if(hintTimer) clearTimeout(hintTimer);
-    hintTimer = setTimeout(()=>{ hintPath=null; draw(); }, 3500);
-  };
-
-  document.getElementById("ag-btnWinReplay").onclick = ()=>{
-    closeOverlay("ag-overlayWin");
-    loadLevel(state.currentLevel);
-  };
-  document.getElementById("ag-btnWinNext").onclick = ()=>{
-    closeOverlay("ag-overlayWin");
-    loadLevel(Math.min(state.currentLevel+1, TOTAL_LEVELS));
-  };
-
-  document.querySelectorAll(".ag-overlay").forEach(ov=>{
-    ov.onclick = (e)=>{ if(e.target===ov) ov.classList.remove("show"); };
-  });
-
-  function showToast(msg){
-    const t = document.getElementById("ag-toast");
-    t.textContent = msg;
-    t.classList.add("show");
-    setTimeout(()=>t.classList.remove("show"), 1600);
+  let currentChapter = 1;
+  function openChapterIntro(id){
+    currentChapter = id;
+    const ch = chapters[id-1];
+    document.getElementById('kzChIcon').textContent = ch.icon + ' ' + ch.name;
+    document.getElementById('kzChTitle').textContent = ch.name;
+    document.getElementById('kzChStory').textContent = ch.story;
+    show('kz-screen-chapter-intro');
   }
 
-  window.__amazeGoInit = function(){
-    loadState();
-    document.getElementById("ag-hintCount").textContent = state.hints;
-    applyThemeVars();
-    loadLevel(state.currentLevel || 1);
-    buildLevelsGrid();
+  const chBackBtn = document.getElementById('kzChBackBtn');
+  if(chBackBtn) chBackBtn.onclick = ()=> show('kz-screen-map');
+
+  const chStartBtn = document.getElementById('kzChStartBtn');
+  if(chStartBtn) chStartBtn.onclick = ()=> startGame(currentChapter);
+
+  function chapterComplete(id){
+    const ch = chapters[id-1];
+    state.completed[id] = true;
+    if(state.unlocked < id+1) state.unlocked = Math.min(chapters.length, id+1);
+    saveState();
+    sfx.win();
+    document.getElementById('kzCRune').textContent = ch.rune + ' ' + ch.runeName + ' بەدەستهات';
+    document.getElementById('kzCText').textContent = ch.complete;
+    document.getElementById('kzCContinueBtn').onclick = ()=>{
+      renderMap();
+      show(id<chapters.length ? 'kz-screen-map' : 'kz-screen-end');
+    };
+    show('kz-screen-complete');
+  }
+
+  function startGame(id){
+    const ch = chapters[id-1];
+    if(ch.type==='memory') startMemory(ch.pairs);
+    else if(ch.type==='numbers') startNumbers(ch.count);
+    else if(ch.type==='simon') startSimon(ch.rounds);
+    else if(ch.type==='riddle') startRiddles(ch.count);
+    else if(ch.type==='final') startFinal();
+  }
+
+  const memorySymbolPool = ['🌙','⭐','🔥','🍇','🦅','🐎','📜','🗡️','🏺','🌿','🐺','🦉'];
+  function startMemory(pairsCount){
+    const symbols = shuffleArr(memorySymbolPool).slice(0, pairsCount);
+    let deck = shuffleArr([...symbols, ...symbols]);
+    const grid = document.getElementById('kzMemGrid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    let moves = 0, matched = 0, lock = false, first = null;
+    document.getElementById('kzG1moves').textContent = '0';
+
+    deck.forEach((sym)=>{
+      const card = document.createElement('div');
+      card.className = 'kz-card';
+      card.innerHTML = `<div class="kz-card-face kz-card-back">؟</div><div class="kz-card-face kz-card-front">${sym}</div>`;
+      card.onclick = ()=>{
+        if(lock || card.classList.contains('kz-flipped') || card.classList.contains('kz-matched')) return;
+        card.classList.add('kz-flipped');
+        sfx.flip();
+        if(!first){ first = card; return; }
+        moves++; document.getElementById('kzG1moves').textContent = moves;
+        lock = true;
+        const s1 = first.querySelector('.kz-card-front').textContent;
+        const s2 = card.querySelector('.kz-card-front').textContent;
+        if(s1 === s2){
+          first.classList.add('kz-matched'); card.classList.add('kz-matched');
+          sfx.match();
+          matched++; first = null; lock = false;
+          if(matched === symbols.length){ setTimeout(()=>chapterComplete(currentChapter), 500); }
+        } else {
+          sfx.wrong();
+          setTimeout(()=>{
+            first.classList.remove('kz-flipped'); card.classList.remove('kz-flipped');
+            first = null; lock = false;
+          }, 750);
+        }
+      };
+      grid.appendChild(card);
+    });
+    show('kz-screen-g1');
+  }
+
+  const g2Pool = [
+    {seq:'2, 4, 6, 8, ؟', opts:[9,10,12,14], correct:1, why:'هەر ژمارەیەک لە ژمارەی پێشوو ٢ زیاترە — ژمارەی داهاتوو ١٠ یە.'},
+    {seq:'3, 6, 12, 24, ؟', opts:[30,36,48,44], correct:2, why:'هەر ژمارەیەک دوو هێندەی ژمارەی پێشووە، دوای ٢٤ دێت ٤٨.'},
+    {seq:'1, 4, 9, 16, ؟', opts:[20,25,23,22], correct:1, why:'ئەمانە دووجای ژمارەکانن (١، ٤، ٩، ١٦، ٢٥).'},
+    {seq:'5, 10, 20, 40, ؟', opts:[45,60,80,70], correct:2, why:'هەر ژمارەیەک دوو هێندەی ژمارەی پێشووە، بۆیە ٨٠ دروستە.'},
+    {seq:'1, 1, 2, 3, 5, ؟', opts:[7,8,9,6], correct:1, why:'ڕیزی فیبۆناتچییە: هەر ژمارەیەک کۆی دوو ژمارەی پێشووە (٣+٥=٨).'}
+  ];
+  let g2list=[], g2i=0, g2score=0;
+  function startNumbers(count){
+    g2list = shuffleArr(g2Pool).slice(0, count);
+    g2i=0; g2score=0;
+    document.getElementById('kzG2score').textContent='0';
+    document.getElementById('kzG2total').textContent = g2list.length;
+    renderDots('kzG2dots', g2list.length, 0);
+    showG2Question();
+    show('kz-screen-g2');
+  }
+  function renderDots(id, n, active){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML='';
+    for(let i=0;i<n;i++){
+      const d = document.createElement('span');
+      if(i<active) d.classList.add('kz-on');
+      el.appendChild(d);
+    }
+  }
+  function showG2Question(){
+    const q = g2list[g2i];
+    document.getElementById('kzG2seq').textContent = q.seq;
+    document.getElementById('kzG2msg').textContent = '';
+    document.getElementById('kzG2msg').className = 'kz-feedback-msg';
+    const explainBox = document.getElementById('kzG2explain');
+    explainBox.className = 'kz-explain-box';
+    explainBox.textContent = '';
+    document.getElementById('kzG2btns').innerHTML = '';
+    const optsWrap = document.getElementById('kzG2opts');
+    optsWrap.innerHTML = '';
+    q.opts.forEach((opt, idx)=>{
+      const b = document.createElement('button');
+      b.className = 'kz-opt-btn';
+      b.textContent = opt;
+      b.onclick = ()=> handleG2Answer(idx);
+      optsWrap.appendChild(b);
+    });
+  }
+  function goToNextG2(){
+    g2i++;
+    renderDots('kzG2dots', g2list.length, g2i);
+    if(g2i < g2list.length){ showG2Question(); }
+    else {
+      if(g2score >= Math.ceil(g2list.length*0.6)) chapterComplete(currentChapter);
+      else { alert('پێویستە زیاتر وەڵامی ڕاست بدەیت. دووبارە هەوڵبدەوە!'); startNumbers(g2list.length); }
+    }
+  }
+  function handleG2Answer(idx){
+    const q = g2list[g2i];
+    const optsWrap = document.getElementById('kzG2opts');
+    const msg = document.getElementById('kzG2msg');
+    const explainBox = document.getElementById('kzG2explain');
+    const btns = document.getElementById('kzG2btns');
+    Array.from(optsWrap.children).forEach(x=> x.onclick = null);
+    btns.innerHTML = '';
+    if(idx === q.correct){
+      optsWrap.children[idx].classList.add('kz-correct');
+      sfx.match(); g2score++;
+      document.getElementById('kzG2score').textContent = g2score;
+      msg.textContent = 'وەڵامی ڕاست! ✔️';
+      msg.className = 'kz-feedback-msg kz-ok';
+      explainBox.textContent = q.why;
+      explainBox.className = 'kz-explain-box kz-show';
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'kz-btn kz-small';
+      nextBtn.textContent = g2i < g2list.length-1 ? 'پرسیاری داهاتوو' : 'کۆتایی';
+      nextBtn.onclick = goToNextG2;
+      btns.appendChild(nextBtn);
+    } else {
+      optsWrap.children[idx].classList.add('kz-wrong');
+      sfx.wrong();
+      msg.textContent = 'نەخێر، ئەوە هەڵەیە.';
+      msg.className = 'kz-feedback-msg kz-err';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'kz-btn kz-ghost kz-small';
+      showBtn.textContent = 'وەڵامی ڕاست پیشان بدە';
+      showBtn.onclick = ()=>{
+        optsWrap.children[q.correct].classList.add('kz-correct');
+        explainBox.textContent = q.why;
+        explainBox.className = 'kz-explain-box kz-show';
+        showBtn.remove();
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'kz-btn kz-small';
+        nextBtn.textContent = g2i < g2list.length-1 ? 'پرسیاری داهاتوو' : 'کۆتایی';
+        nextBtn.onclick = goToNextG2;
+        btns.appendChild(nextBtn);
+      };
+      btns.appendChild(showBtn);
+    }
+  }
+
+  const g3Freqs = [392, 330, 262, 440];
+  let g3seq=[], g3playerIdx=0, g3round=1, g3maxRound=5, g3busy=false;
+  function startSimon(rounds){
+    g3seq=[]; g3round=1; g3busy=false; g3maxRound=rounds;
+    document.getElementById('kzG3round').textContent='1';
+    document.getElementById('kzG3total').textContent = rounds;
+    document.getElementById('kzG3status').textContent = 'ئامادەبە...';
+    const tiles = document.querySelectorAll('#kzSimon .kz-stile');
+    tiles.forEach(t=> t.onclick = onSimonTileClick);
+    setTimeout(nextSimonRound, 700);
+    show('kz-screen-g3');
+  }
+  const g3replayBtn = document.getElementById('kzG3replay');
+  if(g3replayBtn) g3replayBtn.onclick = ()=>{ if(!g3busy) playSimonSeq(); };
+
+  function nextSimonRound(){
+    g3seq.push(Math.floor(Math.random()*4));
+    document.getElementById('kzG3round').textContent = Math.min(g3round, g3maxRound);
+    playSimonSeq();
+  }
+  function playSimonSeq(){
+    g3busy = true; g3playerIdx = 0;
+    document.getElementById('kzG3status').textContent = 'سەیری ئاوازەکە بکە...';
+    const tiles = document.querySelectorAll('#kzSimon .kz-stile');
+    g3seq.forEach((c, i)=>{
+      setTimeout(()=>{
+        tiles[c].classList.add('kz-lit');
+        sfx.tile(g3Freqs[c]);
+        setTimeout(()=> tiles[c].classList.remove('kz-lit'), 320);
+      }, i*550);
+    });
+    setTimeout(()=>{
+      g3busy = false;
+      document.getElementById('kzG3status').textContent = 'ئێستا نۆرەی تۆیە — ئاوازەکە دووبارە بکەرەوە';
+    }, g3seq.length*550 + 200);
+  }
+  function onSimonTileClick(){
+    if(g3busy) return;
+    const c = parseInt(this.dataset.c);
+    this.classList.add('kz-lit');
+    sfx.tile(g3Freqs[c]);
+    setTimeout(()=> this.classList.remove('kz-lit'), 200);
+    if(c === g3seq[g3playerIdx]){
+      g3playerIdx++;
+      if(g3playerIdx === g3seq.length){
+        if(g3seq.length >= g3maxRound){
+          document.getElementById('kzG3status').textContent = 'وا نییە! تۆ سەرکەوتوویت.';
+          setTimeout(()=>chapterComplete(currentChapter), 500);
+        } else {
+          g3round++;
+          document.getElementById('kzG3status').textContent = 'زۆر باشە! ئامادەبە بۆ قۆناغی داهاتوو...';
+          setTimeout(nextSimonRound, 900);
+        }
+      }
+    } else {
+      sfx.wrong();
+      document.getElementById('kzG3status').textContent = 'هەڵەیەک ڕوویدا — دووبارە هەوڵبدەوە.';
+      setTimeout(()=>{ g3seq=[]; g3round=1; document.getElementById('kzG3round').textContent='1'; setTimeout(nextSimonRound,600); }, 900);
+    }
+  }
+
+  const g4Pool = [
+    {text:'هەرچی زیاتر لێی دەبەیت، گەورەتر دەبێت. ئەوە چیە؟', opts:['چاڵ','دەریا','کێو','دار'], correct:0, why:'کاتێک خاک لە چاڵێکەوە دەردەهێنیت، چاڵەکە گەورەتر دەبێت.'},
+    {text:'شەو دێت بێ بانگهێشت، بەیانیان دەڕوات بێ ئەوەی کەس بیدزێت. ئەوە چیە؟', opts:['شەبنم','مانگ','باران','تاریکی'], correct:0, why:'شەبنم شەوانە دروست دەبێت و بە هەڵاتنی خۆر دەڕوات.'},
+    {text:'دەبزوێت بەبێ ئەوەی پێی هەبێت، دەگرێت بەبێ ئەوەی دەستی هەبێت. ئەوە چیە؟', opts:['با','ئاو','مرۆڤ','باڵندە'], correct:0, why:'با بەبێ پێ دەجوڵێت و شتەکان هەڵدەگرێت.'},
+    {text:'هەرچی تاریکتر بێت، زیاتر دەردەکەوێت. ئەوە چیە؟', opts:['ئەستێرە','خۆر','مانگ','هەور'], correct:0, why:'لە شەوی تاریکدا ئەستێرەکان ڕوونتر دەردەکەون.'}
+  ];
+  let g4list=[], g4i=0;
+  function startRiddles(count){
+    g4list = shuffleArr(g4Pool).slice(0, count);
+    g4i=0;
+    document.getElementById('kzG4total').textContent = g4list.length;
+    showG4();
+    show('kz-screen-g4');
+  }
+  function showG4(){
+    const r = g4list[g4i];
+    document.getElementById('kzG4idx').textContent = g4i+1;
+    document.getElementById('kzG4text').textContent = r.text;
+    document.getElementById('kzG4msg').textContent = '';
+    document.getElementById('kzG4msg').className = 'kz-feedback-msg';
+    const explainBox = document.getElementById('kzG4explain');
+    explainBox.className = 'kz-explain-box';
+    explainBox.textContent = '';
+    document.getElementById('kzG4btns').innerHTML = '';
+    const optsWrap = document.getElementById('kzG4opts');
+    optsWrap.innerHTML = '';
+    const shuffledOpts = r.opts.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+    shuffledOpts.forEach(({t,i})=>{
+      const b = document.createElement('button');
+      b.className = 'kz-opt-btn';
+      b.style.direction = 'rtl';
+      b.textContent = t;
+      b.onclick = ()=> handleG4Answer(i);
+      optsWrap.appendChild(b);
+    });
+  }
+  function goToNextG4(){
+    g4i++;
+    if(g4i < g4list.length) showG4();
+    else chapterComplete(currentChapter);
+  }
+  function handleG4Answer(originalIdx){
+    const r = g4list[g4i];
+    const optsWrap = document.getElementById('kzG4opts');
+    const msg = document.getElementById('kzG4msg');
+    const explainBox = document.getElementById('kzG4explain');
+    const btns = document.getElementById('kzG4btns');
+    const clickedBtn = Array.from(optsWrap.children).find(b => b.textContent === r.opts[originalIdx]);
+    const correctBtn = Array.from(optsWrap.children).find(b => b.textContent === r.opts[r.correct]);
+    Array.from(optsWrap.children).forEach(x=> x.onclick = null);
+    btns.innerHTML = '';
+    if(originalIdx === r.correct){
+      clickedBtn.classList.add('kz-correct');
+      sfx.match();
+      msg.textContent = 'وەڵامی ڕاست! ✔️';
+      msg.className = 'kz-feedback-msg kz-ok';
+      explainBox.textContent = r.why;
+      explainBox.className = 'kz-explain-box kz-show';
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'kz-btn kz-small';
+      nextBtn.textContent = g4i < g4list.length-1 ? 'مەتەڵی داهاتوو' : 'کۆتایی';
+      nextBtn.onclick = goToNextG4;
+      btns.appendChild(nextBtn);
+    } else {
+      clickedBtn.classList.add('kz-wrong');
+      sfx.wrong();
+      msg.textContent = 'نەخێر، ئەوە هەڵەیە.';
+      msg.className = 'kz-feedback-msg kz-err';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'kz-btn kz-ghost kz-small';
+      showBtn.textContent = 'وەڵامی ڕاست پیشان بدە';
+      showBtn.onclick = ()=>{
+        correctBtn.classList.add('kz-correct');
+        explainBox.textContent = r.why;
+        explainBox.className = 'kz-explain-box kz-show';
+        showBtn.remove();
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'kz-btn kz-small';
+        nextBtn.textContent = g4i < g4list.length-1 ? 'مەتەڵی داهاتوو' : 'کۆتایی';
+        nextBtn.onclick = goToNextG4;
+        btns.appendChild(nextBtn);
+      };
+      btns.appendChild(showBtn);
+    }
+  }
+
+  const finalRunes = [
+    {key:1, icon:'🗝️', label:'یادەوەری'},
+    {key:2, icon:'📐', label:'ڕێکخستن'},
+    {key:3, icon:'🕯️', label:'ڕووناکی'},
+    {key:4, icon:'📜', label:'وشە'}
+  ];
+  function startFinal(){
+    const order = [1,2,3,4];
+    const shuffled = shuffleArr(order);
+    const slotsWrap = document.getElementById('kzLockSlots');
+    const runesWrap = document.getElementById('kzLockRunes');
+    if(!slotsWrap || !runesWrap) return;
+    slotsWrap.innerHTML=''; runesWrap.innerHTML='';
+    let picked = [];
+    order.forEach(()=>{
+      const s = document.createElement('div');
+      s.className = 'kz-lock-slot';
+      slotsWrap.appendChild(s);
+    });
+    shuffled.forEach(key=>{
+      const rune = finalRunes.find(r=>r.key===key);
+      const r = document.createElement('div');
+      r.className = 'kz-lock-rune';
+      r.textContent = rune.icon;
+      r.onclick = ()=>{
+        if(r.classList.contains('kz-picked')) return;
+        picked.push(key);
+        r.classList.add('kz-picked');
+        const slot = slotsWrap.children[picked.length-1];
+        slot.textContent = rune.icon;
+        slot.classList.add('kz-filled');
+        if(picked.length === order.length){
+          const correct = picked.every((v,i)=>v===order[i]);
+          const msg = document.getElementById('kzG5msg');
+          if(correct){
+            msg.textContent = 'دەرگای کۆتایی دەکرێتەوە...';
+            msg.className = 'kz-msg kz-ok';
+            setTimeout(()=>chapterComplete(currentChapter), 900);
+          } else {
+            msg.textContent = 'ڕیزبەندییەکە هەڵەیە — دووبارە هەوڵبدەوە.';
+            msg.className = 'kz-msg kz-err';
+            sfx.wrong();
+            setTimeout(()=> startFinal(), 1000);
+          }
+        }
+      };
+      runesWrap.appendChild(r);
+    });
+    document.getElementById('kzG5msg').textContent = '';
+    show('kz-screen-g5');
+  }
+
+  const replayBtn = document.getElementById('kzReplayBtn');
+  if(replayBtn) replayBtn.onclick = ()=>{
+    state = {unlocked:1, completed:{}, seenIntro:true};
+    saveState();
+    renderMap();
+    show('kz-screen-map');
+  };
+
+  window.__koshkiZanaInit = function(){
+    renderMap();
+    show('kz-screen-hero');
   };
 })();
 </script>
-</body>
-</html>
