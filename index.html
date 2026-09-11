@@ -7,7 +7,7 @@
 <link id="appFavicon" rel="icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link id="appAppleIcon" rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 
-<!-- ================= iOS PWA TAGS (NEW) ================= -->
+<!-- ================= iOS PWA TAGS ================= -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -354,7 +354,6 @@ body.dark-mode .btn-map {
   transform: translateX(-50%) translateY(0);
 }
 
-/* NEW: FLOATING MATCH NOTIFICATION */
 .match-floating-notif {
   position: fixed;
   top: 80px;
@@ -383,7 +382,6 @@ body.dark-mode .btn-map {
   transform: translateX(-50%) translateY(0);
 }
 
-/* NEW: GLOBAL LOADING OVERLAY */
 #globalLoadingOverlay {
   position: fixed;
   inset: 0;
@@ -453,7 +451,6 @@ body.dark-mode .btn-map {
 .stat-item:active { transform: scale(0.96); }
 .stat-val { font-size: 0.95rem; font-weight: 800; color: var(--primary); margin-top: 1px; }
 
-/* ============ ADMIN VIEW ============ */
 #adminViewContainer {
   display: none;
   background: var(--admin-bg);
@@ -525,7 +522,6 @@ body.dark-mode .btn-map {
   100% { left: 100%; }
 }
 
-/* ============ FILTER PANEL ============ */
 .filter-panel {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -629,7 +625,6 @@ body.dark-mode .filter-custom-input {
   margin-top: 6px; min-height: 1em;
 }
 
-/* ============ VIEW TOGGLE ============ */
 .view-mode-toggle {
   display: flex;
   background: var(--border);
@@ -728,7 +723,6 @@ body.dark-mode .filter-custom-input {
 }
 .table-view .tbl-actions button:hover { background: var(--border); }
 
-/* ============ MATCH BADGE ============ */
 .match-badge {
   display: inline-flex;
   align-items: center;
@@ -848,7 +842,6 @@ body.dark-mode .match-summary-banner {
   font-size: 0.85rem;
 }
 
-/* ============ MAIN LAYOUT ============ */
 .container { max-width: 1100px; margin: auto; padding: 0.7rem 0.6rem; }
 #homeCategoryScreen { display: block; padding-top: 2px; }
 .categories-hub { display: flex; flex-direction: column; gap: 7px; }
@@ -1232,7 +1225,6 @@ body.dark-mode .skeleton-shimmer {
   border: 1px solid var(--border);
 }
 
-/* NEW: TTT SCORE BOARD */
 .ttt-score-board {
   display: flex;
   justify-content: center;
@@ -1561,7 +1553,7 @@ body.dark-mode .skeleton-shimmer {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* ============ RONAKI GAME UI (FIXED!) ============ */
+/* ============ RONAKI GAME UI ============ */
 #ronakiGameOverlay { display: none; position: fixed; inset: 0; background: var(--bg-night); z-index: 9999999; flex-direction: column; }
 #ronakiCanvas{position:fixed; inset:0; display:block;}
 #ronakiHud{ position:fixed; inset:0; pointer-events:none; z-index:10; direction:rtl; }
@@ -1578,7 +1570,6 @@ body.dark-mode .skeleton-shimmer {
 #ronakiDashTouch.cooldown { background: rgba(100, 100, 100, 0.3); border-color: rgba(150, 150, 150, 0.4); color: rgba(255, 255, 255, 0.5); box-shadow: none; }
 #ronakiHurtFlash{ position:fixed; inset:0; pointer-events:none; z-index:16; background:rgba(139,107,255,0.25); opacity:0; transition:opacity .12s ease; }
 
-/* NEW: Ronaki HUD classes (was missing!) */
 #ronakiHud .hud-top {
   position: absolute;
   top: 20px;
@@ -1641,9 +1632,7 @@ body.dark-mode .skeleton-shimmer {
   transition: width 0.15s linear;
   box-shadow: 0 0 8px rgba(139, 107, 255, 0.6);
 }
-#ronakiHud.hidden {
-  display: none !important;
-}
+#ronakiHud.hidden { display: none !important; }
 #ronakiHud .powerup-chip {
   background: rgba(139, 107, 255, 0.85);
   border: 1px solid #a388ff;
@@ -1852,7 +1841,6 @@ body.dark-mode .skeleton-shimmer {
   #ronakiMinimapWrap { width: 70px !important; height: 70px !important; top: 70px !important; left: 10px !important; }
 }
 @media (max-width: 400px) {
-  /* دوگمەی داگرتن دیاربێت لەسەر مۆبایلی بچووکیش */
   .header-btns .btn-install { 
     display: inline-flex !important; 
     font-size: 0.62rem; 
@@ -1863,7 +1851,6 @@ body.dark-mode .skeleton-shimmer {
   .logo-icon { width: 22px; height: 22px; }
 }
 
-/* ============ GENERAL POLISH ============ */
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
@@ -1876,7 +1863,6 @@ textarea:focus-visible {
 ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.7); }
 
-/* NEW: Pull to refresh indicator */
 #pullRefreshIndicator {
   position: fixed;
   top: -60px;
@@ -1897,7 +1883,7 @@ textarea:focus-visible {
 }
 #pullRefreshIndicator.show { top: 0; }
 
-/* ================= DOWNLOAD CHOICE MODAL (NEW) ================= */
+/* ================= DOWNLOAD CHOICE MODAL ================= */
 .download-choice-btn {
   width: 100%;
   background: var(--bg);
@@ -1942,7 +1928,69 @@ body.dark-mode .download-choice-btn.iphone { border-color: #94a3b8; background: 
   flex-shrink: 0;
 }
 
-/* ================= iPhone How-to Steps (NEW) ================= */
+/* ===== INSTALL BUTTON CUSTOM ICONS ===== */
+.install-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.install-btn-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+.download-choice-btn.android .install-btn-icon {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  border-color: #10b981;
+}
+.download-choice-btn.iphone .install-btn-icon {
+  background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+  border-color: #6366f1;
+}
+body.dark-mode .download-choice-btn.android .install-btn-icon {
+  background: linear-gradient(135deg, #064e3b, #065f46);
+}
+body.dark-mode .download-choice-btn.iphone .install-btn-icon {
+  background: linear-gradient(135deg, #312e81, #3730a3);
+}
+
+/* ===== ICON PICKER IN SETTINGS ===== */
+.icon-picker-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 6px;
+}
+.icon-picker-preview {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.icon-picker-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+/* ================= iPhone How-to Steps ================= */
 .howto-step {
   display: flex;
   align-items: flex-start;
@@ -2001,7 +2049,6 @@ body.dark-mode .iphone-note {
   color: #fde68a;
 }
 
-/* NEW: iOS Install Banner */
 #iosInstallBanner {
   display: none;
   position: fixed;
@@ -2014,12 +2061,10 @@ body.dark-mode .iphone-note {
   animation: iosBannerSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 #iosInstallBanner.show { display: block; }
-
 @keyframes iosBannerSlide {
   0% { opacity: 0; transform: translateX(-50%) translateY(30px); }
   100% { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
-
 .ios-install-card {
   background: linear-gradient(135deg, #0f172a, #1e293b);
   border: 1.5px solid #0284c7;
@@ -2073,20 +2118,223 @@ body.dark-mode .iphone-note {
   flex-shrink: 0;
 }
 .ios-install-close:active { transform: scale(0.9); }
-/* ================= END DOWNLOAD MODAL CSS ================= */
+
+/* ================= AI ASSISTANT ================= */
+#aiFloatingBtn {
+  position: fixed;
+  bottom: 90px;
+  left: 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: #fff;
+  font-size: 1.6rem;
+  border: none;
+  cursor: pointer;
+  z-index: 9997;
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s;
+  animation: aiPulse 2.5s ease-in-out infinite;
+}
+#aiFloatingBtn:active { transform: scale(0.92); }
+@keyframes aiPulse {
+  0%, 100% { box-shadow: 0 8px 24px rgba(139, 92, 246, 0.45); }
+  50% { box-shadow: 0 8px 32px rgba(139, 92, 246, 0.75); }
+}
+
+#aiAssistantModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  align-items: flex-end;
+  justify-content: center;
+  animation: overlayFade 0.25s ease;
+}
+@media (min-width: 640px) { #aiAssistantModal { align-items: center; } }
+#aiAssistantModal.show { display: flex; }
+
+.ai-chat-box {
+  background: var(--card-bg);
+  color: var(--text);
+  width: 100%;
+  max-width: 480px;
+  height: 85vh;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalSlideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (min-width: 640px) {
+  .ai-chat-box {
+    height: 600px;
+    border-radius: 18px;
+    animation: modalPopupSmooth 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+.ai-chat-header {
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: #fff;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.ai-chat-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ai-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+.ai-chat-title { font-weight: 800; font-size: 0.95rem; }
+.ai-chat-subtitle { font-size: 0.7rem; opacity: 0.85; }
+.ai-close-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 800;
+}
+.ai-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg);
+}
+.ai-msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  word-wrap: break-word;
+  animation: contentFadeIn 0.3s ease;
+}
+.ai-msg.bot {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  align-self: flex-start;
+  border-bottom-right-radius: 4px;
+}
+.ai-msg.user {
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-left-radius: 4px;
+}
+.ai-msg.typing {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 12px 16px;
+}
+.ai-msg.typing span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  animation: aiTyping 1.2s ease-in-out infinite;
+}
+.ai-msg.typing span:nth-child(2) { animation-delay: 0.15s; }
+.ai-msg.typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes aiTyping {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+.ai-chat-quick-actions {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  overflow-x: auto;
+  background: var(--card-bg);
+  border-top: 1px solid var(--border);
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+.ai-chat-quick-actions::-webkit-scrollbar { display: none; }
+.ai-quick-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  font-family: inherit;
+}
+.ai-quick-btn:active { transform: scale(0.95); }
+.ai-chat-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--card-bg);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+#aiChatInput {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+}
+#aiChatInput:focus { border-color: #8b5cf6; }
+#aiSendBtn {
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: #fff;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+#aiSendBtn:active { transform: scale(0.9); }
 </style>
 </head>
 <body>
 
 <div id="toastNotificationBox">🔔 <span id="toastMsgText">ئاگاداری نوێ</span></div>
 
-<!-- NEW: Floating Match Notification -->
 <div class="match-floating-notif" id="matchFloatingNotif">
   <span>🎯</span>
   <span id="matchFloatingNotifText">گونجان دۆزرایەوە!</span>
 </div>
 
-<!-- NEW: Global Loading Overlay -->
 <div id="globalLoadingOverlay">
   <div class="loader-box">
     <div class="loader-spin"></div>
@@ -2094,7 +2342,6 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- NEW: Pull to Refresh Indicator -->
 <div id="pullRefreshIndicator">🔄 <span>نوێکردنەوە...</span></div>
 
 <div id="customSplashScreen">
@@ -2155,7 +2402,7 @@ body.dark-mode .iphone-note {
   </div>
 </header>
 
-<!-- ================= DOWNLOAD CHOICE MODAL (NEW) ================= -->
+<!-- ================= DOWNLOAD CHOICE MODAL ================= -->
 <div class="modal" id="downloadChoiceModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeDownloadModal()">×</span>
@@ -2165,7 +2412,7 @@ body.dark-mode .iphone-note {
     </p>
 
     <button class="download-choice-btn android" onclick="handleDownloadAndroid()">
-      <div class="dc-icon">🤖</div>
+      <div class="install-btn-icon" id="androidIconDisplay">🤖</div>
       <div class="dc-text">
         <div class="dc-title">ئەندرۆید (Android)</div>
         <div class="dc-sub">داگرتنی فایلی APK بە ڕاستەوخۆیی</div>
@@ -2174,7 +2421,7 @@ body.dark-mode .iphone-note {
     </button>
 
     <button class="download-choice-btn iphone" onclick="handleDownloadIphone()">
-      <div class="dc-icon">🍎</div>
+      <div class="install-btn-icon" id="iphoneIconDisplay">🍎</div>
       <div class="dc-text">
         <div class="dc-title">ئایفۆن (iPhone)</div>
         <div class="dc-sub">دامەزراندن بە شێوازی Add to Home Screen</div>
@@ -2190,7 +2437,7 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- ================= IPHONE INSTRUCTIONS MODAL (NEW) ================= -->
+<!-- ================= IPHONE INSTRUCTIONS MODAL ================= -->
 <div class="modal" id="iphoneHowtoModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeIphoneHowto()">×</span>
@@ -2234,9 +2481,8 @@ body.dark-mode .iphone-note {
     <button class="btn btn-primary" style="width:100%; padding:0.7rem; margin-top:10px;" onclick="closeIphoneHowto()">تێگەیشتم ✓</button>
   </div>
 </div>
-<!-- ================= END DOWNLOAD MODALS ================= -->
 
-<!-- ================= iOS INSTALL BANNER (NEW) ================= -->
+<!-- ================= iOS INSTALL BANNER ================= -->
 <div id="iosInstallBanner">
   <div class="ios-install-card">
     <img id="iosInstallLogo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
@@ -2250,7 +2496,6 @@ body.dark-mode .iphone-note {
     <button class="ios-install-close" onclick="dismissIosBanner()">✕</button>
   </div>
 </div>
-<!-- ================= END iOS INSTALL BANNER ================= -->
 
 <!-- ============ ADMIN VIEW ============ -->
 <div id="adminViewContainer">
@@ -3113,6 +3358,33 @@ body.dark-mode .iphone-note {
         <label>لینکی فایلی ئەندرۆید (APK):</label>
         <input type="text" id="setApkUrl" placeholder="لینکی داگرتنی APK">
       </div>
+
+      <!-- ===== CUSTOM ANDROID ICON ===== -->
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">🤖 ئایکۆنی دوگمەی ئەندرۆید:</label>
+        <div class="icon-picker-row">
+          <div class="icon-picker-preview" id="androidIconPreview">🤖</div>
+          <input type="text" id="setAndroidIconEmoji" placeholder="وەک: 📱 یان 🤖" style="flex:1;" oninput="previewCustomIcon('android', this.value)" maxlength="4">
+          <input type="file" id="androidIconFile" accept="image/*" style="display:none;" onchange="processCustomIconUpload(event, 'android')">
+          <button type="button" class="btn btn-primary" style="font-size:0.75rem; padding:0.55rem;" onclick="document.getElementById('androidIconFile').click()">📁</button>
+        </div>
+        <input type="hidden" id="setAndroidIconImg">
+        <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">ئیمۆجی بنووسە یان فایلێکی وێنە هەڵبژێرە</small>
+      </div>
+
+      <!-- ===== CUSTOM IPHONE ICON ===== -->
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">🍎 ئایکۆنی دوگمەی ئایفۆن:</label>
+        <div class="icon-picker-row">
+          <div class="icon-picker-preview" id="iphoneIconPreview">🍎</div>
+          <input type="text" id="setIphoneIconEmoji" placeholder="وەک: 🍏 یان 📱" style="flex:1;" oninput="previewCustomIcon('iphone', this.value)" maxlength="4">
+          <input type="file" id="iphoneIconFile" accept="image/*" style="display:none;" onchange="processCustomIconUpload(event, 'iphone')">
+          <button type="button" class="btn btn-primary" style="font-size:0.75rem; padding:0.55rem;" onclick="document.getElementById('iphoneIconFile').click()">📁</button>
+        </div>
+        <input type="hidden" id="setIphoneIconImg">
+        <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">ئیمۆجی بنووسە یان فایلێکی وێنە هەڵبژێرە</small>
+      </div>
+
       <div class="form-group">
         <label>وێنەی لۆگۆی ماڵپەڕ:</label>
         <input type="file" id="logoFileInput" accept="image/*" onchange="processLogoUpload(event)">
@@ -3210,6 +3482,31 @@ body.dark-mode .iphone-note {
     </form>
   </div>
 </div>
+
+<!-- ===== AI FLOATING BUTTON ===== -->
+<button id="aiFloatingBtn" onclick="openAiAssistant()" title="یاریدەدەری زیرەک">🤖</button>
+
+<!-- ===== AI ASSISTANT MODAL ===== -->
+<div id="aiAssistantModal">
+  <div class="ai-chat-box">
+    <div class="ai-chat-header">
+      <div class="ai-chat-header-info">
+        <div class="ai-avatar">🤖</div>
+        <div>
+          <div class="ai-chat-title">یاریدەدەری زیرەک</div>
+          <div class="ai-chat-subtitle" id="aiStatusText">ئامادەیە یارمەتیت بدات</div>
+        </div>
+      </div>
+      <button class="ai-close-btn" onclick="closeAiAssistant()">✕</button>
+    </div>
+    <div class="ai-chat-messages" id="aiChatMessages"></div>
+    <div class="ai-chat-quick-actions" id="aiQuickActions"></div>
+    <div class="ai-chat-input-row">
+      <input type="text" id="aiChatInput" placeholder="پرسیارەکەت بنووسە..." onkeypress="if(event.key==='Enter') sendAiMessage()">
+      <button id="aiSendBtn" onclick="sendAiMessage()">➤</button>
+    </div>
+  </div>
+</div>
 <script>
 /* ============================================================
    MAIN APPLICATION SCRIPT
@@ -3235,11 +3532,15 @@ let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) ||
   apkUrl: "",
   logoUrl: "https://cdn-icons-png.flaticon.com/512/609/609803.png",
   defaultViewMode: "card",
-  matchSensitivity: "normal"
+  matchSensitivity: "normal",
+  androidIcon: "🤖",
+  iphoneIcon: "🍎"
 };
 
 if (!siteSettings.defaultViewMode) siteSettings.defaultViewMode = "card";
 if (!siteSettings.matchSensitivity) siteSettings.matchSensitivity = "normal";
+if (!siteSettings.androidIcon) siteSettings.androidIcon = "🤖";
+if (!siteSettings.iphoneIcon) siteSettings.iphoneIcon = "🍎";
 
 let uploadedImagesList = [];
 let currentGalleryImages = [];
@@ -3264,16 +3565,14 @@ let tttActive = true;
 let matchType = '2p';
 let botDifficulty = 'easy';
 
-// NEW: TTT Score tracking
 let tttScoreX = 0;
 let tttScoreO = 0;
 let tttScoreDraw = 0;
 
-// PIN state
 let currentPinInput = '';
 
 /* ============================================================
-   NEW: DOWNLOAD CHOICE LOGIC (ANDROID / IPHONE)
+   DOWNLOAD CHOICE LOGIC (ANDROID / IPHONE)
    ============================================================ */
 function isIOSDevice() {
   const ua = navigator.userAgent || "";
@@ -3284,6 +3583,7 @@ function isIOSDevice() {
 function openDownloadModal() {
   const modal = document.getElementById('downloadChoiceModal');
   if (!modal) return;
+  applyInstallIcons();
   modal.style.display = 'flex';
   window.history.pushState({ modal: 'downloadChoice' }, "", "");
 }
@@ -3317,7 +3617,6 @@ function closeIphoneHowto(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
-/* ناسینەوەی ئامێر بە خۆکاری و کردنەوەی هەڵبژاردنی گونجاو */
 function smartDownload() {
   if (isIOSDevice()) {
     handleDownloadIphone();
@@ -3326,7 +3625,6 @@ function smartDownload() {
   }
 }
 
-/* ===== iOS Install Banner Detection ===== */
 function isInStandaloneMode() {
   return window.navigator.standalone === true ||
          window.matchMedia('(display-mode: standalone)').matches;
@@ -3352,7 +3650,62 @@ function dismissIosBanner() {
 }
 
 /* ============================================================
-   NEW: GLOBAL HELPERS (Loading + Match Notifications)
+   CUSTOM INSTALL ICONS
+   ============================================================ */
+function previewCustomIcon(which, val) {
+  const imgField = document.getElementById(which === 'android' ? 'setAndroidIconImg' : 'setIphoneIconImg');
+  const preview = document.getElementById(which === 'android' ? 'androidIconPreview' : 'iphoneIconPreview');
+  if (!imgField || !preview) return;
+  if (imgField.value) return;
+  preview.innerHTML = val.trim() ? val.trim() : (which === 'android' ? '🤖' : '🍎');
+}
+
+function processCustomIconUpload(event, which) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.src = e.target.result;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 128;
+      canvas.height = 128;
+      canvas.getContext('2d').drawImage(img, 0, 0, 128, 128);
+      const dataUrl = canvas.toDataURL('image/png', 0.9);
+      const imgField = document.getElementById(which === 'android' ? 'setAndroidIconImg' : 'setIphoneIconImg');
+      const preview = document.getElementById(which === 'android' ? 'androidIconPreview' : 'iphoneIconPreview');
+      const emojiField = document.getElementById(which === 'android' ? 'setAndroidIconEmoji' : 'setIphoneIconEmoji');
+      if (imgField) imgField.value = dataUrl;
+      if (emojiField) emojiField.value = '';
+      if (preview) preview.innerHTML = `<img src="${dataUrl}" alt="icon">`;
+    };
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function applyInstallIcons() {
+  const androidIcon = siteSettings.androidIcon || '🤖';
+  const iphoneIcon = siteSettings.iphoneIcon || '🍎';
+
+  const androidDisplay = document.getElementById('androidIconDisplay');
+  const iphoneDisplay = document.getElementById('iphoneIconDisplay');
+
+  if (androidDisplay) {
+    androidDisplay.innerHTML = androidIcon.startsWith('data:image')
+      ? `<img src="${androidIcon}" alt="android">`
+      : androidIcon;
+  }
+  if (iphoneDisplay) {
+    iphoneDisplay.innerHTML = iphoneIcon.startsWith('data:image')
+      ? `<img src="${iphoneIcon}" alt="iphone">`
+      : iphoneIcon;
+  }
+}
+
+/* ============================================================
+   GLOBAL HELPERS
    ============================================================ */
 function showGlobalLoading(text) {
   const overlay = document.getElementById('globalLoadingOverlay');
@@ -3378,9 +3731,6 @@ function showMatchFloatingNotif(text, duration) {
   }, duration || 5000);
 }
 
-/* ============================================================
-   NEW: REFRESH SYSTEM (auto-refresh after add/edit/delete)
-   ============================================================ */
 function refreshAfterDataChange(options) {
   options = options || {};
   const {
@@ -3429,7 +3779,7 @@ async function syncAllToFirebase() {
 }
 
 /* ============================================================
-   NEW: PULL TO REFRESH
+   PULL TO REFRESH
    ============================================================ */
 (function setupPullToRefresh() {
   let startY = 0;
@@ -3641,12 +3991,14 @@ window.addEventListener('load', function() {
 });
 
 window.addEventListener('popstate', function(e) {
-  /* NEW: handle download modals in back button */
   const dlModal = document.getElementById('downloadChoiceModal');
   if (dlModal && dlModal.style.display === 'flex') { closeDownloadModal(false); return; }
 
   const iosModal = document.getElementById('iphoneHowtoModal');
   if (iosModal && iosModal.style.display === 'flex') { closeIphoneHowto(false); return; }
+
+  const aiModal = document.getElementById('aiAssistantModal');
+  if (aiModal && aiModal.classList.contains('show')) { closeAiAssistant(); return; }
 
   const agOverlay = document.getElementById('amazeGoOverlay');
   if (agOverlay && agOverlay.style.display === 'block') { closeAmazeGoGame(); return; }
@@ -3666,6 +4018,39 @@ window.addEventListener('popstate', function(e) {
   if (isAdmin) { closeAdminBar(false); return; }
   if (currentScreen === 'category') { navigateBackToHome(false); return; }
   window.history.back();
+});
+
+/* ============ CLOSE MODALS ON BACKDROP CLICK ============ */
+document.addEventListener('DOMContentLoaded', function() {
+  const modalsToClose = [
+    'downloadChoiceModal',
+    'iphoneHowtoModal',
+    'propertyModal',
+    'wantModal',
+    'settingsModal',
+    'manageTabsModal',
+    'matchListModal'
+  ];
+
+  modalsToClose.forEach(id => {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        if (id === 'downloadChoiceModal') closeDownloadModal();
+        else if (id === 'iphoneHowtoModal') closeIphoneHowto();
+        else if (id === 'matchListModal') closeMatchListModal();
+        else closeModals();
+      }
+    });
+  });
+
+  const aiModal = document.getElementById('aiAssistantModal');
+  if (aiModal) {
+    aiModal.addEventListener('click', function(e) {
+      if (e.target === aiModal) closeAiAssistant();
+    });
+  }
 });
 
 /* ============ PHONE MODAL ============ */
@@ -4073,7 +4458,7 @@ async function handleHoldStoryDownload() {
   await downloadPropertyAsStory(id);
 }
 
-/* ============ DIRECT DOWNLOAD (LEGACY - still works from settings button) ============ */
+/* ============ DIRECT DOWNLOAD (LEGACY) ============ */
 function triggerDirectDownload() {
   if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
     window.location.href = siteSettings.apkUrl;
@@ -4094,7 +4479,13 @@ function checkStandaloneMode() {
   const ua = navigator.userAgent || "";
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.standalone || document.referrer.includes('android-app://') || ua.includes('wv') || ua.includes('WebIntoApp');
   const installBtn = document.getElementById('apkDownloadDirectBtn');
-  if (isStandalone && installBtn) installBtn.remove();
+  if (installBtn) {
+    if (isStandalone) {
+      installBtn.style.display = 'none';
+    } else {
+      installBtn.style.display = 'inline-flex';
+    }
+  }
 }
 
 /* ============ THEME ============ */
@@ -4137,6 +4528,8 @@ async function loadData(silent) {
         if (!siteSettings.autoNotifText) siteSettings.autoNotifText = "سەردانی نوسینگەی دەشتی دوستەپە بکەن بۆ نوێترین موڵکەکان ✨";
         if (!siteSettings.defaultViewMode) siteSettings.defaultViewMode = "card";
         if (!siteSettings.matchSensitivity) siteSettings.matchSensitivity = "normal";
+        if (!siteSettings.androidIcon) siteSettings.androidIcon = "🤖";
+        if (!siteSettings.iphoneIcon) siteSettings.iphoneIcon = "🍎";
         localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
       }
       if (data && data.properties) {
@@ -4175,21 +4568,17 @@ function applySettings() {
   document.getElementById('appFavicon').href = logo;
   document.getElementById('appAppleIcon').href = logo;
 
-  /* NEW: Update all apple touch icons */
   ['appAppleIcon', 'appAppleIcon180', 'appAppleIcon152', 'appAppleIcon120'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.href = logo;
   });
 
-  /* NEW: Update apple-mobile-web-app-title */
   const titleMeta = document.getElementById('appTitleMeta');
   if (titleMeta) titleMeta.setAttribute('content', siteSettings.siteName);
 
-  /* NEW: Update iOS banner logo */
   const iosLogo = document.getElementById('iosInstallLogo');
   if (iosLogo) iosLogo.src = logo;
 
-  /* NEW: Update page title */
   document.title = siteSettings.siteName;
 
   const splashLogo = document.getElementById('splashLogoImg');
@@ -4200,6 +4589,8 @@ function applySettings() {
   if (lockLogo) lockLogo.src = logo;
   const lockBrand = document.getElementById('lockBrandName');
   if (lockBrand) lockBrand.innerText = siteSettings.siteName;
+
+  applyInstallIcons();
 }
 
 /* ============ CUSTOM CATEGORIES ============ */
@@ -5179,6 +5570,28 @@ function openSettingsModal() {
   document.getElementById('setAppPass').value = siteSettings.appPass || "0000";
   document.getElementById('setAutoNotifText').value = siteSettings.autoNotifText || "";
   document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
+
+  const androidIcon = siteSettings.androidIcon || '🤖';
+  const iphoneIcon = siteSettings.iphoneIcon || '🍎';
+  if (androidIcon.startsWith('data:image')) {
+    document.getElementById('setAndroidIconImg').value = androidIcon;
+    document.getElementById('setAndroidIconEmoji').value = '';
+    document.getElementById('androidIconPreview').innerHTML = `<img src="${androidIcon}" alt="icon">`;
+  } else {
+    document.getElementById('setAndroidIconImg').value = '';
+    document.getElementById('setAndroidIconEmoji').value = androidIcon;
+    document.getElementById('androidIconPreview').innerHTML = androidIcon;
+  }
+  if (iphoneIcon.startsWith('data:image')) {
+    document.getElementById('setIphoneIconImg').value = iphoneIcon;
+    document.getElementById('setIphoneIconEmoji').value = '';
+    document.getElementById('iphoneIconPreview').innerHTML = `<img src="${iphoneIcon}" alt="icon">`;
+  } else {
+    document.getElementById('setIphoneIconImg').value = '';
+    document.getElementById('setIphoneIconEmoji').value = iphoneIcon;
+    document.getElementById('iphoneIconPreview').innerHTML = iphoneIcon;
+  }
+
   document.getElementById('setLogoData').value = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
   document.getElementById('logoPreview').src = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
   document.getElementById('setGridCols').value = siteSettings.gridCols || "1";
@@ -5203,7 +5616,7 @@ function closeModals(doPush = true) {
 }
 
 /* ============================================================
-   FORM SUBMISSIONS (WITH AUTO REFRESH)
+   FORM SUBMISSIONS
    ============================================================ */
 async function handleFormSubmit(e) {
   e.preventDefault();
@@ -5344,6 +5757,8 @@ async function handleSettingsSubmit(e) {
     appPass: document.getElementById('setAppPass').value || "0000",
     autoNotifText: document.getElementById('setAutoNotifText').value || siteSettings.autoNotifText,
     apkUrl: document.getElementById('setApkUrl').value || "",
+    androidIcon: document.getElementById('setAndroidIconImg').value || document.getElementById('setAndroidIconEmoji').value.trim() || '🤖',
+    iphoneIcon: document.getElementById('setIphoneIconImg').value || document.getElementById('setIphoneIconEmoji').value.trim() || '🍎',
     logoUrl: document.getElementById('setLogoData').value || siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png",
     gridCols: document.getElementById('setGridCols').value || "1",
     cardImgHeight: document.getElementById('setCardImgHeight').value || "160px",
@@ -5422,13 +5837,294 @@ function closeAmazeGoGame() {
   window.history.pushState({ screen: currentScreen }, "", "");
 }
 
+/* ============================================================
+   AI ASSISTANT
+   ============================================================ */
+let aiChatHistory = [];
+let aiIsResponding = false;
+
+function openAiAssistant() {
+  document.getElementById('aiAssistantModal').classList.add('show');
+  if (aiChatHistory.length === 0) {
+    aiGreetUser();
+  }
+  setTimeout(() => document.getElementById('aiChatInput').focus(), 300);
+}
+
+function closeAiAssistant() {
+  document.getElementById('aiAssistantModal').classList.remove('show');
+}
+
+function aiGreetUser() {
+  const hour = new Date().getHours();
+  let greeting = 'سڵاو';
+  if (hour < 12) greeting = 'بەیانیت باش';
+  else if (hour < 17) greeting = 'ڕۆژ باش';
+  else greeting = 'ئێوارە باش';
+
+  const welcome = `${greeting}! 👋 من یاریدەدەری زیرەکی "${siteSettings.siteName}"ـم.
+
+دەتوانم یارمەتیت بدەم بە:
+• 🔢 حسابکردن (وەک: 50000 * 3)
+• 🔍 گەڕان بۆ موڵک
+• 🎯 دۆزینەوەی گونجان
+• 💡 ئامۆژگاری بۆ کڕین و فرۆشتن
+
+پرسیارەکەت بنووسە یان یەکێک لە دوگمە خێراکان دابگرە.`;
+
+  addAiMessage('bot', welcome);
+  buildQuickActions();
+}
+
+function buildQuickActions() {
+  const actions = [
+    { label: '🔢 حسابکردن', query: 'یارمەتیم بدە حساب بکەم' },
+    { label: '🏠 موڵکەکان', query: 'چەند موڵک هەیە؟' },
+    { label: '🎯 گونجان', query: 'گونجانی هەیە؟' },
+    { label: '💰 نرخەکان', query: 'نرخی موڵکەکان چەندە؟' },
+    { label: '📍 شوێنەکان', query: 'شوێنەکان کامانەن؟' },
+    { label: '📞 پەیوەندی', query: 'چۆن پەیوەندی بکەم؟' }
+  ];
+  const wrap = document.getElementById('aiQuickActions');
+  wrap.innerHTML = '';
+  actions.forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = 'ai-quick-btn';
+    btn.textContent = a.label;
+    btn.onclick = () => {
+      document.getElementById('aiChatInput').value = a.query;
+      sendAiMessage();
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+function addAiMessage(role, text) {
+  const container = document.getElementById('aiChatMessages');
+  const msg = document.createElement('div');
+  msg.className = 'ai-msg ' + role;
+  msg.innerHTML = text.replace(/\n/g, '<br>');
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+  aiChatHistory.push({ role, text });
+}
+
+function showAiTyping() {
+  const container = document.getElementById('aiChatMessages');
+  const typing = document.createElement('div');
+  typing.className = 'ai-msg bot typing';
+  typing.id = 'aiTypingIndicator';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  container.appendChild(typing);
+  container.scrollTop = container.scrollHeight;
+}
+
+function hideAiTyping() {
+  const t = document.getElementById('aiTypingIndicator');
+  if (t) t.remove();
+}
+
+function sendAiMessage() {
+  if (aiIsResponding) return;
+  const input = document.getElementById('aiChatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  addAiMessage('user', text);
+  input.value = '';
+
+  aiIsResponding = true;
+  showAiTyping();
+
+  setTimeout(() => {
+    hideAiTyping();
+    const response = processAiQuery(text);
+    addAiMessage('bot', response);
+    aiIsResponding = false;
+  }, 600 + Math.random() * 500);
+}
+
+function normalizeAiText(text) {
+  return text
+    .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+    .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+    .toLowerCase()
+    .trim();
+}
+
+function kurdishNumbersToDigits(text) {
+  const map = {
+    'سفر': '0', 'یەک': '1', 'دوو': '2', 'سێ': '3', 'چوار': '4',
+    'پێنج': '5', 'شەش': '6', 'حەوت': '7', 'هەشت': '8', 'نۆ': '9', 'دە': '10',
+    'بیست': '20', 'سی': '30', 'چل': '40', 'پەنجا': '50',
+    'شەست': '60', 'حەفتا': '70', 'هەشتا': '80', 'نەوەد': '90', 'سەد': '100',
+    'هەزار': '1000', 'ملیۆن': '1000000'
+  };
+  let result = text;
+  for (const [k, v] of Object.entries(map)) {
+    result = result.replace(new RegExp(k, 'g'), v);
+  }
+  return result;
+}
+
+function processAiQuery(query) {
+  const q = normalizeAiText(query);
+  const qNum = kurdishNumbersToDigits(q);
+
+  const calcResult = tryCalculate(qNum);
+  if (calcResult !== null) return calcResult;
+
+  if (q.includes('چەند موڵک') || q.includes('ژمارەی موڵک') || q.includes('چەند خانوو')) {
+    const total = properties.length;
+    const houses = properties.filter(p => p.category === 'خانوو').length;
+    const lands = properties.filter(p => p.category === 'زەوی').length;
+    const commercial = properties.filter(p => p.category === 'شوێنی تیجاری').length;
+    const farms = properties.filter(p => p.category === 'مەزرەعە').length;
+    const wants = properties.filter(p => p.category === 'خوازیار / پێویستە').length;
+    return `📊 لە ئێستادا:
+• کۆی گشتی: ${total} موڵک
+• 🏠 خانوو: ${houses}
+• 📐 زەوی: ${lands}
+• 🏢 تیجاری: ${commercial}
+• 🌳 مەزرەعە: ${farms}
+• 🔍 داواکاری: ${wants}`;
+  }
+
+  if (q.includes('نرخ') || q.includes('نرخی')) {
+    const withPrice = properties.filter(p => getNumericPrice(p) !== null);
+    if (withPrice.length === 0) return '💰 هیچ موڵکێک نییە کە نرخی تێدا نووسرابێت.';
+    const prices = withPrice.map(p => getNumericPrice(p));
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    const avg = Math.round(prices.reduce((a, b) => a + b, 0) / prices.length);
+    return `💰 ئاماری نرخەکان:
+• کەمترین: $${min.toLocaleString()}
+• زۆرترین: $${max.toLocaleString()}
+• تێکڕا: $${avg.toLocaleString()}
+• ژمارەی موڵکی نرخدار: ${withPrice.length}`;
+  }
+
+  if (q.includes('شوێن') || q.includes('گەڕەک') || q.includes('ناوچە')) {
+    const locations = [...new Set(properties.map(p => p.location).filter(Boolean))];
+    if (locations.length === 0) return '📍 هیچ شوێنێک تۆمار نەکراوە.';
+    return `📍 شوێنەکان (${locations.length}):
+${locations.map(l => '• ' + l).join('\n')}`;
+  }
+
+  if (q.includes('گونجان') || q.includes('گونجاو') || q.includes('match')) {
+    let total = 0;
+    let strong = 0;
+    properties.forEach(p => {
+      const m = findMatchesForItem(p.id);
+      if (m.length > 0) {
+        total++;
+        if (m[0].score >= 75) strong++;
+      }
+    });
+    if (total === 0) return '🎯 لە ئێستادا هیچ گونجانێک نییە.';
+    return `🎯 ئاماری گونجان:
+• بابەتی گونجاویان هەیە: ${total}
+• گونجانی بەرز (75%+): ${strong}
+• کۆی گشتی: ${total}
+
+بۆ بینینیان، بڕۆ بۆ بەشەکە و کلیک لە باجی 🎯 بکە.`;
+  }
+
+  if (q.includes('پەیوەندی') || q.includes('ژمارە') || q.includes('تەلەفۆن')) {
+    return `📞 بۆ پەیوەندی:
+• کلیک لە ژمارەی مۆبایلی هەر موڵکێک بکە
+• دەتوانیت هەڵبژێریت: WhatsApp یان پەیوەندی تەلەفۆنی
+• هەموو ژمارەکان لەسەر کارتی موڵکەکان نیشان دراون`;
+  }
+
+  if (q.includes('چۆن زیاد') || q.includes('چۆن تۆمار') || q.includes('زیادکردن')) {
+    return `📝 بۆ زیادکردنی موڵک:
+1. بڕۆ بۆ بەشی موڵکەکان
+2. کلیک لە کارتی "+ زیادکردن" بکە
+3. فۆرمەکە پڕ بکەرەوە
+4. وێنەکان هەڵبژێرە
+5. "پاشەکەوتکردن" دابگرە`;
+  }
+
+  if (q.includes('ئامۆژگاری') || q.includes('ڕاوێژ') || q.includes('یارمەتی')) {
+    return `💡 ئامۆژگارییەکان:
+• بۆ کڕیار: نرخەکان بەراورد بکە، شوێن و ڕووبەر تاقی بکەرەوە
+• بۆ فرۆشیار: وێنەی جوان دابنێ، نرخێکی گونجاو دابنێ، ناوبانگت بپارێزە
+• بۆ هەردوو: سیستەمی گونجاندنی زیرەک بەکاربهێنە 🎯`;
+  }
+
+  if (q.includes('سڵاو') || q.includes('بەیانیت') || q.includes('ئێوارە') || q.includes('ڕۆژباش')) {
+    return 'سڵاو! 👋 چۆن دەتوانم یارمەتیت بدەم؟';
+  }
+
+  if (q.includes('سوپاس') || q.includes('دەستخۆش') || q.includes('زۆر سوپاس')) {
+    return 'زۆر بەخێربێیت! 🌟 ئەگەر پرسیارێکی ترت هەیە، من ئامادەم.';
+  }
+
+  return `🤔 ببورە، تێنەگەیشتم. دەتوانیت ئەمانە تاقی بکەیتەوە:
+
+• 🔢 حسابکردن: "50000 * 3" یان "100 + 250"
+• 📊 ئامار: "چەند موڵک هەیە؟"
+• 💰 نرخ: "نرخی موڵکەکان چەندە؟"
+• 🎯 گونجان: "گونجانی هەیە؟"
+• 📍 شوێن: "شوێنەکان کامانەن؟"`;
+}
+
+function tryCalculate(text) {
+  let t = text
+    .replace(/[×✕✖]/g, '*')
+    .replace(/[÷]/g, '/')
+    .replace(/[،,]/g, '')
+    .replace(/بەرامبەر/g, '=')
+    .replace(/کۆکردنەوە|کۆبکەرەوە|زیادبکە|کۆی|جمع/g, '+')
+    .replace(/لێدەرکردن|لێدەرکە|کەمبکە|فەرق/g, '-')
+    .replace(/لێکدان|لێکبدە|ضرب/g, '*')
+    .replace(/دابەشکردن|دابەش|تقسیم/g, '/')
+    .replace(/ڕێژە|فیصد|%ی/g, '%');
+
+  const mathRegex = /(-?\d+(?:\.\d+)?)\s*([\+\-\*\/])\s*(-?\d+(?:\.\d+)?)/g;
+  const matches = [...t.matchAll(mathRegex)];
+
+  if (matches.length === 0) return null;
+
+  let result = matches[0][1] + ' ' + matches[0][2] + ' ' + matches[0][3] + ' = ';
+  let val = parseFloat(matches[0][1]);
+  for (const m of matches) {
+    const op = m[2];
+    const num = parseFloat(m[3]);
+    if (op === '+') val += num;
+    else if (op === '-') val -= num;
+    else if (op === '*') val *= num;
+    else if (op === '/') {
+      if (num === 0) return '⚠️ ناتوانرێت بە سفر دابەش بکرێت.';
+      val /= num;
+    }
+  }
+
+  if (t.includes('%') || t.includes('ڕێژە') || t.includes('فیصد')) {
+    const pctMatch = t.match(/(\d+(?:\.\d+)?)\s*(?:%|ڕێژە|فیصد)/);
+    if (pctMatch) {
+      const pct = parseFloat(pctMatch[1]);
+      const pctResult = (val * pct) / 100;
+      return `🔢 ئەنجام:
+
+${result}${val.toLocaleString()}
+
+📊 ڕێژەی ${pct}%: ${pctResult.toLocaleString()}`;
+    }
+  }
+
+  return `🔢 ئەنجام:
+
+${result}${val.toLocaleString()}`;
+}
+
 /* ============ INIT ============ */
 applySettings();
 applyThemeSettings();
 checkStandaloneMode();
 loadData();
 
-/* Auto-refresh from Firebase — slower interval (30s) to save battery */
 setInterval(async () => {
   try {
     const res = await fetch(`${FIREBASE_URL}/properties.json`);
@@ -5448,14 +6144,11 @@ setInterval(async () => {
   } catch (e) {}
 }, 30000);
 
-/* Service worker (optional, won't error) */
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').catch(function() {
-    // Silent — sw.js optional
-  });
+  navigator.serviceWorker.register('/sw.js').catch(function() {});
 }
 </script>
-<!-- Ronaki Game Engine Script -->
+  <!-- Ronaki Game Engine Script -->
 <script>
 (function(){
   "use strict";
@@ -6298,6 +6991,7 @@ if ('serviceWorker' in navigator) {
   animate();
 })();
 </script>
+
 <!-- Koshki Zana (کۆشکی زانا) Game Logic Script -->
 <script>
 (function(){
@@ -6826,7 +7520,6 @@ if ('serviceWorker' in navigator) {
   };
 })();
 </script>
-
 <!-- Amaze Go (ئامەیز گۆ) Game Logic Script -->
 <script>
 (function(){
