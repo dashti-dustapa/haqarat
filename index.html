@@ -6,7 +6,6 @@
 <title id="siteLogo">عقارات دەشتی دوستەپە</title>
 <link id="appFavicon" rel="icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link id="appAppleIcon" rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
-
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,7 +15,6 @@
 <link rel="apple-touch-icon" sizes="180x180" id="appAppleIcon180" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link rel="apple-touch-icon" sizes="152x152" id="appAppleIcon152" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
 <link rel="apple-touch-icon" sizes="120x120" id="appAppleIcon120" href="https://cdn-icons-png.flaticon.com/512/609/609803.png">
-
 <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Arabic:wght@400;600;700&family=Lalezar&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -65,6 +63,7 @@ html {
   font-size: var(--base-font-size);
   background-color: var(--bg);
   scroll-behavior: smooth;
+  overscroll-behavior-y: none;
 }
 
 * {
@@ -81,6 +80,14 @@ body {
   padding-bottom: 35px;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+
+body.ai-dragging {
+  overflow: hidden !important;
+  touch-action: none !important;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 #customSplashScreen {
@@ -391,9 +398,7 @@ body.dark-mode .btn-map {
   justify-content: center;
   animation: overlayFade 0.2s ease;
 }
-#globalLoadingOverlay.show {
-  display: flex;
-}
+#globalLoadingOverlay.show { display: flex; }
 #globalLoadingOverlay .loader-box {
   background: var(--card-bg);
   padding: 1.5rem 2rem;
@@ -420,8 +425,7 @@ body.dark-mode .btn-map {
 
 .operation-spinner {
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 14px; height: 14px;
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: #ffffff;
   border-radius: 50%;
@@ -1363,21 +1367,9 @@ body.dark-mode .skeleton-shimmer {
   align-items: center;
   gap: 12px;
 }
-.empty-state .empty-icon {
-  font-size: 3rem;
-  opacity: 0.4;
-}
-.empty-state .empty-title {
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--text);
-}
-.empty-state .empty-desc {
-  font-size: 0.8rem;
-  color: var(--muted);
-  max-width: 280px;
-  line-height: 1.6;
-}
+.empty-state .empty-icon { font-size: 3rem; opacity: 0.4; }
+.empty-state .empty-title { font-size: 1rem; font-weight: 800; color: var(--text); }
+.empty-state .empty-desc { font-size: 0.8rem; color: var(--muted); max-width: 280px; line-height: 1.6; }
 
 .gallery-modal {
   display: none;
@@ -1798,12 +1790,7 @@ body.dark-mode .skeleton-shimmer {
 
 @media (max-width: 640px) {
   .logo { font-size: 1rem; max-width: 120px; }
-  .btn-install { 
-    display: inline-flex; 
-    font-size: 0.68rem; 
-    padding: 0.35rem 0.55rem;
-    white-space: nowrap;
-  }
+  .btn-install { display: inline-flex; font-size: 0.68rem; padding: 0.35rem 0.55rem; white-space: nowrap; }
   .header-btns { gap: 2px; }
   .admin-tab-btn { font-size: 0.72rem; padding: 0.6rem 0.35rem; gap: 3px; }
   .filter-search-input { font-size: 0.85rem; }
@@ -1818,13 +1805,7 @@ body.dark-mode .skeleton-shimmer {
   .table-view { font-size: 0.72rem; }
   .table-view thead th, .table-view tbody td { padding: 0.5rem 0.35rem; }
   .table-view .tbl-thumb { width: 32px; height: 32px; }
-  #toastNotificationBox {
-    top: auto !important;
-    bottom: 20px !important;
-    font-size: 0.8rem !important;
-    padding: 0.7rem 1rem !important;
-    max-width: calc(100vw - 30px);
-  }
+  #toastNotificationBox { top: auto !important; bottom: 20px !important; font-size: 0.8rem !important; padding: 0.7rem 1rem !important; max-width: calc(100vw - 30px); }
   #toastNotificationBox.show { transform: translateX(-50%) translateY(0) !important; }
   #ronakiHud .hud-top { top: 12px; gap: 6px; }
   #ronakiHud .hud-box { padding: 5px 8px; min-width: 70px; border-radius: 8px; }
@@ -1835,11 +1816,7 @@ body.dark-mode .skeleton-shimmer {
   #ronakiMinimapWrap { width: 70px !important; height: 70px !important; top: 70px !important; left: 10px !important; }
 }
 @media (max-width: 400px) {
-  .header-btns .btn-install { 
-    display: inline-flex !important; 
-    font-size: 0.62rem; 
-    padding: 0.3rem 0.45rem;
-  }
+  .header-btns .btn-install { display: inline-flex !important; font-size: 0.62rem; padding: 0.3rem 0.45rem; }
   header { padding: 0.6rem 0.5rem; }
   .logo { font-size: 0.9rem; max-width: 100px; }
   .logo-icon { width: 22px; height: 22px; }
@@ -2109,7 +2086,7 @@ body.dark-mode .iphone-note {
 }
 .ios-install-close:active { transform: scale(0.9); }
 
-/* ================= AI ASSISTANT (UPDATED — DRAGGABLE) ================= */
+/* ================= AI ASSISTANT (FIXED DRAG) ================= */
 #aiFloatingBtn {
   position: fixed;
   bottom: 90px;
@@ -2139,18 +2116,42 @@ body.dark-mode .iphone-note {
 #aiFloatingBtn:active { transform: scale(0.92); }
 #aiFloatingBtn.dragging {
   cursor: grabbing;
-  transform: scale(1.12);
+  transform: scale(1.15);
   animation: none;
   box-shadow: 0 12px 40px rgba(139, 92, 246, 0.7);
   transition: none;
 }
-#aiFloatingBtn.dragging:active { transform: scale(1.12); }
+#aiFloatingBtn.dragging:active { transform: scale(1.15); }
+#aiFloatingBtn.move-mode {
+  background: linear-gradient(135deg, #10b981, #059669);
+  animation: aiMoveModePulse 1s ease-in-out infinite alternate;
+}
+#aiFloatingBtn.move-mode::after {
+  content: "✥";
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: #f59e0b;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  border: 2px solid #fff;
+}
 @keyframes aiPulse {
   0%, 100% { box-shadow: 0 8px 24px rgba(139, 92, 246, 0.45); }
   50% { box-shadow: 0 8px 32px rgba(139, 92, 246, 0.75); }
 }
+@keyframes aiMoveModePulse {
+  0% { box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5); }
+  100% { box-shadow: 0 12px 40px rgba(16, 185, 129, 0.9); }
+}
 
-/* ===== AI MATCH BADGE ===== */
 .ai-match-badge {
   position: absolute;
   top: -6px;
@@ -2172,7 +2173,6 @@ body.dark-mode .iphone-note {
   pointer-events: none;
 }
 
-/* ===== AI COLOR PREVIEW IN SETTINGS ===== */
 .ai-color-preview {
   display: flex;
   align-items: center;
@@ -2196,7 +2196,6 @@ body.dark-mode .iphone-note {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* ===== AI POSITION RESET ===== */
 .ai-reset-btn {
   width: 100%;
   background: var(--bg);
@@ -2421,7 +2420,6 @@ body.dark-mode .iphone-note {
   <div class="splash-spinner"></div>
 </div>
 
-<!-- ============ LOCK SCREEN ============ -->
 <div id="appLockModal">
   <div class="lock-card">
     <div class="lock-icon-circle">
@@ -2472,7 +2470,6 @@ body.dark-mode .iphone-note {
   </div>
 </header>
 
-<!-- ================= DOWNLOAD CHOICE MODAL ================= -->
 <div class="modal" id="downloadChoiceModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeDownloadModal()">×</span>
@@ -2507,7 +2504,6 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- ================= IPHONE INSTRUCTIONS MODAL ================= -->
 <div class="modal" id="iphoneHowtoModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeIphoneHowto()">×</span>
@@ -2518,30 +2514,22 @@ body.dark-mode .iphone-note {
 
     <div class="howto-step">
       <div class="step-num">1</div>
-      <div class="step-text">
-        ماڵپەڕەکە لە وێبگەڕی <b>Safari</b> بکەرەوە (نەک Chrome)
-      </div>
+      <div class="step-text">ماڵپەڕەکە لە وێبگەڕی <b>Safari</b> بکەرەوە (نەک Chrome)</div>
     </div>
 
     <div class="howto-step">
       <div class="step-num">2</div>
-      <div class="step-text">
-        لە خوارەوەی شاشەکە کلیک لە دوگمەی <span class="share-btn-icon">⬆️</span> <b>Share</b> بکە
-      </div>
+      <div class="step-text">لە خوارەوەی شاشەکە کلیک لە دوگمەی <span class="share-btn-icon">⬆️</span> <b>Share</b> بکە</div>
     </div>
 
     <div class="howto-step">
       <div class="step-num">3</div>
-      <div class="step-text">
-        بڕۆ خوارەوە و <b>«Add to Home Screen»</b> هەڵبژێرە
-      </div>
+      <div class="step-text">بڕۆ خوارەوە و <b>«Add to Home Screen»</b> هەڵبژێرە</div>
     </div>
 
     <div class="howto-step">
       <div class="step-num">4</div>
-      <div class="step-text">
-        لە سەرەوە کلیک لە <b>«Add»</b> بکە — ئایکۆنی ئەپەکە دەردەکەوێت لەسەر شاشەی ماڵەوە
-      </div>
+      <div class="step-text">لە سەرەوە کلیک لە <b>«Add»</b> بکە — ئایکۆنی ئەپەکە دەردەکەوێت لەسەر شاشەی ماڵەوە</div>
     </div>
 
     <div class="iphone-note">
@@ -2552,7 +2540,6 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- ================= iOS INSTALL BANNER ================= -->
 <div id="iosInstallBanner">
   <div class="ios-install-card">
     <img id="iosInstallLogo" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo">
@@ -2567,7 +2554,6 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- ============ ADMIN VIEW ============ -->
 <div id="adminViewContainer">
   <div class="admin-status-indicator">👑 تۆ ئێستا لە بەشی بەڕێوەبەری</div>
 
@@ -2883,7 +2869,6 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- Ronaki Game Overlay -->
 <div id="ronakiGameOverlay">
   <canvas id="ronakiCanvas"></canvas>
   <div id="ronakiHurtFlash"></div>
@@ -2918,7 +2903,6 @@ body.dark-mode .iphone-note {
   <div id="ronakiDashTouch">خێرا</div>
 </div>
 
-<!-- Koshki Zana Overlay -->
 <div id="koshkiZanaOverlay">
   <div id="kz-stars"></div>
   <div class="kz-frame-strip"></div>
@@ -3053,7 +3037,6 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- Amaze Go Overlay -->
 <div id="amazeGoOverlay">
   <div class="ag-app">
     <div class="ag-topbar">
@@ -3167,7 +3150,6 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- Match List Modal -->
 <div class="modal match-list-modal" id="matchListModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeMatchListModal()">×</span>
@@ -3176,7 +3158,6 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- Phone action modal -->
 <div class="phone-action-modal" id="phoneActionModal" onclick="closePhoneModal()">
   <div class="phone-action-box" onclick="event.stopPropagation()">
     <div class="action-sheet-title" id="phoneActionTitle">پەیوەندی:</div>
@@ -3453,7 +3434,6 @@ body.dark-mode .iphone-note {
         <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">ئیمۆجی بنووسە یان فایلێکی وێنە هەڵبژێرە</small>
       </div>
 
-      <!-- ================= AI CUSTOMIZATION ================= -->
       <div style="background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(99,102,241,0.08)); padding: 12px; border-radius: 10px; border: 1.5px solid rgba(139,92,246,0.35); margin-bottom: 12px;">
         <label style="color:#8b5cf6; font-weight:800; display:block; margin-bottom:8px; font-size:0.85rem;">🤖 ڕێکخستنی یاریدەدەری زیرەک (AI)</label>
         
@@ -3481,7 +3461,7 @@ body.dark-mode .iphone-note {
             <option value="middle-right">ناوەڕاستی ڕاست</option>
             <option value="custom">📍 شوێنی تایبەت (بە دەست جوڵاوە)</option>
           </select>
-          <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">یان بە دەست ڕایبکێشە بۆ هەر شوێنێک</small>
+          <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">یان دوگمەی AI دەست بگرە و بیبە بۆ شوێنی دڵخوازت</small>
         </div>
         
         <button type="button" class="ai-reset-btn" onclick="resetAiPosition()">
@@ -3587,10 +3567,8 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- ===== AI FLOATING BUTTON (DRAGGABLE) ===== -->
-<button id="aiFloatingBtn" onclick="handleAiButtonClick(event)" title="یاریدەدەری زیرەک — دەست بکێشە بۆ جوڵاندن">🤖</button>
+<button id="aiFloatingBtn" onclick="handleAiButtonClick(event)" title="یاریدەدەری زیرەک — دەست بگرە بۆ جوڵاندن">🤖</button>
 
-<!-- ===== AI ASSISTANT MODAL ===== -->
 <div id="aiAssistantModal">
   <div class="ai-chat-box">
     <div class="ai-chat-header">
@@ -3683,15 +3661,11 @@ let tttScoreDraw = 0;
 let currentPinInput = '';
 
 /* ============================================================
-   AI BUTTON DRAG & DROP SYSTEM
+   AI BUTTON MOVE MODE (TAP-TO-MOVE — NO DRAG!)
    ============================================================ */
-let aiButtonDragging = false;
-let aiButtonWasDragged = false;
-let aiDragStartX = 0;
-let aiDragStartY = 0;
-let aiDragStartBtnX = 0;
-let aiDragStartBtnY = 0;
-let aiDragMoveThreshold = 8;
+let aiMoveMode = false;
+let aiLongPressTimer = null;
+let aiJustMoved = false;
 
 function getAiButton() {
   return document.getElementById('aiFloatingBtn');
@@ -3763,144 +3737,140 @@ function applyAiPosition() {
   }
 }
 
-function makeAiButtonDraggable() {
+function enterAiMoveMode() {
+  const btn = getAiButton();
+  if (!btn) return;
+  aiMoveMode = true;
+  btn.classList.add('move-mode');
+  btn.title = 'ئێستا لە هەر شوێنێک پەنجەی لێ بنێ بۆ جێگیرکردنی';
+  
+  showToastNotification('📍 ئێستا پەنجە بنێ لە هەر شوێنێکی شاشەکە بۆ دانانی AI');
+  
+  document.body.classList.add('ai-dragging');
+  
+  setTimeout(() => {
+    document.addEventListener('click', handleAiMoveModeClick, true);
+    document.addEventListener('touchstart', handleAiMoveModeClick, true);
+  }, 300);
+}
+
+function exitAiMoveMode() {
+  const btn = getAiButton();
+  if (!btn) return;
+  aiMoveMode = false;
+  btn.classList.remove('move-mode');
+  btn.title = 'یاریدەدەری زیرەک';
+  document.body.classList.remove('ai-dragging');
+  
+  document.removeEventListener('click', handleAiMoveModeClick, true);
+  document.removeEventListener('touchstart', handleAiMoveModeClick, true);
+}
+
+function handleAiMoveModeClick(e) {
+  if (!aiMoveMode) return;
+  
   const btn = getAiButton();
   if (!btn) return;
   
-  let longPressTimer = null;
-  let isLongPress = false;
-  let activePointerId = null;
+  if (btn.contains(e.target)) {
+    return;
+  }
   
-  const startDrag = (clientX, clientY) => {
-    const rect = btn.getBoundingClientRect();
-    aiButtonDragging = true;
-    aiButtonWasDragged = false;
-    aiDragStartX = clientX;
-    aiDragStartY = clientY;
-    aiDragStartBtnX = rect.left;
-    aiDragStartBtnY = rect.top;
-    
-    btn.style.transition = 'none';
-    btn.classList.add('dragging');
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-    
-    btn.style.left = rect.left + 'px';
-    btn.style.top = rect.top + 'px';
-    btn.style.bottom = '';
-    btn.style.right = '';
-    btn.style.transform = '';
-  };
+  e.preventDefault();
+  e.stopPropagation();
   
-  const moveDrag = (clientX, clientY) => {
-    if (!aiButtonDragging) return;
-    const dx = clientX - aiDragStartX;
-    const dy = clientY - aiDragStartY;
-    
-    if (Math.abs(dx) > aiDragMoveThreshold || Math.abs(dy) > aiDragMoveThreshold) {
-      aiButtonWasDragged = true;
-    }
-    
-    let newX = aiDragStartBtnX + dx;
-    let newY = aiDragStartBtnY + dy;
-    
-    const maxX = window.innerWidth - btn.offsetWidth - 8;
-    const maxY = window.innerHeight - btn.offsetHeight - 8;
-    
-    newX = Math.max(8, Math.min(newX, maxX));
-    newY = Math.max(8, Math.min(newY, maxY));
-    
-    btn.style.left = newX + 'px';
-    btn.style.top = newY + 'px';
-  };
+  const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+  const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : null);
   
-  const endDrag = () => {
-    if (!aiButtonDragging) return;
-    aiButtonDragging = false;
-    btn.classList.remove('dragging');
-    btn.style.transition = '';
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
-    
-    if (aiButtonWasDragged) {
-      const rect = btn.getBoundingClientRect();
-      siteSettings.aiCustomPos = { x: rect.left, y: rect.top };
-      siteSettings.aiPosition = 'custom';
-      localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
-      
-      const posSel = document.getElementById('setAiPosition');
-      if (posSel) posSel.value = 'custom';
-      
-      showToastNotification('📍 شوێنی AI پاشەکەوتکرا');
-      scheduleFirebaseSync();
-    }
-  };
+  if (clientX === null || clientY === null) return;
   
-  btn.addEventListener('pointerdown', (e) => {
-    if (e.button !== undefined && e.button !== 0) return;
-    activePointerId = e.pointerId;
-    btn.setPointerCapture(e.pointerId);
-    
-    isLongPress = false;
-    if (longPressTimer) clearTimeout(longPressTimer);
-    longPressTimer = setTimeout(() => {
-      isLongPress = true;
-      startDrag(e.clientX, e.clientY);
-    }, 200);
-  });
+  const btnW = btn.offsetWidth || 56;
+  const btnH = btn.offsetHeight || 56;
   
-  btn.addEventListener('pointermove', (e) => {
-    if (activePointerId !== e.pointerId) return;
-    
-    if (!aiButtonDragging) {
-      const dx = e.clientX - aiDragStartX;
-      const dy = e.clientY - aiDragStartY;
-      if (longPressTimer && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
-        if (aiDragStartX || aiDragStartY) {
-          clearTimeout(longPressTimer);
-          longPressTimer = null;
-          startDrag(aiDragStartX, aiDragStartY);
-        }
-      }
-    }
-    
-    if (aiButtonDragging) {
-      moveDrag(e.clientX, e.clientY);
-    }
-  });
+  let newX = clientX - btnW / 2;
+  let newY = clientY - btnH / 2;
   
-  btn.addEventListener('pointerdown', (e) => {
-    aiDragStartX = e.clientX;
-    aiDragStartY = e.clientY;
-  });
+  const maxX = window.innerWidth - btnW - 8;
+  const maxY = window.innerHeight - btnH - 8;
   
-  btn.addEventListener('pointerup', (e) => {
-    if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
-    endDrag();
-    activePointerId = null;
-  });
+  newX = Math.max(8, Math.min(newX, maxX));
+  newY = Math.max(8, Math.min(newY, maxY));
   
-  btn.addEventListener('pointercancel', (e) => {
-    if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
-    endDrag();
-    activePointerId = null;
-  });
+  btn.style.left = newX + 'px';
+  btn.style.top = newY + 'px';
+  btn.style.bottom = '';
+  btn.style.right = '';
+  btn.style.transform = '';
   
-  btn.addEventListener('contextmenu', (e) => e.preventDefault());
+  siteSettings.aiCustomPos = { x: newX, y: newY };
+  siteSettings.aiPosition = 'custom';
+  localStorage.setItem('dashti_master_settings', JSON.stringify(siteSettings));
   
-  btn.addEventListener('touchmove', (e) => {
-    if (aiButtonDragging) {
-      e.preventDefault();
-    }
-  }, { passive: false });
+  const posSel = document.getElementById('setAiPosition');
+  if (posSel) posSel.value = 'custom';
+  
+  aiJustMoved = true;
+  
+  showToastNotification('✅ شوێنی AI پاشەکەوتکرا');
+  scheduleFirebaseSync();
+  
+  setTimeout(() => {
+    exitAiMoveMode();
+    setTimeout(() => { aiJustMoved = false; }, 500);
+  }, 100);
 }
 
 function handleAiButtonClick(event) {
-  if (aiButtonWasDragged) {
-    aiButtonWasDragged = false;
+  if (aiJustMoved) return;
+  
+  if (aiMoveMode) {
+    exitAiMoveMode();
+    showToastNotification('❌ دۆخی جوڵان هەڵوەشێنرایەوە');
     return;
   }
+  
   openAiAssistant();
+}
+
+function handleAiButtonLongPress() {
+  if (aiMoveMode) return;
+  if (navigator.vibrate) {
+    try { navigator.vibrate(50); } catch(e) {}
+  }
+  enterAiMoveMode();
+}
+
+function makeAiButtonInteractive() {
+  const btn = getAiButton();
+  if (!btn) return;
+  
+  btn.addEventListener('contextmenu', (e) => e.preventDefault());
+  
+  btn.addEventListener('pointerdown', (e) => {
+    if (e.button !== undefined && e.button !== 1 && e.button !== 0) return;
+    if (e.button === 1) {
+      e.preventDefault();
+      handleAiButtonLongPress();
+      return;
+    }
+    if (aiLongPressTimer) clearTimeout(aiLongPressTimer);
+    aiLongPressTimer = setTimeout(() => {
+      aiLongPressTimer = null;
+      handleAiButtonLongPress();
+    }, 600);
+  });
+  
+  btn.addEventListener('pointerup', () => {
+    if (aiLongPressTimer) { clearTimeout(aiLongPressTimer); aiLongPressTimer = null; }
+  });
+  
+  btn.addEventListener('pointercancel', () => {
+    if (aiLongPressTimer) { clearTimeout(aiLongPressTimer); aiLongPressTimer = null; }
+  });
+  
+  btn.addEventListener('pointerleave', () => {
+    if (aiLongPressTimer) { clearTimeout(aiLongPressTimer); aiLongPressTimer = null; }
+  });
 }
 
 function resetAiPosition() {
@@ -3921,7 +3891,7 @@ window.addEventListener('resize', () => {
 });
 
 /* ============================================================
-   DOWNLOAD CHOICE LOGIC (ANDROID / IPHONE)
+   DOWNLOAD CHOICE LOGIC
    ============================================================ */
 function isIOSDevice() {
   const ua = navigator.userAgent || "";
@@ -3967,11 +3937,8 @@ function closeIphoneHowto(doPush = true) {
 }
 
 function smartDownload() {
-  if (isIOSDevice()) {
-    handleDownloadIphone();
-  } else {
-    handleDownloadAndroid();
-  }
+  if (isIOSDevice()) handleDownloadIphone();
+  else handleDownloadAndroid();
 }
 
 function isInStandaloneMode() {
@@ -3998,9 +3965,6 @@ function dismissIosBanner() {
   localStorage.setItem('ios_banner_dismissed', 'true');
 }
 
-/* ============================================================
-   CUSTOM INSTALL ICONS
-   ============================================================ */
 function previewCustomIcon(which, val) {
   const imgField = document.getElementById(which === 'android' ? 'setAndroidIconImg' : 'setIphoneIconImg');
   const preview = document.getElementById(which === 'android' ? 'androidIconPreview' : 'iphoneIconPreview');
@@ -4037,25 +4001,18 @@ function processCustomIconUpload(event, which) {
 function applyInstallIcons() {
   const androidIcon = siteSettings.androidIcon || '🤖';
   const iphoneIcon = siteSettings.iphoneIcon || '🍎';
-
   const androidDisplay = document.getElementById('androidIconDisplay');
   const iphoneDisplay = document.getElementById('iphoneIconDisplay');
-
   if (androidDisplay) {
     androidDisplay.innerHTML = androidIcon.startsWith('data:image')
-      ? `<img src="${androidIcon}" alt="android">`
-      : androidIcon;
+      ? `<img src="${androidIcon}" alt="android">` : androidIcon;
   }
   if (iphoneDisplay) {
     iphoneDisplay.innerHTML = iphoneIcon.startsWith('data:image')
-      ? `<img src="${iphoneIcon}" alt="iphone">`
-      : iphoneIcon;
+      ? `<img src="${iphoneIcon}" alt="iphone">` : iphoneIcon;
   }
 }
 
-/* ============================================================
-   GLOBAL HELPERS
-   ============================================================ */
 function showGlobalLoading(text) {
   const overlay = document.getElementById('globalLoadingOverlay');
   const textEl = document.getElementById('globalLoadingText');
@@ -4089,33 +4046,18 @@ function refreshAfterDataChange(options) {
     refreshMatchBanner = true
   } = options;
 
-  if (refreshLocations) {
-    try { refreshLocationFilterOptions(); } catch (e) {}
-  }
-  if (refreshStats) {
-    try { updatePublicStats(); } catch (e) {}
-  }
-  if (refreshList) {
-    try { renderProperties(); } catch (e) {}
-  }
-  if (refreshMatchBanner) {
-    try { updateMatchSummaryBanner(getFilteredList()); } catch (e) {}
-  }
+  if (refreshLocations) { try { refreshLocationFilterOptions(); } catch (e) {} }
+  if (refreshStats) { try { updatePublicStats(); } catch (e) {} }
+  if (refreshList) { try { renderProperties(); } catch (e) {} }
+  if (refreshMatchBanner) { try { updateMatchSummaryBanner(getFilteredList()); } catch (e) {} }
   scheduleFirebaseSync();
-
-  try {
-    setTimeout(() => {
-      scanAllForNewMatches();
-    }, 500);
-  } catch (e) {}
+  try { setTimeout(() => { scanAllForNewMatches(); }, 500); } catch (e) {}
 }
 
 let __syncTimer = null;
 function scheduleFirebaseSync() {
   if (__syncTimer) clearTimeout(__syncTimer);
-  __syncTimer = setTimeout(() => {
-    syncAllToFirebase();
-  }, 400);
+  __syncTimer = setTimeout(() => { syncAllToFirebase(); }, 400);
 }
 async function syncAllToFirebase() {
   try {
@@ -4129,14 +4071,9 @@ async function syncAllToFirebase() {
         trackedMatches: trackedMatches
       })
     });
-  } catch (err) {
-    console.warn('Firebase sync failed:', err);
-  }
+  } catch (err) { console.warn('Firebase sync failed:', err); }
 }
 
-/* ============================================================
-   PULL TO REFRESH
-   ============================================================ */
 (function setupPullToRefresh() {
   let startY = 0;
   let pulling = false;
@@ -4144,6 +4081,7 @@ async function syncAllToFirebase() {
   const threshold = 80;
 
   document.addEventListener('touchstart', (e) => {
+    if (aiMoveMode) return;
     if (window.scrollY > 5) return;
     if (document.getElementById('appLockModal').style.display !== 'none') return;
     startY = e.touches[0].clientY;
@@ -4151,7 +4089,7 @@ async function syncAllToFirebase() {
   }, { passive: true });
 
   document.addEventListener('touchmove', (e) => {
-    if (!pulling) return;
+    if (aiMoveMode || !pulling) return;
     const dy = e.touches[0].clientY - startY;
     if (dy > threshold) {
       indicator = document.getElementById('pullRefreshIndicator');
@@ -4160,14 +4098,12 @@ async function syncAllToFirebase() {
   }, { passive: true });
 
   document.addEventListener('touchend', async () => {
-    if (!pulling) return;
+    if (aiMoveMode || !pulling) return;
     pulling = false;
     indicator = document.getElementById('pullRefreshIndicator');
     if (indicator && indicator.classList.contains('show')) {
       showGlobalLoading('نوێکردنەوە...');
-      try {
-        await loadData(true);
-      } catch (e) {}
+      try { await loadData(true); } catch (e) {}
       setTimeout(() => {
         indicator.classList.remove('show');
         hideGlobalLoading();
@@ -4176,7 +4112,6 @@ async function syncAllToFirebase() {
   }, { passive: true });
 })();
 
-/* ============ TOAST ============ */
 function showToastNotification(msg) {
   const toast = document.getElementById('toastNotificationBox');
   const textEl = document.getElementById('toastMsgText');
@@ -4197,7 +4132,6 @@ function checkAutoNotification() {
   }
 }
 
-/* ============ DARK MODE ============ */
 function toggleDarkMode() {
   isDarkMode = !isDarkMode;
   localStorage.setItem('dashti_theme_dark', isDarkMode);
@@ -4214,7 +4148,6 @@ function applyDarkModeClass() {
   }
 }
 
-/* ============ TIME FORMATTING ============ */
 function formatTimeAgo(timestamp) {
   if (!timestamp) return 'ئەمڕۆ';
   const now = Date.now();
@@ -4232,7 +4165,6 @@ function formatTimeAgo(timestamp) {
   return `پێش ${Math.floor(diffMonths / 12)} ساڵ`;
 }
 
-/* ============ SKELETON ============ */
 function renderSkeletonLoading() {
   const grid = document.getElementById('propertiesGrid');
   if (!grid) return;
@@ -4249,18 +4181,12 @@ function renderSkeletonLoading() {
   }
 }
 
-/* ============================================================
-   LOCK SCREEN - PIN PAD
-   ============================================================ */
 function updatePinDisplay() {
   const dots = document.querySelectorAll('.lock-pin-dot');
   dots.forEach((dot, i) => {
     dot.classList.remove('error');
-    if (i < currentPinInput.length) {
-      dot.classList.add('filled');
-    } else {
-      dot.classList.remove('filled');
-    }
+    if (i < currentPinInput.length) dot.classList.add('filled');
+    else dot.classList.remove('filled');
   });
 }
 
@@ -4282,9 +4208,7 @@ function lockPinDelete() {
   document.getElementById('lockErrorMsg').innerText = '';
 }
 
-function lockPinSubmit() {
-  checkPinUnlock();
-}
+function lockPinSubmit() { checkPinUnlock(); }
 
 function checkPinUnlock() {
   const entered = currentPinInput.trim();
@@ -4308,12 +4232,9 @@ function checkPinUnlock() {
 
 document.addEventListener('DOMContentLoaded', function() {
   const hiddenInput = document.getElementById('appLockPassInput');
-  if (hiddenInput) {
-    hiddenInput.addEventListener('focus', function() { this.blur(); });
-  }
+  if (hiddenInput) hiddenInput.addEventListener('focus', function() { this.blur(); });
 });
 
-/* ============ ADMIN TABS ============ */
 function switchAdminTab(tab, btn) {
   document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
@@ -4338,7 +4259,6 @@ function openAmazeGoGameDirect() {
   openAmazeGoGame();
 }
 
-/* ============ WINDOW INIT ============ */
 window.addEventListener('load', function() {
   window.history.pushState({ screen: 'home' }, "", "");
   applyDarkModeClass();
@@ -4346,7 +4266,7 @@ window.addEventListener('load', function() {
   updatePinDisplay();
   applyAiColors();
   applyAiPosition();
-  makeAiButtonDraggable();
+  makeAiButtonInteractive();
 });
 
 window.addEventListener('popstate', function(e) {
@@ -4358,6 +4278,8 @@ window.addEventListener('popstate', function(e) {
 
   const aiModal = document.getElementById('aiAssistantModal');
   if (aiModal && aiModal.classList.contains('show')) { closeAiAssistant(); return; }
+
+  if (aiMoveMode) { exitAiMoveMode(); return; }
 
   const agOverlay = document.getElementById('amazeGoOverlay');
   if (agOverlay && agOverlay.style.display === 'block') { closeAmazeGoGame(); return; }
@@ -4379,18 +4301,11 @@ window.addEventListener('popstate', function(e) {
   window.history.back();
 });
 
-/* ============ CLOSE MODALS ON BACKDROP CLICK ============ */
 document.addEventListener('DOMContentLoaded', function() {
   const modalsToClose = [
-    'downloadChoiceModal',
-    'iphoneHowtoModal',
-    'propertyModal',
-    'wantModal',
-    'settingsModal',
-    'manageTabsModal',
-    'matchListModal'
+    'downloadChoiceModal', 'iphoneHowtoModal', 'propertyModal',
+    'wantModal', 'settingsModal', 'manageTabsModal', 'matchListModal'
   ];
-
   modalsToClose.forEach(id => {
     const modal = document.getElementById(id);
     if (!modal) return;
@@ -4403,7 +4318,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-
   const aiModal = document.getElementById('aiAssistantModal');
   if (aiModal) {
     aiModal.addEventListener('click', function(e) {
@@ -4412,7 +4326,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-/* ============ PHONE MODAL ============ */
 function openPhoneActionModal(phoneNumber) {
   const cleanPhone = String(phoneNumber).trim();
   document.getElementById('phoneActionTitle').innerText = `پەیوەندی: ${cleanPhone}`;
@@ -4429,7 +4342,6 @@ function closePhoneModal(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
-/* ============ GAME HUB ============ */
 function openGameHubModal() {
   const overlay = document.getElementById('fullscreenGameOverlay');
   overlay.style.display = 'flex';
@@ -4464,7 +4376,6 @@ function backToGameHub() {
   document.getElementById('tttPlayBox').style.display = 'none';
 }
 
-/* ============ TIC TAC TOE ============ */
 function updateTTTScoreBoard() {
   const sx = document.getElementById('tttScoreX');
   const so = document.getElementById('tttScoreO');
@@ -4614,7 +4525,6 @@ function findSmartMove(player) {
   return null;
 }
 
-/* ============ NAVIGATION ============ */
 function navigateToCategory(cat) {
   activeMainTab = cat;
   currentScreen = 'category';
@@ -4653,7 +4563,6 @@ function switchWantSubTab(type, btn) {
   renderProperties();
 }
 
-/* ============ ADMIN ============ */
 function toggleAdminBar() {
   isAdmin = !isAdmin;
   updateAdminViewDisplay();
@@ -4676,7 +4585,6 @@ function updateAdminViewDisplay() {
   }
 }
 
-/* ============ BACKUP / RESTORE ============ */
 function exportAllDataBackup() {
   const backupData = {
     settings: siteSettings,
@@ -4734,7 +4642,6 @@ function importAllDataBackup(event) {
   event.target.value = '';
 }
 
-/* ============ STATS ============ */
 function updatePublicStats() {
   document.getElementById('statHousesSale').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ فرۆشتن').length;
   document.getElementById('statHousesRent').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ بەکرێدان').length;
@@ -4744,7 +4651,6 @@ function updatePublicStats() {
   document.getElementById('statWants').innerText = properties.filter(p => p.category === 'خوازیار / پێویستە').length;
 }
 
-/* ============ HOLD / ACTION SHEET ============ */
 function startHold(id) {
   holdTimer = setTimeout(() => {
     selectedHoldItemId = id;
@@ -4788,7 +4694,6 @@ function handleHoldMatch() {
   openMatchListModal(id);
 }
 
-/* ============ STORY DOWNLOAD ============ */
 async function downloadPropertyAsStory(id) {
   const item = properties.find(p => String(p.id) === String(id));
   if (!item) return;
@@ -4824,7 +4729,6 @@ async function handleHoldStoryDownload() {
   await downloadPropertyAsStory(id);
 }
 
-/* ============ DIRECT DOWNLOAD (LEGACY) ============ */
 function triggerDirectDownload() {
   if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
     window.location.href = siteSettings.apkUrl;
@@ -4833,7 +4737,6 @@ function triggerDirectDownload() {
   }
 }
 
-/* ============ SPLASH ============ */
 function hideSplashScreen() {
   const splash = document.getElementById('customSplashScreen');
   if (splash) {
@@ -4842,7 +4745,6 @@ function hideSplashScreen() {
   }
 }
 
-/* ============ CHECK STANDALONE MODE ============ */
 function checkStandaloneMode() {
   const ua = navigator.userAgent || "";
   const isStandalone = 
@@ -4860,7 +4762,6 @@ function checkStandaloneMode() {
   }
 }
 
-/* ============ THEME ============ */
 function applyThemeSettings() {
   const primary = siteSettings.primaryColor || "#0284c7";
   const headerBg = siteSettings.headerBgColor || "#ffffff";
@@ -4887,7 +4788,6 @@ function applyThemeSettings() {
   applyDarkModeClass();
 }
 
-/* ============ DATA LOADING ============ */
 async function loadData(silent) {
   if (!silent) renderSkeletonLoading();
   try {
@@ -4939,34 +4839,26 @@ async function loadData(silent) {
   checkIosInstallBanner();
   updateMatchNotificationBadge();
   requestNotificationPermission();
-  setTimeout(() => {
-    scanAllForNewMatches();
-  }, 2000);
+  setTimeout(() => { scanAllForNewMatches(); }, 2000);
   if (!silent) setTimeout(hideSplashScreen, 300);
 }
 
 function applySettings() {
   const siteNameEl = document.getElementById('siteLogo');
   if (siteNameEl) siteNameEl.innerText = siteSettings.siteName;
-
   const logo = siteSettings.logoUrl || "https://cdn-icons-png.flaticon.com/512/609/609803.png";
   document.getElementById('siteLogoIcon').src = logo;
   document.getElementById('appFavicon').href = logo;
   document.getElementById('appAppleIcon').href = logo;
-
   ['appAppleIcon', 'appAppleIcon180', 'appAppleIcon152', 'appAppleIcon120'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.href = logo;
   });
-
   const titleMeta = document.getElementById('appTitleMeta');
   if (titleMeta) titleMeta.setAttribute('content', siteSettings.siteName);
-
   const iosLogo = document.getElementById('iosInstallLogo');
   if (iosLogo) iosLogo.src = logo;
-
   document.title = siteSettings.siteName;
-
   const splashLogo = document.getElementById('splashLogoImg');
   if (splashLogo) splashLogo.src = logo;
   const splashTitle = document.getElementById('splashTitleText');
@@ -4975,11 +4867,9 @@ function applySettings() {
   if (lockLogo) lockLogo.src = logo;
   const lockBrand = document.getElementById('lockBrandName');
   if (lockBrand) lockBrand.innerText = siteSettings.siteName;
-
   applyInstallIcons();
 }
 
-/* ============ CUSTOM CATEGORIES ============ */
 function renderCustomCategoriesHub() {
   const hub = document.getElementById('categoriesHubGrid');
   const wantsCard = document.getElementById('wantsCardBtn');
@@ -4990,7 +4880,6 @@ function renderCustomCategoriesHub() {
     <option value="شوێنی تیجاری">شوێنی تیجاری</option>
     <option value="زەوی">زەوی</option>
     <option value="مەزرەعە">مەزرەعە</option>`;
-
   customCategories.forEach((cat, idx) => {
     const div = document.createElement('div');
     div.className = 'cat-card-btn dynamically-added-cat';
@@ -5115,7 +5004,6 @@ async function handleSaveCustomCategory(e) {
   const customImgData = document.getElementById('customCatImgData').value;
   const icon = iconInput || '📁';
   const customImage = customImgData || '';
-
   if (editId) {
     const idx = customCategories.findIndex(c => c.id === editId);
     if (idx !== -1) customCategories[idx] = { ...customCategories[idx], title, icon, customImage };
@@ -5147,9 +5035,6 @@ async function deleteCustomCategory(id) {
   }
 }
 
-/* ============================================================
-   FILTERS SYSTEM
-   ============================================================ */
 function toggleFilterDropdowns() {
   document.getElementById('filterDropdowns').classList.toggle('show');
 }
@@ -5162,12 +5047,8 @@ function applyFiltersDebounced() {
 
 function handlePriceRangeChange(val) {
   const customInput = document.getElementById('filterPriceCustom');
-  if (val === 'custom') {
-    customInput.classList.add('show');
-  } else {
-    customInput.classList.remove('show');
-    customInput.value = '';
-  }
+  if (val === 'custom') customInput.classList.add('show');
+  else { customInput.classList.remove('show'); customInput.value = ''; }
   applyFiltersDebounced();
 }
 
@@ -5227,11 +5108,7 @@ function updateActiveFiltersInfo() {
   if (activeFilters.hasMatch) parts.push(`🎯 ${activeFilters.hasMatch === 'yes' ? 'گونجانی هەیە' : 'بێ گونجان'}`);
   const info = document.getElementById('activeFiltersInfo');
   if (!info) return;
-  if (parts.length > 0) {
-    info.innerText = `فلتەرە چالاکەکان: ${parts.join(' · ')}`;
-  } else {
-    info.innerText = '';
-  }
+  info.innerText = parts.length > 0 ? `فلتەرە چالاکەکان: ${parts.join(' · ')}` : '';
 }
 
 function refreshLocationFilterOptions() {
@@ -5287,9 +5164,6 @@ function matchesFilters(item) {
   return true;
 }
 
-/* ============================================================
-   VIEW MODE TOGGLE
-   ============================================================ */
 function switchViewMode(mode) {
   currentViewMode = mode;
   updateViewModeUI();
@@ -5314,9 +5188,6 @@ function updateViewModeUI() {
   }
 }
 
-/* ============================================================
-   SMART MATCHING ENGINE
-   ============================================================ */
 function normalizeNumerals(str) {
   if (str === null || str === undefined) return '';
   return String(str)
@@ -5516,9 +5387,6 @@ function getMatchBadgeHtml(item) {
   return `<span class="match-badge ${cls}" onclick="event.stopPropagation(); openMatchListModal('${item.id}')" title="گونجان: ${top.score}٪">${label} · ${matches.length}</span>`;
 }
 
-/* ============================================================
-   RENDER PROPERTIES
-   ============================================================ */
 function getFilteredList() {
   let list = properties.filter(p => p.category === activeMainTab);
   if (activeMainTab === 'خانوو') {
@@ -5538,9 +5406,7 @@ function getFilteredList() {
 function renderProperties() {
   const list = getFilteredList();
   const emptyState = document.getElementById('emptyState');
-
   updateMatchSummaryBanner(list);
-
   if (currentViewMode === 'table') {
     renderTableView(list);
     emptyState.style.display = list.length === 0 ? 'flex' : 'none';
@@ -5748,9 +5614,6 @@ function formatMapUrl(link, loc) {
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
-/* ============================================================
-   IMAGE COMPRESSION (ULTRA HIGH QUALITY)
-   ============================================================ */
 function compressImageUltraFast(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -5840,7 +5703,6 @@ function processLogoUpload(event) {
   }
 }
 
-/* ============ GALLERY ============ */
 function openGallery(id) {
   const item = properties.find(p => String(p.id) === String(id));
   if (!item) return;
@@ -5877,7 +5739,6 @@ function closeGallery(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
-/* ============ FORM HELPERS ============ */
 function toggleFormSubCategory() {
   const cat = document.getElementById('category').value;
   const subGroup = document.getElementById('formSubCatGroup');
@@ -6017,9 +5878,6 @@ function closeModals(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
-/* ============================================================
-   FORM SUBMISSIONS
-   ============================================================ */
 async function handleFormSubmit(e) {
   e.preventDefault();
   const saveBtn = document.getElementById('savePropBtn');
@@ -6208,7 +6066,6 @@ async function deleteProperty(id) {
   }
 }
 
-/* ============ GAME OPENERS ============ */
 function openRonakiGame() {
   document.getElementById('fullscreenGameOverlay').style.display = 'none';
   document.getElementById('ronakiGameOverlay').style.display = 'flex';
@@ -6248,16 +6105,14 @@ function closeAmazeGoGame() {
 }
 
 /* ============================================================
-   AI ASSISTANT — SMART SORANI KURDISH ENGINE
+   AI ASSISTANT — SMART SORANI KURDISH ENGINE (POWERFUL)
    ============================================================ */
 let aiChatHistory = [];
 let aiIsResponding = false;
 
 function openAiAssistant() {
   document.getElementById('aiAssistantModal').classList.add('show');
-  if (aiChatHistory.length === 0) {
-    aiGreetUser();
-  }
+  if (aiChatHistory.length === 0) aiGreetUser();
   setTimeout(() => document.getElementById('aiChatInput').focus(), 300);
 }
 
@@ -6276,12 +6131,12 @@ function aiGreetUser() {
   const welcome = `${greeting}! 👋 من یاریدەدەری زیرەکی "${siteSettings.siteName}"ـم.
 
 دەتوانم یارمەتیت بدەم بە:
-• 🔢 حسابکردن و لێکدان (وەک: "50000 لێکدانی 3")
-• 🎯 گونجانی نوێ و ڕاپۆرت
+• 🔢 حسابکردن، لێکدان، کۆکردنەوە، ڕێژە
+• 🎯 گونجانی نوێ و ڕاپۆرتی تەواو
 • 🏠 گونجانەکان بۆ فرۆشیار و کڕیار
-• 🔍 گەڕان بۆ موڵک و داواکاری
-• 💰 نرخ و ئامارەکان
-• 💡 ئامۆژگاری بۆ کڕین و فرۆشتن
+• 🔍 گەڕان بۆ موڵک، داواکاری، شوێن
+• 💰 نرخ، ئامار، ڕووبەر
+• 💡 ئامۆژگاری زیرەک بۆ کڕین و فرۆشتن
 
 بە کوردی سۆرانی یان هەر شێوەزمانێکی تر پرسیارم لێ بکە.`;
 
@@ -6370,7 +6225,6 @@ function sendAiMessage() {
   }, 500 + Math.random() * 400);
 }
 
-/* ===== KURDISH SORANI SMART TEXT PROCESSING ===== */
 function normalizeAiText(text) {
   return text
     .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
@@ -6405,29 +6259,26 @@ function processAiQuery(query) {
   const q = normalizeAiText(query);
   const qNum = kurdishNumbersToDigits(q);
 
-  /* ===== CALCULATOR ===== */
+  /* CALCULATOR */
   const calcResult = tryCalculate(qNum);
   if (calcResult !== null) return calcResult;
 
-  /* ===== MATCH TRACKING QUERIES ===== */
+  /* MATCH TRACKING */
   if (q.includes('گونجانی نوێ') || q.includes('گونجانەکان') || q.includes('چەند گونجان') || q.includes('ڕاپۆرت') || q.includes('راپۆرت')) {
     return getAIMatchReport();
   }
-
   if (q.includes('گونجانی من') || q.includes('گونجانەکانم') || q.includes('گونجانی خۆم')) {
     return getAIMatchListForSeller() + '\n\n' + getAIMatchListForBuyer();
   }
-
   if (q.includes('فرۆشیار') || q.includes('بفرۆشم') || q.includes('موڵکەکانم') || q.includes('موڵکەکەم')) {
     return getAIMatchListForSeller();
   }
-
   if (q.includes('کڕیار') || q.includes('بکڕم') || q.includes('داواکارییەکانم') || q.includes('داواکارییەکەم')) {
     return getAIMatchListForBuyer();
   }
 
-  /* ===== STATS ===== */
-  if (q.includes('چەند موڵک') || q.includes('ژمارەی موڵک') || q.includes('چەند خانوو') || q.includes('چەند ماڵ') || q.includes('ژمارەی خانوو')) {
+  /* STATS */
+  if (q.includes('چەند موڵک') || q.includes('ژمارەی موڵک') || q.includes('چەند خانوو') || q.includes('چەند ماڵ') || q.includes('ژمارەی خانوو') || q.includes('ئامار')) {
     const total = properties.length;
     const houses = properties.filter(p => p.category === 'خانوو').length;
     const lands = properties.filter(p => p.category === 'زەوی').length;
@@ -6446,8 +6297,8 @@ function processAiQuery(query) {
 • ✅ فرۆشراو/دابینکراو: ${sold}`;
   }
 
-  /* ===== PRICE ===== */
-  if (q.includes('نرخ') || q.includes('نرخی') || q.includes('بەها') || q.includes('بهای')) {
+  /* PRICE */
+  if (q.includes('نرخ') || q.includes('نرخی') || q.includes('بەها') || q.includes('بهای') || q.includes('چەندە')) {
     const withPrice = properties.filter(p => getNumericPrice(p) !== null);
     if (withPrice.length === 0) return '💰 هیچ موڵکێک نییە کە نرخی تێدا نووسرابێت.';
     const prices = withPrice.map(p => getNumericPrice(p));
@@ -6464,8 +6315,8 @@ function processAiQuery(query) {
 • ژمارەی موڵکی نرخدار: ${withPrice.length}`;
   }
 
-  /* ===== LOCATIONS ===== */
-  if (q.includes('شوێن') || q.includes('گەڕەک') || q.includes('ناوچە') || q.includes('شار') || q.includes('دەڤەر')) {
+  /* LOCATIONS */
+  if (q.includes('شوێن') || q.includes('گەڕەک') || q.includes('ناوچە') || q.includes('شار') || q.includes('دەڤەر') || q.includes('کامانەن')) {
     const locations = [...new Set(properties.map(p => p.location).filter(Boolean))];
     if (locations.length === 0) return '📍 هیچ شوێنێک تۆمار نەکراوە.';
     return `📍 شوێنەکان (${locations.length}):
@@ -6475,7 +6326,7 @@ ${locations.map(l => '• ' + l).join('\n')}
 💡 دەتوانیت لە فلتەرەکان شوێنەکان هەڵبژێریت.`;
   }
 
-  /* ===== MATCHES ===== */
+  /* MATCHES */
   if (q.includes('گونجان') || q.includes('گونجاو') || q.includes('match')) {
     let total = 0;
     let strong = 0;
@@ -6496,18 +6347,16 @@ ${locations.map(l => '• ' + l).join('\n')}
 💡 بۆ بینینیان، بڕۆ بۆ بەشەکە و کلیک لە باجی 🎯 بکە.`;
   }
 
-  /* ===== CONTACT ===== */
+  /* CONTACT */
   if (q.includes('پەیوەندی') || q.includes('ژمارە') || q.includes('تەلەفۆن') || q.includes('مۆبایل') || q.includes('واتس')) {
     return `📞 بۆ پەیوەندی:
 
 • کلیک لە ژمارەی مۆبایلی هەر موڵکێک بکە
 • دەتوانیت هەڵبژێریت: WhatsApp یان پەیوەندی تەلەفۆنی
-• هەموو ژمارەکان لەسەر کارتی موڵکەکان نیشان دراون
-
-💡 بە کلیک لە ژمارە، هەردوو هەڵبژاردەکە دەردەکەوێت.`;
+• هەموو ژمارەکان لەسەر کارتی موڵکەکان نیشان دراون`;
   }
 
-  /* ===== HOW TO ADD ===== */
+  /* HOW TO ADD */
   if (q.includes('چۆن زیاد') || q.includes('چۆن تۆمار') || q.includes('زیادکردن') || q.includes('تۆمارکردن') || q.includes('چۆن دابنێم')) {
     return `📝 بۆ زیادکردنی موڵک:
 
@@ -6523,8 +6372,8 @@ ${locations.map(l => '• ' + l).join('\n')}
 5. "پاشەکەوتکردن" دابگرە`;
   }
 
-  /* ===== ADVICE ===== */
-  if (q.includes('ئامۆژگاری') || q.includes('ڕاوێژ') || q.includes('یارمەتی') || q.includes('ڕێنمایی') || q.includes('ئامۆژگاریت پێیە')) {
+  /* ADVICE */
+  if (q.includes('ئامۆژگاری') || q.includes('ڕاوێژ') || q.includes('یارمەتی') || q.includes('ڕێنمایی')) {
     return `💡 ئامۆژگارییەکان:
 
 🏠 بۆ فرۆشیار:
@@ -6542,7 +6391,7 @@ ${locations.map(l => '• ' + l).join('\n')}
 • سیستەمی گونجاندنی زیرەک بەکاربهێنە — بە خۆکاری گونجانەکان دەدۆزێتەوە`;
   }
 
-  /* ===== GREETING ===== */
+  /* GREETING */
   if (q.includes('سڵاو') || q.includes('بەیانیت') || q.includes('ئێوارە') || q.includes('ڕۆژباش') || q.includes('شەوباش') || q.includes('سلام')) {
     const hour = new Date().getHours();
     let reply = 'سڵاو! 👋 چۆن دەتوانم یارمەتیت بدەم؟';
@@ -6552,11 +6401,12 @@ ${locations.map(l => '• ' + l).join('\n')}
     return reply;
   }
 
-  /* ===== THANKS ===== */
+  /* THANKS */
   if (q.includes('سوپاس') || q.includes('دەستخۆش') || q.includes('زۆر سوپاس') || q.includes('مەمنون')) {
     return 'زۆر بەخێربێیت! 🌟 ئەگەر پرسیارێکی ترت هەیە، من ئامادەم.';
   }
 
+  /* FALLBACK */
   return `🤔 ببورە، تێنەگەیشتم. دەتوانیت ئەمانە تاقی بکەیتەوە:
 
 • 🔢 حسابکردن: "50000 * 3" یان "100 + 250"
@@ -6743,9 +6593,7 @@ function getAIMatchListForSeller() {
     })
     .sort((a, b) => b.score - a.score)
     .slice(0, 10);
-  if (sellerMatches.length === 0) {
-    return 'هیچ گونجانێک بۆ موڵکەکانت نییە هێشتا.';
-  }
+  if (sellerMatches.length === 0) return 'هیچ گونجانێک بۆ موڵکەکانت نییە هێشتا.';
   let report = `🏠 گونجانەکان بۆ موڵکەکانت:\n\n`;
   sellerMatches.forEach((m, i) => {
     const prop = properties.find(p => String(p.id) === String(m.propId));
@@ -6765,9 +6613,7 @@ function getAIMatchListForBuyer() {
     })
     .sort((a, b) => b.score - a.score)
     .slice(0, 10);
-  if (buyerMatches.length === 0) {
-    return 'هیچ گونجانێک بۆ داواکارییەکانت نییە هێشتا.';
-  }
+  if (buyerMatches.length === 0) return 'هیچ گونجانێک بۆ داواکارییەکانت نییە هێشتا.';
   let report = `🔍 گونجانەکان بۆ داواکارییەکانت:\n\n`;
   buyerMatches.forEach((m, i) => {
     const prop = properties.find(p => String(p.id) === String(m.propId));
@@ -6856,7 +6702,6 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(function() {});
 }
 </script>
-
 <!-- Ronaki Game Engine Script -->
 <script>
 (function(){
@@ -8790,12 +8635,4 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 </body>
-body {
-  background-color: var(--bg);
-  color: var(--text);
-  padding-bottom: 35px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  overflow-x: hidden;
-  overscroll-behavior-y: none;
-}
 </html>
