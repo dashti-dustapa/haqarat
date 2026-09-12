@@ -2940,5 +2940,358 @@ fixP7Smith();
 <!-- ============================== -->
 <!-- PASTE_PART_8_UNDER_THIS_LINE -->
 <!-- ============================== -->
+<style>
+#p8JoyZone{
+  position:fixed;left:0;bottom:0;width:55%;height:100%;
+  z-index:29;pointer-events:auto;touch-action:none;background:transparent;
+  display:none;
+}
+#p8JoyBase{
+  position:absolute;width:125px;height:125px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
+  display:none;transform:translate(-50%,-50%);pointer-events:none;
+}
+#p8JoyKnob{
+  position:absolute;width:58px;height:58px;border-radius:50%;
+  background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.32);
+  display:none;transform:translate(-50%,-50%);pointer-events:none;
+}
+</style>
+
+<div id="p8JoyZone">
+  <div id="p8JoyBase"></div>
+  <div id="p8JoyKnob"></div>
+</div>
+
+<script>
+(function(){
+function p8$(id){ return document.getElementById(id); }
+
+if(typeof G==='undefined' || typeof P==='undefined' || typeof joy==='undefined'){
+  alert('بەشی ٨ پێویستی بە بەشی ١ و بەشەکانی پێشوو هەیە.');
+  return;
+}
+
+/* ---------------- جۆیستیکی نوێ بۆ مۆبایل ---------------- */
+var p8Zone = p8$('p8JoyZone');
+var p8Base = p8$('p8JoyBase');
+var p8Knob = p8$('p8JoyKnob');
+
+var p8Active = false;
+var p8TouchId = null;
+var p8PointerId = null;
+var p8BaseX = 0;
+var p8BaseY = 0;
+var p8Max = 62;
+
+function p8ShowBase(x, y){
+  p8Base.style.display = 'block';
+  p8Knob.style.display = 'block';
+  p8Base.style.left = x + 'px';
+  p8Base.style.top = y + 'px';
+  p8Knob.style.left = x + 'px';
+  p8Knob.style.top = y + 'px';
+}
+
+function p8Move(clientX, clientY){
+  var dx = clientX - p8BaseX;
+  var dy = clientY - p8BaseY;
+  var d = Math.hypot(dx, dy);
+
+  if(d > p8Max){
+    dx = dx / d * p8Max;
+    dy = dy / d * p8Max;
+  }
+
+  p8Knob.style.left = (p8BaseX + dx) + 'px';
+  p8Knob.style.top = (p8BaseY + dy) + 'px';
+
+  joy.x = dx / p8Max;
+  joy.y = dy / p8Max;
+  joy.on = true;
+}
+
+function p8End(){
+  p8Active = false;
+  p8TouchId = null;
+  p8PointerId = null;
+  joy.x = 0;
+  joy.y = 0;
+  joy.on = false;
+  p8Base.style.display = 'none';
+  p8Knob.style.display = 'none';
+}
+
+var p8UseTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+
+if(p8UseTouch){
+  p8Zone.addEventListener('touchstart', function(e){
+    if(state !== 'play' || p8Active) return;
+    var t = e.changedTouches[0];
+    p8Active = true;
+    p8TouchId = t.identifier;
+    p8BaseX = t.clientX;
+    p8BaseY = t.clientY;
+    p8ShowBase(p8BaseX, p8BaseY);
+    p8Move(t.clientX, t.clientY);
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('touchmove', function(e){
+    if(!p8Active || p8TouchId === null) return;
+    for(var i=0;i<e.touches.length;i++){
+      if(e.touches[i].identifier === p8TouchId){
+        p8Move(e.touches[i].clientX, e.touches[i].clientY);
+        break;
+      }
+    }
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('touchend', function(e){
+    if(!p8Active || p8TouchId === null) return;
+    for(var i=0;i<e.changedTouches.length;i++){
+      if(e.changedTouches[i].identifier === p8TouchId){
+        p8End();
+        break;
+      }
+    }
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('touchcancel', function(e){
+    p8End();
+    e.preventDefault();
+  }, {passive:false});
+} else {
+  p8Zone.addEventListener('pointerdown', function(e){
+    if(state !== 'play' || p8Active) return;
+    p8Active = true;
+    p8PointerId = e.pointerId;
+    p8BaseX = e.clientX;
+    p8BaseY = e.clientY;
+    p8ShowBase(p8BaseX, p8BaseY);
+    p8Move(e.clientX, e.clientY);
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('pointermove', function(e){
+    if(!p8Active || e.pointerId !== p8PointerId) return;
+    p8Move(e.clientX, e.clientY);
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('pointerup', function(e){
+    if(e.pointerId === p8PointerId) p8End();
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('pointercancel', function(e){
+    if(e.pointerId === p8PointerId) p8End();
+    e.preventDefault();
+  }, {passive:false});
+}
+
+/* شاردنەوەی جۆیستیکی کۆن */
+var oldJoyZone = document.getElementById('joyZone');
+if(oldJoyZone) oldJoyZone.style.display = 'none';
+
+/* پیشاندان/شاردنەوەی جۆیستیک بەپێی دۆخ */
+setInterval(function(){
+  var shouldShow = (typeof state !== 'undefined' && state === 'play');
+  p8Zone.style.display = shouldShow ? 'block' : 'none';
+  if(!shouldShow && p8Active) p8End();
+}, 180);
+
+/* ---------------- گرافیکی زیادە ---------------- */
+var p8Decor = [];
+var p8Clouds = [];
+
+function genP8Graphics(){
+  p8Decor = [];
+  p8Clouds = [];
+
+  var i, x, y, z;
+
+  for(i=0;i<260;i++){
+    z = choose([village, forest, mountain, ruins]);
+    x = rand(z.x - z.r, z.x + z.r);
+    y = rand(z.y - z.r, z.y + z.r);
+    if(dist(x, y, z.x, z.y) < z.r){
+      p8Decor.push({t:'grass', x:x, y:y, c:choose(['#57d98a','#3fae6d','#79e6a4'])});
+    }
+  }
+
+  for(i=0;i<110;i++){
+    z = choose([village, forest, mountain]);
+    x = rand(z.x - z.r, z.x + z.r);
+    y = rand(z.y - z.r, z.y + z.r);
+    if(dist(x, y, z.x, z.y) < z.r){
+      p8Decor.push({t:'flower', x:x, y:y, c:choose(['#ffd76b','#ff8fb1','#bfe6ff','#d3a6ff','#9fe8c9'])});
+    }
+  }
+
+  for(i=0;i<85;i++){
+    z = choose([ruins, mountain, gate, forest]);
+    x = rand(z.x - z.r, z.x + z.r);
+    y = rand(z.y - z.r, z.y + z.r);
+    if(dist(x, y, z.x, z.y) < z.r){
+      p8Decor.push({t:'pebble', x:x, y:y, c:choose(['#7d8a99','#5b6470','#9aa5b5'])});
+    }
+  }
+
+  for(i=0;i<6;i++){
+    p8Clouds.push({
+      x:rand(0, WORLD.w),
+      y:rand(0, WORLD.h),
+      r:rand(170, 330),
+      speed:rand(8, 24),
+      a:rand(.04, .08)
+    });
+  }
+}
+
+function drawP8Decor(){
+  if(G.lowGfx) return;
+
+  for(var i=0;i<p8Decor.length;i++){
+    var d = p8Decor[i];
+    if(!vis(d.x, d.y, 30)) continue;
+
+    if(d.t === 'grass'){
+      ctx.strokeStyle = d.c;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x + 2, d.y - 7);
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x - 3, d.y - 5);
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x + 4, d.y - 4);
+      ctx.stroke();
+    }
+
+    if(d.t === 'flower'){
+      ctx.fillStyle = '#3f8f57';
+      ctx.fillRect(d.x - 1, d.y - 6, 2, 7);
+      circle(d.x, d.y - 8, 3, d.c);
+      circle(d.x, d.y - 8, 1.2, '#fff8d8');
+    }
+
+    if(d.t === 'pebble'){
+      ellipse(d.x, d.y, 3.6, 2.4, d.c);
+      ellipse(d.x - 1, d.y - 1, 1.4, .9, 'rgba(255,255,255,.18)');
+    }
+  }
+}
+
+function drawP8Clouds(){
+  if(G.lowGfx) return;
+
+  for(var i=0;i<p8Clouds.length;i++){
+    var c = p8Clouds[i];
+    var cx = (c.x + G.time * c.speed) % (WORLD.w + 700) - 350;
+
+    if(!vis(cx, c.y, c.r + 220)) continue;
+
+    ellipse(cx, c.y, c.r, c.r * .42, 'rgba(0,0,0,' + c.a + ')');
+    ellipse(cx + c.r * .42, c.y + 12, c.r * .68, c.r * .30, 'rgba(0,0,0,' + (c.a * .7) + ')');
+    ellipse(cx - c.r * .38, c.y + 8, c.r * .58, c.r * .26, 'rgba(0,0,0,' + (c.a * .6) + ')');
+  }
+}
+
+var baseDrawBackgroundP8 = window.drawBackground;
+window.drawBackground = function(){
+  baseDrawBackgroundP8();
+  drawP8Clouds();
+};
+
+var baseDrawGroundP8 = window.drawGround;
+window.drawGround = function(){
+  baseDrawGroundP8();
+  drawP8Decor();
+};
+
+var baseDrawTreeP8 = window.drawTree;
+window.drawTree = function(o){
+  baseDrawTreeP8(o);
+
+  if(G.lowGfx) return;
+  if(!vis(o.x, o.y, 120)) return;
+
+  var sway = Math.sin(G.time * 1.2 + o.s) * 3;
+  circle(o.x + sway * .7, o.y - o.c * .92, o.c * .16, 'rgba(255,255,255,.05)');
+  circle(o.x + sway * .4 + o.c * .22, o.y - o.c * .72, o.c * .10, 'rgba(255,255,255,.04)');
+};
+
+/* ---------------- پڕژانە و وردکاری جوڵە ---------------- */
+function p8Ambient(){
+  if(G.lowGfx) return;
+  if(particles.length > 420) return;
+
+  var moving = joy.on ||
+    keys.KeyW || keys.KeyS || keys.KeyA || keys.KeyD ||
+    keys.ArrowUp || keys.ArrowDown || keys.ArrowLeft || keys.ArrowRight;
+
+  if(moving && chance(.28)){
+    particles.push({
+      x:P.x + rand(-9, 9),
+      y:P.y + 13,
+      vx:rand(-14, 14),
+      vy:rand(-20, -5),
+      life:rand(.25, .5),
+      maxlife:.5,
+      size:rand(1, 2.4),
+      color:'rgba(210,190,150,.35)',
+      grav:0,
+      type:'spark'
+    });
+  }
+
+  if(chance(.22)){
+    for(var i=0;i<torches.length;i++){
+      var t = torches[i];
+      if(vis(t.x, t.y, 140) && chance(.08)){
+        particles.push({
+          x:t.x + rand(-3, 3),
+          y:t.y - 28,
+          vx:rand(-8, 8),
+          vy:rand(-34, -14),
+          life:rand(.35, .7),
+          maxlife:.7,
+          size:rand(1, 2.2),
+          color:'rgba(255,190,90,.55)',
+          grav:-8,
+          type:'spark'
+        });
+      }
+    }
+  }
+}
+
+var baseUpdatePlayP8 = window.updatePlay;
+window.updatePlay = function(dt){
+  preP8(dt);
+  baseUpdatePlayP8(dt);
+  postP8(dt);
+};
+
+function preP8(dt){
+  if(state !== 'play') return;
+  p8Ambient();
+}
+
+function postP8(dt){
+  /* بۆ بەشەکانی داهاتوو */
+}
+
+/* ---------------- دەستپێک ---------------- */
+genP8Graphics();
+})();
+</script>
+
+<!-- ============================== -->
+<!-- PASTE_PART_9_UNDER_THIS_LINE -->
+<!-- ============================== -->
 </body>
 </html>
