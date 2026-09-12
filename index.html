@@ -3293,5 +3293,517 @@ genP8Graphics();
 <!-- ============================== -->
 <!-- PASTE_PART_9_UNDER_THIS_LINE -->
 <!-- ============================== -->
+<style>
+#p9ErrorBox{
+  position:fixed;
+  left:8px;
+  bottom:8px;
+  max-width:92vw;
+  z-index:9999;
+  background:rgba(40,0,0,.82);
+  color:#ffd7d7;
+  border:1px solid rgba(255,120,120,.45);
+  border-radius:10px;
+  padding:8px 10px;
+  font:12px monospace;
+  white-space:pre-wrap;
+  display:none;
+  direction:ltr;
+  text-align:left;
+  pointer-events:none;
+}
+
+#p9MoveLayer{
+  position:fixed;
+  left:0;
+  top:0;
+  width:64vw;
+  height:100vh;
+  z-index:32;
+  display:none;
+  pointer-events:auto;
+  touch-action:none;
+  background:transparent;
+}
+
+#p9JoyBase{
+  position:fixed;
+  width:138px;
+  height:138px;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(255,255,255,.12),rgba(255,255,255,.045));
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 0 30px rgba(120,200,255,.12);
+  display:none;
+  pointer-events:none;
+  z-index:33;
+}
+
+#p9JoyKnob{
+  position:fixed;
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(255,255,255,.34),rgba(255,255,255,.16));
+  border:1px solid rgba(255,255,255,.38);
+  box-shadow:0 0 18px rgba(255,255,255,.18);
+  display:none;
+  pointer-events:none;
+  z-index:34;
+}
+
+html,body,canvas{
+  touch-action:none !important;
+  -webkit-user-select:none !important;
+  user-select:none !important;
+}
+</style>
+
+<div id="p9ErrorBox"></div>
+<div id="p9MoveLayer"></div>
+<div id="p9JoyBase"></div>
+<div id="p9JoyKnob"></div>
+
+<script>
+(function(){
+function p9$(id){ return document.getElementById(id); }
+
+if(typeof G==='undefined' || typeof P==='undefined'){
+  alert('Part 9 needs Part 1 first.');
+  return;
+}
+
+/* =========================================================
+   1) ERROR BOX + SAFE WRAPPERS
+   This stops one small error from freezing the whole game.
+========================================================= */
+
+var p9LastTick = performance.now();
+var p9Errors = 0;
+
+function p9ShowError(e, where){
+  p9Errors++;
+  var box = p9$('p9ErrorBox');
+  if(!box) return;
+
+  var msg = '';
+  try{
+    msg = (e && e.stack) ? e.stack : String(e);
+  }catch(_){
+    msg = 'Unknown error';
+  }
+
+  box.style.display = 'block';
+  box.textContent =
+    'Game caught an error, but loop continues.\n' +
+    'Where: ' + where + '\n' +
+    msg.substring(0,900);
+}
+
+window.addEventListener('error', function(e){
+  p9ShowError(e.error || e.message, 'window.error');
+});
+
+window.addEventListener('unhandledrejection', function(e){
+  p9ShowError(e.reason || 'Promise error', 'promise');
+});
+
+function p9SafeWrap(name){
+  var old = window[name];
+  if(typeof old !== 'function') return;
+
+  window[name] = function(){
+    p9LastTick = performance.now();
+    try{
+      return old.apply(this, arguments);
+    }catch(e){
+      p9ShowError(e, name);
+      return undefined;
+    }
+  };
+}
+
+/* Wrap the main functions that can freeze the frame loop */
+p9SafeWrap('updatePlay');
+p9SafeWrap('updatePassive');
+p9SafeWrap('draw');
+p9SafeWrap('drawMinimap');
+p9SafeWrap('drawGround');
+p9SafeWrap('drawEntities');
+p9SafeWrap('updateHUD');
+
+/* =========================================================
+   2) EMERGENCY LOOP
+   If the original requestAnimationFrame loop died,
+   this loop starts and keeps the game alive.
+========================================================= */
+
+var p9EmergencyStarted = false;
+var p9EmergencyLast = performance.now();
+
+function p9EmergencyFrame(now){
+  var dt = Math.min((now - p9EmergencyLast) / 1000, .05);
+  p9EmergencyLast = now;
+
+  try{
+    if(typeof G.time === 'number') G.time += dt;
+    else G.time = 0;
+
+    if(typeof state !== 'undefined'){
+      if(state === 'play' && typeof window.updatePlay === 'function'){
+        window.updatePlay(dt);
+      }else if(typeof window.updatePassive === 'function'){
+        window.updatePassive(dt);
+      }
+    }
+
+    if(typeof window.draw === 'function'){
+      window.draw();
+    }
+  }catch(e){
+    p9ShowError(e, 'emergency-loop');
+  }
+
+  requestAnimationFrame(p9EmergencyFrame);
+}
+
+setInterval(function(){
+  var now = performance.now();
+
+  if(!p9EmergencyStarted && now - p9LastTick > 1300){
+    p9EmergencyStarted = true;
+    p9EmergencyLast = now;
+    p9ShowError('Original game loop looked frozen, emergency loop started.', 'watchdog');
+    requestAnimationFrame(p9EmergencyFrame);
+  }
+}, 700);
+
+/* =========================================================
+   3) STRONG MOBILE MOVEMENT FIX
+   Drag anywhere on the LEFT side of the screen to move.
+========================================================= */
+
+var p9Layer = p9$('p9MoveLayer');
+var p9Base = p9$('p9JoyBase');
+var p9Knob = p9$('p9JoyKnob');
+
+var p9Active = false;
+var p9Pointer = null;
+var p9StartX = 0;
+var p9StartY = 0;
+var p9Max = 68;
+
+/* Force touch mode variable if it exists */
+try{
+  if(typeof isTouch !== 'undefined') isTouch = true;
+  window.isTouch = true;
+}catch(e){}
+
+function p9SetJoyVisible(on){
+  p9Base.style.display = on ? 'block' : 'none';
+  p9Knob.style.display = on ? 'block' : 'none';
+}
+
+function p9StartMove(e){
+  if(typeof state === 'undefined' || state !== 'play') return;
+
+  p9Active = true;
+  p9Pointer = e.pointerId;
+  p9StartX = e.clientX;
+  p9StartY = e.clientY;
+
+  p9Base.style.left = p9StartX + 'px';
+  p9Base.style.top = p9StartY + 'px';
+  p9Knob.style.left = p9StartX + 'px';
+  p9Knob.style.top = p9StartY + 'px';
+  p9SetJoyVisible(true);
+
+  if(p9Layer.setPointerCapture){
+    try{ p9Layer.setPointerCapture(p9Pointer); }catch(_){}
+  }
+
+  p9Move(e);
+  e.preventDefault();
+}
+
+function p9Move(e){
+  if(!p9Active || e.pointerId !== p9Pointer) return;
+
+  var dx = e.clientX - p9StartX;
+  var dy = e.clientY - p9StartY;
+  var d = Math.hypot(dx, dy);
+
+  if(d > p9Max){
+    dx = dx / d * p9Max;
+    dy = dy / d * p9Max;
+  }
+
+  p9Knob.style.left = (p9StartX + dx) + 'px';
+  p9Knob.style.top = (p9StartY + dy) + 'px';
+
+  joy.x = dx / p9Max;
+  joy.y = dy / p9Max;
+  joy.on = true;
+
+  e.preventDefault();
+}
+
+function p9EndMove(e){
+  if(e && p9Pointer !== null && e.pointerId !== p9Pointer) return;
+
+  p9Active = false;
+  p9Pointer = null;
+
+  joy.x = 0;
+  joy.y = 0;
+  joy.on = false;
+
+  p9SetJoyVisible(false);
+
+  if(e) e.preventDefault();
+}
+
+p9Layer.addEventListener('pointerdown', p9StartMove, {passive:false});
+p9Layer.addEventListener('pointermove', p9Move, {passive:false});
+p9Layer.addEventListener('pointerup', p9EndMove, {passive:false});
+p9Layer.addEventListener('pointercancel', p9EndMove, {passive:false});
+p9Layer.addEventListener('lostpointercapture', p9EndMove, {passive:false});
+
+/* Make sure browser does not scroll/zoom while playing */
+document.addEventListener('touchmove', function(e){
+  if(typeof state !== 'undefined' && state === 'play'){
+    e.preventDefault();
+  }
+}, {passive:false});
+
+function p9MobileUiLoop(){
+  var playing = (typeof state !== 'undefined' && state === 'play');
+
+  p9Layer.style.display = playing ? 'block' : 'none';
+
+  if(!playing && p9Active){
+    p9EndMove();
+  }
+
+  /* Keep original touch buttons visible */
+  var touch = document.getElementById('touch');
+  if(touch){
+    if(playing) touch.classList.remove('hidden');
+    else touch.classList.add('hidden');
+  }
+
+  /* Hide old joystick zones so they cannot steal touches */
+  var oldJoy = document.getElementById('joyZone');
+  if(oldJoy) oldJoy.style.display = 'none';
+
+  var p8Joy = document.getElementById('p8JoyZone');
+  if(p8Joy) p8Joy.style.display = 'none';
+}
+
+setInterval(p9MobileUiLoop, 120);
+
+/* =========================================================
+   4) EXTRA GRAPHICS DETAIL
+========================================================= */
+
+var p9GroundBits = [];
+var p9GlowMotes = [];
+var p9Ripples = [];
+
+function p9GenGraphics(){
+  p9GroundBits = [];
+  p9GlowMotes = [];
+  p9Ripples = [];
+
+  var i, z, x, y;
+
+  for(i=0;i<360;i++){
+    z = choose([village, forest, ruins, mountain, gate]);
+    x = rand(z.x - z.r, z.x + z.r);
+    y = rand(z.y - z.r, z.y + z.r);
+
+    if(dist(x,y,z.x,z.y) < z.r){
+      p9GroundBits.push({
+        t:choose(['leaf','grass2','stone','sparkgrass']),
+        x:x,
+        y:y,
+        s:rand(.7,1.8),
+        a:rand(0,TAU),
+        c:choose(['#6fe39b','#9fe8c9','#7d8a99','#ffd76b','#a9c8ff'])
+      });
+    }
+  }
+
+  for(i=0;i<70;i++){
+    z = choose([forest, village, mountain]);
+    x = rand(z.x - z.r, z.x + z.r);
+    y = rand(z.y - z.r, z.y + z.r);
+
+    if(dist(x,y,z.x,z.y) < z.r){
+      p9GlowMotes.push({
+        x:x,
+        y:y,
+        r:rand(8,22),
+        p:rand(0,TAU),
+        c:choose(['rgba(255,230,150,.24)','rgba(130,220,255,.20)','rgba(150,255,190,.18)'])
+      });
+    }
+  }
+
+  for(i=0;i<18;i++){
+    x = rand(village.x - 280, village.x + 280);
+    y = rand(village.y - 260, village.y + 260);
+    p9Ripples.push({x:x,y:y,p:rand(0,TAU),r:rand(10,28)});
+  }
+}
+
+function p9DrawExtraGround(){
+  if(G.lowGfx) return;
+
+  for(var i=0;i<p9GroundBits.length;i++){
+    var b = p9GroundBits[i];
+    if(!vis(b.x,b.y,35)) continue;
+
+    if(b.t === 'leaf'){
+      ctx.save();
+      ctx.translate(b.x,b.y);
+      ctx.rotate(Math.sin(G.time*.9 + b.a) * .4 + b.a);
+      ellipse(0,0,4*b.s,2*b.s,b.c);
+      ctx.restore();
+    }
+
+    if(b.t === 'grass2'){
+      ctx.strokeStyle = b.c;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(b.x,b.y);
+      ctx.lineTo(b.x+Math.cos(b.a)*6*b.s,b.y-7*b.s);
+      ctx.moveTo(b.x,b.y);
+      ctx.lineTo(b.x-Math.sin(b.a)*5*b.s,b.y-5*b.s);
+      ctx.stroke();
+    }
+
+    if(b.t === 'stone'){
+      ellipse(b.x,b.y,4*b.s,2.6*b.s,b.c);
+      ellipse(b.x-1,b.y-1,1.4*b.s,.8*b.s,'rgba(255,255,255,.16)');
+    }
+
+    if(b.t === 'sparkgrass'){
+      var alpha = .18 + Math.sin(G.time*2 + b.a) * .08;
+      circle(b.x,b.y-5,3*b.s,'rgba(255,230,130,'+alpha+')');
+    }
+  }
+
+  for(i=0;i<p9GlowMotes.length;i++){
+    var m = p9GlowMotes[i];
+    if(!vis(m.x,m.y,60)) continue;
+
+    var pulse = 1 + Math.sin(G.time*2 + m.p) * .25;
+    var g = ctx.createRadialGradient(m.x,m.y,1,m.x,m.y,m.r*pulse);
+    g.addColorStop(0,m.c);
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    circle(m.x,m.y,m.r*pulse,g);
+  }
+
+  for(i=0;i<p9Ripples.length;i++){
+    var r = p9Ripples[i];
+    if(!vis(r.x,r.y,60)) continue;
+
+    var rr = r.r + Math.sin(G.time*2 + r.p) * 4;
+    ctx.strokeStyle = 'rgba(120,190,255,.12)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(r.x,r.y,rr,rr*.38,0,0,TAU);
+    ctx.stroke();
+  }
+}
+
+var p9BaseDrawGround = window.drawGround;
+if(typeof p9BaseDrawGround === 'function'){
+  window.drawGround = function(){
+    try{
+      p9BaseDrawGround();
+      p9DrawExtraGround();
+    }catch(e){
+      p9ShowError(e, 'drawGround+p9');
+    }
+  };
+}
+
+function p9ExtraParticles(dt){
+  if(typeof state === 'undefined' || state !== 'play') return;
+  if(G.lowGfx) return;
+  if(typeof particles === 'undefined' || particles.length > 520) return;
+
+  var moving = false;
+
+  try{
+    moving =
+      joy.on ||
+      keys.KeyW || keys.KeyS || keys.KeyA || keys.KeyD ||
+      keys.ArrowUp || keys.ArrowDown || keys.ArrowLeft || keys.ArrowRight;
+  }catch(e){}
+
+  if(moving && chance(.22)){
+    particles.push({
+      x:P.x + rand(-10,10),
+      y:P.y + 15,
+      vx:rand(-22,22),
+      vy:rand(-16,2),
+      life:rand(.20,.42),
+      maxlife:.42,
+      size:rand(1.4,3),
+      color:'rgba(220,205,170,.32)',
+      grav:0,
+      type:'spark'
+    });
+  }
+
+  if(chance(.10)){
+    particles.push({
+      x:P.x + rand(-50,50),
+      y:P.y + rand(-60,30),
+      vx:rand(-6,6),
+      vy:rand(-18,-4),
+      life:rand(.6,1.2),
+      maxlife:1.2,
+      size:rand(1,2.2),
+      color:choose(['rgba(255,230,150,.32)','rgba(130,220,255,.26)','rgba(150,255,190,.22)']),
+      grav:-3,
+      type:'spark'
+    });
+  }
+}
+
+var p9BaseUpdatePlay = window.updatePlay;
+if(typeof p9BaseUpdatePlay === 'function'){
+  window.updatePlay = function(dt){
+    p9LastTick = performance.now();
+    try{
+      p9ExtraParticles(dt);
+      return p9BaseUpdatePlay(dt);
+    }catch(e){
+      p9ShowError(e, 'updatePlay+p9');
+    }
+  };
+}
+
+/* Re-wrap after adding p9 graphics */
+p9SafeWrap('updatePlay');
+p9SafeWrap('drawGround');
+p9SafeWrap('draw');
+
+p9GenGraphics();
+p9MobileUiLoop();
+
+notify('Mobile fix loaded: drag on the LEFT side to move.', 'info');
+})();
+</script>
+
+<!-- ============================== -->
+<!-- PASTE_PART_10_UNDER_THIS_LINE -->
+<!-- ============================== -->
 </body>
 </html>
