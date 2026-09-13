@@ -9805,3 +9805,698 @@ checkP4Ach();
 
 })();
 </script>
+<!-- PART 7: سمیت + جۆیستیکی نوێ -->
+<script>
+(function(){
+function p7$(id){ return document.getElementById(id); }
+
+if(typeof G==='undefined' || typeof P==='undefined' || typeof npcs==='undefined'){
+  console.warn('Part7 needs Part1');
+  return;
+}
+
+var p7Smith = null;
+
+function findP7Smith(){
+  p7Smith = null;
+  for(var i=0;i<npcs.length;i++){
+    if(npcs[i].id === 'smith'){
+      p7Smith = npcs[i];
+      return;
+    }
+  }
+}
+
+function ensureP7(){
+  if(typeof G.p7HintCd==='undefined') G.p7HintCd = 0;
+}
+
+function fixP7Smith(){
+  findP7Smith();
+  if(!p7Smith) return;
+
+  /* شوێنی نوێی کاوەی ئاسنگەر: کراوەتر لە گوندەکە */
+  p7Smith.x = village.x - 120;
+  p7Smith.y = village.y + 195;
+
+  /* تۆرچێک بۆ شوێنی کاوە */
+  if(typeof torches !== 'undefined'){
+    for(var i=torches.length-1;i>=0;i--){
+      if(torches[i].p7) torches.splice(i,1);
+    }
+    torches.push({x:p7Smith.x + 26, y:p7Smith.y - 12, p:rand(0,TAU), p7:true});
+  }
+}
+
+var baseResetGameP7 = window.resetGame;
+window.resetGame = function(){
+  baseResetGameP7();
+  ensureP7();
+  fixP7Smith();
+};
+
+var baseLoadGameP7 = window.loadGame;
+window.loadGame = function(){
+  var ok = baseLoadGameP7();
+  if(ok){
+    ensureP7();
+    fixP7Smith();
+  }
+  return ok;
+};
+
+/* ---------------- شمشێری یەدەگ لە بەرد ---------------- */
+function spawnP7SwordIfNeeded(){
+  if(!p7Smith) return;
+
+  if(G.quest >= 1 && !G.hasSword){
+    var exists = false;
+    for(var i=0;i<pickups.length;i++){
+      if(pickups[i].type === 'p7sword') exists = true;
+    }
+    if(!exists){
+      pickups.push({
+        type:'p7sword',
+        x:p7Smith.x + 22,
+        y:p7Smith.y + 26,
+        bob:rand(0,TAU)
+      });
+    }
+  } else if(G.hasSword){
+    for(var j=pickups.length-1;j>=0;j--){
+      if(pickups[j].type === 'p7sword') pickups.splice(j,1);
+    }
+  }
+}
+
+function collectP7Sword(){
+  for(var i=pickups.length-1;i>=0;i--){
+    var p = pickups[i];
+    if(p.type === 'p7sword' && dist(P.x, P.y, p.x, p.y) < 40){
+      pickups.splice(i,1);
+
+      G.hasSword = true;
+      if(G.quest === 1) G.quest = 2;
+
+      notify('شمشێری ڕووناکی وەرگیرا!', 'quest');
+      sfx('pickup');
+      vib(25);
+      saveGame();
+      updateHUD();
+    }
+  }
+}
+
+function drawP7Sword(p){
+  var bob = Math.sin(G.time*3 + p.bob) * 3;
+
+  ellipse(p.x, p.y + 10, 14, 6, 'rgba(0,0,0,.28)');
+
+  ctx.fillStyle = '#5b6470';
+  ctx.beginPath();
+  ctx.moveTo(p.x - 14, p.y + 8);
+  ctx.lineTo(p.x + 14, p.y + 8);
+  ctx.lineTo(p.x + 8, p.y - 4);
+  ctx.lineTo(p.x - 8, p.y - 4);
+  ctx.closePath();
+  ctx.fill();
+
+  var g = ctx.createRadialGradient(p.x, p.y - 14 + bob, 2, p.x, p.y - 14 + bob, 34);
+  g.addColorStop(0, 'rgba(220,240,255,.9)');
+  g.addColorStop(1, 'rgba(120,190,255,0)');
+  circle(p.x, p.y - 14 + bob, 34, g);
+
+  ctx.save();
+  ctx.translate(p.x, p.y - 14 + bob);
+  ctx.rotate(-.25);
+
+  ctx.fillStyle = '#dfe8ff';
+  ctx.fillRect(-2, -22, 4, 26);
+
+  ctx.fillStyle = '#9fb4ff';
+  ctx.fillRect(-7, 2, 14, 4);
+
+  ctx.fillStyle = '#6c5839';
+  ctx.fillRect(-2, 6, 4, 8);
+
+  ctx.restore();
+}
+
+var baseDrawPickupP7 = window.drawPickup;
+window.drawPickup = function(p){
+  if(p.type === 'p7sword'){
+    drawP7Sword(p);
+    return;
+  }
+  baseDrawPickupP7(p);
+};
+
+/* ---------------- update ---------------- */
+var baseUpdatePlayP7 = window.updatePlay;
+window.updatePlay = function(dt){
+  preP7(dt);
+  baseUpdatePlayP7(dt);
+  postP7(dt);
+};
+
+function preP7(dt){
+  if(state !== 'play') return;
+
+  if(G.p7HintCd > 0) G.p7HintCd -= dt;
+
+  spawnP7SwordIfNeeded();
+  collectP7Sword();
+
+  if(p7Smith && G.quest === 1 && !G.hasSword){
+    if(dist(P.x, P.y, p7Smith.x, p7Smith.y) < 115 && G.p7HintCd <= 0){
+      notify('کاوەی ئاسنگەر لێرەیە. قسەی لەگەڵ بکە یان شمشێرەکە لە بەردەکە وەربگرە.', 'info');
+      G.p7HintCd = 6;
+    }
+  }
+}
+
+function postP7(dt){
+  /* بۆ بەشەکانی داهاتوو */
+}
+
+ensureP7();
+fixP7Smith();
+})();
+</script>
+
+<!-- PART 8: جۆیستیکی نوێ -->
+<style>
+#p8JoyZone{
+  position:fixed;left:0;bottom:0;width:55%;height:100%;
+  z-index:29;pointer-events:auto;touch-action:none;background:transparent;
+  display:none;
+}
+#p8JoyBase{
+  position:absolute;width:125px;height:125px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
+  display:none;transform:translate(-50%,-50%);pointer-events:none;
+}
+#p8JoyKnob{
+  position:absolute;width:58px;height:58px;border-radius:50%;
+  background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.32);
+  display:none;transform:translate(-50%,-50%);pointer-events:none;
+}
+</style>
+
+<div id="p8JoyZone">
+  <div id="p8JoyBase"></div>
+  <div id="p8JoyKnob"></div>
+</div>
+
+<script>
+(function(){
+function p8$(id){ return document.getElementById(id); }
+
+if(typeof G==='undefined' || typeof P==='undefined' || typeof joy==='undefined'){
+  console.warn('Part8 needs Part1');
+  return;
+}
+
+/* ---------------- جۆیستیکی نوێ بۆ مۆبایل ---------------- */
+var p8Zone = p8$('p8JoyZone');
+var p8Base = p8$('p8JoyBase');
+var p8Knob = p8$('p8JoyKnob');
+
+var p8Active = false;
+var p8TouchId = null;
+var p8PointerId = null;
+var p8BaseX = 0;
+var p8BaseY = 0;
+var p8Max = 62;
+
+function p8ShowBase(x, y){
+  p8Base.style.display = 'block';
+  p8Knob.style.display = 'block';
+  p8Base.style.left = x + 'px';
+  p8Base.style.top = y + 'px';
+  p8Knob.style.left = x + 'px';
+  p8Knob.style.top = y + 'px';
+}
+
+function p8Move(clientX, clientY){
+  var dx = clientX - p8BaseX;
+  var dy = clientY - p8BaseY;
+  var d = Math.hypot(dx, dy);
+
+  if(d > p8Max){
+    dx = dx / d * p8Max;
+    dy = dy / d * p8Max;
+  }
+
+  p8Knob.style.left = (p8BaseX + dx) + 'px';
+  p8Knob.style.top = (p8BaseY + dy) + 'px';
+
+  joy.x = dx / p8Max;
+  joy.y = dy / p8Max;
+  joy.on = true;
+}
+
+function p8End(){
+  p8Active = false;
+  p8TouchId = null;
+  p8PointerId = null;
+  joy.x = 0;
+  joy.y = 0;
+  joy.on = false;
+  p8Base.style.display = 'none';
+  p8Knob.style.display = 'none';
+}
+
+var p8UseTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+
+if(p8UseTouch){
+  p8Zone.addEventListener('touchstart', function(e){
+    if(state !== 'play' || p8Active) return;
+    var t = e.changedTouches[0];
+    p8Active = true;
+    p8TouchId = t.identifier;
+    p8BaseX = t.clientX;
+    p8BaseY = t.clientY;
+    p8ShowBase(p8BaseX, p8BaseY);
+    p8Move(t.clientX, t.clientY);
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('touchmove', function(e){
+    if(!p8Active || p8TouchId === null) return;
+    for(var i=0;i<e.touches.length;i++){
+      if(e.touches[i].identifier === p8TouchId){
+        p8Move(e.touches[i].clientX, e.touches[i].clientY);
+        break;
+      }
+    }
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('touchend', function(e){
+    if(!p8Active || p8TouchId === null) return;
+    for(var i=0;i<e.changedTouches.length;i++){
+      if(e.changedTouches[i].identifier === p8TouchId){
+        p8End();
+        break;
+      }
+    }
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('touchcancel', function(e){
+    p8End();
+    e.preventDefault();
+  }, {passive:false});
+} else {
+  p8Zone.addEventListener('pointerdown', function(e){
+    if(state !== 'play' || p8Active) return;
+    p8Active = true;
+    p8PointerId = e.pointerId;
+    p8BaseX = e.clientX;
+    p8BaseY = e.clientY;
+    p8ShowBase(p8BaseX, p8BaseY);
+    p8Move(e.clientX, e.clientY);
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('pointermove', function(e){
+    if(!p8Active || e.pointerId !== p8PointerId) return;
+    p8Move(e.clientX, e.clientY);
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('pointerup', function(e){
+    if(e.pointerId === p8PointerId) p8End();
+    e.preventDefault();
+  }, {passive:false});
+
+  p8Zone.addEventListener('pointercancel', function(e){
+    if(e.pointerId === p8PointerId) p8End();
+    e.preventDefault();
+  }, {passive:false});
+}
+
+/* شاردنەوەی جۆیستیکی کۆن */
+var oldJoyZone = document.getElementById('joyZone');
+if(oldJoyZone) oldJoyZone.style.display = 'none';
+
+/* پیشاندان/شاردنەوەی جۆیستیک بەپێی دۆخ */
+setInterval(function(){
+  var shouldShow = (typeof state !== 'undefined' && state === 'play');
+  p8Zone.style.display = shouldShow ? 'block' : 'none';
+  if(!shouldShow && p8Active) p8End();
+}, 180);
+
+/* ---------------- گرافیکی زیادە ---------------- */
+var p8Decor = [];
+var p8Clouds = [];
+
+function genP8Graphics(){
+  p8Decor = [];
+  p8Clouds = [];
+
+  var i, x, y, z;
+
+  for(i=0;i<260;i++){
+    z = choose([village, forest, mountain, ruins]);
+    x = rand(z.x - z.r, z.x + z.r);
+    y = rand(z.y - z.r, z.y + z.r);
+    if(dist(x, y, z.x, z.y) < z.r){
+      p8Decor.push({t:'grass', x:x, y:y, c:choose(['#57d98a','#3fae6d','#79e6a4'])});
+    }
+  }
+
+  for(i=0;i<110;i++){
+    z = choose([village, forest, mountain]);
+    x = rand(z.x - z.r, z.x + z.r);
+    y = rand(z.y - z.r, z.y + z.r);
+    if(dist(x, y, z.x, z.y) < z.r){
+      p8Decor.push({t:'flower', x:x, y:y, c:choose(['#ffd76b','#ff8fb1','#bfe6ff','#d3a6ff','#9fe8c9'])});
+    }
+  }
+
+  for(i=0;i<85;i++){
+    z = choose([ruins, mountain, gate, forest]);
+    x = rand(z.x - z.r, z.x + z.r);
+    y = rand(z.y - z.r, z.y + z.r);
+    if(dist(x, y, z.x, z.y) < z.r){
+      p8Decor.push({t:'pebble', x:x, y:y, c:choose(['#7d8a99','#5b6470','#9aa5b5'])});
+    }
+  }
+
+  for(i=0;i<6;i++){
+    p8Clouds.push({
+      x:rand(0, WORLD.w),
+      y:rand(0, WORLD.h),
+      r:rand(170, 330),
+      speed:rand(8, 24),
+      a:rand(.04, .08)
+    });
+  }
+}
+
+function drawP8Decor(){
+  if(G.lowGfx) return;
+
+  for(var i=0;i<p8Decor.length;i++){
+    var d = p8Decor[i];
+    if(!vis(d.x, d.y, 30)) continue;
+
+    if(d.t === 'grass'){
+      ctx.strokeStyle = d.c;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x + 2, d.y - 7);
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x - 3, d.y - 5);
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x + 4, d.y - 4);
+      ctx.stroke();
+    }
+
+    if(d.t === 'flower'){
+      ctx.fillStyle = '#3f8f57';
+      ctx.fillRect(d.x - 1, d.y - 6, 2, 7);
+      circle(d.x, d.y - 8, 3, d.c);
+      circle(d.x, d.y - 8, 1.2, '#fff8d8');
+    }
+
+    if(d.t === 'pebble'){
+      ellipse(d.x, d.y, 3.6, 2.4, d.c);
+      ellipse(d.x - 1, d.y - 1, 1.4, .9, 'rgba(255,255,255,.18)');
+    }
+  }
+}
+
+function drawP8Clouds(){
+  if(G.lowGfx) return;
+
+  for(var i=0;i<p8Clouds.length;i++){
+    var c = p8Clouds[i];
+    var cx = (c.x + G.time * c.speed) % (WORLD.w + 700) - 350;
+
+    if(!vis(cx, c.y, c.r + 220)) continue;
+
+    ellipse(cx, c.y, c.r, c.r * .42, 'rgba(0,0,0,' + c.a + ')');
+    ellipse(cx + c.r * .42, c.y + 12, c.r * .68, c.r * .30, 'rgba(0,0,0,' + (c.a * .7) + ')');
+    ellipse(cx - c.r * .38, c.y + 8, c.r * .58, c.r * .26, 'rgba(0,0,0,' + (c.a * .6) + ')');
+  }
+}
+
+var baseDrawBackgroundP8 = window.drawBackground;
+window.drawBackground = function(){
+  baseDrawBackgroundP8();
+  drawP8Clouds();
+};
+
+var baseDrawGroundP8 = window.drawGround;
+window.drawGround = function(){
+  baseDrawGroundP8();
+  drawP8Decor();
+};
+
+var baseDrawTreeP8 = window.drawTree;
+window.drawTree = function(o){
+  baseDrawTreeP8(o);
+
+  if(G.lowGfx) return;
+  if(!vis(o.x, o.y, 120)) return;
+
+  var sway = Math.sin(G.time * 1.2 + o.s) * 3;
+  circle(o.x + sway * .7, o.y - o.c * .92, o.c * .16, 'rgba(255,255,255,.05)');
+  circle(o.x + sway * .4 + o.c * .22, o.y - o.c * .72, o.c * .10, 'rgba(255,255,255,.04)');
+};
+
+/* ---------------- پڕژانە و وردکاری جوڵە ---------------- */
+function p8Ambient(){
+  if(G.lowGfx) return;
+  if(particles.length > 420) return;
+
+  var moving = joy.on ||
+    keys.KeyW || keys.KeyS || keys.KeyA || keys.KeyD ||
+    keys.ArrowUp || keys.ArrowDown || keys.ArrowLeft || keys.ArrowRight;
+
+  if(moving && chance(.28)){
+    particles.push({
+      x:P.x + rand(-9, 9),
+      y:P.y + 13,
+      vx:rand(-14, 14),
+      vy:rand(-20, -5),
+      life:rand(.25, .5),
+      maxlife:.5,
+      size:rand(1, 2.4),
+      color:'rgba(210,190,150,.35)',
+      grav:0,
+      type:'spark'
+    });
+  }
+
+  if(chance(.22)){
+    for(var i=0;i<torches.length;i++){
+      var t = torches[i];
+      if(vis(t.x, t.y, 140) && chance(.08)){
+        particles.push({
+          x:t.x + rand(-3, 3),
+          y:t.y - 28,
+          vx:rand(-8, 8),
+          vy:rand(-34, -14),
+          life:rand(.35, .7),
+          maxlife:.7,
+          size:rand(1, 2.2),
+          color:'rgba(255,190,90,.55)',
+          grav:-8,
+          type:'spark'
+        });
+      }
+    }
+  }
+}
+
+var baseUpdatePlayP8 = window.updatePlay;
+window.updatePlay = function(dt){
+  preP8(dt);
+  baseUpdatePlayP8(dt);
+  postP8(dt);
+};
+
+function preP8(dt){
+  if(state !== 'play') return;
+  p8Ambient();
+}
+
+function postP8(dt){
+  /* بۆ بەشەکانی داهاتوو */
+}
+
+/* ---------------- دەستپێک ---------------- */
+genP8Graphics();
+})();
+</script>
+<!-- PART 12-FIX: دوگمەی قسەکردن — گەورەتر و لە شوێنی نوێ -->
+<style>
+/* =========================================================
+   🗨️ دوگمەی قسەکردن (💬) — گەورەتر و لە شوێنی نوێ
+   لە نێوان جوڵە و دوگمەکانی یارییەوە
+   ========================================================= */
+
+#legendOfLightGame #intBtn {
+  /* قەبارە گەورەتر */
+  width: 88px !important;
+  height: 88px !important;
+  font-size: 38px !important;
+  /* شوێنی نوێ: لە نێوان جوڵە و دوگمەکانی یاری */
+  right: auto !important;
+  left: calc(50% - 44px) !important;
+  bottom: calc(28px + env(safe-area-inset-bottom)) !important;
+  transform: none !important;
+  /* شێواز */
+  border-radius: 50% !important;
+  border: 2.5px solid rgba(120, 220, 255, 0.6) !important;
+  background: linear-gradient(135deg, rgba(120,220,255,0.28), rgba(80,180,255,0.18)) !important;
+  color: #eaf7ff !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow:
+    0 6px 20px rgba(0, 150, 220, 0.45),
+    0 0 30px rgba(120, 220, 255, 0.35),
+    inset 0 0 12px rgba(255, 255, 255, 0.15) !important;
+  animation: intBtnPulse 1.8s ease-in-out infinite;
+  z-index: 40 !important;
+}
+
+#legendOfLightGame #intBtn:active {
+  transform: scale(.9) !important;
+  background: linear-gradient(135deg, rgba(120,220,255,0.5), rgba(80,180,255,0.4)) !important;
+  box-shadow:
+    0 4px 12px rgba(0, 150, 220, 0.6),
+    0 0 40px rgba(120, 220, 255, 0.6) !important;
+}
+
+/* ئەنیمەیشنی هێمن */
+@keyframes intBtnPulse {
+  0%, 100% {
+    box-shadow:
+      0 6px 20px rgba(0, 150, 220, 0.45),
+      0 0 30px rgba(120, 220, 255, 0.35),
+      inset 0 0 12px rgba(255, 255, 255, 0.15);
+  }
+  50% {
+    box-shadow:
+      0 6px 24px rgba(0, 150, 220, 0.65),
+      0 0 45px rgba(120, 220, 255, 0.55),
+      inset 0 0 16px rgba(255, 255, 255, 0.25);
+  }
+}
+
+/* ===== مۆبایل — گەورەتر و لە هەمان شوێنی ناوەند ===== */
+@media (max-width: 640px) {
+  #legendOfLightGame #intBtn {
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 34px !important;
+    left: calc(50% - 40px) !important;
+    bottom: calc(24px + env(safe-area-inset-bottom)) !important;
+    border-width: 2.5px !important;
+  }
+}
+
+/* ===== تەلەفۆنی زۆر بچووک ===== */
+@media (max-width: 400px) {
+  #legendOfLightGame #intBtn {
+    width: 72px !important;
+    height: 72px !important;
+    font-size: 30px !important;
+    left: calc(50% - 36px) !important;
+    bottom: calc(20px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* ===== کاتێک دوگمەکە کارا نییە (هیچ NPC نزیک نییە) ===== */
+#legendOfLightGame #intBtn.hidden {
+  display: none !important;
+}
+
+/* ===== دەرکەوتنی نەرم ===== */
+#legendOfLightGame #intBtn:not(.hidden) {
+  animation:
+    intBtnPulse 1.8s ease-in-out infinite,
+    intBtnFadeIn .3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes intBtnFadeIn {
+  0% { opacity: 0; transform: scale(.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* =========================================================
+   🎮 دوگمەکانی یاری (⚔️ 💨 🧪) — ڕێکخستنی نوێ بۆ شوێنی دوگمەی قسەکردن
+   ===== دوگمەکانی یاری دەگوازرێنەوە لای ڕاست، بەڵام کەمێک لادەدرێن
+   ========================================================= */
+#legendOfLightGame .touchBtns {
+  right: calc(10px + env(safe-area-inset-right)) !important;
+  bottom: calc(14px + env(safe-area-inset-bottom)) !important;
+  gap: 10px !important;
+  grid-template-columns: 62px 62px !important;
+}
+
+@media (max-width: 640px) {
+  #legendOfLightGame .touchBtns {
+    right: calc(8px + env(safe-area-inset-right)) !important;
+    bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+    gap: 8px !important;
+    grid-template-columns: 56px 56px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  #legendOfLightGame .touchBtns {
+    gap: 7px !important;
+    grid-template-columns: 50px 50px !important;
+  }
+}
+</style>
+
+<script>
+(function(){
+  "use strict";
+  function fixIntButton(){
+    var btn = document.getElementById('intBtn');
+    if(!btn) return;
+
+    // دڵنیابوون لەوەی کە دوگمەکە لە شوێنی نوێیە
+    btn.style.right = 'auto';
+    btn.style.left = 'calc(50% - 44px)';
+    btn.style.bottom = 'calc(28px + env(safe-area-inset-bottom))';
+    btn.style.transform = 'none';
+
+    if(window.innerWidth <= 400){
+      btn.style.left = 'calc(50% - 36px)';
+      btn.style.bottom = 'calc(20px + env(safe-area-inset-bottom))';
+    } else if(window.innerWidth <= 640){
+      btn.style.left = 'calc(50% - 40px)';
+      btn.style.bottom = 'calc(24px + env(safe-area-inset-bottom))';
+    } else {
+      btn.style.left = 'calc(50% - 44px)';
+      btn.style.bottom = 'calc(28px + env(safe-area-inset-bottom))';
+    }
+  }
+
+  fixIntButton();
+
+  var resizeTimer = null;
+  window.addEventListener('resize', function(){
+    if(resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(fixIntButton, 150);
+  });
+
+  // دووبارە دڵنیابوون لە شوێنەکە
+  setInterval(function(){
+    var el = document.getElementById('legendOfLightGame');
+    if(el && el.style.display !== 'none'){
+      fixIntButton();
+    }
+  }, 1200);
+})();
+</script>
