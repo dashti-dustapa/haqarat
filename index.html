@@ -9055,3 +9055,753 @@ updatePart2UI();
 
 })();
 </script>
+<!-- PART 4: دوکان + دەرمانی ئۆتۆ + بۆس ڕەش + دەستکەوتی زیاتر -->
+<style>
+.p4Content{max-height:56vh;overflow:auto}
+.p4ListBtn{width:100%;text-align:right;margin-top:8px}
+#p4RushHud{
+  position:fixed;top:calc(145px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);
+  z-index:34;pointer-events:none;font-size:18px;font-weight:900;color:#ffd7d7;
+  background:rgba(20,8,12,.62);border:1px solid rgba(255,120,140,.22);border-radius:14px;padding:7px 13px
+}
+</style>
+
+<div id="p4Shop" class="screen hidden">
+  <div class="title" style="font-size:clamp(24px,5vw,44px)">دوکانی کاروان</div>
+  <div id="p4ShopGold" class="panel" style="padding:10px 16px"></div>
+  <div id="p4ShopItems" class="panel p4Content"></div>
+  <button id="p4ShopClose" class="btn" type="button">داخستن</button>
+</div>
+
+<div id="p4RushHud" class="hidden"></div>
+
+<script>
+(function(){
+function p4$(id){ return document.getElementById(id); }
+
+if(typeof G==='undefined' || typeof P==='undefined' || typeof G.materials==='undefined'){
+  alert('بەشی ٤ پێویستی بە بەشی ١، ٢ و ٣ هەیە.');
+  return;
+}
+
+function ensureP4(){
+  if(typeof G.p4AutoPotion==='undefined') G.p4AutoPotion=false;
+  if(typeof G.p4AutoCd==='undefined') G.p4AutoCd=0;
+  if(typeof G.p4Purchases==='undefined') G.p4Purchases=0;
+  if(typeof G.p4RushActive==='undefined') G.p4RushActive=false;
+  G.p4RushActive=false;
+  if(typeof G.p4RushWave==='undefined') G.p4RushWave=0;
+  if(typeof G.p4RushBest==='undefined') G.p4RushBest=0;
+  if(typeof G.p4RushAlive==='undefined') G.p4RushAlive=0;
+  if(typeof G.p4RushTimer==='undefined') G.p4RushTimer=1;
+  if(typeof G.p4AchTimer==='undefined') G.p4AchTimer=0;
+}
+
+var baseResetGameP4 = window.resetGame;
+window.resetGame = function(){
+  baseResetGameP4();
+  ensureP4();
+  updateP4Buttons();
+};
+
+var baseLoadGameP4 = window.loadGame;
+window.loadGame = function(){
+  var ok = baseLoadGameP4();
+  if(ok) ensureP4();
+  return ok;
+};
+
+/* ---------------- دوکان ---------------- */
+var p4PrevState = 'play';
+
+function openShop(){
+  p4PrevState = state;
+  state = 'p4shop';
+  p4$('p4Shop').classList.remove('hidden');
+  document.getElementById('touch').classList.add('hidden');
+  renderShop();
+}
+function closeShop(){
+  p4$('p4Shop').classList.add('hidden');
+  state = p4PrevState;
+  if(state === 'play') show(null);
+  else if(state === 'menu') show('menu');
+  else if(state === 'pause') show('pause');
+  else if(state === 'win') show('win');
+  else show(null);
+}
+p4$('p4ShopClose').onclick = closeShop;
+
+var baseTalkNPCP4 = window.talkNPC;
+window.talkNPC = function(n){
+  if(n && n.id === 'merchant'){
+    openShop();
+    return;
+  }
+  baseTalkNPCP4(n);
+};
+
+function buy(cost, fn, msg){
+  if(G.gold < cost){
+    notify('زێڕت کەمە!', 'warn');
+    return;
+  }
+  G.gold -= cost;
+  fn();
+  G.p4Purchases++;
+  saveGame();
+  updateHUD();
+  renderShop();
+  notify(msg, 'quest');
+  sfx('coin');
+  checkP4Ach();
+}
+
+function sell(mat, price){
+  if(G.materials[mat] <= 0) return;
+  G.materials[mat]--;
+  G.gold += price;
+  saveGame();
+  updateHUD();
+  renderShop();
+  sfx('coin');
+}
+
+function renderShop(){
+  p4$('p4ShopGold').textContent = 'زێڕ: ' + G.gold;
+
+  var h = '';
+  h += '<div class="p2Small">کڕین:</div>';
+  h += '<button class="btn p4ListBtn" id="p4BuyPotion">دەرمان — 25 زێڕ</button>';
+  h += '<button class="btn p4ListBtn" id="p4BuyFood">خواردن — 20 زێڕ</button>';
+  h += '<button class="btn p4ListBtn" id="p4BuyWood">دار — 15 زێڕ</button>';
+  h += '<button class="btn p4ListBtn" id="p4BuyIron">ئاسن — 30 زێڕ</button>';
+  h += '<button class="btn p4ListBtn" id="p4BuyCrystal">کریستاڵ — 70 زێڕ</button>';
+
+  var armorCost = 80 + G.armorLevel * 40;
+  h += '<button class="btn p4ListBtn" id="p4BuyArmor">بەرزکردنی زرێ — ' + armorCost + ' زێڕ</button>';
+
+  h += '<div class="p2Small">کردنەوەی چەک بە زێڕ:</div>';
+  h += '<button class="btn p4ListBtn" id="p4UnlockFast">شمشێری خێرا — 80 زێڕ و ئاست 3</button>';
+  h += '<button class="btn p4ListBtn" id="p4UnlockHeavy">چەکوشی قورس — 140 زێڕ و ئاست 5</button>';
+  h += '<button class="btn p4ListBtn" id="p4UnlockFire">شمشێری ئاگرین — 220 زێڕ و ئاست 8</button>';
+
+  h += '<div class="p2Small">فرۆشتنی کەرەستە:</div>';
+  h += '<button class="btn p4ListBtn" id="p4SellWood">فرۆشتنی دار — 6 زێڕ</button>';
+  h += '<button class="btn p4ListBtn" id="p4SellIron">فرۆشتنی ئاسن — 12 زێڕ</button>';
+  h += '<button class="btn p4ListBtn" id="p4SellCrystal">فرۆشتنی کریستاڵ — 30 زێڕ</button>';
+
+  p4$('p4ShopItems').innerHTML = h;
+
+  function on(id, fn){
+    var el = p4$(id);
+    if(el) el.onclick = fn;
+  }
+
+  on('p4BuyPotion', function(){ buy(25, function(){ G.potions++; }, 'دەرمان کڕدرا'); });
+  on('p4BuyFood', function(){ buy(20, function(){ G.food++; }, 'خواردن کڕدرا'); });
+  on('p4BuyWood', function(){ buy(15, function(){ G.materials.wood++; }, 'دار کڕدرا'); });
+  on('p4BuyIron', function(){ buy(30, function(){ G.materials.iron++; }, 'ئاسن کڕدرا'); });
+  on('p4BuyCrystal', function(){ buy(70, function(){ G.materials.crystal++; }, 'کریستاڵ کڕدرا'); });
+
+  on('p4BuyArmor', function(){
+    buy(armorCost, function(){
+      G.armorLevel++;
+      P.maxhp += 10;
+      P.hp += 10;
+      if(P.hp > P.maxhp) P.hp = P.maxhp;
+    }, 'زرێکەت بەهێزتر بوو');
+  });
+
+  on('p4UnlockFast', function(){
+    if(P.level < 3){ notify('پێویستە ئاست 3 بیت.', 'warn'); return; }
+    if(G.weaponsUnlocked.fast){ notify('ئەم چەکە پێشتر کراوەتەوە.', 'info'); return; }
+    buy(80, function(){ G.weaponsUnlocked.fast = true; }, 'شمشێری خێرا کرایەوە');
+  });
+
+  on('p4UnlockHeavy', function(){
+    if(P.level < 5){ notify('پێویستە ئاست 5 بیت.', 'warn'); return; }
+    if(G.weaponsUnlocked.heavy){ notify('ئەم چەکە پێشتر کراوەتەوە.', 'info'); return; }
+    buy(140, function(){ G.weaponsUnlocked.heavy = true; }, 'چەکوشی قورس کرایەوە');
+  });
+
+  on('p4UnlockFire', function(){
+    if(P.level < 8){ notify('پێویستە ئاست 8 بیت.', 'warn'); return; }
+    if(G.weaponsUnlocked.fire){ notify('ئەم چەکە پێشتر کراوەتەوە.', 'info'); return; }
+    buy(220, function(){ G.weaponsUnlocked.fire = true; }, 'شمشێری ئاگرین کرایەوە');
+  });
+
+  on('p4SellWood', function(){ sell('wood', 6); });
+  on('p4SellIron', function(){ sell('iron', 12); });
+  on('p4SellCrystal', function(){ sell('crystal', 30); });
+}
+
+/* ---------------- دەرمانی ئۆتۆ ---------------- */
+var p4AutoBtns = [];
+
+function addAutoBtn(selector){
+  var col = document.querySelector(selector);
+  if(!col) return;
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'btn';
+  b.textContent = 'دەرمانی ئۆتۆ: ❌';
+  b.onclick = function(){
+    G.p4AutoPotion = !G.p4AutoPotion;
+    saveGame();
+    updateP4Buttons();
+    sfx('click');
+  };
+  col.appendChild(b);
+  p4AutoBtns.push(b);
+}
+
+function updateP4Buttons(){
+  var txt = 'دەرمانی ئۆتۆ: ' + (G.p4AutoPotion ? '✅' : '❌');
+  for(var i=0;i<p4AutoBtns.length;i++){
+    p4AutoBtns[i].textContent = txt;
+  }
+  for(i=0;i<p4RushBtns.length;i++){
+    p4RushBtns[i].style.display = (G.bossDown && !G.p4RushActive && !G.endlessActive) ? '' : 'none';
+  }
+}
+
+/* ---------------- دۆخی بۆس ڕەش ---------------- */
+var p4RushBtns = [];
+
+function addRushBtn(selector){
+  var col = document.querySelector(selector);
+  if(!col) return;
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'btn';
+  b.textContent = 'دۆخی بۆس ڕەش';
+  b.style.display = 'none';
+  b.onclick = function(){ startRush(); };
+  col.appendChild(b);
+  p4RushBtns.push(b);
+}
+
+function p4RandAround(minD, maxD){
+  for(var t=0;t<22;t++){
+    var a = rand(0, TAU);
+    var d = rand(minD, maxD);
+    var x = clamp(P.x + Math.cos(a)*d, 50, WORLD.w - 50);
+    var y = clamp(P.y + Math.sin(a)*d, 50, WORLD.h - 50);
+    if(dist(P.x, P.y, x, y) > 230) return {x:x, y:y};
+  }
+  return {x:clamp(P.x+420,50,WORLD.w-50), y:clamp(P.y+420,50,WORLD.h-50)};
+}
+
+function startRush(){
+  if(!G.bossDown){
+    notify('سەرەتا چیرۆکەکە تەواو بکە.', 'warn');
+    return;
+  }
+  if(G.endlessActive){
+    notify('سەرەتا دۆخی بێکۆتایی کۆتایی بێنە.', 'warn');
+    return;
+  }
+  if(G.p4RushActive) return;
+
+  if(state !== 'play') startPlay();
+
+  G.p4RushActive = true;
+  G.p4RushWave = 0;
+  G.p4RushAlive = 0;
+  G.p4RushTimer = 1;
+  enemies = [];
+  projectiles = [];
+  P.hp = P.maxhp;
+
+  nextRushWave();
+  updateP4Buttons();
+  updateRushHud();
+}
+
+function endRush(){
+  if(!G.p4RushActive) return;
+  G.p4RushActive = false;
+  enemies = enemies.filter(function(e){ return !e.rush; });
+  notify('دۆخی بۆس ڕەش کۆتایی هات. باشترین شەپۆل: ' + G.p4RushBest, 'quest');
+  saveGame();
+  updateRushHud();
+  updateP4Buttons();
+}
+
+function nextRushWave(){
+  G.p4RushWave++;
+  if(G.p4RushWave > G.p4RushBest) G.p4RushBest = G.p4RushWave;
+  notify('بۆس ڕەش — شەپۆلی ' + G.p4RushWave, 'quest');
+  spawnRushWave();
+  saveGame();
+}
+
+function spawnRushWave(){
+  var bossCount = 1 + Math.floor(G.p4RushWave / 3);
+  var adds = 2 + Math.min(6, G.p4RushWave);
+  var i, pos, e;
+
+  for(i=0;i<bossCount;i++){
+    pos = p4RandAround(340, 680);
+    e = makeEnemy('miniBoss', pos.x, pos.y, null);
+    e.hp = Math.round(e.hp * (1 + G.p4RushWave * .12));
+    e.maxhp = e.hp;
+    e.dmg = Math.round(e.dmg * (1 + G.p4RushWave * .05));
+    e.rush = true;
+    enemies.push(e);
+  }
+
+  for(i=0;i<adds;i++){
+    pos = p4RandAround(340, 680);
+    var type = choose(['ghost', 'phantom', 'bat']);
+    e = makeEnemy(type, pos.x, pos.y, null);
+    e.hp = Math.round(e.hp * (1 + G.p4RushWave * .10));
+    e.maxhp = e.hp;
+    e.dmg = Math.round(e.dmg * (1 + G.p4RushWave * .04));
+    e.rush = true;
+    enemies.push(e);
+  }
+}
+
+function rushUpdate(dt){
+  if(!G.p4RushActive) return;
+
+  var alive = 0;
+  for(var i=0;i<enemies.length;i++){
+    if(enemies[i].rush && !enemies[i].dead) alive++;
+  }
+  G.p4RushAlive = alive;
+
+  if(alive === 0){
+    G.p4RushTimer -= dt;
+    if(G.p4RushTimer <= 0){
+      var reward = 30 + G.p4RushWave * 15;
+      G.gold += reward;
+      P.hp = Math.min(P.maxhp, P.hp + Math.round(P.maxhp * .20));
+      notify('شەپۆل تەواو بوو! +' + reward + ' زێڕ و 20% چاکبوونەوە', 'quest');
+      updateHUD();
+      nextRushWave();
+    }
+  } else {
+    G.p4RushTimer = 1.2;
+  }
+
+  updateRushHud();
+}
+
+function updateRushHud(){
+  var el = p4$('p4RushHud');
+  if(G.p4RushActive && state === 'play'){
+    el.classList.remove('hidden');
+    el.textContent = 'بۆس ڕەش — شەپۆل: ' + G.p4RushWave + ' — دوژمن: ' + G.p4RushAlive;
+  } else {
+    el.classList.add('hidden');
+  }
+}
+
+/* ---------------- دەستکەوتی زیاتر ---------------- */
+var p4AchDefs = [
+  {id:'p4_shop1', name:'کڕیاری یەکەم', desc:'یەکەم کڕین لە دوکان', c:function(){ return G.p4Purchases > 0; }},
+  {id:'p4_rush3', name:'بۆس ڕەش ٣', desc:'لە بۆس ڕەش بگەیتە شەپۆلی 3', c:function(){ return G.p4RushBest >= 3; }},
+  {id:'p4_gold1000', name:'گەنجینەی گەورە', desc:'1000 زێڕ', c:function(){ return G.gold >= 1000; }},
+  {id:'p4_armor5', name:'زرێی بەهێز', desc:'زرێ ئاست 5', c:function(){ return G.armorLevel >= 5; }}
+];
+
+function checkP4Ach(){
+  for(var i=0;i<p4AchDefs.length;i++){
+    var a = p4AchDefs[i];
+    if(!G.achievements[a.id] && a.c()){
+      G.achievements[a.id] = true;
+      notify('دەستکەوت: ' + a.name, 'quest');
+      sfx('level');
+      saveGame();
+    }
+  }
+}
+
+/* ---------------- update ---------------- */
+var baseUpdatePlayP4 = window.updatePlay;
+window.updatePlay = function(dt){
+  preP4(dt);
+  baseUpdatePlayP4(dt);
+  postP4(dt);
+};
+
+function preP4(dt){
+  if(state !== 'play') return;
+
+  if(G.p4AutoCd > 0) G.p4AutoCd -= dt;
+
+  if(G.p4AutoPotion && G.p4AutoCd <= 0 && P.hp < P.maxhp * .30 && G.potions > 0){
+    usePotion();
+    G.p4AutoCd = 2;
+  }
+}
+
+function postP4(dt){
+  if(G.endlessActive && G.p4RushActive) endRush();
+  if(state === 'dead' && G.p4RushActive) endRush();
+
+  if(G.p4RushActive) rushUpdate(dt);
+
+  G.p4AchTimer += dt;
+  if(G.p4AchTimer > 1){
+    G.p4AchTimer = 0;
+    checkP4Ach();
+  }
+
+  updateRushHud();
+}
+
+/* ---------------- input / buttons ---------------- */
+addEventListener('keydown', function(e){
+  if(e.code === 'Escape' && state === 'p4shop') closeShop();
+});
+
+document.getElementById('quitBtn').addEventListener('click', function(){
+  if(G.p4RushActive) endRush();
+});
+document.getElementById('winMenuBtn').addEventListener('click', function(){
+  if(G.p4RushActive) endRush();
+});
+
+/* ---------------- init ---------------- */
+ensureP4();
+addAutoBtn('#menu .btnsCol');
+addAutoBtn('#pause .btnsCol');
+addRushBtn('#win .btnsCol');
+addRushBtn('#menu .btnsCol');
+updateP4Buttons();
+checkP4Ach();
+})();
+</script>
+<!-- PART 11-FIX: چاککردنەوەی مەپ (بچووک نەبێت زۆر) + چووککردنەوەی دوگمەکان -->
+<style>
+/* =========================================================
+   🗺️ مەپ — قەبارەی گونجاو بۆ بینین (نا بچووک، نا گەورە)
+   ========================================================= */
+#legendOfLightGame #mapBox {
+  position: absolute !important;
+  top: calc(8px + env(safe-area-inset-top)) !important;
+  bottom: auto !important;
+  left: 8px !important;
+  right: auto !important;
+  padding: 5px !important;
+  border-radius: 12px !important;
+  background: rgba(10,16,28,.62) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,.4) !important;
+}
+
+/* مەپ — قەبارەی سەرەکی: ١١٠px (خوێندنەوە باش، بەڵام ناگاتە ١٣٥ی کۆن) */
+#legendOfLightGame #minimap {
+  width: 110px !important;
+  height: 110px !important;
+  border-radius: 9px !important;
+  background: rgba(5,8,14,.78) !important;
+  display: block !important;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* مۆبایل — ١٠٠px */
+@media (max-width: 640px) {
+  #legendOfLightGame #mapBox {
+    padding: 4px !important;
+    border-radius: 10px !important;
+    top: calc(6px + env(safe-area-inset-top)) !important;
+    left: 6px !important;
+  }
+  #legendOfLightGame #minimap {
+    width: 100px !important;
+    height: 100px !important;
+  }
+}
+
+/* تەلەفۆنی زۆر بچووک — ٩٠px */
+@media (max-width: 400px) {
+  #legendOfLightGame #minimap {
+    width: 90px !important;
+    height: 90px !important;
+  }
+}
+
+/* =========================================================
+   🎮 دوگمەکانی جوڵە — چووکتر کرانەوە
+   ========================================================= */
+
+/* دوگمەی هێرش، داش، دەرمان (⚔️ 💨 🧪) */
+#legendOfLightGame .tbtn {
+  width: 62px !important;
+  height: 62px !important;
+  font-size: 26px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid rgba(255,255,255,.22) !important;
+  background: rgba(255,255,255,.12) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.35);
+  touch-action: none;
+}
+#legendOfLightGame .tbtn:active {
+  transform: scale(.92);
+  background: rgba(255,255,255,.22) !important;
+}
+
+/* گرێدی دوگمەکان — تەنگتر */
+#legendOfLightGame .touchBtns {
+  gap: 10px !important;
+  grid-template-columns: 62px 62px !important;
+  right: calc(10px + env(safe-area-inset-right)) !important;
+  bottom: calc(14px + env(safe-area-inset-bottom)) !important;
+}
+
+/* دوگمەی قسەکردن (💬) */
+#legendOfLightGame #intBtn {
+  width: 64px !important;
+  height: 64px !important;
+  font-size: 24px !important;
+  right: calc(90px + env(safe-area-inset-right)) !important;
+  bottom: calc(18px + env(safe-area-inset-bottom)) !important;
+  border: 1.5px solid rgba(120,220,255,.5) !important;
+  background: rgba(120,220,255,.18) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.35);
+}
+#legendOfLightGame #intBtn:active {
+  transform: scale(.92);
+}
+
+/* مۆبایل — دوگمەکان زۆر بچووکتر */
+@media (max-width: 640px) {
+  #legendOfLightGame .tbtn {
+    width: 56px !important;
+    height: 56px !important;
+    font-size: 23px !important;
+  }
+  #legendOfLightGame .touchBtns {
+    gap: 8px !important;
+    grid-template-columns: 56px 56px !important;
+    right: calc(8px + env(safe-area-inset-right)) !important;
+    bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+  }
+  #legendOfLightGame #intBtn {
+    width: 58px !important;
+    height: 58px !important;
+    font-size: 22px !important;
+    right: calc(78px + env(safe-area-inset-right)) !important;
+    bottom: calc(14px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* تەلەفۆنی زۆر بچووک — ٥٠px */
+@media (max-width: 400px) {
+  #legendOfLightGame .tbtn {
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 20px !important;
+  }
+  #legendOfLightGame .touchBtns {
+    gap: 7px !important;
+    grid-template-columns: 50px 50px !important;
+  }
+  #legendOfLightGame #intBtn {
+    width: 52px !important;
+    height: 52px !important;
+    font-size: 20px !important;
+    right: calc(68px + env(safe-area-inset-right)) !important;
+  }
+}
+
+/* =========================================================
+   🎯 دوگمەی هێرشی تایبەت (💥) — چووکتر
+   ========================================================= */
+#legendOfLightGame #p2Special {
+  width: 78px !important;
+  height: 78px !important;
+  font-size: 22px !important;
+  bottom: calc(270px + env(safe-area-inset-bottom)) !important;
+  right: calc(12px + env(safe-area-inset-right)) !important;
+}
+#legendOfLightGame #p2Special small {
+  font-size: 11px !important;
+}
+@media (max-width: 640px) {
+  #legendOfLightGame #p2Special {
+    width: 68px !important;
+    height: 68px !important;
+    font-size: 20px !important;
+    bottom: calc(250px + env(safe-area-inset-bottom)) !important;
+    right: calc(8px + env(safe-area-inset-right)) !important;
+  }
+  #legendOfLightGame #p2Special small {
+    font-size: 10px !important;
+  }
+}
+
+/* =========================================================
+   🎨 پنێڵی سەرەوە — تەنها شتە پێویستەکان لە مۆبایل
+   ========================================================= */
+@media (max-width: 640px) {
+  /* پنێڵی HP بچووکتر */
+  #legendOfLightGame #pbox {
+    width: min(190px, 56vw) !important;
+    padding: 6px 8px !important;
+    border-radius: 10px !important;
+  }
+  #legendOfLightGame #pbox .bar {
+    height: 8px !important;
+    margin-top: 3px !important;
+  }
+  #legendOfLightGame #pbox .smallText {
+    font-size: 9px !important;
+  }
+  #legendOfLightGame #pbox .row {
+    font-size: 11px !important;
+    gap: 3px !important;
+  }
+  #legendOfLightGame #pbox .row b {
+    font-size: 10.5px !important;
+  }
+  #legendOfLightGame #pbox .miniBtn {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 14px !important;
+    border-radius: 8px !important;
+  }
+  /* پنێڵی ئەرک بچووکتر و لەژێر پنێڵی HP */
+  #legendOfLightGame #qbox {
+    top: calc(80px + env(safe-area-inset-top)) !important;
+    width: min(190px, 56vw) !important;
+    font-size: 10px !important;
+    padding: 5px 8px !important;
+    border-radius: 9px !important;
+  }
+  #legendOfLightGame #qbox b {
+    font-size: 9px !important;
+  }
+  #legendOfLightGame #qbox #quest {
+    font-size: 10px !important;
+  }
+  /* دوگمەی گەم لە ناوەند */
+  #legendOfLightGame #p2Gear {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 18px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    top: calc(6px + env(safe-area-inset-top)) !important;
+  }
+}
+
+/* =========================================================
+   🧹 پاککردنەوەی شاشە: کەمکردنەوەی شتە زیادەکان لە مۆبایل
+   ========================================================= */
+@media (max-width: 640px) {
+  /* notification بچووکتر */
+  #legendOfLightGame .notification {
+    font-size: 12px !important;
+    padding: 7px 11px !important;
+    border-radius: 11px !important;
+    max-width: 88vw !important;
+  }
+  /* بۆس بچووکتر */
+  #legendOfLightGame #bossName {
+    font-size: 11px !important;
+  }
+  #legendOfLightGame #bossBar {
+    height: 10px !important;
+  }
+  /* HUD ئەندلێس و بۆس ڕەش بچووکتر */
+  #legendOfLightGame #p2EndlessHud,
+  #legendOfLightGame #p4RushHud {
+    font-size: 11px !important;
+    padding: 4px 9px !important;
+  }
+  #legendOfLightGame #p6Rank {
+    font-size: 10px !important;
+    padding: 4px 8px !important;
+    max-width: 88vw !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+}
+</style>
+
+<script>
+(function(){
+  "use strict";
+  function p11$(id){ return document.getElementById(id); }
+
+  function fixMapSize(){
+    var minimap = p11$( 'minimap' );
+    if(!minimap) return;
+    // قەبارە دەگۆڕدرێت بەپێی قەبارەی شاشە
+    var w = window.innerWidth;
+    var size = 110;
+    if(w <= 400) size = 90;
+    else if(w <= 640) size = 100;
+
+    // قەبارەی CSS
+    minimap.style.width = size + 'px';
+    minimap.style.height = size + 'px';
+    minimap.style.borderRadius = '9px';
+    // قەبارەی canvas (بۆ کوالیتی باش)
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    minimap.width = size * dpr;
+    minimap.height = size * dpr;
+    // ڕێکخستنی مووچەی وێنەکە بۆ قەبارەی دروست
+    minimap.style.imageRendering = '-webkit-optimize-contrast';
+  }
+
+  function fixMapBoxPosition(){
+    var mapBox = p11$('mapBox');
+    if(!mapBox) return;
+    mapBox.style.top = 'calc(8px + env(safe-area-inset-top))';
+    mapBox.style.bottom = 'auto';
+    mapBox.style.left = '8px';
+    mapBox.style.right = 'auto';
+    if(window.innerWidth <= 640){
+      mapBox.style.top = 'calc(6px + env(safe-area-inset-top))';
+      mapBox.style.left = '6px';
+    }
+  }
+
+  function applyFixes(){
+    fixMapSize();
+    fixMapBoxPosition();
+  }
+
+  applyFixes();
+
+  var resizeTimer = null;
+  window.addEventListener('resize', function(){
+    if(resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function(){
+      applyFixes();
+      // پاشەکەوتکردنی لاپەڕە بۆ ئەوەی مینی مەپ دووبارە ڕێکبخرێت
+      if(typeof drawMinimap === 'function'){
+        try{
+          var stageCfg = { worldRadius: 36 };
+          if(typeof STAGES !== 'undefined' && typeof state !== 'undefined'){
+            // ئەمە ناچارە بە بەشی یەکەمەوە پەیوەست بێت
+          }
+        }catch(e){}
+      }
+    }, 150);
+  });
+
+  // دڵنیابوون لەوەی کە کاتێک یاری دەستپێدەکات، قەبارە دروستە
+  var checkTimer = setInterval(function(){
+    var el = p11$('legendOfLightGame');
+    if(el && el.style.display !== 'none'){
+      fixMapSize();
+    }
+  }, 1000);
+  setTimeout(function(){ clearInterval(checkTimer); }, 30000);
+
+})();
+</script>
