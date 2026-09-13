@@ -19,9 +19,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
-/* =========================================================
-   YOUR ORIGINAL SITE STYLES (UNCHANGED)
-   ========================================================= */
 :root {
   --primary: #0284c7;
   --primary-dark: #0369a1;
@@ -1562,8 +1559,6 @@ body.dark-mode .skeleton-shimmer {
   0% { opacity: 0; transform: translateY(16px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-
-/* Ronaki + Koshki Zana + AmazeGo styles (unchanged) */
 #ronakiGameOverlay { display: none; position: fixed; inset: 0; background: var(--bg-night); z-index: 9999999; flex-direction: column; }
 #ronakiCanvas{position:fixed; inset:0; display:block;}
 #ronakiHud{ position:fixed; inset:0; pointer-events:none; z-index:10; direction:rtl; }
@@ -1665,7 +1660,6 @@ body.dark-mode .skeleton-shimmer {
   100% { box-shadow: 0 3px 20px rgba(139, 107, 255, 0.9); }
 }
 
-/* Koshki Zana + AmazeGo (unchanged) */
 #koshkiZanaOverlay { display: none; position: fixed; inset: 0; z-index: 9999999; background: radial-gradient(ellipse at 50% -10%, #212a52 0%, transparent 55%), linear-gradient(180deg, #0d1226 0%, #141a37 100%); color: #efe6d3; font-family: 'Vazirmatn','Tahoma',sans-serif; overflow-x: hidden; overflow-y: auto; direction: rtl; box-sizing: border-box; }
 #koshkiZanaOverlay * { box-sizing: border-box; }
 #koshkiZanaOverlay #kz-stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
@@ -2374,9 +2368,6 @@ body.dark-mode .iphone-note {
 </head>
 <body>
 
-<!-- =========================================================
-     YOUR ORIGINAL SITE BODY (UNCHANGED)
-     ========================================================= -->
 <div id="toastNotificationBox">🔔 <span id="toastMsgText">ئاگاداری نوێ</span></div>
 
 <div class="match-floating-notif" id="matchFloatingNotif" onclick="showAllMatchesModal()">
@@ -2453,6 +2444,7 @@ body.dark-mode .iphone-note {
     <p style="text-align:center; font-size:0.78rem; color:var(--muted); margin-bottom:14px;">
       سیستەمی مۆبایلەکەت هەڵبژێرە
     </p>
+
     <button class="download-choice-btn android" onclick="handleDownloadAndroid()">
       <div class="install-btn-icon" id="androidIconDisplay">🤖</div>
       <div class="dc-text">
@@ -2461,6 +2453,7 @@ body.dark-mode .iphone-note {
       </div>
       <div class="dc-arrow">‹</div>
     </button>
+
     <button class="download-choice-btn iphone" onclick="handleDownloadIphone()">
       <div class="install-btn-icon" id="iphoneIconDisplay">🍎</div>
       <div class="dc-text">
@@ -2469,6 +2462,7 @@ body.dark-mode .iphone-note {
       </div>
       <div class="dc-arrow">‹</div>
     </button>
+
     <button class="download-choice-btn cancel" onclick="closeDownloadModal()">
       <div class="dc-text" style="text-align:center; width:100%;">
         <div class="dc-title" style="color:var(--text);">داخستن</div>
@@ -2484,25 +2478,31 @@ body.dark-mode .iphone-note {
     <p style="text-align:center; font-size:0.78rem; color:var(--muted); margin-bottom:16px;">
       تەنها لە ڕێگەی وێبگەڕی <b>Safari</b> دەکرێت
     </p>
+
     <div class="howto-step">
       <div class="step-num">1</div>
       <div class="step-text">ماڵپەڕەکە لە وێبگەڕی <b>Safari</b> بکەرەوە (نەک Chrome)</div>
     </div>
+
     <div class="howto-step">
       <div class="step-num">2</div>
       <div class="step-text">لە خوارەوەی شاشەکە کلیک لە دوگمەی <span class="share-btn-icon">⬆️</span> <b>Share</b> بکە</div>
     </div>
+
     <div class="howto-step">
       <div class="step-num">3</div>
       <div class="step-text">بڕۆ خوارەوە و <b>«Add to Home Screen»</b> هەڵبژێرە</div>
     </div>
+
     <div class="howto-step">
       <div class="step-num">4</div>
       <div class="step-text">لە سەرەوە کلیک لە <b>«Add»</b> بکە — ئایکۆنی ئەپەکە دەردەکەوێت لەسەر شاشەی ماڵەوە</div>
     </div>
+
     <div class="iphone-note">
       ⚠️ <b>تێبینی:</b> ئەمە وەک ئەپێکی ڕاستەقینە کار دەکات بەبێ ئەوەی پێویستت بە داگرتنی فایل هەبێت لە App Store.
     </div>
+
     <button class="btn btn-primary" style="width:100%; padding:0.7rem; margin-top:10px;" onclick="closeIphoneHowto()">تێگەیشتم ✓</button>
   </div>
 </div>
@@ -2555,7 +2555,7 @@ body.dark-mode .iphone-note {
       <button class="btn btn-primary admin-stacked-btn games-btn" style="background: linear-gradient(135deg, #06b6d4, #0891b2);" onclick="openRonakiGameDirect()">✨ گەشتی ڕووناکی (Ronaki)</button>
       <button class="btn btn-primary admin-stacked-btn games-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706);" onclick="openKoshkiZanaGameDirect()">🏛️ کۆشکی زانا</button>
       <button class="btn btn-primary admin-stacked-btn games-btn" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="openAmazeGoGameDirect()">🌀 ئامەیز گۆ</button>
-      <!-- ✅ NEW GAME BUTTON -->
+      <!-- ✅ یاری نوێ لە پنێڵی ئەدمین -->
       <button class="btn btn-primary admin-stacked-btn games-btn" style="background: linear-gradient(135deg, #ef4444, #b91c1c);" onclick="openLegendOfLightGameDirect()">✨ ئەفسانەی ڕووناکی</button>
     </div>
   </div>
@@ -2650,6 +2650,7 @@ body.dark-mode .iphone-note {
       <div class="filter-search-row">
         <input type="text" id="quickSearchInput" class="filter-search-input" placeholder="🔎 گەڕان بە ناو، ژمارە مۆبایل، شوێن..." oninput="applyFiltersDebounced()">
       </div>
+
       <div class="filter-controls-row">
         <button class="filter-toggle-btn" id="filterToggleBtn" onclick="toggleFilterDropdowns()">
           <span>⚙️</span><span class="filter-text">فلتەر</span><span id="filterCountBadge"></span>
@@ -2659,6 +2660,7 @@ body.dark-mode .iphone-note {
           <button id="viewModeTableBtn" onclick="switchViewMode('table')">📋 خشتە</button>
         </div>
       </div>
+
       <div class="filter-dropdowns" id="filterDropdowns">
         <div class="filter-group">
           <label>👤 زیادکراو لەلایەن:</label>
@@ -2751,7 +2753,7 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- Game Hub (now includes "ئەفسانەی ڕووناکی") -->
+<!-- Game Hub — لەگەڵ یارییە نوێیەکە -->
 <div class="fullscreen-game-overlay" id="fullscreenGameOverlay">
   <div class="game-header-bar">
     <button class="game-back-btn" onclick="closeGameOverlay()">← گەڕانەوە بۆ ماڵپەڕ</button>
@@ -2782,7 +2784,7 @@ body.dark-mode .iphone-note {
         <div style="font-weight:800; font-size:1rem;">ئامەیز گۆ (Amaze Go)</div>
         <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">مەتەڵی دۆزینەوەی ڕێگای مەیز</div>
       </div>
-      <!-- ✅ NEW GAME CARD -->
+      <!-- ✅ یاری نوێ لە Game Hub -->
       <div class="game-menu-card" onclick="openLegendOfLightGame()">
         <div style="font-size:2.5rem; margin-bottom:8px;">✨</div>
         <div style="font-weight:800; font-size:1rem;">ئەفسانەی ڕووناکی</div>
@@ -2827,6 +2829,7 @@ body.dark-mode .iphone-note {
         <span class="ttt-score-num" id="tttScoreO">0</span>
       </div>
     </div>
+
     <div style="display:flex; justify-content:space-between; width:100%; max-width:320px; font-weight:800; font-size:0.85rem; margin-bottom:6px;">
       <span id="tttTurnText" style="color:var(--primary);">نۆبەی: X</span>
       <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem; background:var(--border);" onclick="setupGameMode('ttt')">🔄 سەرلەنوێ</button>
@@ -2846,7 +2849,7 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- Ronaki Game Overlay (unchanged) -->
+<!-- Ronaki Game Overlay -->
 <div id="ronakiGameOverlay">
   <canvas id="ronakiCanvas"></canvas>
   <div id="ronakiHurtFlash"></div>
@@ -2881,7 +2884,7 @@ body.dark-mode .iphone-note {
   <div id="ronakiDashTouch">خێرا</div>
 </div>
 
-<!-- Koshki Zana Overlay (unchanged) -->
+<!-- Koshki Zana Overlay -->
 <div id="koshkiZanaOverlay">
   <div id="kz-stars"></div>
   <div class="kz-frame-strip"></div>
@@ -3016,7 +3019,7 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
-<!-- Amaze Go Overlay (unchanged) -->
+<!-- Amaze Go Overlay -->
 <div id="amazeGoOverlay">
   <div class="ag-app">
     <div class="ag-topbar">
@@ -3130,8 +3133,399 @@ body.dark-mode .iphone-note {
   </div>
 </div>
 
+<!-- Match list modal -->
+<div class="modal match-list-modal" id="matchListModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeMatchListModal()">×</span>
+    <div class="modal-title" id="matchListModalTitle">🎯 موڵکە گونجاوەکان</div>
+    <div id="matchListContent"></div>
+  </div>
+</div>
+
+<!-- Phone action modal -->
+<div class="phone-action-modal" id="phoneActionModal" onclick="closePhoneModal()">
+  <div class="phone-action-box" onclick="event.stopPropagation()">
+    <div class="action-sheet-title" id="phoneActionTitle">پەیوەندی:</div>
+    <a id="whatsappActionBtn" href="#" target="_blank" class="phone-action-btn" style="background:#25d366; color:#fff;">💬 واتسئاپ (WhatsApp)</a>
+    <a id="phoneCallActionBtn" href="#" class="phone-action-btn" style="background:var(--primary); color:#fff;">📞 پەیوەندی تەلەفۆنی</a>
+    <button class="phone-action-btn" style="background:var(--border); color:var(--text);" onclick="closePhoneModal()">داخستن</button>
+  </div>
+</div>
+
+<!-- Story poster wrapper -->
+<div id="storyPosterWrapper">
+  <div class="story-header">
+    <div class="story-logo-group">
+      <img id="storyLogoImg" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" class="story-logo-img" alt="Logo">
+      <div class="story-logo-name" id="storyOfficeName">عقارات دەشتی دوستەپە</div>
+    </div>
+    <div class="story-tag" id="storyBadgeTag">بۆ فرۆشتن</div>
+  </div>
+  <img id="storyMainImage" class="story-img-main" src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&auto=format&fit=crop" alt="Property">
+  <div class="story-title" id="storyTitleText">خانووی مۆدێرن</div>
+  <div class="story-price" id="storyPriceText">$0</div>
+  <div class="story-phone-box">
+    <span>📞 پەیوەندی:</span>
+    <span id="storyPhoneText" style="direction:ltr;">0750xxxxxxx</span>
+  </div>
+</div>
+
+<!-- Action sheet modal (long press) -->
+<div class="action-sheet-modal" id="actionSheetModal" onclick="closeActionSheet()">
+  <div class="action-sheet-box" onclick="event.stopPropagation()">
+    <div class="action-sheet-title" id="actionSheetPropTitle">هەڵبژاردنی کردار</div>
+    <button class="action-sheet-btn btn-match" onclick="handleHoldMatch()">🎯 دۆزینەوەی گونجانەکان</button>
+    <button class="action-sheet-btn btn-story" onclick="handleHoldStoryDownload()">📸 داگرتن وەک وێنەی ستۆری</button>
+    <button class="action-sheet-btn btn-edit" onclick="handleHoldEdit()">✏️ دەستکاریکردن</button>
+    <button class="action-sheet-btn btn-sold" onclick="handleHoldSold()">🔒 گۆڕینی دۆخ (بەردەست / فرۆشراو)</button>
+    <button class="action-sheet-btn btn-danger" onclick="handleHoldDelete()">🗑️ سڕینەوە</button>
+    <button class="action-sheet-btn" style="background:var(--border); color:var(--text);" onclick="closeActionSheet()">داخستن</button>
+  </div>
+</div>
+
+<!-- Gallery modal -->
+<div class="gallery-modal" id="galleryModal">
+  <div class="gallery-header">
+    <span id="galleryCounter" style="font-weight:800; font-size:0.9rem;">1 / 1</span>
+    <span class="gallery-close-btn" onclick="closeGallery()">×</span>
+  </div>
+  <div class="gallery-main">
+    <button class="gallery-nav-btn gallery-prev" onclick="changeGallerySlide(1)">❯</button>
+    <img id="galleryMainImg" src="" alt="Gallery Image">
+    <button class="gallery-nav-btn gallery-next" onclick="changeGallerySlide(-1)">❮</button>
+  </div>
+  <div class="gallery-thumbs" id="galleryThumbs"></div>
+</div>
+
+<!-- Property modal -->
+<div class="modal" id="propertyModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModals()">×</span>
+    <div class="modal-title" id="modalTitle">زیادکردنی موڵک</div>
+    <form id="propForm" onsubmit="handleFormSubmit(event)">
+      <input type="hidden" id="editId">
+      
+      <div class="form-group" style="background: rgba(2, 132, 199, 0.08); padding: 8px; border-radius: 8px; border: 1px solid var(--primary);">
+        <label style="color: var(--primary); font-weight: 800;">👤 تۆ کێیت کە ئەم موڵکە زیاد دەکەیت؟</label>
+        <select id="addedByWho" required style="font-weight: 700;">
+          <option value="ڕەهەند">ڕەهەند</option>
+          <option value="حاجی پشتیوان">حاجی پشتیوان</option>
+          <option value="حاجی سەلمان">حاجی سەلمان</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>ناوی موڵک:</label>
+        <input type="text" id="title" required placeholder="وەک: خانووی مۆدێرن لە سەنتەر">
+      </div>
+      <div class="form-group">
+        <label>ژمارەی مۆبایلی خاوەن موڵک:</label>
+        <input type="tel" id="ownerPhone" placeholder="0750xxxxxxx" style="direction:ltr; text-align:right;">
+      </div>
+      <div class="form-group">
+        <label>ناوی شوێن / گەڕەک:</label>
+        <input type="text" id="location" placeholder="وەک: دوستەپە - نزیک پارک">
+      </div>
+      <div class="form-group">
+        <label>لینکی شوێن لە Google Maps:</label>
+        <input type="text" id="mapLink" placeholder="Google Maps Link">
+      </div>
+      <div class="form-group">
+        <label>بەش:</label>
+        <select id="category" onchange="toggleFormSubCategory()">
+          <option value="خانوو">خانوو</option>
+          <option value="شوێنی تیجاری">شوێنی تیجاری</option>
+          <option value="زەوی">زەوی</option>
+          <option value="مەزرەعە">مەزرەعە</option>
+        </select>
+      </div>
+      <div class="form-group" id="formSubCatGroup" style="display:none;">
+        <label>جۆری زەوی:</label>
+        <select id="subCategory">
+          <option value="نیشتەجێبوون">نیشتەجێبوون</option>
+          <option value="زراعی">زراعی</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>جۆری مامەڵە:</label>
+        <select id="type">
+          <option value="بۆ فرۆشتن">بۆ فرۆشتن</option>
+          <option value="بۆ بەکرێدان">بۆ بەکرێدان</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>نرخ ($):</label>
+        <input type="text" id="price" placeholder="وەک: $85,000 یان $500 مانگانە">
+      </div>
+      <div class="form-group">
+        <label style="color: var(--primary); font-weight: 800;">💰 نرخی ژمارەیی (بۆ گونجاندنی زیرەک):</label>
+        <input type="number" id="priceNumeric" placeholder="وەک: 85000" style="direction:ltr; text-align:right;">
+        <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:3px;">ئەمە بۆ سیستەمی گونجاندنی زیرەک بەکاردێت</small>
+      </div>
+      <div class="form-group">
+        <label style="color: var(--primary); font-weight: 800;">📐 ڕووبەر (دەفتەر / مەتر):</label>
+        <input type="text" id="areaDaftar" placeholder="وەک: 4 یان 6 یان 100 مەتر">
+        <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:3px;">بۆ گونجاندن لەگەڵ داواکارییەکان</small>
+      </div>
+      <div class="form-group">
+        <label>وێنەکانی موڵک:</label>
+        <input type="file" id="hiddenFileInput" accept="image/*" multiple style="display:none;" onchange="handleFileSelection(event)">
+        <div class="images-preview-grid" id="imgPreviewGrid">
+          <div class="add-more-img-btn" onclick="document.getElementById('hiddenFileInput').click()">
+            <span style="font-size:1.1rem;">+</span>
+            <span>زیادکردن</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>ڕوونکردنەوە:</label>
+        <textarea id="desc" rows="3" placeholder="زانیاری لەسەر ڕووبەر، پێگە، خزمەتگوزاری..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" id="savePropBtn" style="width:100%; padding:0.65rem;">پاشەکەوتکردن</button>
+    </form>
+  </div>
+</div>
+
+<!-- Want modal -->
+<div class="modal" id="wantModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModals()">×</span>
+    <div class="modal-title" id="wantModalTitle">زیادکردنی داواکاری (خوازیار)</div>
+    <form id="wantForm" onsubmit="handleWantFormSubmit(event)">
+      <input type="hidden" id="editWantId">
+      <div class="form-group">
+        <label>سەردێڕی داواکاری:</label>
+        <input type="text" id="wantTitle" required placeholder="وەک: خانووم دەوێت لە دوستەپە">
+      </div>
+      <div class="form-group">
+        <label>جۆری مامەڵەی داواکراو:</label>
+        <select id="wantPropertyType">
+          <option value="بۆ کڕین">بۆ کڕین</option>
+          <option value="بۆ کرێ">بۆ کرێ</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label style="color: var(--primary); font-weight: 800;">🏠 جۆری موڵکی داواکراو:</label>
+        <select id="wantCategory">
+          <option value="خانوو">خانوو</option>
+          <option value="شوێنی تیجاری">شوێنی تیجاری</option>
+          <option value="زەوی">زەوی</option>
+          <option value="مەزرەعە">مەزرەعە</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>بوودجەی دیاریکراو ($ یان دینار):</label>
+        <input type="text" id="wantPrice" placeholder="وەک: $50,000 بۆ $70,000">
+      </div>
+      <div class="form-group">
+        <label style="color: var(--primary); font-weight: 800;">💰 بوودجەی ژمارەیی (بۆ گونجاندنی زیرەک):</label>
+        <input type="number" id="wantBudgetNumeric" placeholder="وەک: 50000" style="direction:ltr; text-align:right;">
+        <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:3px;">ئەمە بۆ سیستەمی گونجاندنی زیرەک بەکاردێت</small>
+      </div>
+      <div class="form-group">
+        <label style="color: var(--primary); font-weight: 800;">📊 مەودای گونجاندنی بوودجە (%):</label>
+        <select id="wantBudgetTolerance">
+          <option value="10">± ١٠٪ (تەنگ)</option>
+          <option value="20" selected>± ٢٠٪ (مامناوەند)</option>
+          <option value="35">± ٣٥٪ (فراوان)</option>
+          <option value="50">± ٥٠٪ (زۆر فراوان)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label style="color: var(--primary); font-weight: 800;">📐 ڕووبەری داواکراو (دەفتەر / مەتر):</label>
+        <input type="text" id="wantAreaDaftar" placeholder="وەک: 4 یان 6 یان 100 مەتر">
+      </div>
+      <div class="form-group">
+        <label>ژمارەی مۆبایلی خوازیار / داواکار:</label>
+        <input type="tel" id="wantPhone" placeholder="0750xxxxxxx" style="direction:ltr; text-align:right;">
+      </div>
+      <div class="form-group">
+        <label>ڕوونکردنەوە و مەرجەکانی داواکاری:</label>
+        <textarea id="wantDesc" rows="3" placeholder="مەرجەکان، ڕووبەر، ژوورەکان..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" id="saveWantBtn" style="width:100%; padding:0.65rem;">پاشەکەوتکردنی داواکاری</button>
+    </form>
+  </div>
+</div>
+
+<!-- Manage tabs modal -->
+<div class="modal" id="manageTabsModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModals()">×</span>
+    <div class="modal-title">بەڕێوەبردنی تابەکان</div>
+    <form onsubmit="handleSaveCustomCategory(event)" style="margin-bottom:15px; border-bottom:1px solid #e2e8f0; padding-bottom:12px;">
+      <input type="hidden" id="editCatId">
+      <div class="form-group">
+        <label>ناوی تاب:</label>
+        <input type="text" id="customCatTitleInput" placeholder="وەک: شوقە، ڤێلا...">
+      </div>
+      <div class="form-group">
+        <label>ئایکۆنی تاب:</label>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <input type="text" id="customCatIconInput" placeholder="وەک 🏢" style="flex:1;" oninput="previewCustomCatIcon(this.value)">
+          <input type="file" id="customCatFileInput" accept="image/*" style="display:none;" onchange="processCatIconUpload(event)">
+          <button type="button" class="btn btn-primary" style="font-size:0.75rem; padding:0.55rem;" onclick="document.getElementById('customCatFileInput').click()">📁 فایل</button>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+          <div id="customCatIconPreview" style="width:34px; height:34px; border-radius:6px; border:1px solid #cbd5e1; display:flex; align-items:center; justify-content:center; font-size:1.3rem; background:var(--card-bg); overflow:hidden;">📁</div>
+          <span style="font-size:0.75rem; color:#64748b;">پێشبینین</span>
+        </div>
+        <input type="hidden" id="customCatImgData">
+      </div>
+      <button type="submit" class="btn btn-primary" id="saveCatBtn" style="width:100%; padding:0.55rem;">+ زیادکردن / نوێکردنەوەی تاب</button>
+    </form>
+    <div style="font-size:0.8rem; font-weight:800; margin-bottom:8px;">لیستی تابە دروستکراوەکان:</div>
+    <div id="customTabsManageList"></div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div class="modal" id="settingsModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModals()">×</span>
+    <div class="modal-title">ڕێکخستنی ماڵپەڕ</div>
+    <form onsubmit="handleSettingsSubmit(event)">
+      <div class="form-group">
+        <label>ناوی نوسینگە / ماڵپەڕ:</label>
+        <input type="text" id="setSiteName" placeholder="عقارات دەشتی دوستەپە">
+      </div>
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">🔑 کۆدی چوونەژوورەوەی ئەپ:</label>
+        <input type="text" id="setAppPass" placeholder="کۆدی نوێ بنووسە" inputmode="numeric" pattern="[0-9]*">
+      </div>
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">🔔 دەقی ئاگاداری خۆکار:</label>
+        <input type="text" id="setAutoNotifText" placeholder="وەک: سەردانی نوسینگە بکەن">
+      </div>
+      <div class="form-group">
+        <label>لینکی فایلی ئەندرۆید (APK):</label>
+        <input type="text" id="setApkUrl" placeholder="لینکی داگرتنی APK">
+      </div>
+
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">🤖 ئایکۆنی دوگمەی ئەندرۆید:</label>
+        <div class="icon-picker-row">
+          <div class="icon-picker-preview" id="androidIconPreview">🤖</div>
+          <input type="text" id="setAndroidIconEmoji" placeholder="وەک: 📱 یان 🤖" style="flex:1;" oninput="previewCustomIcon('android', this.value)" maxlength="4">
+          <input type="file" id="androidIconFile" accept="image/*" style="display:none;" onchange="processCustomIconUpload(event, 'android')">
+          <button type="button" class="btn btn-primary" style="font-size:0.75rem; padding:0.55rem;" onclick="document.getElementById('androidIconFile').click()">📁</button>
+        </div>
+        <input type="hidden" id="setAndroidIconImg">
+        <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">ئیمۆجی بنووسە یان فایلێکی وێنە هەڵبژێرە</small>
+      </div>
+
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">🍎 ئایکۆنی دوگمەی ئایفۆن:</label>
+        <div class="icon-picker-row">
+          <div class="icon-picker-preview" id="iphoneIconPreview">🍎</div>
+          <input type="text" id="setIphoneIconEmoji" placeholder="وەک: 🍏 یان 📱" style="flex:1;" oninput="previewCustomIcon('iphone', this.value)" maxlength="4">
+          <input type="file" id="iphoneIconFile" accept="image/*" style="display:none;" onchange="processCustomIconUpload(event, 'iphone')">
+          <button type="button" class="btn btn-primary" style="font-size:0.75rem; padding:0.55rem;" onclick="document.getElementById('iphoneIconFile').click()">📁</button>
+        </div>
+        <input type="hidden" id="setIphoneIconImg">
+        <small style="font-size:0.68rem; color:var(--muted); display:block; margin-top:4px;">ئیمۆجی بنووسە یان فایلێکی وێنە هەڵبژێرە</small>
+      </div>
+
+      <div class="form-group">
+        <label>وێنەی لۆگۆی ماڵپەڕ:</label>
+        <input type="file" id="logoFileInput" accept="image/*" onchange="processLogoUpload(event)">
+        <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+          <img id="logoPreview" src="https://cdn-icons-png.flaticon.com/512/609/609803.png" style="width:36px; height:36px; object-fit:contain; border-radius:6px; border:1px solid #cbd5e1;" alt="Logo">
+          <span style="font-size:0.75rem; color:#64748b;">پێشبینینی ئایکۆن</span>
+        </div>
+        <input type="hidden" id="setLogoData">
+      </div>
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">📐 ژمارەی کارتەکان:</label>
+        <select id="setGridCols">
+          <option value="1">۱ کارت لە هەر دێڕێکدا</option>
+          <option value="2">۲ کارت لە تەنیشت یەکتر</option>
+          <option value="3">۳ کارت لە تەنیشت یەکتر</option>
+          <option value="4">٤ کارت لە تەنیشت یەکتر</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">🖼️ بەرزی وێنەی کارتەکان:</label>
+        <select id="setCardImgHeight">
+          <option value="140px">بچووک</option>
+          <option value="160px">مامناوەند</option>
+          <option value="190px">گەورە</option>
+          <option value="220px">زۆر گەورە</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">🔤 قەبارەی فۆنت:</label>
+        <select id="setBaseFontSize">
+          <option value="12.5px">بچووک</option>
+          <option value="13.5px">ستاندارد</option>
+          <option value="14.5px">مامناوەند</option>
+          <option value="15.5px">گەورە</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">📊 نیشاندانی ئامار:</label>
+        <select id="setShowStats">
+          <option value="block">چالاک</option>
+          <option value="none">ناچالاک</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">👁️ شێوازی سەرەتا:</label>
+        <select id="setDefaultViewMode">
+          <option value="card">🃏 کارت</option>
+          <option value="table">📋 خشتە</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label style="color:var(--primary); font-weight:800;">🎯 هەستیاری گونجاندن:</label>
+        <select id="setMatchSensitivity">
+          <option value="strict">تەنگ — تەنها گونجانی بەرز</option>
+          <option value="normal" selected>مامناوەند</option>
+          <option value="loose">فراوان — هەموو گونجانێک</option>
+        </select>
+      </div>
+      <label style="font-size:0.75rem; font-weight:800; color:var(--dark); margin-bottom:5px; display:block;">🎨 کۆنتڕۆڵی ڕەنگەکان:</label>
+      <div class="color-pickers-grid">
+        <div class="color-field">
+          <label>ڕەنگی دەقی سەرەوە:</label>
+          <input type="color" id="setPrimaryColor" value="#0284c7">
+        </div>
+        <div class="color-field">
+          <label>ڕەنگی باکگراوندی سەرەوە:</label>
+          <input type="color" id="setHeaderBgColor" value="#ffffff">
+        </div>
+        <div class="color-field">
+          <label>ڕەنگی پنێڵی بەڕێوەبەر:</label>
+          <input type="color" id="setAdminBgColor" value="#0f172a">
+        </div>
+        <div class="color-field">
+          <label>ڕەنگی باکگراوندی گشتی:</label>
+          <input type="color" id="setBgColor" value="#f8fafc">
+        </div>
+        <div class="color-field">
+          <label>ڕەنگی کارتەکان:</label>
+          <input type="color" id="setCardColor" value="#ffffff">
+        </div>
+        <div class="color-field">
+          <label>ڕەنگی دەق:</label>
+          <input type="color" id="setTextColor" value="#1e293b">
+        </div>
+      </div>
+      <div style="margin-top:10px; padding-top:10px; border-top:1px solid #e2e8f0; display:flex; flex-direction:column; gap:6px;">
+        <label style="font-size:0.75rem; font-weight:800; color:var(--dark);">💾 Backup & Restore:</label>
+        <div style="display:flex; gap:6px;">
+          <button type="button" class="btn" style="flex:1; background:#10b981; color:#fff;" onclick="exportAllDataBackup()">💾 داگرتن</button>
+          <button type="button" class="btn" style="flex:1; background:#6366f1; color:#fff;" onclick="document.getElementById('importBackupFileInput').click()">📥 هێنانەوە</button>
+        </div>
+        <input type="file" id="importBackupFileInput" accept=".json" style="display:none;" onchange="importAllDataBackup(event)">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; padding:0.65rem; margin-top:10px;">پاشەکەوتکردنی هەموو ڕێکخستنەکان</button>
+    </form>
+  </div>
+</div>
+
 <!-- =========================================================
-     NEW GAME — "ئەفسانەی ڕووناکی" FULL HTML (hidden by default)
+     یاری نوێ — «ئەفسانەی ڕووناکی» (HTML)
      ========================================================= -->
 <div id="legendOfLightGame" style="display:none;">
   <canvas id="cv"></canvas>
@@ -3233,7 +3627,7 @@ body.dark-mode .iphone-note {
   </div>
   <button id="intBtn" class="hidden" type="button">💬</button>
 
-  <!-- Part 2: systems panel -->
+  <!-- Part 2 panel -->
   <div id="p2Panel" class="screen hidden">
     <div class="title" style="font-size:clamp(24px,5vw,44px)">سیستەمەکان</div>
     <div class="p2Tabs">
@@ -3289,7 +3683,6 @@ body.dark-mode .iphone-note {
   </div>
 
   <div id="p4RushHud" class="hidden"></div>
-
   <div id="p5Flash"></div>
   <div id="p6Rank" class="hidden"></div>
 
@@ -3298,10 +3691,6 @@ body.dark-mode .iphone-note {
     <div id="p8JoyKnob"></div>
   </div>
 </div>
-
-<!-- =========================================================
-     ORIGINAL SCRIPTS (unchanged) — Ronaki, Koshki, AmazeGo
-     ========================================================= -->
 <script>
 /* ============================================================
    MAIN APPLICATION SCRIPT
@@ -3366,6 +3755,9 @@ let tttScoreDraw = 0;
 
 let currentPinInput = '';
 
+/* ============================================================
+   DOWNLOAD CHOICE LOGIC
+   ============================================================ */
 function isIOSDevice() {
   const ua = navigator.userAgent || "";
   return /iPad|iPhone|iPod/.test(ua) ||
@@ -3433,6 +3825,9 @@ function dismissIosBanner() {
   localStorage.setItem('ios_banner_dismissed', 'true');
 }
 
+/* ============================================================
+   CUSTOM INSTALL ICONS
+   ============================================================ */
 function previewCustomIcon(which, val) {
   const imgField = document.getElementById(which === 'android' ? 'setAndroidIconImg' : 'setIphoneIconImg');
   const preview = document.getElementById(which === 'android' ? 'androidIconPreview' : 'iphoneIconPreview');
@@ -3450,7 +3845,8 @@ function processCustomIconUpload(event, which) {
     img.src = e.target.result;
     img.onload = () => {
       const canvas = document.createElement('canvas');
-      canvas.width = 128; canvas.height = 128;
+      canvas.width = 128;
+      canvas.height = 128;
       canvas.getContext('2d').drawImage(img, 0, 0, 128, 128);
       const dataUrl = canvas.toDataURL('image/png', 0.9);
       const imgField = document.getElementById(which === 'android' ? 'setAndroidIconImg' : 'setIphoneIconImg');
@@ -3480,6 +3876,9 @@ function applyInstallIcons() {
   }
 }
 
+/* ============================================================
+   GLOBAL HELPERS
+   ============================================================ */
 function showGlobalLoading(text) {
   const overlay = document.getElementById('globalLoadingOverlay');
   const textEl = document.getElementById('globalLoadingText');
@@ -3541,6 +3940,9 @@ async function syncAllToFirebase() {
   } catch (err) { console.warn('Firebase sync failed:', err); }
 }
 
+/* ============================================================
+   PULL TO REFRESH
+   ============================================================ */
 (function setupPullToRefresh() {
   let startY = 0;
   let pulling = false;
@@ -3578,6 +3980,7 @@ async function syncAllToFirebase() {
   }, { passive: true });
 })();
 
+/* ============ TOAST ============ */
 function showToastNotification(msg) {
   const toast = document.getElementById('toastNotificationBox');
   const textEl = document.getElementById('toastMsgText');
@@ -3598,6 +4001,7 @@ function checkAutoNotification() {
   }
 }
 
+/* ============ DARK MODE ============ */
 function toggleDarkMode() {
   isDarkMode = !isDarkMode;
   localStorage.setItem('dashti_theme_dark', isDarkMode);
@@ -3614,6 +4018,7 @@ function applyDarkModeClass() {
   }
 }
 
+/* ============ TIME FORMATTING ============ */
 function formatTimeAgo(timestamp) {
   if (!timestamp) return 'ئەمڕۆ';
   const now = Date.now();
@@ -3631,6 +4036,7 @@ function formatTimeAgo(timestamp) {
   return `پێش ${Math.floor(diffMonths / 12)} ساڵ`;
 }
 
+/* ============ SKELETON ============ */
 function renderSkeletonLoading() {
   const grid = document.getElementById('propertiesGrid');
   if (!grid) return;
@@ -3647,6 +4053,9 @@ function renderSkeletonLoading() {
   }
 }
 
+/* ============================================================
+   LOCK SCREEN - PIN PAD
+   ============================================================ */
 function updatePinDisplay() {
   const dots = document.querySelectorAll('.lock-pin-dot');
   dots.forEach((dot, i) => {
@@ -3701,6 +4110,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (hiddenInput) hiddenInput.addEventListener('focus', function() { this.blur(); });
 });
 
+/* ============ ADMIN TABS ============ */
 function switchAdminTab(tab, btn) {
   document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
@@ -3724,13 +4134,13 @@ function openAmazeGoGameDirect() {
   updateAdminViewDisplay();
   openAmazeGoGame();
 }
-/* ✅ NEW — open Legend Of Light from admin panel */
 function openLegendOfLightGameDirect() {
   isAdmin = false;
   updateAdminViewDisplay();
   openLegendOfLightGame();
 }
 
+/* ============ WINDOW INIT ============ */
 window.addEventListener('load', function() {
   window.history.pushState({ screen: 'home' }, "", "");
   applyDarkModeClass();
@@ -3751,7 +4161,6 @@ window.addEventListener('popstate', function(e) {
   if (kzOverlay && kzOverlay.style.display === 'block') { closeKoshkiZanaGame(); return; }
   const ronakiOverlay = document.getElementById('ronakiGameOverlay');
   if (ronakiOverlay && ronakiOverlay.style.display === 'flex') { closeRonakiGame(); return; }
-  /* ✅ NEW — close Legend Of Light on Android back */
   const lolOverlay = document.getElementById('legendOfLightGame');
   if (lolOverlay && lolOverlay.style.display !== 'none') { closeLegendOfLightGame(); return; }
   const gameOverlay = document.getElementById('fullscreenGameOverlay');
@@ -3768,6 +4177,7 @@ window.addEventListener('popstate', function(e) {
   window.history.back();
 });
 
+/* ============ CLOSE MODALS ON BACKDROP CLICK ============ */
 document.addEventListener('DOMContentLoaded', function() {
   const modalsToClose = [
     'downloadChoiceModal', 'iphoneHowtoModal', 'propertyModal',
@@ -3787,6 +4197,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+/* ============ PHONE MODAL ============ */
 function openPhoneActionModal(phoneNumber) {
   const cleanPhone = String(phoneNumber).trim();
   document.getElementById('phoneActionTitle').innerText = `پەیوەندی: ${cleanPhone}`;
@@ -3803,6 +4214,7 @@ function closePhoneModal(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
+/* ============ GAME HUB ============ */
 function openGameHubModal() {
   const overlay = document.getElementById('fullscreenGameOverlay');
   overlay.style.display = 'flex';
@@ -3837,6 +4249,7 @@ function backToGameHub() {
   document.getElementById('tttPlayBox').style.display = 'none';
 }
 
+/* ============ TIC TAC TOE ============ */
 function updateTTTScoreBoard() {
   const sx = document.getElementById('tttScoreX');
   const so = document.getElementById('tttScoreO');
@@ -3986,6 +4399,7 @@ function findSmartMove(player) {
   return null;
 }
 
+/* ============ NAVIGATION ============ */
 function navigateToCategory(cat) {
   activeMainTab = cat;
   currentScreen = 'category';
@@ -4024,6 +4438,7 @@ function switchWantSubTab(type, btn) {
   renderProperties();
 }
 
+/* ============ ADMIN ============ */
 function toggleAdminBar() {
   isAdmin = !isAdmin;
   updateAdminViewDisplay();
@@ -4058,6 +4473,7 @@ function updateAdminMatchBadge() {
   }
 }
 
+/* ============ BACKUP / RESTORE ============ */
 function exportAllDataBackup() {
   const backupData = {
     settings: siteSettings,
@@ -4113,6 +4529,7 @@ function importAllDataBackup(event) {
   event.target.value = '';
 }
 
+/* ============ STATS ============ */
 function updatePublicStats() {
   document.getElementById('statHousesSale').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ فرۆشتن').length;
   document.getElementById('statHousesRent').innerText = properties.filter(p => p.category === 'خانوو' && p.type === 'بۆ بەکرێدان').length;
@@ -4122,6 +4539,7 @@ function updatePublicStats() {
   document.getElementById('statWants').innerText = properties.filter(p => p.category === 'خوازیار / پێویستە').length;
 }
 
+/* ============ HOLD / ACTION SHEET ============ */
 function startHold(id) {
   holdTimer = setTimeout(() => {
     selectedHoldItemId = id;
@@ -4165,6 +4583,7 @@ function handleHoldMatch() {
   openMatchListModal(id);
 }
 
+/* ============ STORY DOWNLOAD ============ */
 async function downloadPropertyAsStory(id) {
   const item = properties.find(p => String(p.id) === String(id));
   if (!item) return;
@@ -4200,6 +4619,7 @@ async function handleHoldStoryDownload() {
   await downloadPropertyAsStory(id);
 }
 
+/* ============ DIRECT DOWNLOAD ============ */
 function triggerDirectDownload() {
   if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
     window.location.href = siteSettings.apkUrl;
@@ -4208,6 +4628,7 @@ function triggerDirectDownload() {
   }
 }
 
+/* ============ SPLASH ============ */
 function hideSplashScreen() {
   const splash = document.getElementById('customSplashScreen');
   if (splash) {
@@ -4216,6 +4637,7 @@ function hideSplashScreen() {
   }
 }
 
+/* ============ CHECK STANDALONE MODE ============ */
 function checkStandaloneMode() {
   const ua = navigator.userAgent || "";
   const isStandalone = 
@@ -4233,6 +4655,7 @@ function checkStandaloneMode() {
   }
 }
 
+/* ============ THEME ============ */
 function applyThemeSettings() {
   const primary = siteSettings.primaryColor || "#0284c7";
   const headerBg = siteSettings.headerBgColor || "#ffffff";
@@ -4259,6 +4682,7 @@ function applyThemeSettings() {
   applyDarkModeClass();
 }
 
+/* ============ DATA LOADING ============ */
 async function loadData(silent) {
   if (!silent) renderSkeletonLoading();
   try {
@@ -4337,6 +4761,7 @@ function applySettings() {
   applyInstallIcons();
 }
 
+/* ============ CUSTOM CATEGORIES ============ */
 function renderCustomCategoriesHub() {
   const hub = document.getElementById('categoriesHubGrid');
   const wantsCard = document.getElementById('wantsCardBtn');
@@ -4501,7 +4926,11 @@ async function deleteCustomCategory(id) {
     showToastNotification('🗑️ تابەکە سڕایەوە');
   }
 }
-
+</script>
+<script>
+/* ============================================================
+   FILTERS SYSTEM
+   ============================================================ */
 function toggleFilterDropdowns() {
   document.getElementById('filterDropdowns').classList.toggle('show');
 }
@@ -4631,6 +5060,9 @@ function matchesFilters(item) {
   return true;
 }
 
+/* ============================================================
+   VIEW MODE TOGGLE
+   ============================================================ */
 function switchViewMode(mode) {
   currentViewMode = mode;
   updateViewModeUI();
@@ -4655,6 +5087,9 @@ function updateViewModeUI() {
   }
 }
 
+/* ============================================================
+   SMART MATCHING ENGINE
+   ============================================================ */
 function normalizeNumerals(str) {
   if (str === null || str === undefined) return '';
   return String(str)
@@ -4854,6 +5289,9 @@ function getMatchBadgeHtml(item) {
   return `<span class="match-badge ${cls}" onclick="event.stopPropagation(); openMatchListModal('${item.id}')" title="گونجان: ${top.score}٪">${label} · ${matches.length}</span>`;
 }
 
+/* ============================================================
+   RENDER PROPERTIES
+   ============================================================ */
 function getFilteredList() {
   let list = properties.filter(p => p.category === activeMainTab);
   if (activeMainTab === 'خانوو') {
@@ -5081,6 +5519,9 @@ function formatMapUrl(link, loc) {
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
+/* ============================================================
+   IMAGE COMPRESSION
+   ============================================================ */
 function compressImageUltraFast(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -5170,6 +5611,7 @@ function processLogoUpload(event) {
   }
 }
 
+/* ============ GALLERY ============ */
 function openGallery(id) {
   const item = properties.find(p => String(p.id) === String(id));
   if (!item) return;
@@ -5206,6 +5648,7 @@ function closeGallery(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
+/* ============ FORM HELPERS ============ */
 function toggleFormSubCategory() {
   const cat = document.getElementById('category').value;
   const subGroup = document.getElementById('formSubCatGroup');
@@ -5329,6 +5772,9 @@ function closeModals(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
+/* ============================================================
+   FORM SUBMISSIONS
+   ============================================================ */
 async function handleFormSubmit(e) {
   e.preventDefault();
   const saveBtn = document.getElementById('savePropBtn');
@@ -5509,6 +5955,7 @@ async function deleteProperty(id) {
   }
 }
 
+/* ============ GAME OPENERS ============ */
 function openRonakiGame() {
   document.getElementById('fullscreenGameOverlay').style.display = 'none';
   document.getElementById('ronakiGameOverlay').style.display = 'flex';
@@ -5546,14 +5993,11 @@ function closeAmazeGoGame() {
   document.getElementById('amazeGoOverlay').style.display = 'none';
   window.history.pushState({ screen: currentScreen }, "", "");
 }
-
-/* ✅ NEW — Legend Of Light open/close */
+/* ✅ یاری نوێ — کراوە/داخراو */
 function openLegendOfLightGame() {
-  // Close other game overlays & modals
   document.getElementById('fullscreenGameOverlay').style.display = 'none';
   const lol = document.getElementById('legendOfLightGame');
   lol.style.display = 'block';
-  // Reset game to main menu
   try { if (typeof window.__lolShowMenu === 'function') window.__lolShowMenu(); } catch(e){}
   window.history.pushState({ modal: 'legendOfLight' }, "", "");
 }
@@ -5563,6 +6007,9 @@ function closeLegendOfLightGame(doPush = true) {
   if (doPush) window.history.pushState({ screen: currentScreen }, "", "");
 }
 
+/* ============================================================
+   MATCH TRACKING SYSTEM
+   ============================================================ */
 let trackedMatches = JSON.parse(localStorage.getItem('dashti_tracked_matches') || '[]');
 let unseenMatchCount = Number(localStorage.getItem('dashti_unseen_matches') || 0);
 
@@ -5693,6 +6140,7 @@ function requestNotificationPermission() {
   }
 }
 
+/* ============ INIT ============ */
 applySettings();
 applyThemeSettings();
 checkStandaloneMode();
@@ -5721,27 +6169,1383 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(function() {});
 }
 </script>
-
-<!-- Ronaki game script (unchanged) -->
+<!-- Ronaki Game Engine Script -->
 <script>
-/* ... original Ronaki code from your site ... */
-/* (kept exactly as it was in your file) */
-</script>
+(function(){
+  "use strict";
+  const STAGES = [
+    {
+      name: "قۆناغی یەکەم — دابەزین بۆ تاریکی",
+      shardCount: 5, enemyCount: 4, enemySpeed: 5.0, chaseRadius: 9, worldRadius: 36,
+      boss: false, fogColor: 0x05070d, powerups: ["shield"]
+    },
+    {
+      name: "قۆناغی دووەم — داڕی قووڵ",
+      shardCount: 5, enemyCount: 6, enemySpeed: 6.1, chaseRadius: 11, worldRadius: 42,
+      boss: false, fogColor: 0x04050c, powerups: ["speed","magnet"]
+    },
+    {
+      name: "قۆناغی سێیەم — بەرەنگاربوونەوەی گەورە تاریکی",
+      shardCount: 4, enemyCount: 2, enemySpeed: 6.6, chaseRadius: 17, worldRadius: 46,
+      boss: true, fogColor: 0x030309, powerups: ["shield"]
+    }
+  ];
 
-<!-- Koshki Zana script (unchanged) -->
+  const CFG = {
+    TOTAL_LIVES: 3,
+    PLAYER_SPEED: 15,
+    PLAYER_ACCEL: 10,
+    CATCH_RADIUS: 1.35,
+    BOSS_CATCH_RADIUS: 2.1,
+    SHARD_PICKUP_RADIUS: 1.5,
+    POWERUP_PICKUP_RADIUS: 1.6,
+    INVULN_TIME: 1.6,
+    TOWER_RADIUS_CLEAR: 6,
+    DASH_SPEED: 34,
+    DASH_TIME: 0.22,
+    DASH_COOLDOWN: 3.2,
+    SCORE_PER_SHARD: 100,
+    SCORE_PER_STAGE: 250,
+    POWERUP_DURATION: 9,
+    MAGNET_RADIUS: 9,
+    MAGNET_PULL_SPEED: 14,
+    BOSS_PROJECTILE_SPEED: 8.5,
+    BOSS_PROJECTILE_COOLDOWN: 2.6,
+    BOSS_PROJECTILE_RADIUS: 1.1,
+    HITSTOP_MS: 80,
+    SHAKE_DECAY: 3.2
+  };
+  const TOTAL_SHARDS_ALL = STAGES.reduce((a,s)=>a+s.shardCount, 0);
+
+  let state = {
+    mode: "start",
+    stageIndex: 0,
+    stageShardsCollected: 0,
+    totalShardsCollected: 0,
+    lives: CFG.TOTAL_LIVES,
+    invulnUntil: 0,
+    dashCooldownUntil: 0,
+    dashActiveUntil: 0,
+    score: 0,
+    bestScore: Number(localStorage.getItem('ronaki_best_score') || 0),
+    powerupUntil: { shield: 0, speed: 0, magnet: 0 },
+    hitStopUntil: 0,
+    shakeUntil: 0,
+    shakeMag: 0,
+    keys: {}
+  };
+
+  let audioCtx = null;
+  function ensureAudio(){
+    if (!audioCtx){
+      try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ audioCtx = null; }
+    }
+  }
+  function tone(freq, dur, type, gainVal, delay){
+    if (!audioCtx) return;
+    delay = delay || 0;
+    const t0 = audioCtx.currentTime + delay;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type || "sine";
+    osc.frequency.setValueAtTime(freq, t0);
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(gainVal || 0.15, t0 + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.02);
+  }
+  function sfxPickup(){ tone(660,0.12,"sine",0.18); tone(990,0.14,"sine",0.13,0.05); }
+  function sfxPowerup(){ tone(440,0.1,"triangle",0.15); tone(660,0.1,"triangle",0.15,0.08); tone(880,0.16,"triangle",0.16,0.16); }
+  function sfxHurt(){ tone(140,0.28,"sawtooth",0.2); }
+  function sfxDash(){ tone(320,0.1,"square",0.08); }
+  function sfxProjectile(){ tone(200,0.15,"sawtooth",0.09); }
+  function sfxStageClear(){ tone(523,0.18,"sine",0.15); tone(659,0.18,"sine",0.15,0.12); tone(784,0.3,"sine",0.16,0.24); }
+
+  const canvas = document.getElementById("ronakiCanvas");
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x05070d, 0.026);
+  const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 260);
+  camera.position.set(0, 16, 20);
+
+  function resize(){
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  const ambient = new THREE.AmbientLight(0x25305a, 0.9);
+  scene.add(ambient);
+  const moon = new THREE.DirectionalLight(0x8fb3ff, 0.35);
+  moon.position.set(-20, 30, -10);
+  scene.add(moon);
+  const playerLight = new THREE.PointLight(0xffd9a0, 1.6, 18, 2);
+  scene.add(playerLight);
+
+  function makeGlowTexture(hex){
+    const size = 128;
+    const c = document.createElement("canvas");
+    c.width = c.height = size;
+    const ctx = c.getContext("2d");
+    const grd = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+    grd.addColorStop(0, "rgba(255,255,255,0.95)");
+    grd.addColorStop(0.25, hex);
+    grd.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = grd;
+    ctx.fillRect(0,0,size,size);
+    return new THREE.CanvasTexture(c);
+  }
+  const goldGlowTex = makeGlowTexture("rgba(255,207,107,0.9)");
+  const purpleGlowTex = makeGlowTexture("rgba(139,107,255,0.85)");
+  const redGlowTex = makeGlowTexture("rgba(255,90,90,0.85)");
+  const whiteGlowTex = makeGlowTexture("rgba(255,244,214,0.95)");
+  const blueGlowTex = makeGlowTexture("rgba(107,197,255,0.85)");
+  const greenGlowTex = makeGlowTexture("rgba(125,255,158,0.85)");
+
+  function addGlowSprite(parent, tex, scale, color){
+    const mat = new THREE.SpriteMaterial({ map: tex, color: color || 0xffffff, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false });
+    const sprite = new THREE.Sprite(mat);
+    sprite.scale.set(scale, scale, 1);
+    parent.add(sprite);
+    return sprite;
+  }
+
+  (function stars(){
+    const count = 900;
+    const geo = new THREE.BufferGeometry();
+    const pos = new Float32Array(count*3);
+    for(let i=0;i<count;i++){
+      const r = 90 + Math.random()*70;
+      const theta = Math.random()*Math.PI*2;
+      const phi = Math.acos((Math.random()*2)-1) * 0.55;
+      pos[i*3]   = r * Math.sin(phi) * Math.cos(theta);
+      pos[i*3+1] = Math.abs(r * Math.cos(phi)) + 5;
+      pos[i*3+2] = r * Math.sin(phi) * Math.sin(theta);
+    }
+    geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    const mat = new THREE.PointsMaterial({ color:0xffffff, size:0.7, transparent:true, opacity:0.8 });
+    scene.add(new THREE.Points(geo, mat));
+  })();
+
+  const groundGeo = new THREE.PlaneGeometry(150, 150, 60, 60);
+  groundGeo.rotateX(-Math.PI/2);
+  {
+    const pos = groundGeo.attributes.position;
+    for(let i=0;i<pos.count;i++){
+      const x = pos.getX(i), z = pos.getZ(i);
+      const h = Math.sin(x*0.09)*Math.cos(z*0.09)*1.1 + Math.sin(x*0.21+z*0.13)*0.5;
+      pos.setY(i, h);
+    }
+    groundGeo.computeVertexNormals();
+  }
+  const groundMat = new THREE.MeshStandardMaterial({ color:0x121a30, roughness:1, metalness:0.05 });
+  const ground = new THREE.Mesh(groundGeo, groundMat);
+  scene.add(ground);
+
+  function groundHeightAt(x,z){
+    return Math.sin(x*0.09)*Math.cos(z*0.09)*1.1 + Math.sin(x*0.21+z*0.13)*0.5;
+  }
+
+  const rockGeoPool = [
+    new THREE.DodecahedronGeometry(1, 0),
+    new THREE.DodecahedronGeometry(0.6, 0),
+    new THREE.DodecahedronGeometry(1.4, 0)
+  ];
+  const rockMat = new THREE.MeshStandardMaterial({ color:0x1b2338, roughness:0.95, flatShading:true });
+  for(let i=0;i<40;i++){
+    const geo = rockGeoPool[Math.floor(Math.random()*rockGeoPool.length)];
+    const rock = new THREE.Mesh(geo, rockMat);
+    const ang = Math.random()*Math.PI*2;
+    const rad = 8 + Math.random()*40;
+    const x = Math.cos(ang)*rad, z = Math.sin(ang)*rad;
+    rock.position.set(x, groundHeightAt(x,z)+0.3, z);
+    rock.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+    const s = 0.6+Math.random()*0.9;
+    rock.scale.set(s,s,s);
+    scene.add(rock);
+  }
+
+  const tower = new THREE.Group();
+  const towerBase = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 3, 3, 8), new THREE.MeshStandardMaterial({ color:0x232a44, roughness:0.8 }));
+  towerBase.position.y = 1.5;
+  tower.add(towerBase);
+  const towerMid = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 2.2, 7, 8), new THREE.MeshStandardMaterial({ color:0x1d2440, roughness:0.8 }));
+  towerMid.position.y = 3 + 3.5;
+  tower.add(towerMid);
+  const towerOrbMat = new THREE.MeshStandardMaterial({ color:0x554015, emissive:0xffcf6b, emissiveIntensity:0.08, roughness:0.3, metalness:0.2 });
+  const towerOrb = new THREE.Mesh(new THREE.IcosahedronGeometry(1.35, 1), towerOrbMat);
+  towerOrb.position.y = 3 + 7 + 1.2;
+  tower.add(towerOrb);
+  const towerOrbGlow = addGlowSprite(towerOrb, goldGlowTex, 3, 0xffcf6b);
+  towerOrbGlow.material.opacity = 0.15;
+  tower.position.set(0, 0, 0);
+  scene.add(tower);
+
+  const player = new THREE.Group();
+  const playerCore = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(0.62, 1),
+    new THREE.MeshStandardMaterial({ color:0xfff3d6, emissive:0xffd88a, emissiveIntensity:1.1, roughness:0.25 })
+  );
+  player.add(playerCore);
+  const playerGlow = addGlowSprite(player, whiteGlowTex, 3.2, 0xffe4a8);
+  const shieldSprite = addGlowSprite(player, blueGlowTex, 4.6, 0x6bc5ff);
+  shieldSprite.material.opacity = 0;
+  player.position.set(10, 0, 10);
+  scene.add(player);
+  const playerVel = new THREE.Vector3();
+  let lastMoveDir = new THREE.Vector3(0,0,-1);
+
+  const particles = [];
+  function spawnBurst(position, tex, color, count, speed){
+    for(let i=0;i<count;i++){
+      const mat = new THREE.SpriteMaterial({ map: tex, color: color, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false });
+      const sprite = new THREE.Sprite(mat);
+      sprite.scale.set(0.6,0.6,1);
+      sprite.position.copy(position);
+      const ang = Math.random()*Math.PI*2;
+      const spd = (0.5 + Math.random()*0.5) * speed;
+      const vel = new THREE.Vector3(Math.cos(ang)*spd, 1.5+Math.random()*1.5, Math.sin(ang)*spd);
+      sprite.userData = { vel, life: 0, maxLife: 0.55 + Math.random()*0.25 };
+      scene.add(sprite);
+      particles.push(sprite);
+    }
+  }
+  function updateParticles(delta){
+    for(let i=particles.length-1;i>=0;i--){
+      const p = particles[i];
+      p.userData.life += delta;
+      const t = p.userData.life / p.userData.maxLife;
+      if (t >= 1){ scene.remove(p); particles.splice(i,1); continue; }
+      p.userData.vel.y -= delta*4;
+      p.position.addScaledVector(p.userData.vel, delta);
+      p.material.opacity = 1 - t;
+      const sc = 0.6 * (1 - t*0.5);
+      p.scale.set(sc, sc, 1);
+    }
+  }
+
+  let shards = [];
+  const shardGeo = new THREE.IcosahedronGeometry(0.48, 0);
+  const shardMat = new THREE.MeshStandardMaterial({ color:0x6b4b12, emissive:0xffcf6b, emissiveIntensity:1.3, roughness:0.3 });
+
+  function randomPointAvoiding(existingPoints, minDist, minCenterDist, worldRadius){
+    for(let attempt=0; attempt<60; attempt++){
+      const ang = Math.random()*Math.PI*2;
+      const rad = minCenterDist + Math.random()*(worldRadius - minCenterDist - 3);
+      const x = Math.cos(ang)*rad, z = Math.sin(ang)*rad;
+      let ok = true;
+      for(const p of existingPoints){
+        if (Math.hypot(p.x-x, p.z-z) < minDist){ ok=false; break; }
+      }
+      if(ok) return {x,z};
+    }
+    const ang = Math.random()*Math.PI*2;
+    const rad = minCenterDist + Math.random()*(worldRadius - minCenterDist - 3);
+    return { x: Math.cos(ang)*rad, z: Math.sin(ang)*rad };
+  }
+  function clearShards(){ for(const s of shards){ if (s.parent) scene.remove(s); } shards = []; }
+  function buildShardsForStage(stageCfg, placedPoints){
+    clearShards();
+    for(let i=0;i<stageCfg.shardCount;i++){
+      const p = randomPointAvoiding(placedPoints, 5.5, CFG.TOWER_RADIUS_CLEAR, stageCfg.worldRadius);
+      placedPoints.push(p);
+      const mesh = new THREE.Mesh(shardGeo, shardMat);
+      const baseY = groundHeightAt(p.x, p.z) + 1.1;
+      mesh.position.set(p.x, baseY, p.z);
+      addGlowSprite(mesh, goldGlowTex, 2.2, 0xffcf6b);
+      mesh.userData = { collected:false, baseY, phase: Math.random()*Math.PI*2 };
+      scene.add(mesh);
+      shards.push(mesh);
+    }
+  }
+
+  let powerups = [];
+  const powerupGeoPool = {
+    shield: new THREE.OctahedronGeometry(0.55, 0),
+    speed: new THREE.ConeGeometry(0.45, 1.0, 5),
+    magnet: new THREE.TorusGeometry(0.45, 0.16, 8, 16)
+  };
+  const powerupColors = { shield: 0x6bc5ff, speed: 0x7dff9e, magnet: 0xffcf6b };
+  const powerupGlowTex = { shield: blueGlowTex, speed: greenGlowTex, magnet: goldGlowTex };
+  const powerupLabels = { shield: "پارێزەر", speed: "خێرایی", magnet: "ئاسنکێش" };
+
+  function clearPowerups(){ for(const p of powerups){ if (p.parent) scene.remove(p); } powerups = []; }
+  function buildPowerupsForStage(stageCfg, placedPoints){
+    clearPowerups();
+    for(const type of stageCfg.powerups){
+      const p = randomPointAvoiding(placedPoints, 5.5, CFG.TOWER_RADIUS_CLEAR, stageCfg.worldRadius);
+      placedPoints.push(p);
+      const mat = new THREE.MeshStandardMaterial({ color: powerupColors[type], emissive: powerupColors[type], emissiveIntensity: 1.2, roughness:0.3 });
+      const mesh = new THREE.Mesh(powerupGeoPool[type], mat);
+      const baseY = groundHeightAt(p.x, p.z) + 1.2;
+      mesh.position.set(p.x, baseY, p.z);
+      addGlowSprite(mesh, powerupGlowTex[type], 2.4, powerupColors[type]);
+      mesh.userData = { type, collected:false, baseY, phase: Math.random()*Math.PI*2 };
+      scene.add(mesh);
+      powerups.push(mesh);
+    }
+  }
+  function activatePowerup(type){
+    const now = performance.now()/1000;
+    state.powerupUntil[type] = now + CFG.POWERUP_DURATION;
+    sfxPowerup();
+  }
+
+  let enemies = [];
+  let bossProjectiles = [];
+  const enemyGeo = new THREE.IcosahedronGeometry(0.75, 1);
+  const enemyMat = new THREE.MeshStandardMaterial({ color:0x1a0f2e, emissive:0x8b6bff, emissiveIntensity:0.9, roughness:0.4 });
+  const bossGeo = new THREE.IcosahedronGeometry(1.9, 1);
+  const bossMat = new THREE.MeshStandardMaterial({ color:0x150a24, emissive:0xff5a5a, emissiveIntensity:0.85, roughness:0.35 });
+  const projGeo = new THREE.SphereGeometry(CFG.BOSS_PROJECTILE_RADIUS*0.55, 10, 10);
+  const projMat = new THREE.MeshStandardMaterial({ color:0x2a0f1a, emissive:0xff5a5a, emissiveIntensity:1.3 });
+
+  function clearEnemies(){ for(const e of enemies){ if (e.parent) scene.remove(e); } enemies = []; }
+  function clearProjectiles(){ for(const p of bossProjectiles){ if (p.mesh.parent) scene.remove(p.mesh); } bossProjectiles = []; }
+
+  function pickNewWanderTarget(e, worldRadius){
+    const ang = Math.random()*Math.PI*2;
+    const rad = 6 + Math.random()*(worldRadius-8);
+    e.userData.wanderTarget.set(Math.cos(ang)*rad, 0, Math.sin(ang)*rad);
+    e.userData.wanderTimer = 3 + Math.random()*3;
+  }
+  function buildEnemiesForStage(stageCfg){
+    clearEnemies();
+    clearProjectiles();
+    const minionCount = stageCfg.boss ? Math.max(0, stageCfg.enemyCount - 1) : stageCfg.enemyCount;
+    for(let i=0;i<minionCount;i++){
+      const mesh = new THREE.Mesh(enemyGeo, enemyMat);
+      const ang = (i/Math.max(1,minionCount))*Math.PI*2 + Math.random();
+      const rad = 14 + Math.random()*(stageCfg.worldRadius-16);
+      const x = Math.cos(ang)*rad, z = Math.sin(ang)*rad;
+      mesh.position.set(x, groundHeightAt(x,z)+0.8, z);
+      addGlowSprite(mesh, purpleGlowTex, 2.6, 0x8b6bff);
+      mesh.userData = {
+        isBoss:false, speed: stageCfg.enemySpeed, chaseRadius: stageCfg.chaseRadius,
+        catchRadius: CFG.CATCH_RADIUS, wanderTarget: new THREE.Vector3(x,0,z), wanderTimer: 0
+      };
+      scene.add(mesh);
+      enemies.push(mesh);
+    }
+    if (stageCfg.boss){
+      const boss = new THREE.Mesh(bossGeo, bossMat);
+      boss.position.set(0, groundHeightAt(0, stageCfg.worldRadius*0.6)+1.5, stageCfg.worldRadius*0.6);
+      addGlowSprite(boss, redGlowTex, 6, 0xff5a5a);
+      const orbitGroup = new THREE.Group();
+      for(let k=0;k<3;k++){
+        const chip = new THREE.Mesh(
+          new THREE.IcosahedronGeometry(0.35,0),
+          new THREE.MeshStandardMaterial({ color:0x2a0f1a, emissive:0xff5a5a, emissiveIntensity:0.8 })
+        );
+        const orbitAng = (k/3)*Math.PI*2;
+        chip.position.set(Math.cos(orbitAng)*2.6, 0, Math.sin(orbitAng)*2.6);
+        orbitGroup.add(chip);
+      }
+      boss.add(orbitGroup);
+      boss.userData = {
+        isBoss:true, speed: stageCfg.enemySpeed, chaseRadius: stageCfg.chaseRadius,
+        catchRadius: CFG.BOSS_CATCH_RADIUS, wanderTarget: new THREE.Vector3(boss.position.x,0,boss.position.z),
+        wanderTimer: 0, orbitGroup, attackCooldown: 2.0
+      };
+      scene.add(boss);
+      enemies.push(boss);
+    }
+  }
+  function fireBossProjectile(boss){
+    const mesh = new THREE.Mesh(projGeo, projMat);
+    mesh.position.copy(boss.position);
+    addGlowSprite(mesh, redGlowTex, 2.4, 0xff5a5a);
+    const dir = new THREE.Vector3(player.position.x-boss.position.x, 0, player.position.z-boss.position.z).normalize();
+    scene.add(mesh);
+    bossProjectiles.push({ mesh, dir, life: 0, maxLife: 6 });
+    sfxProjectile();
+  }
+
+  const joystickBase = document.getElementById("ronakiJoystickBase");
+  const joystickStick = document.getElementById("ronakiJoystickStick");
+  let joystickTouchId = null;
+  let joyStartX = 0, joyStartY = 0;
+  const maxRadius = 35;
+
+  if ('ontouchstart' in window) joystickBase.classList.add("show");
+
+  window.addEventListener("touchstart", (e)=>{
+    if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
+    for (let t of e.changedTouches) {
+      if (t.clientX < window.innerWidth / 2 && joystickTouchId === null) {
+        joystickTouchId = t.identifier;
+        joyStartX = t.clientX;
+        joyStartY = t.clientY;
+        joystickBase.style.left = (joyStartX - 55) + "px";
+        joystickBase.style.bottom = (window.innerHeight - joyStartY - 55) + "px";
+        joystickBase.classList.add("show");
+        joystickStick.style.transform = `translate(0px, 0px)`;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("touchmove", (e)=>{
+    if (joystickTouchId === null) return;
+    for (let t of e.changedTouches) {
+      if (t.identifier === joystickTouchId) {
+        let dx = t.clientX - joyStartX;
+        let dy = t.clientY - joyStartY;
+        const dist = Math.hypot(dx, dy);
+        if (dist > maxRadius) { dx = (dx / dist) * maxRadius; dy = (dy / dist) * maxRadius; }
+        joystickStick.style.transform = `translate(${dx}px, ${dy}px)`;
+        state.keys["a"] = dx < -10;
+        state.keys["d"] = dx > 10;
+        state.keys["w"] = dy < -10;
+        state.keys["s"] = dy > 10;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("touchend", (e)=>{
+    for (let t of e.changedTouches) {
+      if (t.identifier === joystickTouchId) {
+        joystickTouchId = null;
+        joystickStick.style.transform = `translate(0px, 0px)`;
+        state.keys["a"] = false;
+        state.keys["d"] = false;
+        state.keys["w"] = false;
+        state.keys["s"] = false;
+      }
+    }
+  }, {passive:false});
+
+  window.addEventListener("keydown", (e)=>{
+    if (document.getElementById('ronakiGameOverlay').style.display !== 'flex') return;
+    const key = e.key.toLowerCase();
+    state.keys[key] = true;
+    if (key === "shift") tryDash();
+  });
+  window.addEventListener("keyup", (e)=>{ state.keys[e.key.toLowerCase()] = false; });
+
+  const ronakiDashTouch = document.getElementById("ronakiDashTouch");
+  const dashTouchHandler = (ev)=>{ ev.preventDefault(); tryDash(); };
+  ronakiDashTouch.addEventListener("touchstart", dashTouchHandler, {passive:false});
+  ronakiDashTouch.addEventListener("mousedown", dashTouchHandler);
+  if ('ontouchstart' in window) ronakiDashTouch.classList.add("show");
+
+  function tryDash(){
+    if (state.mode !== "playing") return;
+    const now = performance.now()/1000;
+    if (now < state.dashCooldownUntil) return;
+    const dir = lastMoveDir.clone();
+    if (dir.lengthSq() < 0.001) return;
+    dir.normalize();
+    playerVel.copy(dir.multiplyScalar(CFG.DASH_SPEED));
+    state.dashActiveUntil = now + CFG.DASH_TIME;
+    state.dashCooldownUntil = now + CFG.DASH_COOLDOWN;
+    state.invulnUntil = Math.max(state.invulnUntil, now + CFG.DASH_TIME + 0.1);
+    sfxDash();
+    spawnBurst(player.position.clone(), whiteGlowTex, 0xffe4a8, 8, 3);
+  }
+
+  const elShardCount = document.getElementById("ronakiShardCount");
+  const elShardTotal = document.getElementById("ronakiShardTotal");
+  const elStageNum = document.getElementById("ronakiStageNum");
+  const elLives = document.getElementById("ronakiLives");
+  const elScoreVal = document.getElementById("ronakiScoreVal");
+  const elDashBarFill = document.getElementById("ronakiDashBarFill");
+  const elHud = document.getElementById("ronakiHud");
+  const elHurt = document.getElementById("ronakiHurtFlash");
+  const elStageBanner = document.getElementById("ronakiStageBanner");
+  const elPowerupRow = document.getElementById("ronakiPowerupRow");
+  const minimapCanvas = document.getElementById("ronakiMinimap");
+  const mmCtx = minimapCanvas.getContext("2d");
+
+  elShardTotal.textContent = TOTAL_SHARDS_ALL;
+
+  function refreshHud(){
+    elShardCount.textContent = state.totalShardsCollected;
+    elStageNum.textContent = state.stageIndex + 1;
+    elScoreVal.textContent = state.score;
+    let hearts = "";
+    for(let i=0;i<CFG.TOTAL_LIVES;i++){ hearts += i < state.lives ? "💛" : "🖤"; }
+    elLives.textContent = hearts;
+  }
+  function refreshPowerupRow(){
+    const now = performance.now()/1000;
+    let html = "";
+    for(const type of Object.keys(state.powerupUntil)){
+      const remain = state.powerupUntil[type] - now;
+      if (remain > 0){ html += '<div class="powerup-chip">' + powerupLabels[type] + ' — ' + Math.ceil(remain) + 'چ</div>'; }
+    }
+    elPowerupRow.innerHTML = html;
+  }
+
+  let bannerTimeout = null;
+  function showBanner(text){
+    if(!text) return;
+    elStageBanner.textContent = text;
+    elStageBanner.classList.add("show");
+    if (bannerTimeout) clearTimeout(bannerTimeout);
+    bannerTimeout = setTimeout(()=>{ elStageBanner.classList.remove("show"); }, 3000);
+  }
+
+  function initStage(idx){
+    const cfg = STAGES[idx];
+    state.stageIndex = idx;
+    state.stageShardsCollected = 0;
+    player.position.set(10, 0, 10);
+    playerVel.set(0,0,0);
+    const placedPoints = [];
+    buildShardsForStage(cfg, placedPoints);
+    buildPowerupsForStage(cfg, placedPoints);
+    buildEnemiesForStage(cfg);
+    scene.fog.color.setHex(cfg.fogColor);
+    refreshHud();
+    showBanner(cfg.name);
+  }
+
+  function start(){
+    ensureAudio();
+    state.totalShardsCollected = 0;
+    state.lives = CFG.TOTAL_LIVES;
+    state.invulnUntil = 0;
+    state.dashCooldownUntil = 0;
+    state.score = 0;
+    state.powerupUntil = { shield:0, speed:0, magnet:0 };
+    towerOrbMat.emissiveIntensity = 0.08;
+    towerOrbGlow.material.opacity = 0.15;
+    initStage(0);
+    state.mode = "playing";
+    elHud.classList.remove("hidden");
+  }
+
+  function goToNextStage(){
+    const nextIdx = state.stageIndex + 1;
+    elHud.classList.remove("hidden");
+    state.lives = Math.min(CFG.TOTAL_LIVES, state.lives + 1);
+    state.score += CFG.SCORE_PER_STAGE;
+    initStage(nextIdx);
+    state.mode = "playing";
+    refreshHud();
+  }
+
+  function stageComplete(){
+    const idx = state.stageIndex;
+    const isLast = idx === STAGES.length - 1;
+    if (isLast){
+      if (state.score > state.bestScore) {
+        state.bestScore = state.score;
+        localStorage.setItem('ronaki_best_score', state.bestScore);
+      }
+      showBanner('🎉 تەواو! خاڵی کۆتایی: ' + state.score + ' (باشترین: ' + state.bestScore + ')');
+      setTimeout(() => start(), 3000);
+      return;
+    }
+    sfxStageClear();
+    state.mode = "playing";
+    goToNextStage();
+  }
+
+  function stopGameEngine(){
+    state.mode = "start";
+    elHud.classList.add("hidden");
+  }
+
+  window.__ronakiGame = { start, restart: start, nextStage: goToNextStage, stop: stopGameEngine };
+
+  const clock = new THREE.Clock();
+
+  function triggerShake(mag, dur){
+    state.shakeUntil = performance.now()/1000 + dur;
+    state.shakeMag = mag;
+  }
+  function triggerHitStop(){
+    state.hitStopUntil = performance.now()/1000 + (CFG.HITSTOP_MS/1000);
+  }
+  function applyDamage(sourcePos){
+    const now = performance.now()/1000;
+    if (state.powerupUntil.shield > now) return;
+    state.lives--;
+    state.invulnUntil = now + CFG.INVULN_TIME;
+    refreshHud();
+    spawnBurst(player.position.clone(), purpleGlowTex, 0x8b6bff, 8, 2.5);
+    const away = new THREE.Vector3(player.position.x-sourcePos.x, 0, player.position.z-sourcePos.z).normalize();
+    playerVel.copy(away.multiplyScalar(18));
+    sfxHurt();
+    elHurt.style.opacity = "1";
+    setTimeout(()=>{ elHurt.style.opacity = "0"; }, 140);
+    triggerShake(0.5, 0.35);
+    triggerHitStop();
+    if (state.lives <= 0){ start(); }
+  }
+
+  function updatePlaying(delta, elapsed){
+    const stageCfg = STAGES[state.stageIndex];
+    const now = performance.now()/1000;
+    const dashing = now < state.dashActiveUntil;
+    const shieldOn = now < state.powerupUntil.shield;
+    const speedOn = now < state.powerupUntil.speed;
+    const magnetOn = now < state.powerupUntil.magnet;
+
+    shieldSprite.material.opacity = shieldOn ? (0.35 + Math.sin(elapsed*8)*0.12) : 0;
+
+    const cdRemain = Math.max(0, state.dashCooldownUntil - now);
+    const dashBtnEl = document.getElementById("ronakiDashTouch");
+    if (dashBtnEl) {
+      if (cdRemain > 0) {
+        dashBtnEl.classList.add("cooldown");
+        dashBtnEl.innerHTML = `خێرا<br><span style="font-size:10px;">${cdRemain.toFixed(1)}چ</span>`;
+      } else {
+        dashBtnEl.classList.remove("cooldown");
+        dashBtnEl.innerHTML = "خێرا ⚡";
+      }
+    }
+
+    const k = state.keys;
+    let ix = 0, iz = 0;
+    if (k["w"] || k["arrowup"]) iz -= 1;
+    if (k["s"] || k["arrowdown"]) iz += 1;
+    if (k["a"] || k["arrowleft"]) ix -= 1;
+    if (k["d"] || k["arrowright"]) ix += 1;
+
+    const inputVec = new THREE.Vector3(ix, 0, iz);
+    const speedMult = speedOn ? 1.6 : 1;
+    if (inputVec.lengthSq() > 0){
+      inputVec.normalize();
+      lastMoveDir.copy(inputVec);
+      inputVec.multiplyScalar(CFG.PLAYER_SPEED * speedMult);
+    }
+    if (!dashing){
+      playerVel.x += (inputVec.x - playerVel.x) * Math.min(1, delta*CFG.PLAYER_ACCEL);
+      playerVel.z += (inputVec.z - playerVel.z) * Math.min(1, delta*CFG.PLAYER_ACCEL);
+    }
+    player.position.x += playerVel.x * delta;
+    player.position.z += playerVel.z * delta;
+
+    const worldRadius = stageCfg.worldRadius;
+    const distFromCenter = Math.hypot(player.position.x, player.position.z);
+    if (distFromCenter > worldRadius){
+      const scale = worldRadius / distFromCenter;
+      player.position.x *= scale;
+      player.position.z *= scale;
+      playerVel.multiplyScalar(0.3);
+    }
+    player.position.y = groundHeightAt(player.position.x, player.position.z) + 0.9;
+
+    if (inputVec.lengthSq() > 0.01 || dashing) player.rotation.y = Math.atan2(playerVel.x, playerVel.z);
+    playerCore.position.y = Math.sin(elapsed*3)*0.08;
+    playerGlow.scale.setScalar(dashing ? 4.4 : (speedOn ? 3.8 : 3.2));
+
+    if (dashing && Math.random() < 0.5) spawnBurst(player.position.clone(), whiteGlowTex, 0xffe4a8, 1, 1.5);
+    playerLight.position.copy(player.position).add(new THREE.Vector3(0,1.5,0));
+
+    for(const s of shards){
+      if (s.userData.collected) continue;
+      s.rotation.y += delta*1.4;
+      let d = Math.hypot(s.position.x-player.position.x, s.position.z-player.position.z);
+      if (magnetOn && d < CFG.MAGNET_RADIUS){
+        const pullDir = new THREE.Vector3(player.position.x-s.position.x, 0, player.position.z-s.position.z).normalize();
+        s.position.x += pullDir.x * CFG.MAGNET_PULL_SPEED * delta;
+        s.position.z += pullDir.z * CFG.MAGNET_PULL_SPEED * delta;
+        d = Math.hypot(s.position.x-player.position.x, s.position.z-player.position.z);
+      } else {
+        s.position.y = s.userData.baseY + Math.sin(elapsed*2 + s.userData.phase)*0.28;
+      }
+      if (d < CFG.SHARD_PICKUP_RADIUS){
+        s.userData.collected = true;
+        spawnBurst(s.position.clone(), goldGlowTex, 0xffcf6b, 10, 2.2);
+        scene.remove(s);
+        sfxPickup();
+        state.stageShardsCollected++;
+        state.totalShardsCollected++;
+        state.score += CFG.SCORE_PER_SHARD;
+        towerOrbMat.emissiveIntensity = 0.08 + (state.totalShardsCollected/TOTAL_SHARDS_ALL)*1.4;
+        towerOrbGlow.material.opacity = 0.15 + (state.totalShardsCollected/TOTAL_SHARDS_ALL)*0.55;
+        refreshHud();
+        if (state.stageShardsCollected >= stageCfg.shardCount){ stageComplete(); return; }
+      }
+    }
+    towerOrb.rotation.y += delta*0.3;
+
+    for(const p of powerups){
+      if (p.userData.collected) continue;
+      p.rotation.y += delta*1.8;
+      p.position.y = p.userData.baseY + Math.sin(elapsed*2.4 + p.userData.phase)*0.25;
+      const d = Math.hypot(p.position.x-player.position.x, p.position.z-player.position.z);
+      if (d < CFG.POWERUP_PICKUP_RADIUS){
+        p.userData.collected = true;
+        spawnBurst(p.position.clone(), powerupGlowTex[p.userData.type], powerupColors[p.userData.type], 10, 2.2);
+        scene.remove(p);
+        activatePowerup(p.userData.type);
+      }
+    }
+
+    const invuln = now < state.invulnUntil;
+    for(const e of enemies){
+      const ud = e.userData;
+      const distToPlayer = Math.hypot(e.position.x-player.position.x, e.position.z-player.position.z);
+      let target;
+      const alwaysChase = ud.isBoss;
+      if (alwaysChase || distToPlayer < ud.chaseRadius){
+        target = new THREE.Vector3(player.position.x, 0, player.position.z);
+      } else {
+        ud.wanderTimer -= delta;
+        if (ud.wanderTimer <= 0 || Math.hypot(e.position.x-ud.wanderTarget.x, e.position.z-ud.wanderTarget.z) < 1.2){
+          pickNewWanderTarget(e, worldRadius);
+        }
+        target = ud.wanderTarget;
+      }
+      const dir = new THREE.Vector3(target.x-e.position.x, 0, target.z-e.position.z);
+      if (dir.lengthSq() > 0.0001){
+        dir.normalize();
+        const chasing = alwaysChase || distToPlayer < ud.chaseRadius;
+        const spd = chasing ? ud.speed : ud.speed*0.5;
+        e.position.x += dir.x*spd*delta;
+        e.position.z += dir.z*spd*delta;
+        e.rotation.y = Math.atan2(dir.x, dir.z);
+      }
+      e.position.y = groundHeightAt(e.position.x, e.position.z) + (ud.isBoss ? 1.5 : 0.8) + Math.sin(elapsed*3+e.position.x)*0.1;
+      if (ud.orbitGroup){ ud.orbitGroup.rotation.y += delta*1.6; }
+      if (ud.isBoss){
+        ud.attackCooldown -= delta;
+        if (ud.attackCooldown <= 0 && distToPlayer < worldRadius*0.9){
+          fireBossProjectile(e);
+          ud.attackCooldown = CFG.BOSS_PROJECTILE_COOLDOWN;
+        }
+      }
+      if (!invuln && distToPlayer < ud.catchRadius){
+        applyDamage(e.position);
+        if (state.mode !== "playing") return;
+      }
+    }
+
+    for(let i=bossProjectiles.length-1;i>=0;i--){
+      const bp = bossProjectiles[i];
+      bp.life += delta;
+      bp.mesh.position.x += bp.dir.x * CFG.BOSS_PROJECTILE_SPEED * delta;
+      bp.mesh.position.z += bp.dir.z * CFG.BOSS_PROJECTILE_SPEED * delta;
+      bp.mesh.position.y = groundHeightAt(bp.mesh.position.x, bp.mesh.position.z) + 1.2;
+      bp.mesh.rotation.y += delta*4;
+      const distFromCtr = Math.hypot(bp.mesh.position.x, bp.mesh.position.z);
+      const dToPlayer = Math.hypot(bp.mesh.position.x-player.position.x, bp.mesh.position.z-player.position.z);
+      let hit = false;
+      if (!invuln && dToPlayer < CFG.BOSS_PROJECTILE_RADIUS + 0.6){ applyDamage(bp.mesh.position); hit = true; }
+      if (hit || bp.life > bp.maxLife || distFromCtr > worldRadius + 5){
+        scene.remove(bp.mesh);
+        bossProjectiles.splice(i,1);
+      }
+      if (state.mode !== "playing") return;
+    }
+
+    playerCore.visible = invuln ? (Math.floor(elapsed*14)%2===0) : true;
+    const cdRemBar = Math.max(0, state.dashCooldownUntil - now);
+    const cdFrac = 1 - Math.min(1, cdRemBar / CFG.DASH_COOLDOWN);
+    elDashBarFill.style.width = (cdFrac*100).toFixed(0) + "%";
+
+    updateParticles(delta);
+    refreshPowerupRow();
+
+    const camOffset = new THREE.Vector3(0, 9.5, 11.5);
+    const desired = player.position.clone().add(camOffset);
+    camera.position.lerp(desired, 1 - Math.pow(0.001, delta));
+    if (now < state.shakeUntil){
+      const remain = state.shakeUntil - now;
+      const mag = state.shakeMag * (remain / 0.35);
+      camera.position.x += (Math.random()-0.5) * mag;
+      camera.position.y += (Math.random()-0.5) * mag * 0.6;
+    }
+    const lookTarget = player.position.clone().add(new THREE.Vector3(0,1.2,0));
+    camera.lookAt(lookTarget);
+
+    drawMinimap(stageCfg);
+  }
+
+  function drawMinimap(stageCfg){
+    const w = minimapCanvas.width, h = minimapCanvas.height;
+    mmCtx.clearRect(0,0,w,h);
+    mmCtx.fillStyle = "rgba(5,7,13,0.9)";
+    mmCtx.beginPath(); mmCtx.arc(w/2,h/2,w/2,0,Math.PI*2); mmCtx.fill();
+    const scale = (w/2 - 6) / stageCfg.worldRadius;
+    function toMM(x,z){ return [ w/2 + x*scale, h/2 + z*scale ]; }
+
+    let [tx,ty] = toMM(0,0);
+    mmCtx.fillStyle = "#ffcf6b";
+    mmCtx.beginPath(); mmCtx.arc(tx,ty,4,0,Math.PI*2); mmCtx.fill();
+
+    mmCtx.fillStyle = "#ffe4a8";
+    for(const s of shards){
+      if (s.userData.collected) continue;
+      const [sx,sy] = toMM(s.position.x, s.position.z);
+      mmCtx.beginPath(); mmCtx.arc(sx,sy,2.2,0,Math.PI*2); mmCtx.fill();
+    }
+    for(const p of powerups){
+      if (p.userData.collected) continue;
+      const [px2,py2] = toMM(p.position.x, p.position.z);
+      mmCtx.fillStyle = "#" + powerupColors[p.userData.type].toString(16).padStart(6,"0");
+      mmCtx.beginPath(); mmCtx.arc(px2,py2,2.6,0,Math.PI*2); mmCtx.fill();
+    }
+    for(const e of enemies){
+      const [ex,ey] = toMM(e.position.x, e.position.z);
+      mmCtx.fillStyle = e.userData.isBoss ? "#ff5a5a" : "#8b6bff";
+      mmCtx.beginPath(); mmCtx.arc(ex,ey, e.userData.isBoss?4.2:2.4, 0, Math.PI*2); mmCtx.fill();
+    }
+    const [px,py] = toMM(player.position.x, player.position.z);
+    mmCtx.fillStyle = "#ffffff";
+    mmCtx.beginPath(); mmCtx.arc(px,py,3.2,0,Math.PI*2); mmCtx.fill();
+  }
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if (document.getElementById('ronakiGameOverlay').style.display === 'flex'){
+      const nowSec = performance.now()/1000;
+      const delta = Math.min(clock.getDelta(), 0.05);
+      const elapsed = clock.getElapsedTime();
+      if (state.mode === "playing"){
+        if (nowSec >= state.hitStopUntil) updatePlaying(delta, elapsed);
+      }
+      renderer.render(scene, camera);
+    }
+  }
+
+  refreshHud();
+  animate();
+})();
+</script>
+<!-- Koshki Zana (کۆشکی زانا) Game Logic Script -->
 <script>
-/* ... original Koshki Zana code from your site ... */
-/* (kept exactly as it was in your file) */
-</script>
+(function(){
+  "use strict";
+  const STORAGE_KEY = 'koshki_zana_progress_v1';
+  let state = loadState();
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return {unlocked:1, completed:{}, seenIntro:false};
+  }
+  function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
 
+  let soundOn = true;
+  let actx = null;
+  function beep(freq, dur, type){
+    if(!soundOn) return;
+    try{
+      if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+      const o = actx.createOscillator(); const g = actx.createGain();
+      o.type = type||'sine'; o.frequency.value = freq;
+      g.gain.value = .08;
+      o.connect(g); g.connect(actx.destination);
+      o.start();
+      g.gain.exponentialRampToValueAtTime(.0001, actx.currentTime + dur);
+      o.stop(actx.currentTime + dur);
+    }catch(e){}
+  }
+  const sfx = {
+    flip:()=>beep(420,.08,'triangle'),
+    match:()=>{beep(600,.1,'sine');setTimeout(()=>beep(800,.15,'sine'),90);},
+    wrong:()=>beep(180,.2,'sawtooth'),
+    win:()=>{[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.18,'sine'), i*110));},
+    tile:(f)=>beep(f,.28,'sine')
+  };
+
+  const soundBtn = document.getElementById('kzSoundBtn');
+  if(soundBtn){
+    soundBtn.onclick = function(){
+      soundOn = !soundOn;
+      this.textContent = soundOn ? '🔔' : '🔕';
+    };
+  }
+
+  const starWrap = document.getElementById('kz-stars');
+  if(starWrap && starWrap.children.length === 0){
+    for(let i=0;i<70;i++){
+      const s = document.createElement('span');
+      s.style.left = Math.random()*100+'%';
+      s.style.top = Math.random()*70+'%';
+      s.style.animationDelay = (Math.random()*4)+'s';
+      s.style.width = s.style.height = (Math.random()<.2? '3px':'1.5px');
+      starWrap.appendChild(s);
+    }
+  }
+
+  function show(id){
+    document.querySelectorAll('#koshkiZanaOverlay .kz-screen').forEach(s=>s.classList.remove('kz-active'));
+    const target = document.getElementById(id);
+    if(target) target.classList.add('kz-active');
+    const overlay = document.getElementById('koshkiZanaOverlay');
+    if(overlay) overlay.scrollTo(0,0);
+  }
+
+  const startBtn = document.getElementById('kzStartBtn');
+  if(startBtn){
+    startBtn.onclick = ()=>{
+      show(state.seenIntro ? 'kz-screen-map' : 'kz-screen-intro');
+      renderMap();
+    };
+  }
+
+  const toMapBtn = document.getElementById('kzToMapBtn');
+  if(toMapBtn){
+    toMapBtn.onclick = ()=>{
+      state.seenIntro = true; saveState();
+      renderMap();
+      show('kz-screen-map');
+    };
+  }
+
+  function shuffleArr(arr){
+    const a = [...arr];
+    for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+    return a;
+  }
+
+  const chapters = [
+    {id:1, type:'memory', pairs:8, name:'دەرگای یادەوەری', desc:'یاریی یادەوەری — جووتەکان بدۆزەرەوە', icon:'🗝️',
+     story:'یەکەم تاقیکردنەوە یادەوەریت تاقی دەکاتەوە. زانا ئازاد دەیگوت: «ئەوەی لە یاد ناکرێت، هەر بوونی نییە.» وێنە شاراوەکان بدۆزەرەوە و جووتەکانیان بگونجێنە.',
+     rune:'🗝️', runeName:'کلیلی یادەوەری',
+     complete:'یادەوەریت وەک تیغی شمشێر تیژە. یەکەم کلیل کەوتە دەستت — کۆشکە ئێستا کەمێک خۆی بۆت کردەوە.'},
+    {id:2, type:'numbers', count:5, name:'پێچی ژمارەکان', desc:'ڕێکخستنی ژمارەکان بدۆزەرەوە', icon:'📐',
+     story:'زانا ئازاد باوەڕی بە ڕێکخستنی گەردوون هەبوو. دەیگوت: «هەموو شتێک ڕێزێکی خۆی هەیە.» بۆنە شاراوەکان لە ژمارەکاندا بدۆزەرەوە.',
+     rune:'📐', runeName:'کلیلی ڕێکخستن',
+     complete:'تۆ لۆژیکی ژمارەکانت بەدی هێنا. دووەم کلیل بەدەستهات — ڕێگا ڕوونتر دەبێتەوە.'},
+    {id:3, type:'simon', rounds:5, name:'ئاوازی ڕووناکی', desc:'ئاوازی ڕووناکی لەبیر بێت و دووبارەی بکەرەوە', icon:'🕯️',
+     story:'لە شەوانی درێژی زستاندا، ئازاد بە ڕووناکی مۆم یاری دەکرد و ئاوازی گەردوونی دەخوێندەوە. ئێستا نۆرەی تۆیە کە ئاوازەکە لەبیر بکەیت و دووبارەی بکەیتەوە.',
+     rune:'🕯️', runeName:'کلیلی ڕووناکی',
+     complete:'چاوەکانت ئاوازی ڕووناکیان لەبیر کرد. سێیەم کلیل کەوتە دەستت.'},
+    {id:4, type:'riddle', count:4, name:'نهێنی وشەکان', desc:'مەتەڵەکان وەڵام بدەرەوە', icon:'📜',
+     story:'زمان بەهێزترین چەکی ئازاد بوو. چەند مەتەڵێکی کۆنی بۆ تۆ هێشتووەتەوە. وەڵامی ڕاست هەڵبژێرە بۆ ئەوەی چاوی دەرگاکە بکرێتەوە.',
+     rune:'📜', runeName:'کلیلی وشە',
+     complete:'وشەکانت شکاند. چوارەم کلیل بەدەستهات — بەڵام کۆشکە هێشتا نهێنی زۆری تێدایە.'},
+    {id:5, type:'final', name:'دڵی کۆشکە', desc:'کلیلەکان بە ڕیزبەندی ڕاست دابنێ', icon:'✨',
+     story:'ئێستا هەموو کلیلەکانت کۆکردووەتەوە. تەنها ڕیزبەندییەکیان ماوە بۆ ئەوەی دەرگای دوایی کۆشکە بکرێتەوە.',
+     rune:'✨', runeName:'دڵی کۆشکە',
+     complete:'هەموو کلیلەکان بە ڕێکی خۆیان دانران. دەرگای کۆتایی کۆشکە بۆت کرایەوە...'}
+  ];
+
+  function renderMap(){
+    const wrap = document.getElementById('kzNodesWrap');
+    if(!wrap) return;
+    wrap.innerHTML = '';
+    chapters.forEach(ch=>{
+      const locked = ch.id > state.unlocked;
+      const done = !!state.completed[ch.id];
+      const div = document.createElement('div');
+      div.className = 'kz-node' + (locked?' kz-locked':'') + (done?' kz-done':'');
+      div.innerHTML = `
+        <div class="kz-badge">${done ? '✔️' : ch.icon}</div>
+        <div class="kz-ntext">
+          <div class="kz-n-name">${ch.name}</div>
+          <div class="kz-n-desc">${ch.desc}</div>
+        </div>
+        <div class="kz-chev">${locked?'🔒':'‹'}</div>`;
+      if(!locked){
+        div.onclick = ()=> openChapterIntro(ch.id);
+      }
+      wrap.appendChild(div);
+    });
+  }
+
+  let currentChapter = 1;
+  function openChapterIntro(id){
+    currentChapter = id;
+    const ch = chapters[id-1];
+    document.getElementById('kzChIcon').textContent = ch.icon + ' ' + ch.name;
+    document.getElementById('kzChTitle').textContent = ch.name;
+    document.getElementById('kzChStory').textContent = ch.story;
+    show('kz-screen-chapter-intro');
+  }
+
+  const chBackBtn = document.getElementById('kzChBackBtn');
+  if(chBackBtn) chBackBtn.onclick = ()=> show('kz-screen-map');
+
+  const chStartBtn = document.getElementById('kzChStartBtn');
+  if(chStartBtn) chStartBtn.onclick = ()=> startGame(currentChapter);
+
+  function chapterComplete(id){
+    const ch = chapters[id-1];
+    state.completed[id] = true;
+    if(state.unlocked < id+1) state.unlocked = Math.min(chapters.length, id+1);
+    saveState();
+    sfx.win();
+    document.getElementById('kzCRune').textContent = ch.rune + ' ' + ch.runeName + ' بەدەستهات';
+    document.getElementById('kzCText').textContent = ch.complete;
+    document.getElementById('kzCContinueBtn').onclick = ()=>{
+      renderMap();
+      show(id<chapters.length ? 'kz-screen-map' : 'kz-screen-end');
+    };
+    show('kz-screen-complete');
+  }
+
+  function startGame(id){
+    const ch = chapters[id-1];
+    if(ch.type==='memory') startMemory(ch.pairs);
+    else if(ch.type==='numbers') startNumbers(ch.count);
+    else if(ch.type==='simon') startSimon(ch.rounds);
+    else if(ch.type==='riddle') startRiddles(ch.count);
+    else if(ch.type==='final') startFinal();
+  }
+
+  const memorySymbolPool = ['🌙','⭐','🔥','🍇','🦅','🐎','📜','🗡️','🏺','🌿','🐺','🦉'];
+  function startMemory(pairsCount){
+    const symbols = shuffleArr(memorySymbolPool).slice(0, pairsCount);
+    let deck = shuffleArr([...symbols, ...symbols]);
+    const grid = document.getElementById('kzMemGrid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    let moves = 0, matched = 0, lock = false, first = null;
+    document.getElementById('kzG1moves').textContent = '0';
+
+    deck.forEach((sym)=>{
+      const card = document.createElement('div');
+      card.className = 'kz-card';
+      card.innerHTML = `<div class="kz-card-face kz-card-back">؟</div><div class="kz-card-face kz-card-front">${sym}</div>`;
+      card.onclick = ()=>{
+        if(lock || card.classList.contains('kz-flipped') || card.classList.contains('kz-matched')) return;
+        card.classList.add('kz-flipped');
+        sfx.flip();
+        if(!first){ first = card; return; }
+        moves++; document.getElementById('kzG1moves').textContent = moves;
+        lock = true;
+        const s1 = first.querySelector('.kz-card-front').textContent;
+        const s2 = card.querySelector('.kz-card-front').textContent;
+        if(s1 === s2){
+          first.classList.add('kz-matched'); card.classList.add('kz-matched');
+          sfx.match();
+          matched++; first = null; lock = false;
+          if(matched === symbols.length){ setTimeout(()=>chapterComplete(currentChapter), 500); }
+        } else {
+          sfx.wrong();
+          setTimeout(()=>{
+            first.classList.remove('kz-flipped'); card.classList.remove('kz-flipped');
+            first = null; lock = false;
+          }, 750);
+        }
+      };
+      grid.appendChild(card);
+    });
+    show('kz-screen-g1');
+  }
+
+  const g2Pool = [
+    {seq:'2, 4, 6, 8, ؟', opts:[9,10,12,14], correct:1, why:'هەر ژمارەیەک لە ژمارەی پێشوو ٢ زیاترە — ژمارەی داهاتوو ١٠ یە.'},
+    {seq:'3, 6, 12, 24, ؟', opts:[30,36,48,44], correct:2, why:'هەر ژمارەیەک دوو هێندەی ژمارەی پێشووە، دوای ٢٤ دێت ٤٨.'},
+    {seq:'1, 4, 9, 16, ؟', opts:[20,25,23,22], correct:1, why:'ئەمانە دووجای ژمارەکانن (١، ٤، ٩، ١٦، ٢٥).'},
+    {seq:'5, 10, 20, 40, ؟', opts:[45,60,80,70], correct:2, why:'هەر ژمارەیەک دوو هێندەی ژمارەی پێشووە، بۆیە ٨٠ دروستە.'},
+    {seq:'1, 1, 2, 3, 5, ؟', opts:[7,8,9,6], correct:1, why:'ڕیزی فیبۆناتچییە: هەر ژمارەیەک کۆی دوو ژمارەی پێشووە (٣+٥=٨).'}
+  ];
+  let g2list=[], g2i=0, g2score=0;
+  function startNumbers(count){
+    g2list = shuffleArr(g2Pool).slice(0, count);
+    g2i=0; g2score=0;
+    document.getElementById('kzG2score').textContent='0';
+    document.getElementById('kzG2total').textContent = g2list.length;
+    renderDots('kzG2dots', g2list.length, 0);
+    showG2Question();
+    show('kz-screen-g2');
+  }
+  function renderDots(id, n, active){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML='';
+    for(let i=0;i<n;i++){
+      const d = document.createElement('span');
+      if(i<active) d.classList.add('kz-on');
+      el.appendChild(d);
+    }
+  }
+  function showG2Question(){
+    const q = g2list[g2i];
+    document.getElementById('kzG2seq').textContent = q.seq;
+    document.getElementById('kzG2msg').textContent = '';
+    document.getElementById('kzG2msg').className = 'kz-feedback-msg';
+    const explainBox = document.getElementById('kzG2explain');
+    explainBox.className = 'kz-explain-box';
+    explainBox.textContent = '';
+    document.getElementById('kzG2btns').innerHTML = '';
+    const optsWrap = document.getElementById('kzG2opts');
+    optsWrap.innerHTML = '';
+    q.opts.forEach((opt, idx)=>{
+      const b = document.createElement('button');
+      b.className = 'kz-opt-btn';
+      b.textContent = opt;
+      b.onclick = ()=> handleG2Answer(idx);
+      optsWrap.appendChild(b);
+    });
+  }
+  function goToNextG2(){
+    g2i++;
+    renderDots('kzG2dots', g2list.length, g2i);
+    if(g2i < g2list.length){ showG2Question(); }
+    else {
+      if(g2score >= Math.ceil(g2list.length*0.6)) chapterComplete(currentChapter);
+      else { alert('پێویستە زیاتر وەڵامی ڕاست بدەیت. دووبارە هەوڵبدەوە!'); startNumbers(g2list.length); }
+    }
+  }
+  function handleG2Answer(idx){
+    const q = g2list[g2i];
+    const optsWrap = document.getElementById('kzG2opts');
+    const msg = document.getElementById('kzG2msg');
+    const explainBox = document.getElementById('kzG2explain');
+    const btns = document.getElementById('kzG2btns');
+    Array.from(optsWrap.children).forEach(x=> x.onclick = null);
+    btns.innerHTML = '';
+    if(idx === q.correct){
+      optsWrap.children[idx].classList.add('kz-correct');
+      sfx.match(); g2score++;
+      document.getElementById('kzG2score').textContent = g2score;
+      msg.textContent = 'وەڵامی ڕاست! ✔️';
+      msg.className = 'kz-feedback-msg kz-ok';
+      explainBox.textContent = q.why;
+      explainBox.className = 'kz-explain-box kz-show';
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'kz-btn kz-small';
+      nextBtn.textContent = g2i < g2list.length-1 ? 'پرسیاری داهاتوو' : 'کۆتایی';
+      nextBtn.onclick = goToNextG2;
+      btns.appendChild(nextBtn);
+    } else {
+      optsWrap.children[idx].classList.add('kz-wrong');
+      sfx.wrong();
+      msg.textContent = 'نەخێر، ئەوە هەڵەیە.';
+      msg.className = 'kz-feedback-msg kz-err';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'kz-btn kz-ghost kz-small';
+      showBtn.textContent = 'وەڵامی ڕاست پیشان بدە';
+      showBtn.onclick = ()=>{
+        optsWrap.children[q.correct].classList.add('kz-correct');
+        explainBox.textContent = q.why;
+        explainBox.className = 'kz-explain-box kz-show';
+        showBtn.remove();
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'kz-btn kz-small';
+        nextBtn.textContent = g2i < g2list.length-1 ? 'پرسیاری داهاتوو' : 'کۆتایی';
+        nextBtn.onclick = goToNextG2;
+        btns.appendChild(nextBtn);
+      };
+      btns.appendChild(showBtn);
+    }
+  }
+
+  const g3Freqs = [392, 330, 262, 440];
+  let g3seq=[], g3playerIdx=0, g3round=1, g3maxRound=5, g3busy=false;
+  function startSimon(rounds){
+    g3seq=[]; g3round=1; g3busy=false; g3maxRound=rounds;
+    document.getElementById('kzG3round').textContent='1';
+    document.getElementById('kzG3total').textContent = rounds;
+    document.getElementById('kzG3status').textContent = 'ئامادەبە...';
+    const tiles = document.querySelectorAll('#kzSimon .kz-stile');
+    tiles.forEach(t=> t.onclick = onSimonTileClick);
+    setTimeout(nextSimonRound, 700);
+    show('kz-screen-g3');
+  }
+  const g3replayBtn = document.getElementById('kzG3replay');
+  if(g3replayBtn) g3replayBtn.onclick = ()=>{ if(!g3busy) playSimonSeq(); };
+
+  function nextSimonRound(){
+    g3seq.push(Math.floor(Math.random()*4));
+    document.getElementById('kzG3round').textContent = Math.min(g3round, g3maxRound);
+    playSimonSeq();
+  }
+  function playSimonSeq(){
+    g3busy = true; g3playerIdx = 0;
+    document.getElementById('kzG3status').textContent = 'سەیری ئاوازەکە بکە...';
+    const tiles = document.querySelectorAll('#kzSimon .kz-stile');
+    g3seq.forEach((c, i)=>{
+      setTimeout(()=>{
+        tiles[c].classList.add('kz-lit');
+        sfx.tile(g3Freqs[c]);
+        setTimeout(()=> tiles[c].classList.remove('kz-lit'), 320);
+      }, i*550);
+    });
+    setTimeout(()=>{
+      g3busy = false;
+      document.getElementById('kzG3status').textContent = 'ئێستا نۆرەی تۆیە — ئاوازەکە دووبارە بکەرەوە';
+    }, g3seq.length*550 + 200);
+  }
+  function onSimonTileClick(){
+    if(g3busy) return;
+    const c = parseInt(this.dataset.c);
+    this.classList.add('kz-lit');
+    sfx.tile(g3Freqs[c]);
+    setTimeout(()=> this.classList.remove('kz-lit'), 200);
+    if(c === g3seq[g3playerIdx]){
+      g3playerIdx++;
+      if(g3playerIdx === g3seq.length){
+        if(g3seq.length >= g3maxRound){
+          document.getElementById('kzG3status').textContent = 'وا نییە! تۆ سەرکەوتوویت.';
+          setTimeout(()=>chapterComplete(currentChapter), 500);
+        } else {
+          g3round++;
+          document.getElementById('kzG3status').textContent = 'زۆر باشە! ئامادەبە بۆ قۆناغی داهاتوو...';
+          setTimeout(nextSimonRound, 900);
+        }
+      }
+    } else {
+      sfx.wrong();
+      document.getElementById('kzG3status').textContent = 'هەڵەیەک ڕوویدا — دووبارە هەوڵبدەوە.';
+      setTimeout(()=>{ g3seq=[]; g3round=1; document.getElementById('kzG3round').textContent='1'; setTimeout(nextSimonRound,600); }, 900);
+    }
+  }
+
+  const g4Pool = [
+    {text:'هەرچی زیاتر لێی دەبەیت، گەورەتر دەبێت. ئەوە چیە؟', opts:['چاڵ','دەریا','کێو','دار'], correct:0, why:'کاتێک خاک لە چاڵێکەوە دەردەهێنیت، چاڵەکە گەورەتر دەبێت.'},
+    {text:'شەو دێت بێ بانگهێشت، بەیانیان دەڕوات بێ ئەوەی کەس بیدزێت. ئەوە چیە؟', opts:['شەبنم','مانگ','باران','تاریکی'], correct:0, why:'شەبنم شەوانە دروست دەبێت و بە هەڵاتنی خۆر دەڕوات.'},
+    {text:'دەبزوێت بەبێ ئەوەی پێی هەبێت، دەگرێت بەبێ ئەوەی دەستی هەبێت. ئەوە چیە؟', opts:['با','ئاو','مرۆڤ','باڵندە'], correct:0, why:'با بەبێ پێ دەجوڵێت و شتەکان هەڵدەگرێت.'},
+    {text:'هەرچی تاریکتر بێت، زیاتر دەردەکەوێت. ئەوە چیە؟', opts:['ئەستێرە','خۆر','مانگ','هەور'], correct:0, why:'لە شەوی تاریکدا ئەستێرەکان ڕوونتر دەردەکەون.'}
+  ];
+  let g4list=[], g4i=0;
+  function startRiddles(count){
+    g4list = shuffleArr(g4Pool).slice(0, count);
+    g4i=0;
+    document.getElementById('kzG4total').textContent = g4list.length;
+    showG4();
+    show('kz-screen-g4');
+  }
+  function showG4(){
+    const r = g4list[g4i];
+    document.getElementById('kzG4idx').textContent = g4i+1;
+    document.getElementById('kzG4text').textContent = r.text;
+    document.getElementById('kzG4msg').textContent = '';
+    document.getElementById('kzG4msg').className = 'kz-feedback-msg';
+    const explainBox = document.getElementById('kzG4explain');
+    explainBox.className = 'kz-explain-box';
+    explainBox.textContent = '';
+    document.getElementById('kzG4btns').innerHTML = '';
+    const optsWrap = document.getElementById('kzG4opts');
+    optsWrap.innerHTML = '';
+    const shuffledOpts = r.opts.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+    shuffledOpts.forEach(({t,i})=>{
+      const b = document.createElement('button');
+      b.className = 'kz-opt-btn';
+      b.style.direction = 'rtl';
+      b.textContent = t;
+      b.onclick = ()=> handleG4Answer(i);
+      optsWrap.appendChild(b);
+    });
+  }
+  function goToNextG4(){
+    g4i++;
+    if(g4i < g4list.length) showG4();
+    else chapterComplete(currentChapter);
+  }
+  function handleG4Answer(originalIdx){
+    const r = g4list[g4i];
+    const optsWrap = document.getElementById('kzG4opts');
+    const msg = document.getElementById('kzG4msg');
+    const explainBox = document.getElementById('kzG4explain');
+    const btns = document.getElementById('kzG4btns');
+    const clickedBtn = Array.from(optsWrap.children).find(b => b.textContent === r.opts[originalIdx]);
+    const correctBtn = Array.from(optsWrap.children).find(b => b.textContent === r.opts[r.correct]);
+    Array.from(optsWrap.children).forEach(x=> x.onclick = null);
+    btns.innerHTML = '';
+    if(originalIdx === r.correct){
+      clickedBtn.classList.add('kz-correct');
+      sfx.match();
+      msg.textContent = 'وەڵامی ڕاست! ✔️';
+      msg.className = 'kz-feedback-msg kz-ok';
+      explainBox.textContent = r.why;
+      explainBox.className = 'kz-explain-box kz-show';
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'kz-btn kz-small';
+      nextBtn.textContent = g4i < g4list.length-1 ? 'مەتەڵی داهاتوو' : 'کۆتایی';
+      nextBtn.onclick = goToNextG4;
+      btns.appendChild(nextBtn);
+    } else {
+      clickedBtn.classList.add('kz-wrong');
+      sfx.wrong();
+      msg.textContent = 'نەخێر، ئەوە هەڵەیە.';
+      msg.className = 'kz-feedback-msg kz-err';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'kz-btn kz-ghost kz-small';
+      showBtn.textContent = 'وەڵامی ڕاست پیشان بدە';
+      showBtn.onclick = ()=>{
+        correctBtn.classList.add('kz-correct');
+        explainBox.textContent = r.why;
+        explainBox.className = 'kz-explain-box kz-show';
+        showBtn.remove();
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'kz-btn kz-small';
+        nextBtn.textContent = g4i < g4list.length-1 ? 'مەتەڵی داهاتوو' : 'کۆتایی';
+        nextBtn.onclick = goToNextG4;
+        btns.appendChild(nextBtn);
+      };
+      btns.appendChild(showBtn);
+    }
+  }
+
+  const finalRunes = [
+    {key:1, icon:'🗝️', label:'یادەوەری'},
+    {key:2, icon:'📐', label:'ڕێکخستن'},
+    {key:3, icon:'🕯️', label:'ڕووناکی'},
+    {key:4, icon:'📜', label:'وشە'}
+  ];
+  function startFinal(){
+    const order = [1,2,3,4];
+    const shuffled = shuffleArr(order);
+    const slotsWrap = document.getElementById('kzLockSlots');
+    const runesWrap = document.getElementById('kzLockRunes');
+    if(!slotsWrap || !runesWrap) return;
+    slotsWrap.innerHTML=''; runesWrap.innerHTML='';
+    let picked = [];
+    order.forEach(()=>{
+      const s = document.createElement('div');
+      s.className = 'kz-lock-slot';
+      slotsWrap.appendChild(s);
+    });
+    shuffled.forEach(key=>{
+      const rune = finalRunes.find(r=>r.key===key);
+      const r = document.createElement('div');
+      r.className = 'kz-lock-rune';
+      r.textContent = rune.icon;
+      r.onclick = ()=>{
+        if(r.classList.contains('kz-picked')) return;
+        picked.push(key);
+        r.classList.add('kz-picked');
+        const slot = slotsWrap.children[picked.length-1];
+        slot.textContent = rune.icon;
+        slot.classList.add('kz-filled');
+        if(picked.length === order.length){
+          const correct = picked.every((v,i)=>v===order[i]);
+          const msg = document.getElementById('kzG5msg');
+          if(correct){
+            msg.textContent = 'دەرگای کۆتایی دەکرێتەوە...';
+            msg.className = 'kz-msg kz-ok';
+            setTimeout(()=>chapterComplete(currentChapter), 900);
+          } else {
+            msg.textContent = 'ڕیزبەندییەکە هەڵەیە — دووبارە هەوڵبدەوە.';
+            msg.className = 'kz-msg kz-err';
+            sfx.wrong();
+            setTimeout(()=> startFinal(), 1000);
+          }
+        }
+      };
+      runesWrap.appendChild(r);
+    });
+    document.getElementById('kzG5msg').textContent = '';
+    show('kz-screen-g5');
+  }
+
+  const replayBtn = document.getElementById('kzReplayBtn');
+  if(replayBtn) replayBtn.onclick = ()=>{
+    state = {unlocked:1, completed:{}, seenIntro:true};
+    saveState();
+    renderMap();
+    show('kz-screen-map');
+  };
+
+  window.__koshkiZanaInit = function(){
+    renderMap();
+    show('kz-screen-hero');
+  };
+})();
+</script>
 <!-- =========================================================
-     NEW GAME SCRIPTS — "ئەفسانەی ڕووناکی"
-     Kept exactly as provided (Parts 1 → 8), with two additions:
-     - interceptor at the top to block input when game hidden
-     - wrapper at the bottom to expose open/close + pause frame
+     یاری نوێ — «ئەفسانەی ڕووناکی»
+     Scoped under #legendOfLightGame — بلۆککردنی کیبۆرد کاتێک داخراوە
      ========================================================= -->
 
-<!-- INTERCEPTOR: block keydown & contextmenu when game hidden -->
+<!-- INTERCEPTOR: بلۆککردنی کیبۆرد و context-menu کاتێک یاری داخراوە -->
 <script>
 (function(){
   function isHidden(){
@@ -5757,7 +7561,7 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 
-<!-- PART 1: Main Legend of Light game -->
+<!-- PART 1: Legend of Light — سیستەمی سەرەکی یاری -->
 <script>
 function $(id){ return document.getElementById(id); }
 var cv=$('cv'), ctx=cv.getContext('2d');
@@ -6012,8 +7816,7 @@ var last=performance.now();
 function frame(now){ var dt=Math.min((now-last)/1000,.05); last=now; G.time+=dt; if(state==='play') updatePlay(dt); else updatePassive(dt); draw(); requestAnimationFrame(frame); }
 requestAnimationFrame(frame);
 </script>
-
-<!-- PART 2: Systems / Shop / Skills / Endless / Fishing -->
+<!-- PART 2: سیستەمەکان — چەک، سکڵ، دروستکردن، ئەرکی ڕۆژانە، دەستکەوت، تۆمار، بێکۆتایی، ماسیگرتن، هەڵبژاردنی چارەنووس -->
 <script>
 (function(){
 function p2$(id){ return document.getElementById(id); }
@@ -6074,11 +7877,13 @@ function ensurePart2(){
   if(typeof G.secretFound==='undefined')G.secretFound=false;
   unlockWeapons();
 }
+
 function unlockWeapons(){
   if(P.level>=3)G.weaponsUnlocked.fast=true;
   if(P.level>=5)G.weaponsUnlocked.heavy=true;
   if(P.level>=8)G.weaponsUnlocked.fire=true;
 }
+
 var p2Weapons=[
  {id:'balanced',name:'شمشێری ئاسایی',dmg:1,cd:1,range:92,req:1},
  {id:'fast',name:'شمشێری خێرا',dmg:.75,cd:.62,range:84,req:3},
@@ -6086,7 +7891,15 @@ var p2Weapons=[
  {id:'fire',name:'شمشێری ئاگرین',dmg:1.25,cd:1.05,range:98,req:8}
 ];
 function getWeapon(id){ for(var i=0;i<p2Weapons.length;i++) if(p2Weapons[i].id===id) return p2Weapons[i]; return p2Weapons[0]; }
-var p2SkillDefs=[['power','هێزی هێرش','+5% زیان'],['speed','خێرایی جوڵە','+12 خێرایی'],['dash','داشی باشتر','-6% داش'],['heal','دەرمانی باشتر','+10 چاکبوونەوە'],['shield','زرێی ناوەکی','-4% زیان']];
+
+var p2SkillDefs=[
+ ['power','هێزی هێرش','+5% زیان'],
+ ['speed','خێرایی جوڵە','+12 خێرایی'],
+ ['dash','داشی باشتر','-6% داش'],
+ ['heal','دەرمانی باشتر','+10 چاکبوونەوە'],
+ ['shield','زرێی ناوەکی','-4% زیان']
+];
+
 var p2AchDefs=[
  {id:'kill1',name:'یەکەم سەرکەوتن',desc:'1 دوژمن',c:function(){return G.stats.kills>=1;}},
  {id:'kill50',name:'شەڕڤان',desc:'50 دوژمن',c:function(){return G.stats.kills>=50;}},
@@ -6098,50 +7911,193 @@ var p2AchDefs=[
  {id:'fish5',name:'ماسیگر',desc:'5 ماسی',c:function(){return G.stats.fish>=5;}},
  {id:'wave5',name:'شەپۆل 5',desc:'بگەیتە شەپۆلی 5',c:function(){return G.bestWave>=5;}}
 ];
-function checkAch(){ for(var i=0;i<p2AchDefs.length;i++){ var a=p2AchDefs[i]; if(!G.achievements[a.id]&&a.c()){ G.achievements[a.id]=true; notify('دەستکەوت: '+a.name,'quest'); sfx('level'); saveGame(); } } }
-function addDaily(field,n){ if(!G.daily||G.daily.date!==p2Today())G.daily=defaultDaily(); if(typeof G.daily.progress[field]==='undefined')G.daily.progress[field]=0; G.daily.progress[field]+=n; }
+function checkAch(){
+  for(var i=0;i<p2AchDefs.length;i++){
+    var a=p2AchDefs[i];
+    if(!G.achievements[a.id]&&a.c()){
+      G.achievements[a.id]=true;
+      notify('دەستکەوت: '+a.name,'quest');
+      sfx('level');
+      saveGame();
+    }
+  }
+}
+
+function addDaily(field,n){
+  if(!G.daily||G.daily.date!==p2Today())G.daily=defaultDaily();
+  if(typeof G.daily.progress[field]==='undefined')G.daily.progress[field]=0;
+  G.daily.progress[field]+=n;
+}
+
 function p2NotifyReward(msg){ notify(msg,'quest'); }
-var p2Portals=[{x:forest.x-430,y:forest.y+430,to:'secret'},{x:300,y:380,to:'village'}];
+
+var p2Portals=[
+ {x:forest.x-430,y:forest.y+430,to:'secret'},
+ {x:300,y:380,to:'village'}
+];
 
 function spawnSecretArea(){
-  for(var i=0;i<3;i++) pickups.push({type:'p2chest',x:rand(220,520),y:rand(220,520),bob:rand(0,TAU)});
+  var i,p;
+  for(i=0;i<3;i++) pickups.push({type:'p2chest',x:rand(220,520),y:rand(220,520),bob:rand(0,TAU)});
   for(i=0;i<4;i++) enemies.push(makeEnemy('phantom',rand(220,520),rand(220,520),null));
   enemies.push(makeEnemy('miniBoss',350,350,null));
 }
+
 var baseResetEntities=window.resetEntities;
-window.resetEntities=function(){ baseResetEntities(); if(G.secretFound) spawnSecretArea(); };
+window.resetEntities=function(){
+  baseResetEntities();
+  if(G.secretFound) spawnSecretArea();
+};
+
 var baseResetGame=window.resetGame;
-window.resetGame=function(){ baseResetGame(); ensurePart2(); updatePart2UI(); };
+window.resetGame=function(){
+  baseResetGame();
+  ensurePart2();
+  updatePart2UI();
+};
+
 var baseLoadGame=window.loadGame;
-window.loadGame=function(){ var ok=baseLoadGame(); if(ok) ensurePart2(); return ok; };
+window.loadGame=function(){
+  var ok=baseLoadGame();
+  if(ok) ensurePart2();
+  return ok;
+};
+
 var baseBurst=window.burst;
-window.burst=function(x,y,color,count,speed,life,size,grav){ if(G.lowGfx)count=Math.ceil(count/3); baseBurst(x,y,color,count,speed,life,size,grav); };
+window.burst=function(x,y,color,count,speed,life,size,grav){
+  if(G.lowGfx)count=Math.ceil(count/3);
+  baseBurst(x,y,color,count,speed,life,size,grav);
+};
+
 var baseMakeEnemy=window.makeEnemy;
 window.makeEnemy=function(type,x,y,area){
-  if(type==='phantom')return {type:type,x:x,y:y,area:area,homeX:x,homeY:y,dead:false,hitFlash:0,kx:0,ky:0,attackCd:rand(.5,1),wanderT:rand(1,3),dir:rand(0,TAU),flying:true,shootCd:1.6,r:15,hp:80+P.level*8,maxhp:80+P.level*8,speed:155,dmg:16,aggro:360,range:30,xp:38,color:'#8f6bff'};
-  if(type==='miniBoss')return {type:type,x:x,y:y,area:area,homeX:x,homeY:y,dead:false,hitFlash:0,kx:0,ky:0,attackCd:rand(.5,1),wanderT:rand(1,3),dir:rand(0,TAU),flying:false,shootCd:1.6,r:30,hp:320+P.level*35,maxhp:320+P.level*35,speed:92,dmg:20,aggro:520,range:48,xp:140,color:'#b23b58'};
+  if(type==='phantom'){
+    return {type:type,x:x,y:y,area:area,homeX:x,homeY:y,dead:false,hitFlash:0,kx:0,ky:0,attackCd:rand(.5,1),wanderT:rand(1,3),dir:rand(0,TAU),flying:true,shootCd:1.6,r:15,hp:80+P.level*8,maxhp:80+P.level*8,speed:155,dmg:16,aggro:360,range:30,xp:38,color:'#8f6bff'};
+  }
+  if(type==='miniBoss'){
+    return {type:type,x:x,y:y,area:area,homeX:x,homeY:y,dead:false,hitFlash:0,kx:0,ky:0,attackCd:rand(.5,1),wanderT:rand(1,3),dir:rand(0,TAU),flying:false,shootCd:1.6,r:30,hp:320+P.level*35,maxhp:320+P.level*35,speed:92,dmg:20,aggro:520,range:48,xp:140,color:'#b23b58'};
+  }
   return baseMakeEnemy(type,x,y,area);
 };
+
 var baseDrawEnemy=window.drawEnemy;
 window.drawEnemy=function(e){
-  if(e.type==='phantom'){ if(!vis(e.x,e.y,180))return; ellipse(e.x,e.y+e.r*.72,e.r*1.05,e.r*.35,'rgba(0,0,0,.28)'); var c=e.hitFlash>0?'#fff':e.color; var fy=Math.sin(G.time*5+e.x)*4; ctx.save(); ctx.translate(e.x,e.y+fy); ctx.globalAlpha=.9; ellipse(0,0,14,18,c); circle(0,-16,9,c); circle(-4,-17,2,'#fff'); circle(4,-17,2,'#fff'); ctx.restore(); ctx.globalAlpha=1; if(e.hp<e.maxhp)drawHealthBar(e.x,e.y-e.r-20,48,e.hp,e.maxhp); return; }
-  if(e.type==='miniBoss'){ if(!vis(e.x,e.y,220))return; ellipse(e.x,e.y+e.r*.72,e.r*1.05,e.r*.35,'rgba(0,0,0,.3)'); var mc=e.hitFlash>0?'#fff':e.color; ctx.save(); ctx.translate(e.x,e.y); var pulse=1+Math.sin(G.time*5)*.05; ellipse(0,0,30*pulse,22*pulse,mc); circle(0,-24,14*pulse,mc); circle(-6,-26,3,'#ffd76b'); circle(6,-26,3,'#ffd76b'); ctx.restore(); if(e.hp<e.maxhp)drawHealthBar(e.x,e.y-e.r-28,90,e.hp,e.maxhp); return; }
+  if(e.type==='phantom'){
+    if(!vis(e.x,e.y,180))return;
+    ellipse(e.x,e.y+e.r*.72,e.r*1.05,e.r*.35,'rgba(0,0,0,.28)');
+    var c=e.hitFlash>0?'#fff':e.color;
+    var fy=Math.sin(G.time*5+e.x)*4;
+    ctx.save();
+    ctx.translate(e.x,e.y+fy);
+    ctx.globalAlpha=.9;
+    ellipse(0,0,14,18,c);
+    circle(0,-16,9,c);
+    circle(-4,-17,2,'#fff');
+    circle(4,-17,2,'#fff');
+    ctx.restore();
+    ctx.globalAlpha=1;
+    if(e.hp<e.maxhp)drawHealthBar(e.x,e.y-e.r-20,48,e.hp,e.maxhp);
+    return;
+  }
+  if(e.type==='miniBoss'){
+    if(!vis(e.x,e.y,220))return;
+    ellipse(e.x,e.y+e.r*.72,e.r*1.05,e.r*.35,'rgba(0,0,0,.3)');
+    var mc=e.hitFlash>0?'#fff':e.color;
+    ctx.save();
+    ctx.translate(e.x,e.y);
+    var pulse=1+Math.sin(G.time*5)*.05;
+    ellipse(0,0,30*pulse,22*pulse,mc);
+    circle(0,-24,14*pulse,mc);
+    circle(-6,-26,3,'#ffd76b');
+    circle(6,-26,3,'#ffd76b');
+    ctx.restore();
+    if(e.hp<e.maxhp)drawHealthBar(e.x,e.y-e.r-28,90,e.hp,e.maxhp);
+    return;
+  }
   baseDrawEnemy(e);
 };
+
 var baseDrawPickup=window.drawPickup;
 window.drawPickup=function(p){
-  if(p.type==='p2chest'){ var bob=Math.sin(G.time*4+p.bob)*3; ellipse(p.x,p.y+9,11,5,'rgba(0,0,0,.28)'); var g=ctx.createRadialGradient(p.x,p.y-8+bob,2,p.x,p.y-8+bob,30); g.addColorStop(0,'rgba(220,160,255,.75)'); g.addColorStop(1,'rgba(160,80,255,0)'); circle(p.x,p.y-8+bob,30,g); ctx.fillStyle='#5a2d7a'; ctx.fillRect(p.x-13,p.y-12+bob,26,18); ctx.fillStyle='#8b4fd6'; ctx.fillRect(p.x-13,p.y-18+bob,26,8); ctx.fillStyle='#ffd76b'; ctx.fillRect(p.x-2,p.y-14+bob,4,8); return; }
+  if(p.type==='p2chest'){
+    var bob=Math.sin(G.time*4+p.bob)*3;
+    ellipse(p.x,p.y+9,11,5,'rgba(0,0,0,.28)');
+    var g=ctx.createRadialGradient(p.x,p.y-8+bob,2,p.x,p.y-8+bob,30);
+    g.addColorStop(0,'rgba(220,160,255,.75)');
+    g.addColorStop(1,'rgba(160,80,255,0)');
+    circle(p.x,p.y-8+bob,30,g);
+    ctx.fillStyle='#5a2d7a';
+    ctx.fillRect(p.x-13,p.y-12+bob,26,18);
+    ctx.fillStyle='#8b4fd6';
+    ctx.fillRect(p.x-13,p.y-18+bob,26,8);
+    ctx.fillStyle='#ffd76b';
+    ctx.fillRect(p.x-2,p.y-14+bob,4,8);
+    return;
+  }
   baseDrawPickup(p);
 };
+
 var baseDrawEntities=window.drawEntities;
-window.drawEntities=function(){ baseDrawEntities(); drawP2Portals(); drawP2Pet(); };
-function drawP2Portals(){ for(var i=0;i<p2Portals.length;i++){ var p=p2Portals[i]; if(!vis(p.x,p.y,150))continue; var pulse=1+Math.sin(G.time*3+p.x)*.08; var g=ctx.createRadialGradient(p.x,p.y,5,p.x,p.y,48*pulse); g.addColorStop(0,'rgba(190,240,255,.9)'); g.addColorStop(.55,'rgba(120,180,255,.35)'); g.addColorStop(1,'rgba(80,120,255,0)'); circle(p.x,p.y,48*pulse,g); ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(G.time*1.4); ctx.strokeStyle='rgba(220,240,255,.85)'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(0,0,18,0,TAU); ctx.stroke(); ctx.beginPath(); ctx.arc(0,0,27,0,TAU); ctx.stroke(); ctx.restore(); } }
-function drawP2Pet(){ if(!G.pet)return; var x=G.petX,y=G.petY; var bob=Math.sin(G.time*4)*5; var g=ctx.createRadialGradient(x,y+bob,2,x,y+bob,22); g.addColorStop(0,'rgba(220,255,255,.95)'); g.addColorStop(1,'rgba(120,220,255,0)'); circle(x,y+bob,22,g); circle(x,y+bob,6,'#eaffff'); }
+window.drawEntities=function(){
+  baseDrawEntities();
+  drawP2Portals();
+  drawP2Pet();
+};
+
+function drawP2Portals(){
+  for(var i=0;i<p2Portals.length;i++){
+    var p=p2Portals[i];
+    if(!vis(p.x,p.y,150))continue;
+    var pulse=1+Math.sin(G.time*3+p.x)*.08;
+    var g=ctx.createRadialGradient(p.x,p.y,5,p.x,p.y,48*pulse);
+    g.addColorStop(0,'rgba(190,240,255,.9)');
+    g.addColorStop(.55,'rgba(120,180,255,.35)');
+    g.addColorStop(1,'rgba(80,120,255,0)');
+    circle(p.x,p.y,48*pulse,g);
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate(G.time*1.4);
+    ctx.strokeStyle='rgba(220,240,255,.85)';
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.arc(0,0,18,0,TAU);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(0,0,27,0,TAU);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+function drawP2Pet(){
+  if(!G.pet)return;
+  var x=G.petX,y=G.petY;
+  var bob=Math.sin(G.time*4)*5;
+  var g=ctx.createRadialGradient(x,y+bob,2,x,y+bob,22);
+  g.addColorStop(0,'rgba(220,255,255,.95)');
+  g.addColorStop(1,'rgba(120,220,255,0)');
+  circle(x,y+bob,22,g);
+  circle(x,y+bob,6,'#eaffff');
+}
+
 var baseGainXP=window.gainXP;
-window.gainXP=function(n){ var old=P.level; baseGainXP(n); if(P.level>old){ G.skillPoints += (P.level-old); notify('خاڵی سکڵ: '+(P.level-old),'quest'); unlockWeapons(); updatePart2UI(); } };
+window.gainXP=function(n){
+  var old=P.level;
+  baseGainXP(n);
+  if(P.level>old){
+    G.skillPoints += (P.level-old);
+    notify('خاڵی سکڵ: '+(P.level-old),'quest');
+    unlockWeapons();
+    updatePart2UI();
+  }
+};
+
 var basePlayerAttack=window.playerAttack;
 window.playerAttack=function(){
-  if(state!=='play'||!G.hasSword||P.attackCd>0){ basePlayerAttack(); return; }
+  if(state!=='play'||!G.hasSword||P.attackCd>0){
+    basePlayerAttack();
+    return;
+  }
   var w=getWeapon(G.weapon);
   var oldDmg=P.dmg;
   var comboBonus=Math.min(G.combo*.02,.5);
@@ -6151,96 +8107,490 @@ window.playerAttack=function(){
   if(P.attackCd>0)P.attackCd=.42*w.cd;
   if(P.attackAnim>0)G.special=Math.min(100,G.special+2);
 };
+
 var baseHurt=window.hurt;
 window.hurt=function(amount){
   var oldHp=P.hp;
   amount=amount*(1-Math.min(.45,(G.armorLevel-1)*.03))*(1-G.skills.shield*.04);
   baseHurt(amount);
-  if(oldHp>0&&P.hp<=0){ G.stats.deaths++; if(G.endlessActive)endEndless(); }
+  if(oldHp>0&&P.hp<=0){
+    G.stats.deaths++;
+    if(G.endlessActive)endEndless();
+  }
 };
+
 var baseUsePotion=window.usePotion;
-window.usePotion=function(){ var oldP=G.potions; baseUsePotion(); if(G.potions<oldP){ addDaily('potions',1); if(G.skills.heal>0){ P.hp=Math.min(P.maxhp,P.hp+G.skills.heal*10); updateHUD(); } } };
+window.usePotion=function(){
+  var oldP=G.potions;
+  baseUsePotion();
+  if(G.potions<oldP){
+    addDaily('potions',1);
+    if(G.skills.heal>0){
+      P.hp=Math.min(P.maxhp,P.hp+G.skills.heal*10);
+      updateHUD();
+    }
+  }
+};
+
 var baseKillEnemy=window.killEnemy;
-window.killEnemy=function(e){ baseKillEnemy(e); G.stats.kills++; addDaily('kills',1); dropMaterials(e); G.special=Math.min(100,G.special+8); checkAch(); };
+window.killEnemy=function(e){
+  baseKillEnemy(e);
+  G.stats.kills++;
+  addDaily('kills',1);
+  dropMaterials(e);
+  G.special=Math.min(100,G.special+8);
+  checkAch();
+};
+
 var baseUpdateWinText=window.updateWinText;
 window.updateWinText=function(){
   baseUpdateWinText();
-  if(G.choices.secret){ p2$('winTitle').textContent='کۆتایی نهێنی'; p2$('winText').textContent='تۆ نهێنی ئەشکەوتەکەت دۆزییەوە و ڕووناکی بە شێوەیەکی نهێنی تەواو بوو. دۆڵەکە بووە ئەفسانە.'; }
-  else if(G.choices.mercy){ p2$('winTitle').textContent='کۆتایی بەزەیی'; p2$('winText').textContent='تۆ تاریکی بەخشیت. ڕووناکی بە میهرەبانی گەڕایەوە و خەڵکەکە بە تۆ دەنازن.'; }
-  else if(G.choices.dark){ p2$('winTitle').textContent='کۆتایی هێز'; p2$('winText').textContent='تۆ تاریکی سووتاند. ڕووناکی گەڕایەوە، بەڵام شوێنەواری شەڕەکە لە دڵتدا ماوە.'; }
+  if(G.choices.secret){
+    p2$('winTitle').textContent='کۆتایی نهێنی';
+    p2$('winText').textContent='تۆ نهێنی ئەشکەوتەکەت دۆزییەوە و ڕووناکی بە شێوەیەکی نهێنی تەواو بوو. دۆڵەکە بووە ئەفسانە.';
+  } else if(G.choices.mercy){
+    p2$('winTitle').textContent='کۆتایی بەزەیی';
+    p2$('winText').textContent='تۆ تاریکی بەخشیت. ڕووناکی بە میهرەبانی گەڕایەوە و خەڵکەکە بە تۆ دەنازن.';
+  } else if(G.choices.dark){
+    p2$('winTitle').textContent='کۆتایی هێز';
+    p2$('winText').textContent='تۆ تاریکی سووتاند. ڕووناکی گەڕایەوە، بەڵام شوێنەواری شەڕەکە لە دڵتدا ماوە.';
+  }
 };
-function dropMaterials(e){ if(chance(.30)){ G.materials.wood++; floatText(e.x,e.y-e.r-46,'+🌲','#b7ffb0'); } if(chance(.22)){ G.materials.iron++; floatText(e.x,e.y-e.r-60,'+⚙️','#dfe8ff'); } if(e.type==='boss'||e.type==='miniBoss'||chance(.07)){ G.materials.crystal++; floatText(e.x,e.y-e.r-74,'+💠','#bfefff'); } }
-function useSpecial(){ if(state!=='play'||G.special<100)return; G.special=0; G.stats.special++; addDaily('special',1); P.invuln=Math.max(P.invuln,.6); burst(P.x,P.y,'rgba(255,220,120,.95)',60,260,.9,4,-20); vib(80); sfx('special'); var dmgBase=P.dmg*3*(1+G.skills.power*.05); for(var i=0;i<enemies.length;i++){ var e=enemies[i]; if(e.dead)continue; if(dist(P.x,P.y,e.x,e.y)<250+e.r){ var dmg=Math.max(1,Math.round(dmgBase+rand(-5,8))); e.hp-=dmg; e.hitFlash=.14; floatText(e.x,e.y-e.r-14,String(dmg),'#ffd76b'); if(e.hp<=0)killEnemy(e); } } updateHUD(); }
+
+function dropMaterials(e){
+  if(chance(.30)){
+    G.materials.wood++;
+    floatText(e.x,e.y-e.r-46,'+🌲','#b7ffb0');
+  }
+  if(chance(.22)){
+    G.materials.iron++;
+    floatText(e.x,e.y-e.r-60,'+⚙️','#dfe8ff');
+  }
+  if(e.type==='boss'||e.type==='miniBoss'||chance(.07)){
+    G.materials.crystal++;
+    floatText(e.x,e.y-e.r-74,'+💠','#bfefff');
+  }
+}
+
+function useSpecial(){
+  if(state!=='play'||G.special<100)return;
+  G.special=0;
+  G.stats.special++;
+  addDaily('special',1);
+  P.invuln=Math.max(P.invuln,.6);
+  burst(P.x,P.y,'rgba(255,220,120,.95)',60,260,.9,4,-20);
+  vib(80);
+  sfx('special');
+  var dmgBase=P.dmg*3*(1+G.skills.power*.05);
+  for(var i=0;i<enemies.length;i++){
+    var e=enemies[i];
+    if(e.dead)continue;
+    if(dist(P.x,P.y,e.x,e.y)<250+e.r){
+      var dmg=Math.max(1,Math.round(dmgBase+rand(-5,8)));
+      e.hp-=dmg;
+      e.hitFlash=.14;
+      floatText(e.x,e.y-e.r-14,String(dmg),'#ffd76b');
+      if(e.hp<=0)killEnemy(e);
+    }
+  }
+  updateHUD();
+}
 p2$('p2Special').addEventListener('pointerdown',function(e){ e.preventDefault(); useSpecial(); });
 
-function hideP2Screens(){ p2$('p2Panel').classList.add('hidden'); p2$('p2Fish').classList.add('hidden'); p2$('p2Choice').classList.add('hidden'); }
-function openPanel(tab,from){ p2PrevState=from||state; p2PanelOpen=true; p2Tab=tab; state='p2panel'; hideP2Screens(); p2$('p2Panel').classList.remove('hidden'); document.getElementById('touch').classList.add('hidden'); renderPanel(); updateTabs(); }
-function closePanel(){ p2PanelOpen=false; p2$('p2Panel').classList.add('hidden'); state=p2PrevState; if(state==='play')show(null); else if(state==='menu')show('menu'); else if(state==='pause')show('pause'); else if(state==='win')show('win'); else if(state==='dead')show('death'); else show(null); }
+function hideP2Screens(){
+  p2$('p2Panel').classList.add('hidden');
+  p2$('p2Fish').classList.add('hidden');
+  p2$('p2Choice').classList.add('hidden');
+}
+
+function openPanel(tab,from){
+  p2PrevState=from||state;
+  p2PanelOpen=true;
+  p2Tab=tab;
+  state='p2panel';
+  hideP2Screens();
+  p2$('p2Panel').classList.remove('hidden');
+  document.getElementById('touch').classList.add('hidden');
+  renderPanel();
+  updateTabs();
+}
+function closePanel(){
+  p2PanelOpen=false;
+  p2$('p2Panel').classList.add('hidden');
+  state=p2PrevState;
+  if(state==='play')show(null);
+  else if(state==='menu')show('menu');
+  else if(state==='pause')show('pause');
+  else if(state==='win')show('win');
+  else if(state==='dead')show('death');
+  else show(null);
+}
 p2$('p2Close').onclick=closePanel;
 p2$('p2Gear').onclick=function(){ openPanel('settings',state); };
-function updateTabs(){ var btns=document.querySelectorAll('.p2TabBtn'); for(var i=0;i<btns.length;i++) btns[i].classList.toggle('active',btns[i].getAttribute('data-tab')===p2Tab); }
+
+function updateTabs(){
+  var btns=document.querySelectorAll('.p2TabBtn');
+  for(var i=0;i<btns.length;i++) btns[i].classList.toggle('active',btns[i].getAttribute('data-tab')===p2Tab);
+}
 var tabBtns=document.querySelectorAll('.p2TabBtn');
-for(var ti=0;ti<tabBtns.length;ti++){ tabBtns[ti].onclick=function(){ p2Tab=this.getAttribute('data-tab'); renderPanel(); updateTabs(); }; }
+for(var ti=0;ti<tabBtns.length;ti++){
+  tabBtns[ti].onclick=function(){ p2Tab=this.getAttribute('data-tab'); renderPanel(); updateTabs(); };
+}
 
 function renderPanel(){
   var c=p2$('p2Content'), h='';
-  if(p2Tab==='settings'){ h+='<button class="btn p2ListBtn" id="p2Sfx">دەنگ: '+(G.sfxOn?'پێکراو 🔊':'کوژاوە 🔇')+'</button>'; h+='<button class="btn p2ListBtn" id="p2Auto">هێرشی ئۆتۆماتیکی: '+(G.autoAttack?'پێکراو ✅':'کوژاوە ❌')+'</button>'; h+='<button class="btn p2ListBtn" id="p2Gfx">گرافیکی سووک: '+(G.lowGfx?'پێکراو ✅':'کوژاوە ❌')+'</button>'; h+='<div class="p2Small">دەنگەکە تەنها دەنگی شەڕ و شتەکانە، میوزیک نییە.</div>'; c.innerHTML=h; p2$('p2Sfx').onclick=function(){ G.sfxOn=!G.sfxOn; saveGame(); renderPanel(); }; p2$('p2Auto').onclick=function(){ G.autoAttack=!G.autoAttack; saveGame(); renderPanel(); }; p2$('p2Gfx').onclick=function(){ G.lowGfx=!G.lowGfx; saveGame(); renderPanel(); }; }
-  if(p2Tab==='weapons'){ unlockWeapons(); for(var i=0;i<p2Weapons.length;i++){ (function(w){ var un=G.weaponsUnlocked[w.id]; h+='<button class="btn p2ListBtn" id="p2w_'+w.id+'" style="opacity:'+(un?1:.55)+'"><b>'+w.name+'</b>'+(G.weapon===w.id?' — هەڵبژێردراوە':'')+'<div class="p2Small">زیان ×'+w.dmg+' | خێرایی ×'+w.cd+' | مەودا '+w.range+(un?'':' | 🔒 ئاست '+w.req)+'</div></button>'; })(p2Weapons[i]); } c.innerHTML=h; for(i=0;i<p2Weapons.length;i++){ (function(w){ p2$('p2w_'+w.id).onclick=function(){ if(!G.weaponsUnlocked[w.id]){ notify('لە ئاست '+w.req+' دەکرێتەوە.','warn'); return; } G.weapon=w.id; saveGame(); renderPanel(); sfx('pickup'); }; })(p2Weapons[i]); } }
-  if(p2Tab==='skills'){ h+='<div>خاڵی سکڵ: <b>'+G.skillPoints+'</b></div>'; for(var j=0;j<p2SkillDefs.length;j++){ (function(s){ var lv=G.skills[s[0]]; h+='<button class="btn p2ListBtn" id="p2sk_'+s[0]+'"><b>'+s[1]+' — ئاست '+lv+'/5</b><div class="p2Small">'+s[2]+'</div></button>'; })(p2SkillDefs[j]); } c.innerHTML=h; for(j=0;j<p2SkillDefs.length;j++){ (function(s){ p2$('p2sk_'+s[0]).onclick=function(){ if(G.skillPoints<=0||G.skills[s[0]]>=5){ notify('خاڵت نییە یان پڕە.','warn'); return; } G.skillPoints--; G.skills[s[0]]++; saveGame(); renderPanel(); sfx('level'); }; })(p2SkillDefs[j]); } }
-  if(p2Tab==='craft'){ h+='<div>کەرەستە: 🌲 '+G.materials.wood+' | ⚙️ '+G.materials.iron+' | 💠 '+G.materials.crystal+'</div>'; h+='<div>زرێ: ئاست '+G.armorLevel+' | خواردن: '+G.food+'</div>'; h+='<button class="btn p2ListBtn" id="p2cPot">دەرمان — 2 دار + 1 ئاسن</button>'; h+='<button class="btn p2ListBtn" id="p2cFood">خواردن — 3 دار</button>'; h+='<button class="btn p2ListBtn" id="p2eFood">خواردن بخۆ — +25</button>'; h+='<button class="btn p2ListBtn" id="p2cArmor">زرێ — 2 ئاسن + 1 کریستاڵ</button>'; h+='<button class="btn p2ListBtn" id="p2cWep">چەک — 3 ئاسن + 2 کریستاڵ</button>'; if(!G.pet) h+='<button class="btn p2ListBtn" id="p2cPet">هاوڕێی ڕووناکی — 5 کریستاڵ و ئاست 5</button>'; else h+='<div class="p2Small">هاوڕێی ڕووناکی چالاکە.</div>'; c.innerHTML=h; function cost(o){ for(var k in o) if(G.materials[k]<o[k]) return false; return true; } function pay(o){ for(var k in o) G.materials[k]-=o[k]; } function craft(o,fn,msg){ if(!cost(o)){ notify('کەرەستە کەمە.','warn'); return; } pay(o); fn(); addDaily('craft',1); G.stats.craft++; saveGame(); updateHUD(); renderPanel(); p2NotifyReward(msg); sfx('chest'); } p2$('p2cPot').onclick=function(){ craft({wood:2,iron:1},function(){G.potions++;},'دەرمان دروستکرا'); }; p2$('p2cFood').onclick=function(){ craft({wood:3},function(){G.food++;},'خواردن ئامادە بوو'); }; p2$('p2eFood').onclick=function(){ if(G.food<=0||P.hp>=P.maxhp)return; G.food--; P.hp=Math.min(P.maxhp,P.hp+25); sfx('heal'); saveGame(); updateHUD(); renderPanel(); }; p2$('p2cArmor').onclick=function(){ craft({iron:2,crystal:1},function(){G.armorLevel++;P.maxhp+=10;P.hp+=10;},'زرێ بەهێزتر بوو'); }; p2$('p2cWep').onclick=function(){ craft({iron:3,crystal:2},function(){G.bonusDmg+=3;},'چەک بەهێزتر بوو'); }; if(!G.pet)p2$('p2cPet').onclick=function(){ if(P.level<5){ notify('ئاست 5 پێویستە.','warn'); return; } craft({crystal:5},function(){G.pet=true;G.petX=P.x;G.petY=P.y;},'هاوڕێکەت کرایەوە'); }; }
-  if(p2Tab==='daily'){ if(!G.daily||G.daily.date!==p2Today())G.daily=defaultDaily(); h+='<div>مەئمووریەتی ڕۆژانە</div>'; for(var m=0;m<G.daily.missions.length;m++){ (function(d){ var prog=G.daily.progress[d.field]||0; var done=prog>=d.target; var claimed=G.daily.claimed[d.id]; h+='<div style="margin-top:10px"><b>'+d.text+'</b><br><span class="p2Small">'+Math.min(prog,d.target)+' / '+d.target+' — پاداشت: '+d.gold+' زێڕ'+(d.pot?' + 🧪':'')+'</span><br><button class="btn small p2ListBtn" id="p2daily_'+d.id+'">'+(claimed?'وەرگیراوە ✅':done?'وەرگرتنی پاداشت':'هێشتا تەواو نەبووە')+'</button></div>'; })(G.daily.missions[m]); } c.innerHTML=h; for(m=0;m<G.daily.missions.length;m++){ (function(d){ p2$('p2daily_'+d.id).onclick=function(){ if(G.daily.claimed[d.id]||(G.daily.progress[d.field]||0)<d.target)return; G.daily.claimed[d.id]=true; G.gold+=d.gold; if(d.pot)G.potions+=d.pot; G.stats.missions++; saveGame(); updateHUD(); renderPanel(); p2NotifyReward('پاداشت وەرگیرا'); checkAch(); }; })(G.daily.missions[m]); } }
-  if(p2Tab==='ach'){ for(var a=0;a<p2AchDefs.length;a++){ var un=G.achievements[p2AchDefs[a].id]; h+='<div class="panel" style="padding:10px;margin-top:8px;opacity:'+(un?1:.55)+'"><b>'+(un?'✅ ':'🔒 ')+p2AchDefs[a].name+'</b><div class="p2Small">'+p2AchDefs[a].desc+'</div></div>'; } c.innerHTML=h; }
-  if(p2Tab==='stats'){ var achCount=Object.keys(G.achievements).length; var points=Math.floor(P.level*10+G.stats.kills*2+G.bestWave*20+G.stats.fishBest*5+achCount*8+G.shards*30); var rank=points<120?'نوێ':points<350?'پارێزەر':points<800?'پاڵەوان':'ئەفسانە'; var mins=Math.floor(G.playTime/60),secs=Math.floor(G.playTime%60); h+='<div>کاتی یاری: '+mins+' خولەک و '+secs+' چرکە</div>'; h+='<div>ئاست: '+P.level+'</div>'; h+='<div>کوشتن: '+G.stats.kills+'</div>'; h+='<div>مردن: '+G.stats.deaths+'</div>'; h+='<div>باشترین شەپۆل: '+G.bestWave+'</div>'; h+='<div>باشترین ماسی: '+G.stats.fishBest+'</div>'; h+='<div>ماسی گیراوەکان: '+G.stats.fish+'</div>'; h+='<div>دەستکەوت: '+achCount+'</div>'; h+='<div>خاڵ: '+points+'</div>'; h+='<div>ڕیزبەندی: '+rank+'</div>'; c.innerHTML=h; }
-  if(p2Tab==='endless'){ h+='<div>دۆخی بێکۆتایی</div>'; h+='<div class="p2Small">باشترین شەپۆل: '+G.bestWave+'</div>'; if(G.endlessUnlocked){ if(G.endlessActive) h+='<button class="btn p2ListBtn" id="p2EndlessEnd">کۆتاییهێنان</button>'; else h+='<button class="btn p2ListBtn" id="p2EndlessStart">دەستپێکردن</button>'; } else { h+='<div class="p2Small">سەرەتا بۆسەکە بشکێنە.</div>'; } c.innerHTML=h; if(G.endlessUnlocked){ if(G.endlessActive)p2$('p2EndlessEnd').onclick=function(){ endEndless(); renderPanel(); }; else p2$('p2EndlessStart').onclick=function(){ closePanel(); startEndless(); }; } }
-  if(p2Tab==='fish'){ h+='<div>مینی گەیمی ماسیگرتن</div>'; h+='<div class="p2Small">باشترین: '+G.stats.fishBest+'</div>'; h+='<button class="btn p2ListBtn" id="p2OpenFish">دەستپێکردن</button>'; c.innerHTML=h; p2$('p2OpenFish').onclick=function(){ openFish(); }; }
+  if(p2Tab==='settings'){
+    h+='<button class="btn p2ListBtn" id="p2Sfx">دەنگ: '+(G.sfxOn?'پێکراو 🔊':'کوژاوە 🔇')+'</button>';
+    h+='<button class="btn p2ListBtn" id="p2Auto">هێرشی ئۆتۆماتیکی: '+(G.autoAttack?'پێکراو ✅':'کوژاوە ❌')+'</button>';
+    h+='<button class="btn p2ListBtn" id="p2Gfx">گرافیکی سووک: '+(G.lowGfx?'پێکراو ✅':'کوژاوە ❌')+'</button>';
+    h+='<div class="p2Small">دەنگەکە تەنها دەنگی شەڕ و شتەکانە، میوزیک نییە.</div>';
+    c.innerHTML=h;
+    p2$('p2Sfx').onclick=function(){ G.sfxOn=!G.sfxOn; saveGame(); renderPanel(); };
+    p2$('p2Auto').onclick=function(){ G.autoAttack=!G.autoAttack; saveGame(); renderPanel(); };
+    p2$('p2Gfx').onclick=function(){ G.lowGfx=!G.lowGfx; saveGame(); renderPanel(); };
+  }
+  if(p2Tab==='weapons'){
+    unlockWeapons();
+    for(var i=0;i<p2Weapons.length;i++){
+      (function(w){
+        var un=G.weaponsUnlocked[w.id];
+        h+='<button class="btn p2ListBtn" id="p2w_'+w.id+'" style="opacity:'+(un?1:.55)+'"><b>'+w.name+'</b>'+(G.weapon===w.id?' — هەڵبژێردراوە':'')+'<div class="p2Small">زیان ×'+w.dmg+' | خێرایی ×'+w.cd+' | مەودا '+w.range+(un?'':' | 🔒 ئاست '+w.req)+'</div></button>';
+      })(p2Weapons[i]);
+    }
+    c.innerHTML=h;
+    for(i=0;i<p2Weapons.length;i++){
+      (function(w){
+        p2$('p2w_'+w.id).onclick=function(){
+          if(!G.weaponsUnlocked[w.id]){ notify('لە ئاست '+w.req+' دەکرێتەوە.','warn'); return; }
+          G.weapon=w.id; saveGame(); renderPanel(); sfx('pickup');
+        };
+      })(p2Weapons[i]);
+    }
+  }
+  if(p2Tab==='skills'){
+    h+='<div>خاڵی سکڵ: <b>'+G.skillPoints+'</b></div>';
+    for(var j=0;j<p2SkillDefs.length;j++){
+      (function(s){
+        var lv=G.skills[s[0]];
+        h+='<button class="btn p2ListBtn" id="p2sk_'+s[0]+'"><b>'+s[1]+' — ئاست '+lv+'/5</b><div class="p2Small">'+s[2]+'</div></button>';
+      })(p2SkillDefs[j]);
+    }
+    c.innerHTML=h;
+    for(j=0;j<p2SkillDefs.length;j++){
+      (function(s){
+        p2$('p2sk_'+s[0]).onclick=function(){
+          if(G.skillPoints<=0||G.skills[s[0]]>=5){ notify('خاڵت نییە یان پڕە.','warn'); return; }
+          G.skillPoints--;
+          G.skills[s[0]]++;
+          saveGame();
+          renderPanel();
+          sfx('level');
+        };
+      })(p2SkillDefs[j]);
+    }
+  }
+  if(p2Tab==='craft'){
+    h+='<div>کەرەستە: 🌲 '+G.materials.wood+' | ⚙️ '+G.materials.iron+' | 💠 '+G.materials.crystal+'</div>';
+    h+='<div>زرێ: ئاست '+G.armorLevel+' | خواردن: '+G.food+'</div>';
+    h+='<button class="btn p2ListBtn" id="p2cPot">دەرمان — 2 دار + 1 ئاسن</button>';
+    h+='<button class="btn p2ListBtn" id="p2cFood">خواردن — 3 دار</button>';
+    h+='<button class="btn p2ListBtn" id="p2eFood">خواردن بخۆ — +25</button>';
+    h+='<button class="btn p2ListBtn" id="p2cArmor">زرێ — 2 ئاسن + 1 کریستاڵ</button>';
+    h+='<button class="btn p2ListBtn" id="p2cWep">چەک — 3 ئاسن + 2 کریستاڵ</button>';
+    if(!G.pet) h+='<button class="btn p2ListBtn" id="p2cPet">هاوڕێی ڕووناکی — 5 کریستاڵ و ئاست 5</button>';
+    else h+='<div class="p2Small">هاوڕێی ڕووناکی چالاکە.</div>';
+    c.innerHTML=h;
+    function cost(o){ for(var k in o) if(G.materials[k]<o[k]) return false; return true; }
+    function pay(o){ for(var k in o) G.materials[k]-=o[k]; }
+    function craft(o,fn,msg){
+      if(!cost(o)){ notify('کەرەستە کەمە.','warn'); return; }
+      pay(o); fn(); addDaily('craft',1); G.stats.craft++; saveGame(); updateHUD(); renderPanel(); p2NotifyReward(msg); sfx('chest');
+    }
+    p2$('p2cPot').onclick=function(){ craft({wood:2,iron:1},function(){G.potions++;},'دەرمان دروستکرا'); };
+    p2$('p2cFood').onclick=function(){ craft({wood:3},function(){G.food++;},'خواردن ئامادە بوو'); };
+    p2$('p2eFood').onclick=function(){
+      if(G.food<=0||P.hp>=P.maxhp)return;
+      G.food--; P.hp=Math.min(P.maxhp,P.hp+25); sfx('heal'); saveGame(); updateHUD(); renderPanel();
+    };
+    p2$('p2cArmor').onclick=function(){ craft({iron:2,crystal:1},function(){G.armorLevel++;P.maxhp+=10;P.hp+=10;},'زرێ بەهێزتر بوو'); };
+    p2$('p2cWep').onclick=function(){ craft({iron:3,crystal:2},function(){G.bonusDmg+=3;},'چەک بەهێزتر بوو'); };
+    if(!G.pet)p2$('p2cPet').onclick=function(){
+      if(P.level<5){ notify('ئاست 5 پێویستە.','warn'); return; }
+      craft({crystal:5},function(){G.pet=true;G.petX=P.x;G.petY=P.y;},'هاوڕێکەت کرایەوە');
+    };
+  }
+  if(p2Tab==='daily'){
+    if(!G.daily||G.daily.date!==p2Today())G.daily=defaultDaily();
+    h+='<div>مەئمووریەتی ڕۆژانە</div>';
+    for(var m=0;m<G.daily.missions.length;m++){
+      (function(d){
+        var prog=G.daily.progress[d.field]||0;
+        var done=prog>=d.target;
+        var claimed=G.daily.claimed[d.id];
+        h+='<div style="margin-top:10px"><b>'+d.text+'</b><br><span class="p2Small">'+Math.min(prog,d.target)+' / '+d.target+' — پاداشت: '+d.gold+' زێڕ'+(d.pot?' + 🧪':'')+'</span><br><button class="btn small p2ListBtn" id="p2daily_'+d.id+'">'+(claimed?'وەرگیراوە ✅':done?'وەرگرتنی پاداشت':'هێشتا تەواو نەبووە')+'</button></div>';
+      })(G.daily.missions[m]);
+    }
+    c.innerHTML=h;
+    for(m=0;m<G.daily.missions.length;m++){
+      (function(d){
+        p2$('p2daily_'+d.id).onclick=function(){
+          if(G.daily.claimed[d.id]||(G.daily.progress[d.field]||0)<d.target)return;
+          G.daily.claimed[d.id]=true;
+          G.gold+=d.gold;
+          if(d.pot)G.potions+=d.pot;
+          G.stats.missions++;
+          saveGame(); updateHUD(); renderPanel(); p2NotifyReward('پاداشت وەرگیرا'); checkAch();
+        };
+      })(G.daily.missions[m]);
+    }
+  }
+  if(p2Tab==='ach'){
+    for(var a=0;a<p2AchDefs.length;a++){
+      var un=G.achievements[p2AchDefs[a].id];
+      h+='<div class="panel" style="padding:10px;margin-top:8px;opacity:'+(un?1:.55)+'"><b>'+(un?'✅ ':'🔒 ')+p2AchDefs[a].name+'</b><div class="p2Small">'+p2AchDefs[a].desc+'</div></div>';
+    }
+    c.innerHTML=h;
+  }
+  if(p2Tab==='stats'){
+    var achCount=Object.keys(G.achievements).length;
+    var points=Math.floor(P.level*10+G.stats.kills*2+G.bestWave*20+G.stats.fishBest*5+achCount*8+G.shards*30);
+    var rank=points<120?'نوێ':points<350?'پارێزەر':points<800?'پاڵەوان':'ئەفسانە';
+    var mins=Math.floor(G.playTime/60),secs=Math.floor(G.playTime%60);
+    h+='<div>کاتی یاری: '+mins+' خولەک و '+secs+' چرکە</div>';
+    h+='<div>ئاست: '+P.level+'</div>';
+    h+='<div>کوشتن: '+G.stats.kills+'</div>';
+    h+='<div>مردن: '+G.stats.deaths+'</div>';
+    h+='<div>باشترین شەپۆل: '+G.bestWave+'</div>';
+    h+='<div>باشترین ماسی: '+G.stats.fishBest+'</div>';
+    h+='<div>ماسی گیراوەکان: '+G.stats.fish+'</div>';
+    h+='<div>دەستکەوت: '+achCount+'</div>';
+    h+='<div>خاڵ: '+points+'</div>';
+    h+='<div>ڕیزبەندی: '+rank+'</div>';
+    c.innerHTML=h;
+  }
+  if(p2Tab==='endless'){
+    h+='<div>دۆخی بێکۆتایی</div>';
+    h+='<div class="p2Small">باشترین شەپۆل: '+G.bestWave+'</div>';
+    if(G.endlessUnlocked){
+      if(G.endlessActive) h+='<button class="btn p2ListBtn" id="p2EndlessEnd">کۆتاییهێنان</button>';
+      else h+='<button class="btn p2ListBtn" id="p2EndlessStart">دەستپێکردن</button>';
+    } else {
+      h+='<div class="p2Small">سەرەتا بۆسەکە بشکێنە.</div>';
+    }
+    c.innerHTML=h;
+    if(G.endlessUnlocked){
+      if(G.endlessActive)p2$('p2EndlessEnd').onclick=function(){ endEndless(); renderPanel(); };
+      else p2$('p2EndlessStart').onclick=function(){ closePanel(); startEndless(); };
+    }
+  }
+  if(p2Tab==='fish'){
+    h+='<div>مینی گەیمی ماسیگرتن</div>';
+    h+='<div class="p2Small">باشترین: '+G.stats.fishBest+'</div>';
+    h+='<button class="btn p2ListBtn" id="p2OpenFish">دەستپێکردن</button>';
+    c.innerHTML=h;
+    p2$('p2OpenFish').onclick=function(){ openFish(); };
+  }
 }
 
 var menuCol=document.querySelector('#menu .btnsCol');
-if(menuCol){ var sysBtn=document.createElement('button'); sysBtn.className='btn'; sysBtn.type='button'; sysBtn.textContent='سیستەمەکان'; sysBtn.onclick=function(){ openPanel('settings','menu'); }; menuCol.appendChild(sysBtn); }
+if(menuCol){
+  var sysBtn=document.createElement('button');
+  sysBtn.className='btn';
+  sysBtn.type='button';
+  sysBtn.textContent='سیستەمەکان';
+  sysBtn.onclick=function(){ openPanel('settings','menu'); };
+  menuCol.appendChild(sysBtn);
+}
 var pauseCol=document.querySelector('#pause .btnsCol');
-if(pauseCol){ var pauseSys=document.createElement('button'); pauseSys.className='btn'; pauseSys.type='button'; pauseSys.textContent='سیستەمەکان'; pauseSys.onclick=function(){ openPanel('settings','pause'); }; pauseCol.appendChild(pauseSys); }
+if(pauseCol){
+  var pauseSys=document.createElement('button');
+  pauseSys.className='btn';
+  pauseSys.type='button';
+  pauseSys.textContent='سیستەمەکان';
+  pauseSys.onclick=function(){ openPanel('settings','pause'); };
+  pauseCol.appendChild(pauseSys);
+}
 var winCol=document.querySelector('#win .btnsCol');
-if(winCol){ var winEndless=document.createElement('button'); winEndless.id='p2WinEndless'; winEndless.className='btn'; winEndless.type='button'; winEndless.textContent='دۆخی بێکۆتایی'; winEndless.onclick=function(){ startEndless(); }; winCol.appendChild(winEndless); }
+if(winCol){
+  var winEndless=document.createElement('button');
+  winEndless.id='p2WinEndless';
+  winEndless.className='btn';
+  winEndless.type='button';
+  winEndless.textContent='دۆخی بێکۆتایی';
+  winEndless.onclick=function(){ startEndless(); };
+  winCol.appendChild(winEndless);
+}
 document.getElementById('quitBtn').addEventListener('click',function(){ if(G.endlessActive)endEndless(); });
 document.getElementById('winMenuBtn').addEventListener('click',function(){ if(G.endlessActive)endEndless(); });
 
 function startEndless(){
   if(!G.endlessUnlocked){ notify('سەرەتا چیرۆکەکە تەواو بکە.','warn'); return; }
   if(state!=='play')startPlay();
-  G.endlessActive=true; G.endlessWave=0; G.endlessAlive=0; G.endlessTimer=1;
-  enemies=[]; projectiles=[]; P.hp=P.maxhp;
+  G.endlessActive=true;
+  G.endlessWave=0;
+  G.endlessAlive=0;
+  G.endlessTimer=1;
+  enemies=[];
+  projectiles=[];
+  P.hp=P.maxhp;
   nextWave();
   updatePart2UI();
 }
-function endEndless(){ if(!G.endlessActive)return; G.endlessActive=false; enemies=enemies.filter(function(e){return !e.endless;}); notify('بێکۆتایی کۆتایی هات. باشترین: '+G.bestWave,'quest'); saveGame(); updatePart2UI(); }
-function nextWave(){ G.endlessWave++; if(G.endlessWave>G.bestWave)G.bestWave=G.endlessWave; notify('شەپۆلی '+G.endlessWave,'quest'); spawnWave(); saveGame(); }
-function endlessType(w){ if(w%5===0)return 'miniBoss'; var pool=['slime','wolf']; if(w>=2)pool.push('bat'); if(w>=3)pool.push('skeleton'); if(w>=5)pool.push('phantom'); return choose(pool); }
+function endEndless(){
+  if(!G.endlessActive)return;
+  G.endlessActive=false;
+  enemies=enemies.filter(function(e){return !e.endless;});
+  notify('بێکۆتایی کۆتایی هات. باشترین: '+G.bestWave,'quest');
+  saveGame();
+  updatePart2UI();
+}
+function nextWave(){
+  G.endlessWave++;
+  if(G.endlessWave>G.bestWave)G.bestWave=G.endlessWave;
+  notify('شەپۆلی '+G.endlessWave,'quest');
+  spawnWave();
+  saveGame();
+}
+function endlessType(w){
+  if(w%5===0)return 'miniBoss';
+  var pool=['slime','wolf'];
+  if(w>=2)pool.push('bat');
+  if(w>=3)pool.push('skeleton');
+  if(w>=5)pool.push('phantom');
+  return choose(pool);
+}
 function spawnWave(){
   var count=3+Math.min(10,Math.floor(G.endlessWave*1.15));
-  if(G.endlessWave%5===0){ var pos0=randAroundPlayer(320,650); var mb=makeEnemy('miniBoss',pos0.x,pos0.y,null); mb.endless=true; enemies.push(mb); count=Math.max(2,Math.floor(count/2)); }
-  for(var i=0;i<count;i++){ var pos=randAroundPlayer(320,650); var e=makeEnemy(endlessType(G.endlessWave),pos.x,pos.y,null); e.hp=Math.round(e.hp*(1+G.endlessWave*.1)); e.maxhp=e.hp; e.dmg=Math.round(e.dmg*(1+G.endlessWave*.05)); e.endless=true; enemies.push(e); }
+  if(G.endlessWave%5===0){
+    var pos0=randAroundPlayer(320,650);
+    var mb=makeEnemy('miniBoss',pos0.x,pos0.y,null);
+    mb.endless=true;
+    enemies.push(mb);
+    count=Math.max(2,Math.floor(count/2));
+  }
+  for(var i=0;i<count;i++){
+    var pos=randAroundPlayer(320,650);
+    var e=makeEnemy(endlessType(G.endlessWave),pos.x,pos.y,null);
+    e.hp=Math.round(e.hp*(1+G.endlessWave*.1));
+    e.maxhp=e.hp;
+    e.dmg=Math.round(e.dmg*(1+G.endlessWave*.05));
+    e.endless=true;
+    enemies.push(e);
+  }
 }
-function randAroundPlayer(minD,maxD){ for(var t=0;t<22;t++){ var a=rand(0,TAU), d=rand(minD,maxD); var x=clamp(P.x+Math.cos(a)*d,50,WORLD.w-50); var y=clamp(P.y+Math.sin(a)*d,50,WORLD.h-50); if(dist(P.x,P.y,x,y)>220)return {x:x,y:y}; } return {x:clamp(P.x+320,50,WORLD.w-50),y:clamp(P.y+320,50,WORLD.h-50)}; }
+function randAroundPlayer(minD,maxD){
+  for(var t=0;t<22;t++){
+    var a=rand(0,TAU), d=rand(minD,maxD);
+    var x=clamp(P.x+Math.cos(a)*d,50,WORLD.w-50);
+    var y=clamp(P.y+Math.sin(a)*d,50,WORLD.h-50);
+    if(dist(P.x,P.y,x,y)>220)return {x:x,y:y};
+  }
+  return {x:clamp(P.x+320,50,WORLD.w-50),y:clamp(P.y+320,50,WORLD.h-50)};
+}
 function endlessUpdate(dt){
   if(!G.endlessActive)return;
   var alive=0;
   for(var i=0;i<enemies.length;i++) if(enemies[i].endless&&!enemies[i].dead)alive++;
   G.endlessAlive=alive;
-  if(alive===0){ G.endlessTimer-=dt; if(G.endlessTimer<=0){ var reward=10+G.endlessWave*6; G.gold+=reward; P.hp=Math.min(P.maxhp,P.hp+Math.round(P.maxhp*.15)); notify('شەپۆل تەواو بوو! +'+reward+' زێڕ','quest'); updateHUD(); nextWave(); } } else G.endlessTimer=1.2;
+  if(alive===0){
+    G.endlessTimer-=dt;
+    if(G.endlessTimer<=0){
+      var reward=10+G.endlessWave*6;
+      G.gold+=reward;
+      P.hp=Math.min(P.maxhp,P.hp+Math.round(P.maxhp*.15));
+      notify('شەپۆل تەواو بوو! +'+reward+' زێڕ','quest');
+      updateHUD();
+      nextWave();
+    }
+  } else G.endlessTimer=1.2;
   p2$('p2EndlessHud').textContent='بێکۆتایی — شەپۆل: '+G.endlessWave+' — دوژمن: '+G.endlessAlive;
 }
+
 var fishActive=false,fishRAF=null,fishPos=0,fishDir=1,fishSpeed=.85,fishScore=0,fishLives=3,fishTargetStart=30,fishTargetWidth=20,fishPrevState='menu';
 function updateFishInfo(){ p2$('p2FishInfo').innerHTML='خاڵ: <b>'+fishScore+'</b> — هەوڵ: <b>'+fishLives+'</b> — باشترین: <b>'+G.stats.fishBest+'</b>'; }
-function startFishRound(){ if(fishRAF)cancelAnimationFrame(fishRAF); fishPos=0; fishDir=1; fishTargetWidth=rand(14,26); fishTargetStart=rand(8,88-fishTargetWidth); fishSpeed=.85+fishScore*.08; p2$('p2FishTarget').style.left=fishTargetStart+'%'; p2$('p2FishTarget').style.width=fishTargetWidth+'%'; updateFishInfo(); fishActive=true; fishLoop(); }
-function fishLoop(){ if(!fishActive)return; fishPos+=fishDir*fishSpeed; if(fishPos>=100){fishPos=100;fishDir=-1;} if(fishPos<=0){fishPos=0;fishDir=1;} p2$('p2FishCursor').style.left=fishPos+'%'; fishRAF=requestAnimationFrame(fishLoop); }
-function openFish(){ fishPrevState=(state==='p2panel'?p2PrevState:state); hideP2Screens(); state='p2fish'; p2$('p2Fish').classList.remove('hidden'); document.getElementById('touch').classList.add('hidden'); fishScore=0; fishLives=3; fishSpeed=.85; startFishRound(); }
-function closeFish(){ fishActive=false; if(fishRAF)cancelAnimationFrame(fishRAF); p2$('p2Fish').classList.add('hidden'); state=fishPrevState; if(state==='play')show(null); else if(state==='menu')show('menu'); else if(state==='pause')show('pause'); else if(state==='win')show('win'); else show(null); }
-function catchFish(){ if(!fishActive)return; if(fishPos>=fishTargetStart&&fishPos<=fishTargetStart+fishTargetWidth){ fishScore++; G.stats.fish++; addDaily('fish',1); var gold=5+fishScore*2; G.gold+=gold; if(fishScore%3===0)G.food++; if(fishScore%5===0)G.potions++; if(fishScore>G.stats.fishBest)G.stats.fishBest=fishScore; notify('ماسی گیرا! +'+gold+' زێڕ','quest'); sfx('pickup'); vib(18); saveGame(); updateHUD(); startFishRound(); } else { fishLives--; sfx('hurt'); vib(35); if(fishLives<=0){ if(fishScore>G.stats.fishBest)G.stats.fishBest=fishScore; saveGame(); notify('کۆتایی ماسیگرتن','quest'); closeFish(); } else updateFishInfo(); } }
+function startFishRound(){
+  if(fishRAF)cancelAnimationFrame(fishRAF);
+  fishPos=0; fishDir=1;
+  fishTargetWidth=rand(14,26);
+  fishTargetStart=rand(8,88-fishTargetWidth);
+  fishSpeed=.85+fishScore*.08;
+  p2$('p2FishTarget').style.left=fishTargetStart+'%';
+  p2$('p2FishTarget').style.width=fishTargetWidth+'%';
+  updateFishInfo();
+  fishActive=true;
+  fishLoop();
+}
+function fishLoop(){
+  if(!fishActive)return;
+  fishPos+=fishDir*fishSpeed;
+  if(fishPos>=100){fishPos=100;fishDir=-1;}
+  if(fishPos<=0){fishPos=0;fishDir=1;}
+  p2$('p2FishCursor').style.left=fishPos+'%';
+  fishRAF=requestAnimationFrame(fishLoop);
+}
+function openFish(){
+  fishPrevState=(state==='p2panel'?p2PrevState:state);
+  hideP2Screens();
+  state='p2fish';
+  p2$('p2Fish').classList.remove('hidden');
+  document.getElementById('touch').classList.add('hidden');
+  fishScore=0; fishLives=3; fishSpeed=.85;
+  startFishRound();
+}
+function closeFish(){
+  fishActive=false;
+  if(fishRAF)cancelAnimationFrame(fishRAF);
+  p2$('p2Fish').classList.add('hidden');
+  state=fishPrevState;
+  if(state==='play')show(null);
+  else if(state==='menu')show('menu');
+  else if(state==='pause')show('pause');
+  else if(state==='win')show('win');
+  else show(null);
+}
+function catchFish(){
+  if(!fishActive)return;
+  if(fishPos>=fishTargetStart&&fishPos<=fishTargetStart+fishTargetWidth){
+    fishScore++;
+    G.stats.fish++;
+    addDaily('fish',1);
+    var gold=5+fishScore*2;
+    G.gold+=gold;
+    if(fishScore%3===0)G.food++;
+    if(fishScore%5===0)G.potions++;
+    if(fishScore>G.stats.fishBest)G.stats.fishBest=fishScore;
+    notify('ماسی گیرا! +'+gold+' زێڕ','quest');
+    sfx('pickup'); vib(18); saveGame(); updateHUD();
+    startFishRound();
+  } else {
+    fishLives--;
+    sfx('hurt'); vib(35);
+    if(fishLives<=0){
+      if(fishScore>G.stats.fishBest)G.stats.fishBest=fishScore;
+      saveGame();
+      notify('کۆتایی ماسیگرتن','quest');
+      closeFish();
+    } else updateFishInfo();
+  }
+}
 p2$('p2FishCatch').onclick=catchFish;
 p2$('p2FishClose').onclick=function(){ if(fishScore>G.stats.fishBest)G.stats.fishBest=fishScore; saveGame(); closeFish(); };
 
-function openChoice(){ if(state==='p2choice')return; p2ChoicePrev=state; state='p2choice'; hideP2Screens(); p2$('p2Choice').classList.remove('hidden'); document.getElementById('touch').classList.add('hidden'); if(G.secretFound)p2$('p2SecretChoice').classList.remove('hidden'); else p2$('p2SecretChoice').classList.add('hidden'); }
-function closeChoice(){ p2$('p2Choice').classList.add('hidden'); state='play'; show(null); }
+function openChoice(){
+  if(state==='p2choice')return;
+  p2ChoicePrev=state;
+  state='p2choice';
+  hideP2Screens();
+  p2$('p2Choice').classList.remove('hidden');
+  document.getElementById('touch').classList.add('hidden');
+  if(G.secretFound)p2$('p2SecretChoice').classList.remove('hidden');
+  else p2$('p2SecretChoice').classList.add('hidden');
+}
+function closeChoice(){
+  p2$('p2Choice').classList.add('hidden');
+  state='play';
+  show(null);
+}
 p2$('p2Mercy').onclick=function(){ G.choiceMade=true; G.choices={mercy:true,dark:false,secret:false}; saveGame(); closeChoice(); notify('هەڵبژاردن تۆمار بوو.','quest'); };
 p2$('p2Dark').onclick=function(){ G.choiceMade=true; G.choices={mercy:false,dark:true,secret:false}; saveGame(); closeChoice(); notify('هەڵبژاردن تۆمار بوو.','quest'); };
 p2$('p2SecretChoice').onclick=function(){ G.choiceMade=true; G.choices={mercy:false,dark:false,secret:true}; saveGame(); closeChoice(); notify('هەڵبژاردن تۆمار بوو.','quest'); };
@@ -6251,551 +8601,107 @@ function prePart2(dt){
   if(!G.daily||G.daily.date!==p2Today())G.daily=defaultDaily();
   if(G.choiceCd>0)G.choiceCd-=dt;
   if(p2PortalCd>0)p2PortalCd-=dt;
-  if(G.pet){ var tx=P.x+Math.cos(G.time*2)*34; var ty=P.y-36+Math.sin(G.time*3)*10; G.petX=lerp(G.petX,tx,1-Math.pow(.001,dt)); G.petY=lerp(G.petY,ty,1-Math.pow(.001,dt)); for(var pi=0;pi<pickups.length;pi++){ var pk=pickups[pi]; var pd=dist(P.x,P.y,pk.x,pk.y); if(pd<160&&pd>20){ pk.x+=(P.x-pk.x)*2.4*dt; pk.y+=(P.y-pk.y)*2.4*dt; } } }
-  if(G.quest===6&&!G.choiceMade&&G.choiceCd<=0&&dist(P.x,P.y,gate.x,gate.y)<gate.r-70){ openChoice(); return; }
-  if(p2PortalCd<=0){ for(var i=0;i<p2Portals.length;i++){ var po=p2Portals[i]; if(dist(P.x,P.y,po.x,po.y)<50){ p2PortalCd=1.5; if(po.to==='secret'){ P.x=300; P.y=430; if(!G.secretFound){ G.secretFound=true; spawnSecretArea(); notify('ئەشکەوتی نهێنی دۆزرایەوە!','quest'); checkAch(); saveGame(); } } else { P.x=village.x; P.y=village.y+120; notify('گەڕایتەوە گوند.','info'); } sfx('shard'); break; } } }
-  for(var j=pickups.length-1;j>=0;j--){ var cp=pickups[j]; if(cp.type==='p2chest'&&dist(P.x,P.y,cp.x,cp.y)<36){ pickups.splice(j,1); G.stats.chests++; addDaily('chests',1); var gold=randi(50,120); G.gold+=gold; G.materials.iron++; if(chance(.55))G.materials.crystal++; if(chance(.25))G.potions++; floatText(cp.x,cp.y-34,'+'+gold+' 🪙','#ffd76b'); notify('سندوقی نهێنی!','quest'); sfx('special'); checkAch(); updateHUD(); } }
+  if(G.pet){
+    var tx=P.x+Math.cos(G.time*2)*34;
+    var ty=P.y-36+Math.sin(G.time*3)*10;
+    G.petX=lerp(G.petX,tx,1-Math.pow(.001,dt));
+    G.petY=lerp(G.petY,ty,1-Math.pow(.001,dt));
+    for(var pi=0;pi<pickups.length;pi++){
+      var pk=pickups[pi];
+      var pd=dist(P.x,P.y,pk.x,pk.y);
+      if(pd<160&&pd>20){ pk.x+=(P.x-pk.x)*2.4*dt; pk.y+=(P.y-pk.y)*2.4*dt; }
+    }
+  }
+  if(G.quest===6&&!G.choiceMade&&G.choiceCd<=0&&dist(P.x,P.y,gate.x,gate.y)<gate.r-70){
+    openChoice();
+    return;
+  }
+  if(p2PortalCd<=0){
+    for(var i=0;i<p2Portals.length;i++){
+      var po=p2Portals[i];
+      if(dist(P.x,P.y,po.x,po.y)<50){
+        p2PortalCd=1.5;
+        if(po.to==='secret'){
+          P.x=300; P.y=430;
+          if(!G.secretFound){
+            G.secretFound=true;
+            spawnSecretArea();
+            notify('ئەشکەوتی نهێنی دۆزرایەوە!','quest');
+            checkAch(); saveGame();
+          }
+        } else {
+          P.x=village.x; P.y=village.y+120;
+          notify('گەڕایتەوە گوند.','info');
+        }
+        sfx('shard');
+        break;
+      }
+    }
+  }
+  for(var j=pickups.length-1;j>=0;j--){
+    var cp=pickups[j];
+    if(cp.type==='p2chest'&&dist(P.x,P.y,cp.x,cp.y)<36){
+      pickups.splice(j,1);
+      G.stats.chests++;
+      addDaily('chests',1);
+      var gold=randi(50,120);
+      G.gold+=gold;
+      G.materials.iron++;
+      if(chance(.55))G.materials.crystal++;
+      if(chance(.25))G.potions++;
+      floatText(cp.x,cp.y-34,'+'+gold+' 🪙','#ffd76b');
+      notify('سندوقی نهێنی!','quest');
+      sfx('special');
+      checkAch(); updateHUD();
+    }
+  }
   if(G.autoAttack&&G.hasSword)playerAttack();
 }
+
 function postPart2(dt){
   if(G.bossDown&&!G.endlessUnlocked)G.endlessUnlocked=true;
-  if(state==='play'){ if(G.endlessActive)endlessUpdate(dt); p2SaveTimer+=dt; if(p2SaveTimer>20){ p2SaveTimer=0; saveGame(); } p2AchTimer+=dt; if(p2AchTimer>1){ p2AchTimer=0; checkAch(); } }
+  if(state==='play'){
+    if(G.endlessActive)endlessUpdate(dt);
+    p2SaveTimer+=dt;
+    if(p2SaveTimer>20){ p2SaveTimer=0; saveGame(); }
+    p2AchTimer+=dt;
+    if(p2AchTimer>1){ p2AchTimer=0; checkAch(); }
+  }
   if(state==='dead'&&G.endlessActive)endEndless();
   updatePart2UI();
 }
+
 var baseUpdatePlay=window.updatePlay;
-window.updatePlay=function(dt){ prePart2(dt); if(state!=='play')return; baseUpdatePlay(dt); postPart2(dt); };
+window.updatePlay=function(dt){
+  prePart2(dt);
+  if(state!=='play')return;
+  baseUpdatePlay(dt);
+  postPart2(dt);
+};
 
 function updatePart2UI(){
-  var gear=p2$('p2Gear'); gear.classList.toggle('hidden',!(state==='play'||state==='menu'||state==='pause'||state==='win'));
-  var sp=p2$('p2Special'); sp.classList.toggle('hidden',!(state==='play'&&G.hasSword));
+  var gear=p2$('p2Gear');
+  gear.classList.toggle('hidden',!(state==='play'||state==='menu'||state==='pause'||state==='win'));
+  var sp=p2$('p2Special');
+  sp.classList.toggle('hidden',!(state==='play'&&G.hasSword));
   p2$('p2SpecialPct').textContent=Math.floor(G.special)+'%';
   sp.style.opacity=G.special>=100?1:.5;
   var eh=p2$('p2EndlessHud');
-  if(G.endlessActive&&state==='play'){ eh.classList.remove('hidden'); eh.textContent='بێکۆتایی — شەپۆل: '+G.endlessWave+' — دوژمن: '+G.endlessAlive; } else eh.classList.add('hidden');
-  var wb=p2$('p2WinEndless'); if(wb)wb.style.display=G.endlessUnlocked?'':'none';
+  if(G.endlessActive&&state==='play'){ eh.classList.remove('hidden'); eh.textContent='بێکۆتایی — شەپۆل: '+G.endlessWave+' — دوژمن: '+G.endlessAlive; }
+  else eh.classList.add('hidden');
+  var wb=p2$('p2WinEndless');
+  if(wb)wb.style.display=G.endlessUnlocked?'':'none';
 }
-addEventListener('keydown',function(e){ if(e.code==='Escape'){ if(state==='p2panel')closePanel(); else if(state==='p2fish')closeFish(); else if(state==='p2choice'){ G.choiceCd=15; closeChoice(); } } });
+
+addEventListener('keydown',function(e){
+  if(e.code==='Escape'){
+    if(state==='p2panel')closePanel();
+    else if(state==='p2fish')closeFish();
+    else if(state==='p2choice'){ G.choiceCd=15; closeChoice(); }
+  }
+});
+
 ensurePart2();
 updatePart2UI();
 })();
 </script>
-
-<!-- PART 3: Weather / More enemies / Extra achievements -->
-<script>
-(function(){
-function p3$(id){ return document.getElementById(id); }
-if(typeof G==='undefined' || typeof P==='undefined' || typeof G.materials==='undefined'){ console.warn('Part3 needs Part2'); return; }
-function ensureP3(){
-  if(typeof G.weather==='undefined') G.weather='clear';
-  if(typeof G.weatherTimer==='undefined') G.weatherTimer=20;
-  if(typeof G.p3RainOn==='undefined') G.p3RainOn=true;
-  if(typeof G.p3SecretKills==='undefined') G.p3SecretKills=0;
-  if(typeof G.p3AncientPower==='undefined') G.p3AncientPower=false;
-  if(typeof G.p3AchTimer==='undefined') G.p3AchTimer=0;
-}
-var baseResetGameP3 = window.resetGame;
-window.resetGame = function(){ baseResetGameP3(); ensureP3(); };
-var baseLoadGameP3 = window.loadGame;
-window.loadGame = function(){ var ok = baseLoadGameP3(); if(ok) ensureP3(); return ok; };
-
-var p3Decor = [];
-function genP3Decor(){
-  p3Decor = [];
-  var i, x, y, z;
-  for(i=0;i<90;i++){ z=choose([village,forest,mountain]); x=rand(z.x-z.r,z.x+z.r); y=rand(z.y-z.r,z.y+z.r); if(dist(x,y,z.x,z.y)<z.r){ p3Decor.push({t:'flower',x:x,y:y,c:choose(['#ffd76b','#ff8fb1','#bfe6ff','#d3a6ff','#9fe8c9'])}); } }
-  for(i=0;i<16;i++){ x=rand(ruins.x-420,ruins.x+420); y=rand(ruins.y-420,ruins.y+420); p3Decor.push({t:'pillar',x:x,y:y,h:rand(28,56)}); }
-  for(i=0;i<14;i++){ x=rand(gate.x-320,gate.x+320); y=rand(gate.y-320,gate.y+320); p3Decor.push({t:'crystal',x:x,y:y}); }
-}
-function drawP3Decor(){
-  for(var i=0;i<p3Decor.length;i++){
-    var d = p3Decor[i];
-    if(!vis(d.x,d.y,90)) continue;
-    if(d.t==='flower'){ ctx.fillStyle='#3f8f57'; ctx.fillRect(d.x-1,d.y-6,2,7); circle(d.x,d.y-8,3,d.c); }
-    if(d.t==='pillar'){ ellipse(d.x,d.y+8,10,4,'rgba(0,0,0,.25)'); ctx.fillStyle='#7c8698'; ctx.fillRect(d.x-6,d.y-d.h,12,d.h); ctx.fillStyle='#9aa5b5'; ctx.fillRect(d.x-9,d.y-d.h-6,18,6); ctx.fillRect(d.x-9,d.y-2,18,6); }
-    if(d.t==='crystal'){ var bob=Math.sin(G.time*3+d.x)*3; var g=ctx.createRadialGradient(d.x,d.y-10+bob,2,d.x,d.y-10+bob,22); g.addColorStop(0,'rgba(200,140,255,.55)'); g.addColorStop(1,'rgba(140,80,255,0)'); circle(d.x,d.y-10+bob,22,g); ctx.save(); ctx.translate(d.x,d.y-10+bob); ctx.rotate(Math.sin(G.time+d.x)*.15); ctx.fillStyle='#c99cff'; ctx.beginPath(); ctx.moveTo(0,-10); ctx.lineTo(6,0); ctx.lineTo(0,10); ctx.lineTo(-6,0); ctx.closePath(); ctx.fill(); ctx.restore(); }
-  }
-}
-var baseDrawEntitiesP3 = window.drawEntities;
-window.drawEntities = function(){ baseDrawEntitiesP3(); drawP3Decor(); };
-
-function spawnWeatherParticles(){
-  if(!G.p3RainOn) return;
-  if(G.weather!=='rain' && G.weather!=='storm') return;
-  if(particles.length > (G.lowGfx ? 220 : 480)) return;
-  var count = G.weather==='storm' ? 6 : 3;
-  for(var i=0;i<count;i++){ particles.push({ x:cam.x+rand(-vw/2,vw/2), y:cam.y-vh/2+rand(-60,10), vx:rand(-80,-20), vy:rand(480,660), life:rand(.45,.85), maxlife:.85, size:rand(1,2.2), color:'rgba(170,210,255,.55)', grav:0, type:'rain' }); }
-}
-function updateWeather(dt){
-  G.weatherTimer -= dt;
-  if(G.weatherTimer <= 0){
-    if(!G.p3RainOn) G.weather='clear';
-    else { var r=Math.random(); if(r<.50) G.weather='clear'; else if(r<.85) G.weather='rain'; else G.weather='storm'; }
-    G.weatherTimer = rand(25,55);
-  }
-  spawnWeatherParticles();
-}
-var baseMakeEnemyP3 = window.makeEnemy;
-window.makeEnemy = function(type,x,y,area){
-  if(type==='ghost') return { type:type,x:x,y:y,area:area,homeX:x,homeY:y,dead:false,hitFlash:0,kx:0,ky:0,attackCd:rand(.5,1),wanderT:rand(1,3),dir:rand(0,TAU),flying:true,shootCd:1.6,r:15,hp:95+P.level*10,maxhp:95+P.level*10,speed:145,dmg:18,aggro:380,range:32,xp:48,color:'#bfefff' };
-  if(type==='golem') return { type:type,x:x,y:y,area:area,homeX:x,homeY:y,dead:false,hitFlash:0,kx:0,ky:0,attackCd:rand(.5,1),wanderT:rand(1,3),dir:rand(0,TAU),flying:false,shootCd:1.6,r:26,hp:280+P.level*40,maxhp:280+P.level*40,speed:64,dmg:28,aggro:300,range:46,xp:95,color:'#7d8a99' };
-  return baseMakeEnemyP3(type,x,y,area);
-};
-var baseDrawEnemyP3 = window.drawEnemy;
-window.drawEnemy = function(e){
-  if(e.type==='ghost'){ if(!vis(e.x,e.y,180))return; ellipse(e.x,e.y+e.r*.72,e.r*1.05,e.r*.35,'rgba(0,0,0,.22)'); var c=e.hitFlash>0?'#ffffff':e.color; var fy=Math.sin(G.time*5+e.x)*5; ctx.save(); ctx.translate(e.x,e.y+fy); ctx.globalAlpha=.78; ellipse(0,0,14,18,c); circle(0,-16,9,c); circle(-4,-17,2.4,'#0d1620'); circle(4,-17,2.4,'#0d1620'); ctx.beginPath(); ctx.moveTo(-12,12); ctx.quadraticCurveTo(-6,20,0,12); ctx.quadraticCurveTo(6,20,12,12); ctx.strokeStyle=c; ctx.lineWidth=3; ctx.stroke(); ctx.restore(); ctx.globalAlpha=1; if(e.hp<e.maxhp)drawHealthBar(e.x,e.y-e.r-20,48,e.hp,e.maxhp); return; }
-  if(e.type==='golem'){ if(!vis(e.x,e.y,230))return; ellipse(e.x,e.y+e.r*.72,e.r*1.05,e.r*.35,'rgba(0,0,0,.3)'); var gc=e.hitFlash>0?'#ffffff':e.color; ctx.save(); ctx.translate(e.x,e.y); ctx.fillStyle=gc; ctx.fillRect(-22,-26,44,42); ctx.fillRect(-32,-16,10,30); ctx.fillRect(22,-16,10,30); ctx.fillStyle='#aab7c4'; ctx.fillRect(-14,-36,28,16); circle(-7,-28,2.6,'#ffd76b'); circle(7,-28,2.6,'#ffd76b'); ctx.fillStyle='rgba(0,0,0,.18)'; ctx.fillRect(-16,-8,32,4); ctx.fillRect(-16,2,32,4); ctx.restore(); if(e.hp<e.maxhp)drawHealthBar(e.x,e.y-e.r-34,90,e.hp,e.maxhp); return; }
-  baseDrawEnemyP3(e);
-};
-function spawnP3EndlessEnemy(){
-  if(!G.endlessActive || G.endlessWave < 7) return;
-  if(enemies.length > 75) return;
-  if(!chance(.02)) return;
-  var x=clamp(P.x+rand(-620,620),50,WORLD.w-50);
-  var y=clamp(P.y+rand(-620,620),50,WORLD.h-50);
-  if(dist(P.x,P.y,x,y)<240){ x=clamp(P.x+420,50,WORLD.w-50); y=clamp(P.y+420,50,WORLD.h-50); }
-  var type=choose(['ghost','golem']);
-  var e=makeEnemy(type,x,y,null);
-  e.endless=true;
-  e.hp=Math.round(e.hp*(1+G.endlessWave*.08));
-  e.maxhp=e.hp;
-  e.dmg=Math.round(e.dmg*(1+G.endlessWave*.04));
-  enemies.push(e);
-}
-var baseDrawMinimapP3 = window.drawMinimap;
-window.drawMinimap = function(){
-  baseDrawMinimapP3();
-  if(p3$('hud').classList.contains('hidden')) return;
-  var s=135/WORLD.w;
-  mctx.fillStyle='rgba(120,220,255,.95)';
-  mctx.beginPath(); mctx.arc((forest.x-430)*s,(forest.y+430)*s,2.6,0,TAU); mctx.fill();
-  mctx.beginPath(); mctx.arc(300*s,380*s,2.6,0,TAU); mctx.fill();
-  mctx.fillStyle='rgba(220,160,255,.95)';
-  for(var i=0;i<pickups.length;i++){ if(pickups[i].type==='p2chest'){ mctx.beginPath(); mctx.arc(pickups[i].x*s,pickups[i].y*s,2.1,0,TAU); mctx.fill(); } }
-};
-var baseKillEnemyP3 = window.killEnemy;
-window.killEnemy = function(e){
-  baseKillEnemyP3(e);
-  if(e.type==='miniBoss'){ G.p3SecretKills=(G.p3SecretKills||0)+1; if(!G.p3AncientPower){ G.p3AncientPower=true; G.bonusDmg=(G.bonusDmg||0)+5; notify('هێزی کۆن لە مینیبۆسەوە وەرگیرا! +5 زیان','quest'); sfx('level'); saveGame(); } }
-  checkP3Ach();
-};
-var p3AchDefs = [
-  {id:'p3_wave10',name:'شەپۆلی ١٠',desc:'لە بێکۆتایی بگەیتە شەپۆلی ١٠',c:function(){return G.bestWave>=10;}},
-  {id:'p3_rich500',name:'گەنجینەی گەورە',desc:'٥٠٠ زێڕ',c:function(){return G.gold>=500;}},
-  {id:'p3_ancient',name:'هێزی کۆن',desc:'هێزی کۆن وەربگرە',c:function(){return !!G.p3AncientPower;}},
-  {id:'p3_secret3',name:'نهێنی‌زان',desc:'٣ مینیبۆس بکوژە',c:function(){return (G.p3SecretKills||0)>=3;}},
-  {id:'p3_fish10',name:'ماسیگری بەناوبانگ',desc:'١٠ ماسی بگرە',c:function(){return G.stats.fish>=10;}}
-];
-function checkP3Ach(){ for(var i=0;i<p3AchDefs.length;i++){ var a=p3AchDefs[i]; if(!G.achievements[a.id]&&a.c()){ G.achievements[a.id]=true; notify('دەستکەوت: '+a.name,'quest'); sfx('level'); saveGame(); } } }
-
-var baseUpdatePlayP3 = window.updatePlay;
-window.updatePlay = function(dt){ preP3(dt); baseUpdatePlayP3(dt); postP3(dt); };
-function preP3(dt){ if(state!=='play')return; updateWeather(dt); spawnP3EndlessEnemy(); }
-function postP3(dt){ if(state==='play'){ G.p3AchTimer+=dt; if(G.p3AchTimer>1){ G.p3AchTimer=0; checkP3Ach(); } } }
-
-var p3WeatherBtns = [];
-function addP3WeatherButton(selector){
-  var col=document.querySelector(selector); if(!col)return;
-  var b=document.createElement('button'); b.type='button'; b.className='btn'; b.textContent='کەشوهەوا: باران/ڕەشەبا ✅';
-  b.onclick=function(){ G.p3RainOn=!G.p3RainOn; if(!G.p3RainOn)G.weather='clear'; saveGame(); updateP3Buttons(); sfx('click'); };
-  col.appendChild(b); p3WeatherBtns.push(b);
-}
-function updateP3Buttons(){ var txt='کەشوهەوا: '+(G.p3RainOn?'باران/ڕەشەبا ✅':'کوژاوە ❌'); for(var i=0;i<p3WeatherBtns.length;i++) p3WeatherBtns[i].textContent=txt; }
-addP3WeatherButton('#menu .btnsCol');
-addP3WeatherButton('#pause .btnsCol');
-ensureP3();
-genP3Decor();
-updateP3Buttons();
-checkP3Ach();
-})();
-</script>
-
-<!-- PART 4: Shop / Auto-potion / Boss Rush -->
-<script>
-(function(){
-function p4$(id){ return document.getElementById(id); }
-if(typeof G==='undefined'||typeof P==='undefined'||typeof G.materials==='undefined'){ console.warn('Part4 needs Part2'); return; }
-function ensureP4(){
-  if(typeof G.p4AutoPotion==='undefined') G.p4AutoPotion=false;
-  if(typeof G.p4AutoCd==='undefined') G.p4AutoCd=0;
-  if(typeof G.p4Purchases==='undefined') G.p4Purchases=0;
-  if(typeof G.p4RushActive==='undefined') G.p4RushActive=false;
-  G.p4RushActive=false;
-  if(typeof G.p4RushWave==='undefined') G.p4RushWave=0;
-  if(typeof G.p4RushBest==='undefined') G.p4RushBest=0;
-  if(typeof G.p4RushAlive==='undefined') G.p4RushAlive=0;
-  if(typeof G.p4RushTimer==='undefined') G.p4RushTimer=1;
-  if(typeof G.p4AchTimer==='undefined') G.p4AchTimer=0;
-}
-var baseResetGameP4 = window.resetGame;
-window.resetGame = function(){ baseResetGameP4(); ensureP4(); updateP4Buttons(); };
-var baseLoadGameP4 = window.loadGame;
-window.loadGame = function(){ var ok=baseLoadGameP4(); if(ok) ensureP4(); return ok; };
-
-var p4PrevState='play';
-function openShop(){ p4PrevState=state; state='p4shop'; p4$('p4Shop').classList.remove('hidden'); document.getElementById('touch').classList.add('hidden'); renderShop(); }
-function closeShop(){ p4$('p4Shop').classList.add('hidden'); state=p4PrevState; if(state==='play')show(null); else if(state==='menu')show('menu'); else if(state==='pause')show('pause'); else if(state==='win')show('win'); else show(null); }
-p4$('p4ShopClose').onclick=closeShop;
-var baseTalkNPCP4 = window.talkNPC;
-window.talkNPC = function(n){ if(n&&n.id==='merchant'){ openShop(); return; } baseTalkNPCP4(n); };
-function buy(cost, fn, msg){ if(G.gold<cost){ notify('زێڕت کەمە!','warn'); return; } G.gold-=cost; fn(); G.p4Purchases++; saveGame(); updateHUD(); renderShop(); notify(msg,'quest'); sfx('coin'); checkP4Ach(); }
-function sell(mat, price){ if(G.materials[mat]<=0)return; G.materials[mat]--; G.gold+=price; saveGame(); updateHUD(); renderShop(); sfx('coin'); }
-function renderShop(){
-  p4$('p4ShopGold').textContent='زێڕ: '+G.gold;
-  var h=''; h+='<div class="p2Small">کڕین:</div>';
-  h+='<button class="btn p4ListBtn" id="p4BuyPotion">دەرمان — 25 زێڕ</button>';
-  h+='<button class="btn p4ListBtn" id="p4BuyFood">خواردن — 20 زێڕ</button>';
-  h+='<button class="btn p4ListBtn" id="p4BuyWood">دار — 15 زێڕ</button>';
-  h+='<button class="btn p4ListBtn" id="p4BuyIron">ئاسن — 30 زێڕ</button>';
-  h+='<button class="btn p4ListBtn" id="p4BuyCrystal">کریستاڵ — 70 زێڕ</button>';
-  var armorCost=80+G.armorLevel*40;
-  h+='<button class="btn p4ListBtn" id="p4BuyArmor">بەرزکردنی زرێ — '+armorCost+' زێڕ</button>';
-  h+='<div class="p2Small">کردنەوەی چەک بە زێڕ:</div>';
-  h+='<button class="btn p4ListBtn" id="p4UnlockFast">شمشێری خێرا — 80 زێڕ و ئاست 3</button>';
-  h+='<button class="btn p4ListBtn" id="p4UnlockHeavy">چەکوشی قورس — 140 زێڕ و ئاست 5</button>';
-  h+='<button class="btn p4ListBtn" id="p4UnlockFire">شمشێری ئاگرین — 220 زێڕ و ئاست 8</button>';
-  h+='<div class="p2Small">فرۆشتنی کەرەستە:</div>';
-  h+='<button class="btn p4ListBtn" id="p4SellWood">فرۆشتنی دار — 6 زێڕ</button>';
-  h+='<button class="btn p4ListBtn" id="p4SellIron">فرۆشتنی ئاسن — 12 زێڕ</button>';
-  h+='<button class="btn p4ListBtn" id="p4SellCrystal">فرۆشتنی کریستاڵ — 30 زێڕ</button>';
-  p4$('p4ShopItems').innerHTML=h;
-  function on(id,fn){ var el=p4$(id); if(el)el.onclick=fn; }
-  on('p4BuyPotion',function(){ buy(25,function(){G.potions++;},'دەرمان کڕدرا'); });
-  on('p4BuyFood',function(){ buy(20,function(){G.food++;},'خواردن کڕدرا'); });
-  on('p4BuyWood',function(){ buy(15,function(){G.materials.wood++;},'دار کڕدرا'); });
-  on('p4BuyIron',function(){ buy(30,function(){G.materials.iron++;},'ئاسن کڕدرا'); });
-  on('p4BuyCrystal',function(){ buy(70,function(){G.materials.crystal++;},'کریستاڵ کڕدرا'); });
-  on('p4BuyArmor',function(){ buy(armorCost,function(){ G.armorLevel++; P.maxhp+=10; P.hp+=10; if(P.hp>P.maxhp)P.hp=P.maxhp; },'زرێکەت بەهێزتر بوو'); });
-  on('p4UnlockFast',function(){ if(P.level<3){notify('پێویستە ئاست 3 بیت.','warn');return;} if(G.weaponsUnlocked.fast){notify('ئەم چەکە پێشتر کراوەتەوە.','info');return;} buy(80,function(){G.weaponsUnlocked.fast=true;},'شمشێری خێرا کرایەوە'); });
-  on('p4UnlockHeavy',function(){ if(P.level<5){notify('پێویستە ئاست 5 بیت.','warn');return;} if(G.weaponsUnlocked.heavy){notify('ئەم چەکە پێشتر کراوەتەوە.','info');return;} buy(140,function(){G.weaponsUnlocked.heavy=true;},'چەکوشی قورس کرایەوە'); });
-  on('p4UnlockFire',function(){ if(P.level<8){notify('پێویستە ئاست 8 بیت.','warn');return;} if(G.weaponsUnlocked.fire){notify('ئەم چەکە پێشتر کراوەتەوە.','info');return;} buy(220,function(){G.weaponsUnlocked.fire=true;},'شمشێری ئاگرین کرایەوە'); });
-  on('p4SellWood',function(){ sell('wood',6); });
-  on('p4SellIron',function(){ sell('iron',12); });
-  on('p4SellCrystal',function(){ sell('crystal',30); });
-}
-
-var p4AutoBtns=[];
-function addAutoBtn(selector){ var col=document.querySelector(selector); if(!col)return; var b=document.createElement('button'); b.type='button'; b.className='btn'; b.textContent='دەرمانی ئۆتۆ: ❌'; b.onclick=function(){ G.p4AutoPotion=!G.p4AutoPotion; saveGame(); updateP4Buttons(); sfx('click'); }; col.appendChild(b); p4AutoBtns.push(b); }
-function updateP4Buttons(){ var txt='دەرمانی ئۆتۆ: '+(G.p4AutoPotion?'✅':'❌'); for(var i=0;i<p4AutoBtns.length;i++) p4AutoBtns[i].textContent=txt; for(i=0;i<p4RushBtns.length;i++){ p4RushBtns[i].style.display=(G.bossDown&&!G.p4RushActive&&!G.endlessActive)?'':'none'; } }
-var p4RushBtns=[];
-function addRushBtn(selector){ var col=document.querySelector(selector); if(!col)return; var b=document.createElement('button'); b.type='button'; b.className='btn'; b.textContent='دۆخی بۆس ڕەش'; b.style.display='none'; b.onclick=function(){ startRush(); }; col.appendChild(b); p4RushBtns.push(b); }
-
-function p4RandAround(minD,maxD){ for(var t=0;t<22;t++){ var a=rand(0,TAU); var d=rand(minD,maxD); var x=clamp(P.x+Math.cos(a)*d,50,WORLD.w-50); var y=clamp(P.y+Math.sin(a)*d,50,WORLD.h-50); if(dist(P.x,P.y,x,y)>230)return {x:x,y:y}; } return {x:clamp(P.x+420,50,WORLD.w-50),y:clamp(P.y+420,50,WORLD.h-50)}; }
-
-function startRush(){
-  if(!G.bossDown){ notify('سەرەتا چیرۆکەکە تەواو بکە.','warn'); return; }
-  if(G.endlessActive){ notify('سەرەتا دۆخی بێکۆتایی کۆتایی بێنە.','warn'); return; }
-  if(G.p4RushActive) return;
-  if(state!=='play') startPlay();
-  G.p4RushActive=true; G.p4RushWave=0; G.p4RushAlive=0; G.p4RushTimer=1;
-  enemies=[]; projectiles=[]; P.hp=P.maxhp;
-  nextRushWave();
-  updateP4Buttons();
-  updateRushHud();
-}
-function endRush(){ if(!G.p4RushActive)return; G.p4RushActive=false; enemies=enemies.filter(function(e){return !e.rush;}); notify('دۆخی بۆس ڕەش کۆتایی هات. باشترین شەپۆل: '+G.p4RushBest,'quest'); saveGame(); updateRushHud(); updateP4Buttons(); }
-function nextRushWave(){ G.p4RushWave++; if(G.p4RushWave>G.p4RushBest)G.p4RushBest=G.p4RushWave; notify('بۆس ڕەش — شەپۆلی '+G.p4RushWave,'quest'); spawnRushWave(); saveGame(); }
-function spawnRushWave(){
-  var bossCount=1+Math.floor(G.p4RushWave/3);
-  var adds=2+Math.min(6,G.p4RushWave);
-  var i,pos,e;
-  for(i=0;i<bossCount;i++){ pos=p4RandAround(340,680); e=makeEnemy('miniBoss',pos.x,pos.y,null); e.hp=Math.round(e.hp*(1+G.p4RushWave*.12)); e.maxhp=e.hp; e.dmg=Math.round(e.dmg*(1+G.p4RushWave*.05)); e.rush=true; enemies.push(e); }
-  for(i=0;i<adds;i++){ pos=p4RandAround(340,680); var type=choose(['ghost','phantom','bat']); e=makeEnemy(type,pos.x,pos.y,null); e.hp=Math.round(e.hp*(1+G.p4RushWave*.10)); e.maxhp=e.hp; e.dmg=Math.round(e.dmg*(1+G.p4RushWave*.04)); e.rush=true; enemies.push(e); }
-}
-function rushUpdate(dt){
-  if(!G.p4RushActive) return;
-  var alive=0;
-  for(var i=0;i<enemies.length;i++){ if(enemies[i].rush&&!enemies[i].dead)alive++; }
-  G.p4RushAlive=alive;
-  if(alive===0){ G.p4RushTimer-=dt; if(G.p4RushTimer<=0){ var reward=30+G.p4RushWave*15; G.gold+=reward; P.hp=Math.min(P.maxhp,P.hp+Math.round(P.maxhp*.20)); notify('شەپۆل تەواو بوو! +'+reward+' زێڕ و 20% چاکبوونەوە','quest'); updateHUD(); nextRushWave(); } } else { G.p4RushTimer=1.2; }
-  updateRushHud();
-}
-function updateRushHud(){ var el=p4$('p4RushHud'); if(G.p4RushActive&&state==='play'){ el.classList.remove('hidden'); el.textContent='بۆس ڕەش — شەپۆل: '+G.p4RushWave+' — دوژمن: '+G.p4RushAlive; } else el.classList.add('hidden'); }
-
-var p4AchDefs=[{id:'p4_shop1',name:'کڕیاری یەکەم',desc:'یەکەم کڕین لە دوکان',c:function(){return G.p4Purchases>0;}},{id:'p4_rush3',name:'بۆس ڕەش ٣',desc:'لە بۆس ڕەش بگەیتە شەپۆلی 3',c:function(){return G.p4RushBest>=3;}},{id:'p4_gold1000',name:'گەنجینەی گەورە',desc:'1000 زێڕ',c:function(){return G.gold>=1000;}},{id:'p4_armor5',name:'زرێی بەهێز',desc:'زرێ ئاست 5',c:function(){return G.armorLevel>=5;}}];
-function checkP4Ach(){ for(var i=0;i<p4AchDefs.length;i++){ var a=p4AchDefs[i]; if(!G.achievements[a.id]&&a.c()){ G.achievements[a.id]=true; notify('دەستکەوت: '+a.name,'quest'); sfx('level'); saveGame(); } } }
-
-var baseUpdatePlayP4 = window.updatePlay;
-window.updatePlay = function(dt){ preP4(dt); baseUpdatePlayP4(dt); postP4(dt); };
-function preP4(dt){ if(state!=='play') return; if(G.p4AutoCd>0) G.p4AutoCd-=dt; if(G.p4AutoPotion&&G.p4AutoCd<=0&&P.hp<P.maxhp*.30&&G.potions>0){ usePotion(); G.p4AutoCd=2; } }
-function postP4(dt){ if(G.endlessActive&&G.p4RushActive) endRush(); if(state==='dead'&&G.p4RushActive) endRush(); if(G.p4RushActive) rushUpdate(dt); G.p4AchTimer+=dt; if(G.p4AchTimer>1){ G.p4AchTimer=0; checkP4Ach(); } updateRushHud(); }
-addEventListener('keydown',function(e){ if(e.code==='Escape'&&state==='p4shop') closeShop(); });
-document.getElementById('quitBtn').addEventListener('click',function(){ if(G.p4RushActive) endRush(); });
-document.getElementById('winMenuBtn').addEventListener('click',function(){ if(G.p4RushActive) endRush(); });
-ensureP4();
-addAutoBtn('#menu .btnsCol');
-addAutoBtn('#pause .btnsCol');
-addRushBtn('#win .btnsCol');
-addRushBtn('#menu .btnsCol');
-updateP4Buttons();
-checkP4Ach();
-})();
-</script>
-
-<!-- PART 5: Elite enemies + Ancient boss -->
-<script>
-(function(){
-function p5$(id){ return document.getElementById(id); }
-if(typeof G==='undefined'||typeof P==='undefined'||typeof G.materials==='undefined'){ console.warn('Part5 needs Part4'); return; }
-function ensureP5(){ if(typeof G.p5EliteKills==='undefined') G.p5EliteKills=0; if(typeof G.p5AncientSpawned==='undefined') G.p5AncientSpawned=false; if(typeof G.p5AncientDown==='undefined') G.p5AncientDown=false; if(typeof G.p5AchTimer==='undefined') G.p5AchTimer=0; if(G.p5AncientSpawned&&!G.p5AncientDown) G.p5AncientSpawned=false; }
-var baseResetGameP5 = window.resetGame;
-window.resetGame = function(){ baseResetGameP5(); ensureP5(); };
-var baseLoadGameP5 = window.loadGame;
-window.loadGame = function(){ var ok=baseLoadGameP5(); if(ok) ensureP5(); return ok; };
-function p5Flash(color){ var el=p5$('p5Flash'); if(!el)return; el.style.background=color; el.style.opacity=.35; setTimeout(function(){ el.style.opacity=0; },170); }
-var baseMakeEnemyP5 = window.makeEnemy;
-window.makeEnemy = function(type,x,y,area){
-  if(type==='ancient') return { type:'ancient',x:x,y:y,area:null,homeX:x,homeY:y,dead:false,hitFlash:0,kx:0,ky:0,attackCd:rand(.5,1),wanderT:rand(1,3),dir:rand(0,TAU),flying:true,shootCd:2,r:52,hp:1600+P.level*80,maxhp:1600+P.level*80,speed:105,dmg:32,aggro:1600,range:70,xp:1000,color:'#2a0f3f' };
-  var e=baseMakeEnemyP5(type,x,y,area);
-  if(e&&type!=='boss'&&type!=='miniBoss'&&type!=='ancient'&&e.hp&&chance(.08)){ e.elite=true; e.hp=Math.round(e.hp*1.7); e.maxhp=e.hp; e.dmg=Math.round(e.dmg*1.25); e.xp=Math.round((e.xp||10)*2); }
-  return e;
-};
-function drawAncient(e){
-  if(!vis(e.x,e.y,260)) return;
-  ellipse(e.x,e.y+e.r*.72,e.r*1.05,e.r*.35,'rgba(0,0,0,.32)');
-  var c=e.hitFlash>0?'#ffffff':e.color; var pulse=1+Math.sin(G.time*4)*.05;
-  var aura=ctx.createRadialGradient(e.x,e.y,10,e.x,e.y,130); aura.addColorStop(0,'rgba(190,90,255,.32)'); aura.addColorStop(1,'rgba(120,40,220,0)'); circle(e.x,e.y,130,aura);
-  ctx.save(); ctx.translate(e.x,e.y);
-  circle(0,0,52*pulse,c); circle(0,0,36*pulse,e.hitFlash>0?'#ffffff':'#4a1a6e');
-  ctx.strokeStyle='rgba(230,180,255,.7)'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.arc(0,0,62*pulse,G.time*1.2,G.time*1.2+4.2); ctx.stroke();
-  ctx.beginPath(); ctx.arc(0,0,74*pulse,-G.time,-G.time+3.6); ctx.stroke();
-  circle(-16,-8,6,'#ff6bff'); circle(16,-8,6,'#ff6bff');
-  ctx.restore();
-  if(e.hp<e.maxhp) drawHealthBar(e.x,e.y-e.r-30,150,e.hp,e.maxhp);
-}
-var baseDrawEnemyP5 = window.drawEnemy;
-window.drawEnemy = function(e){
-  if(e.type==='ancient'){ drawAncient(e); return; }
-  if(e.elite&&!e.dead&&vis(e.x,e.y,220)){ var r=(e.r||16)+22; var pulse=1+Math.sin(G.time*5+e.x)*.08; var g=ctx.createRadialGradient(e.x,e.y,4,e.x,e.y,r*pulse); g.addColorStop(0,'rgba(255,215,107,.28)'); g.addColorStop(1,'rgba(255,215,107,0)'); circle(e.x,e.y,r*pulse,g); }
-  baseDrawEnemyP5(e);
-};
-var baseUpdateEnemyP5 = window.updateEnemy;
-window.updateEnemy = function(e,dt){
-  if(e.type==='ancient'&&!e.dead){
-    if(dist(e.x,e.y,300,380)>950){ e.x=300; e.y=380; }
-    e.shootCd-=dt; var d=dist(e.x,e.y,P.x,P.y);
-    if(e.shootCd<=0&&d<950){ var baseAng=Math.atan2(P.y-e.y,P.x-e.x); var shots=e.hp<e.maxhp*.5?5:3; for(var i=0;i<shots;i++){ var a=baseAng+(i-(shots-1)/2)*.26; projectiles.push({x:e.x,y:e.y,vx:Math.cos(a)*300,vy:Math.sin(a)*300,r:10,dmg:e.dmg*.8,life:4,color:'#d28cff'}); } e.shootCd=e.hp<e.maxhp*.5?.85:1.45; sfx('hit'); }
-  }
-  baseUpdateEnemyP5(e,dt);
-};
-var baseKillEnemyP5 = window.killEnemy;
-window.killEnemy = function(e){
-  baseKillEnemyP5(e);
-  if(e.elite){ G.p5EliteKills=(G.p5EliteKills||0)+1; var bonus=randi(5,15); G.gold+=bonus; floatText(e.x,e.y-(e.r||16)-52,'+'+bonus+' 🪙 نایاب','#ffd76b'); updateHUD(); }
-  if(e.type==='miniBoss'&&(G.p3SecretKills||0)===3&&!G.p5AncientDown){ notify('دەنگێکی قووڵ لە ئەشکەوتەکەوە دێت...','quest'); }
-  if(e.type==='ancient'){ G.p5AncientDown=true; G.bonusDmg=(G.bonusDmg||0)+10; G.gold+=250; G.potions+=3; p5Flash('rgba(190,120,255,.55)'); notify('بۆسی کۆن شکا! +10 زیان، 250 زێڕ و 3 دەرمان','quest'); sfx('special'); saveGame(); updateHUD(); }
-  checkP5Ach();
-};
-var baseUpdatePlayP5 = window.updatePlay;
-window.updatePlay = function(dt){ preP5(dt); baseUpdatePlayP5(dt); postP5(dt); };
-function preP5(dt){
-  if(state!=='play') return;
-  if(G.weather==='storm'&&chance(.004)){ p5Flash('rgba(220,240,255,.35)'); sfx('hit'); }
-  if(G.secretFound&&(G.p3SecretKills||0)>=3&&!G.p5AncientDown&&!G.p5AncientSpawned){ if(dist(P.x,P.y,300,380)<270){ G.p5AncientSpawned=true; enemies.push(makeEnemy('ancient',300,320,null)); p5Flash('rgba(190,120,255,.55)'); notify('بۆسی کۆن لە ئەشکەوتی نهێنیدا بەدیار هات!','quest'); sfx('boss'); saveGame(); } }
-}
-function postP5(dt){ G.p5AchTimer+=dt; if(G.p5AchTimer>1){ G.p5AchTimer=0; checkP5Ach(); } }
-var baseDrawMinimapP5 = window.drawMinimap;
-window.drawMinimap = function(){ baseDrawMinimapP5(); if(p5$('hud').classList.contains('hidden')) return; var s=135/WORLD.w; for(var i=0;i<enemies.length;i++){ if(enemies[i].type==='ancient'&&!enemies[i].dead){ mctx.fillStyle='rgba(220,140,255,.95)'; mctx.beginPath(); mctx.arc(enemies[i].x*s,enemies[i].y*s,4,0,TAU); mctx.fill(); } } };
-var p5AchDefs=[{id:'p5_elite10',name:'نایاب‌کوژ',desc:'١٠ دوژمنی نایاب بکوژە',c:function(){return (G.p5EliteKills||0)>=10;}},{id:'p5_ancient',name:'بۆسی کۆن',desc:'بۆسی کۆن بشکێنە',c:function(){return !!G.p5AncientDown;}},{id:'p5_gold2000',name:'پاشای زێڕ',desc:'٢٠٠٠ زێڕ',c:function(){return G.gold>=2000;}},{id:'p5_rush5',name:'بۆس ڕەش ٥',desc:'لە بۆس ڕەش بگەیتە شەپۆلی 5',c:function(){return (G.p4RushBest||0)>=5;}},{id:'p5_wave15',name:'شەپۆلی ١٥',desc:'لە بێکۆتایی بگەیتە شەپۆلی 15',c:function(){return (G.bestWave||0)>=15;}}];
-function checkP5Ach(){ for(var i=0;i<p5AchDefs.length;i++){ var a=p5AchDefs[i]; if(!G.achievements[a.id]&&a.c()){ G.achievements[a.id]=true; notify('دەستکەوت: '+a.name,'quest'); sfx('level'); saveGame(); } } }
-ensureP5();
-checkP5Ach();
-})();
-</script>
-
-<!-- PART 6: Relics + Rank -->
-<script>
-(function(){
-function p6$(id){ return document.getElementById(id); }
-if(typeof G==='undefined'||typeof P==='undefined'||typeof G.materials==='undefined'){ console.warn('Part6 needs Part5'); return; }
-function ensureP6(){ if(typeof G.p6Relics==='undefined') G.p6Relics={power:0,speed:0,armor:0,life:0,treasure:0}; var ids=['power','speed','armor','life','treasure']; for(var i=0;i<ids.length;i++){ if(typeof G.p6Relics[ids[i]]==='undefined') G.p6Relics[ids[i]]=0; } if(typeof G.p6ArmorBonus==='undefined') G.p6ArmorBonus=0; if(typeof G.p6AchTimer==='undefined') G.p6AchTimer=0; }
-var baseResetGameP6 = window.resetGame;
-window.resetGame = function(){ baseResetGameP6(); ensureP6(); };
-var baseLoadGameP6 = window.loadGame;
-window.loadGame = function(){ var ok=baseLoadGameP6(); if(ok) ensureP6(); return ok; };
-var p6RelicDefs=[{id:'power',name:'پەیکەری هێز',color:'#ff8f6b',msg:'+2 زیانی هەمیشەیی'},{id:'speed',name:'پەیکەری خێرایی',color:'#7cc4ff',msg:'+8 خێرایی'},{id:'armor',name:'پەیکەری زرێ',color:'#ffd76b',msg:'زیانی دوژمن کەمتر دەبێتەوە'},{id:'life',name:'پەیکەری ژیان',color:'#8dffb8',msg:'+12 تەندروستی گەورە'},{id:'treasure',name:'پەیکەری گەنجینە',color:'#d3a6ff',msg:'+40 زێڕ'}];
-function relicDef(id){ for(var i=0;i<p6RelicDefs.length;i++){ if(p6RelicDefs[i].id===id) return p6RelicDefs[i]; } return p6RelicDefs[0]; }
-function totalRelics(){ var sum=0; for(var k in G.p6Relics) sum+=G.p6Relics[k]; return sum; }
-function spawnRelicPickup(x,y){ var id=choose(['power','speed','armor','life','treasure']); pickups.push({type:'p6relic',x:x,y:y,bob:rand(0,TAU),relic:id}); }
-function applyRelic(id){
-  var def=relicDef(id); G.p6Relics[id]++;
-  if(id==='power') G.bonusDmg=(G.bonusDmg||0)+2;
-  if(id==='speed') P.speed+=8;
-  if(id==='armor') G.p6ArmorBonus=(G.p6ArmorBonus||0)+.02;
-  if(id==='life'){ P.maxhp+=12; P.hp+=12; if(P.hp>P.maxhp) P.hp=P.maxhp; }
-  if(id==='treasure') G.gold+=40;
-  notify('پەیکەر: '+def.name+' — '+def.msg,'quest'); sfx('shard'); saveGame(); updateHUD();
-}
-var baseHurtP6 = window.hurt;
-window.hurt = function(amount){ amount=amount*(1-Math.min(.35,G.p6ArmorBonus||0)); baseHurtP6(amount); };
-var baseKillEnemyP6 = window.killEnemy;
-window.killEnemy = function(e){
-  baseKillEnemyP6(e);
-  if(e.elite&&chance(.18)) spawnRelicPickup(e.x,e.y);
-  if(e.type==='miniBoss'&&chance(.12)) spawnRelicPickup(e.x,e.y);
-  if(e.type==='ancient'){ spawnRelicPickup(e.x+rand(-35,35),e.y+rand(-35,35)); spawnRelicPickup(e.x+rand(-45,45),e.y+rand(-45,45)); pickups.push({type:'p2chest',x:e.x,y:e.y+55,bob:rand(0,TAU)}); }
-  if(e.type==='boss') spawnRelicPickup(e.x,e.y);
-  checkP6Ach();
-};
-function preP6(dt){ if(state!=='play') return; for(var i=pickups.length-1;i>=0;i--){ var p=pickups[i]; if(p.type==='p6relic'&&dist(P.x,P.y,p.x,p.y)<36){ pickups.splice(i,1); applyRelic(p.relic); checkP6Ach(); } } }
-function postP6(dt){ G.p6AchTimer+=dt; if(G.p6AchTimer>1){ G.p6AchTimer=0; checkP6Ach(); } }
-var baseUpdatePlayP6 = window.updatePlay;
-window.updatePlay = function(dt){ preP6(dt); baseUpdatePlayP6(dt); postP6(dt); };
-function drawP6Relic(p){
-  var def=relicDef(p.relic); var bob=Math.sin(G.time*3+p.bob)*5; var y=p.y-16+bob;
-  ellipse(p.x,p.y+8,9,4,'rgba(0,0,0,.25)');
-  var g=ctx.createRadialGradient(p.x,y,2,p.x,y,30); g.addColorStop(0,def.color); g.addColorStop(1,'rgba(0,0,0,0)'); circle(p.x,y,30,g);
-  ctx.save(); ctx.translate(p.x,y); ctx.rotate(Math.sin(G.time*1.8+p.bob)*.16);
-  ctx.fillStyle=def.color; ctx.beginPath(); ctx.moveTo(0,-12); ctx.lineTo(8,0); ctx.lineTo(0,12); ctx.lineTo(-8,0); ctx.closePath(); ctx.fill();
-  ctx.strokeStyle='rgba(255,255,255,.8)'; ctx.lineWidth=2; ctx.stroke();
-  ctx.restore();
-}
-var baseDrawPickupP6 = window.drawPickup;
-window.drawPickup = function(p){ if(p.type==='p6relic'){ drawP6Relic(p); return; } baseDrawPickupP6(p); };
-var baseDrawMinimapP6 = window.drawMinimap;
-window.drawMinimap = function(){ baseDrawMinimapP6(); if(p6$('hud').classList.contains('hidden')) return; var s=135/WORLD.w; for(var i=0;i<pickups.length;i++){ var p=pickups[i]; if(p.type==='p6relic'){ var def=relicDef(p.relic); mctx.fillStyle=def.color; mctx.beginPath(); mctx.arc(p.x*s,p.y*s,2.2,0,TAU); mctx.fill(); } } };
-function p6Points(){ var achCount=Object.keys(G.achievements||{}).length; return Math.floor(P.level*10+((G.stats&&G.stats.kills)?G.stats.kills:0)*2+(G.bestWave||0)*20+(G.p4RushBest||0)*15+achCount*10+totalRelics()*25+(G.shards||0)*30); }
-function p6RankName(points){ if(points<150)return 'نوێ'; if(points<400)return 'پارێزەر'; if(points<850)return 'شەڕڤان'; if(points<1500)return 'پاڵەوان'; if(points<2500)return 'ئەفسانە'; return 'خاوەنی ڕووناکی'; }
-var baseUpdateHUDP6 = window.updateHUD;
-window.updateHUD = function(){ baseUpdateHUDP6(); var el=p6$('p6Rank'); if(!el) return; if(p6$('hud').classList.contains('hidden')){ el.classList.add('hidden'); } else { el.classList.remove('hidden'); var pts=p6Points(); el.textContent='ڕیزبەندی: '+p6RankName(pts)+' — خاڵ: '+pts; } };
-var p6AchDefs=[{id:'p6_relic1',name:'یەکەم پەیکەر',desc:'١ پەیکەر کۆبکەرەوە',c:function(){return totalRelics()>=1;}},{id:'p6_relic5',name:'پەیکەرکۆکەرەوە',desc:'٥ پەیکەر کۆبکەرەوە',c:function(){return totalRelics()>=5;}},{id:'p6_relic15',name:'گەنجینەی پیرۆز',desc:'١٥ پەیکەر کۆبکەرەوە',c:function(){return totalRelics()>=15;}},{id:'p6_kill200',name:'دوژمن‌بڕە دەگمەن',desc:'٢٠٠ دوژمن بکوژە',c:function(){return ((G.stats&&G.stats.kills)?G.stats.kills:0)>=200;}},{id:'p6_gold5000',name:'پاشای زێڕین',desc:'٥٠٠٠ زێڕ',c:function(){return G.gold>=5000;}}];
-function checkP6Ach(){ for(var i=0;i<p6AchDefs.length;i++){ var a=p6AchDefs[i]; if(!G.achievements[a.id]&&a.c()){ G.achievements[a.id]=true; notify('دەستکەوت: '+a.name,'quest'); sfx('level'); saveGame(); } } }
-ensureP6();
-checkP6Ach();
-})();
-</script>
-
-<!-- PART 7: Smith fix + Sword respawn -->
-<script>
-(function(){
-function p7$(id){ return document.getElementById(id); }
-if(typeof G==='undefined'||typeof P==='undefined'||typeof npcs==='undefined'){ console.warn('Part7 needs Part1'); return; }
-var p7Smith = null;
-function findP7Smith(){ p7Smith=null; for(var i=0;i<npcs.length;i++){ if(npcs[i].id==='smith'){ p7Smith=npcs[i]; return; } } }
-function ensureP7(){ if(typeof G.p7HintCd==='undefined') G.p7HintCd=0; }
-function fixP7Smith(){ findP7Smith(); if(!p7Smith) return; p7Smith.x=village.x-120; p7Smith.y=village.y+195; if(typeof torches!=='undefined'){ for(var i=torches.length-1;i>=0;i--){ if(torches[i].p7) torches.splice(i,1); } torches.push({x:p7Smith.x+26,y:p7Smith.y-12,p:rand(0,TAU),p7:true}); } }
-var baseResetGameP7 = window.resetGame;
-window.resetGame = function(){ baseResetGameP7(); ensureP7(); fixP7Smith(); };
-var baseLoadGameP7 = window.loadGame;
-window.loadGame = function(){ var ok=baseLoadGameP7(); if(ok){ ensureP7(); fixP7Smith(); } return ok; };
-function spawnP7SwordIfNeeded(){
-  if(!p7Smith) return;
-  if(G.quest>=1&&!G.hasSword){ var exists=false; for(var i=0;i<pickups.length;i++){ if(pickups[i].type==='p7sword') exists=true; } if(!exists){ pickups.push({type:'p7sword',x:p7Smith.x+22,y:p7Smith.y+26,bob:rand(0,TAU)}); } }
-  else if(G.hasSword){ for(var j=pickups.length-1;j>=0;j--){ if(pickups[j].type==='p7sword') pickups.splice(j,1); } }
-}
-function collectP7Sword(){ for(var i=pickups.length-1;i>=0;i--){ var p=pickups[i]; if(p.type==='p7sword'&&dist(P.x,P.y,p.x,p.y)<40){ pickups.splice(i,1); G.hasSword=true; if(G.quest===1) G.quest=2; notify('شمشێری ڕووناکی وەرگیرا!','quest'); sfx('pickup'); vib(25); saveGame(); updateHUD(); } } }
-function drawP7Sword(p){
-  var bob=Math.sin(G.time*3+p.bob)*3;
-  ellipse(p.x,p.y+10,14,6,'rgba(0,0,0,.28)');
-  ctx.fillStyle='#5b6470'; ctx.beginPath(); ctx.moveTo(p.x-14,p.y+8); ctx.lineTo(p.x+14,p.y+8); ctx.lineTo(p.x+8,p.y-4); ctx.lineTo(p.x-8,p.y-4); ctx.closePath(); ctx.fill();
-  var g=ctx.createRadialGradient(p.x,p.y-14+bob,2,p.x,p.y-14+bob,34); g.addColorStop(0,'rgba(220,240,255,.9)'); g.addColorStop(1,'rgba(120,190,255,0)'); circle(p.x,p.y-14+bob,34,g);
-  ctx.save(); ctx.translate(p.x,p.y-14+bob); ctx.rotate(-.25);
-  ctx.fillStyle='#dfe8ff'; ctx.fillRect(-2,-22,4,26);
-  ctx.fillStyle='#9fb4ff'; ctx.fillRect(-7,2,14,4);
-  ctx.fillStyle='#6c5839'; ctx.fillRect(-2,6,4,8);
-  ctx.restore();
-}
-var baseDrawPickupP7 = window.drawPickup;
-window.drawPickup = function(p){ if(p.type==='p7sword'){ drawP7Sword(p); return; } baseDrawPickupP7(p); };
-var baseUpdatePlayP7 = window.updatePlay;
-window.updatePlay = function(dt){ preP7(dt); baseUpdatePlayP7(dt); postP7(dt); };
-function preP7(dt){ if(state!=='play') return; if(G.p7HintCd>0) G.p7HintCd-=dt; spawnP7SwordIfNeeded(); collectP7Sword(); if(p7Smith&&G.quest===1&&!G.hasSword){ if(dist(P.x,P.y,p7Smith.x,p7Smith.y)<115&&G.p7HintCd<=0){ notify('کاوەی ئاسنگەر لێرەیە. قسەی لەگەڵ بکە یان شمشێرەکە لە بەردەکە وەربگرە.','info'); G.p7HintCd=6; } } }
-function postP7(dt){}
-ensureP7();
-fixP7Smith();
-})();
-</script>
-
-<!-- PART 8: New joystick + Graphics -->
-<script>
-(function(){
-function p8$(id){ return document.getElementById(id); }
-if(typeof G==='undefined'||typeof P==='undefined'||typeof joy==='undefined'){ console.warn('Part8 needs Part1'); return; }
-var p8Zone=p8$('p8JoyZone'), p8Base=p8$('p8JoyBase'), p8Knob=p8$('p8JoyKnob');
-var p8Active=false, p8TouchId=null, p8PointerId=null, p8BaseX=0, p8BaseY=0, p8Max=62;
-function p8ShowBase(x,y){ p8Base.style.display='block'; p8Knob.style.display='block'; p8Base.style.left=x+'px'; p8Base.style.top=y+'px'; p8Knob.style.left=x+'px'; p8Knob.style.top=y+'px'; }
-function p8Move(cx,cy){ var dx=cx-p8BaseX, dy=cy-p8BaseY; var d=Math.hypot(dx,dy); if(d>p8Max){ dx=dx/d*p8Max; dy=dy/d*p8Max; } p8Knob.style.left=(p8BaseX+dx)+'px'; p8Knob.style.top=(p8BaseY+dy)+'px'; joy.x=dx/p8Max; joy.y=dy/p8Max; joy.on=true; }
-function p8End(){ p8Active=false; p8TouchId=null; p8PointerId=null; joy.x=0; joy.y=0; joy.on=false; p8Base.style.display='none'; p8Knob.style.display='none'; }
-var p8UseTouch=('ontouchstart' in window)||navigator.maxTouchPoints>0;
-if(p8UseTouch){
-  p8Zone.addEventListener('touchstart',function(e){ if(state!=='play'||p8Active)return; var t=e.changedTouches[0]; p8Active=true; p8TouchId=t.identifier; p8BaseX=t.clientX; p8BaseY=t.clientY; p8ShowBase(p8BaseX,p8BaseY); p8Move(t.clientX,t.clientY); e.preventDefault(); },{passive:false});
-  p8Zone.addEventListener('touchmove',function(e){ if(!p8Active||p8TouchId===null)return; for(var i=0;i<e.touches.length;i++){ if(e.touches[i].identifier===p8TouchId){ p8Move(e.touches[i].clientX,e.touches[i].clientY); break; } } e.preventDefault(); },{passive:false});
-  p8Zone.addEventListener('touchend',function(e){ if(!p8Active||p8TouchId===null)return; for(var i=0;i<e.changedTouches.length;i++){ if(e.changedTouches[i].identifier===p8TouchId){ p8End(); break; } } e.preventDefault(); },{passive:false});
-  p8Zone.addEventListener('touchcancel',function(e){ p8End(); e.preventDefault(); },{passive:false});
-} else {
-  p8Zone.addEventListener('pointerdown',function(e){ if(state!=='play'||p8Active)return; p8Active=true; p8PointerId=e.pointerId; p8BaseX=e.clientX; p8BaseY=e.clientY; p8ShowBase(p8BaseX,p8BaseY); p8Move(e.clientX,e.clientY); e.preventDefault(); },{passive:false});
-  p8Zone.addEventListener('pointermove',function(e){ if(!p8Active||e.pointerId!==p8PointerId)return; p8Move(e.clientX,e.clientY); e.preventDefault(); },{passive:false});
-  p8Zone.addEventListener('pointerup',function(e){ if(e.pointerId===p8PointerId) p8End(); e.preventDefault(); },{passive:false});
-  p8Zone.addEventListener('pointercancel',function(e){ if(e.pointerId===p8PointerId) p8End(); e.preventDefault(); },{passive:false});
-}
-var oldJoyZone=document.getElementById('joyZone'); if(oldJoyZone) oldJoyZone.style.display='none';
-setInterval(function(){ var shouldShow=(typeof state!=='undefined'&&state==='play'); p8Zone.style.display=shouldShow?'block':'none'; if(!shouldShow&&p8Active) p8End(); },180);
-
-var p8Decor=[], p8Clouds=[];
-function genP8Graphics(){
-  p8Decor=[]; p8Clouds=[];
-  var i,x,y,z;
-  for(i=0;i<260;i++){ z=choose([village,forest,mountain,ruins]); x=rand(z.x-z.r,z.x+z.r); y=rand(z.y-z.r,z.y+z.r); if(dist(x,y,z.x,z.y)<z.r){ p8Decor.push({t:'grass',x:x,y:y,c:choose(['#57d98a','#3fae6d','#79e6a4'])}); } }
-  for(i=0;i<110;i++){ z=choose([village,forest,mountain]); x=rand(z.x-z.r,z.x+z.r); y=rand(z.y-z.r,z.y+z.r); if(dist(x,y,z.x,z.y)<z.r){ p8Decor.push({t:'flower',x:x,y:y,c:choose(['#ffd76b','#ff8fb1','#bfe6ff','#d3a6ff','#9fe8c9'])}); } }
-  for(i=0;i<85;i++){ z=choose([ruins,mountain,gate,forest]); x=rand(z.x-z.r,z.x+z.r); y=rand(z.y-z.r,z.y+z.r); if(dist(x,y,z.x,z.y)<z.r){ p8Decor.push({t:'pebble',x:x,y:y,c:choose(['#7d8a99','#5b6470','#9aa5b5'])}); } }
-  for(i=0;i<6;i++){ p8Clouds.push({x:rand(0,WORLD.w),y:rand(0,WORLD.h),r:rand(170,330),speed:rand(8,24),a:rand(.04,.08)}); }
-}
-function drawP8Decor(){ if(G.lowGfx) return; for(var i=0;i<p8Decor.length;i++){ var d=p8Decor[i]; if(!vis(d.x,d.y,30)) continue; if(d.t==='grass'){ ctx.strokeStyle=d.c; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(d.x+2,d.y-7); ctx.moveTo(d.x,d.y); ctx.lineTo(d.x-3,d.y-5); ctx.moveTo(d.x,d.y); ctx.lineTo(d.x+4,d.y-4); ctx.stroke(); } if(d.t==='flower'){ ctx.fillStyle='#3f8f57'; ctx.fillRect(d.x-1,d.y-6,2,7); circle(d.x,d.y-8,3,d.c); circle(d.x,d.y-8,1.2,'#fff8d8'); } if(d.t==='pebble'){ ellipse(d.x,d.y,3.6,2.4,d.c); ellipse(d.x-1,d.y-1,1.4,.9,'rgba(255,255,255,.18)'); } } }
-function drawP8Clouds(){ if(G.lowGfx) return; for(var i=0;i<p8Clouds.length;i++){ var c=p8Clouds[i]; var cx=(c.x+G.time*c.speed)%(WORLD.w+700)-350; if(!vis(cx,c.y,c.r+220)) continue; ellipse(cx,c.y,c.r,c.r*.42,'rgba(0,0,0,'+c.a+')'); ellipse(cx+c.r*.42,c.y+12,c.r*.68,c.r*.30,'rgba(0,0,0,'+(c.a*.7)+')'); ellipse(cx-c.r*.38,c.y+8,c.r*.58,c.r*.26,'rgba(0,0,0,'+(c.a*.6)+')'); } }
-var baseDrawBackgroundP8 = window.drawBackground;
-window.drawBackground = function(){ baseDrawBackgroundP8(); drawP8Clouds(); };
-var baseDrawGroundP8 = window.drawGround;
-window.drawGround = function(){ baseDrawGroundP8(); drawP8Decor(); };
-var baseDrawTreeP8 = window.drawTree;
-window.drawTree = function(o){ baseDrawTreeP8(o); if(G.lowGfx) return; if(!vis(o.x,o.y,120)) return; var sway=Math.sin(G.time*1.2+o.s)*3; circle(o.x+sway*.7,o.y-o.c*.92,o.c*.16,'rgba(255,255,255,.05)'); circle(o.x+sway*.4+o.c*.22,o.y-o.c*.72,o.c*.10,'rgba(255,255,255,.04)'); };
-function p8Ambient(){
-  if(G.lowGfx) return;
-  if(particles.length>420) return;
-  var moving=joy.on||keys.KeyW||keys.KeyS||keys.KeyA||keys.KeyD||keys.ArrowUp||keys.ArrowDown||keys.ArrowLeft||keys.ArrowRight;
-  if(moving&&chance(.28)){ particles.push({x:P.x+rand(-9,9),y:P.y+13,vx:rand(-14,14),vy:rand(-20,-5),life:rand(.25,.5),maxlife:.5,size:rand(1,2.4),color:'rgba(210,190,150,.35)',grav:0,type:'spark'}); }
-  if(chance(.22)){ for(var i=0;i<torches.length;i++){ var t=torches[i]; if(vis(t.x,t.y,140)&&chance(.08)){ particles.push({x:t.x+rand(-3,3),y:t.y-28,vx:rand(-8,8),vy:rand(-34,-14),life:rand(.35,.7),maxlife:.7,size:rand(1,2.2),color:'rgba(255,190,90,.55)',grav:-8,type:'spark'}); } } }
-}
-var baseUpdatePlayP8 = window.updatePlay;
-window.updatePlay = function(dt){ preP8(dt); baseUpdatePlayP8(dt); postP8(dt); };
-function preP8(dt){ if(state!=='play') return; p8Ambient(); }
-function postP8(dt){}
-genP8Graphics();
-})();
-</script>
-
-<!-- FINAL WRAPPER: pause game loop when hidden + expose open/close -->
-<script>
-(function(){
-  function lolEl(){ return document.getElementById('legendOfLightGame'); }
-  window.__lolShowMenu = function(){
-    try {
-      if (typeof state !== 'undefined') state = 'menu';
-      if (typeof show === 'function') show('menu');
-      var hud = document.getElementById('hud');
-      if (hud) hud.classList.add('hidden');
-      var touch = document.getElementById('touch');
-      if (touch) touch.classList.add('hidden');
-    } catch(e){}
-  };
-  // Pause frame when game is hidden
-  if (typeof window.frame === 'function' && !window.__lolFrameWrapped) {
-    var origFrame = window.frame;
-    window.frame = function(now){
-      var el = lolEl();
-      if (!el || el.style.display === 'none') {
-        if (typeof last !== 'undefined') window.last = now;
-        requestAnimationFrame(window.frame);
-        return;
-      }
-      origFrame(now);
-    };
-    window.__lolFrameWrapped = true;
-  }
-  // Expose globals for open/close (already declared above in main script)
-  // (openLegendOfLightGame and closeLegendOfLightGame are declared in the main script)
-})();
-</script>
-
-</body>
-</html>
