@@ -10666,7 +10666,716 @@ genP8Graphics();
 
 })();
 </script>
+<!-- ============================================== -->
+<!-- PART 14 — Amaze Go Game Logic (تەواو نوێ)      -->
+<!-- ============================================== -->
+<script>
+(function(){
+  'use strict';
 
+  // ========== دۆخ ==========
+  var STORAGE_KEY = 'amaze_go_v1';
+  var state = {
+    level: 1,
+    unlocked: 1,
+    completed: {},
+    sound: true,
+    theme: 0
+  };
+
+  function loadState(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        var d = JSON.parse(raw);
+        if(d && typeof d === 'object'){
+          state.level = d.level || 1;
+          state.unlocked = d.unlocked || 1;
+          state.completed = d.completed || {};
+          state.sound = (typeof d.sound === 'boolean') ? d.sound : true;
+          state.theme = d.theme || 0;
+        }
+      }
+    }catch(e){}
+  }
+  function saveState(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }catch(e){}
+  }
+
+  // ========== شێوازەکان ==========
+  var themes = [
+    {bg:'#f4ecd9', bg2:'#ece1c8', card:'#fffaf0', line:'#6b4a35', accent:'#c78a2e', accentDark:'#a9701f', panel:'#d8c6a3', wall:'#6b4a35', player:'#c78a2e', goal:'#6faa5a'},
+    {bg:'#e8f4ff', bg2:'#d6e9ff', card:'#f5faff', line:'#1e3a8a', accent:'#2563eb', accentDark:'#1d4ed8', panel:'#a3c8f0', wall:'#1e3a8a', player:'#2563eb', goal:'#10b981'},
+    {bg:'#1a1a2e', bg2:'#16213e', card:'#0f3460', line:'#e8e8e8', accent:'#e94560', accentDark:'#c74054', panel:'#533483', wall:'#e8e8e8', player:'#e94560', goal:'#00d9a0'},
+    {bg:'#f0f4e8', bg2:'#e0e8d0', card:'#fafcf5', line:'#3d5a1e', accent:'#84a93e', accentDark:'#6b8a30', panel:'#c8d8a0', wall:'#3d5a1e', player:'#84a93e', goal:'#c78a2e'},
+    {bg:'#fce8f0', bg2:'#f5d0e0', card:'#fff5f9', line:'#831843', accent:'#d946ef', accentDark:'#a21caf', panel:'#e8a3c8', wall:'#831843', player:'#d946ef', goal:'#10b981'},
+    {bg:'#2d2016', bg2:'#3d2d1f', card:'#4d3a28', line:'#f4e4c1', accent:'#e8a94d', accentDark:'#c98a2e', panel:'#6b4f35', wall:'#f4e4c1', player:'#e8a94d', goal:'#7dd3a8'}
+  ];
+
+  function applyTheme(){
+    var t = themes[state.theme] || themes[0];
+    var app = document.querySelector('#amazeGoOverlay .ag-app');
+    if(!app) return;
+    app.style.setProperty('--ag-bg', t.bg);
+    app.style.setProperty('--ag-bg2', t.bg2);
+    app.style.setProperty('--ag-card', t.card);
+    app.style.setProperty('--ag-line', t.line);
+    app.style.setProperty('--ag-accent', t.accent);
+    app.style.setProperty('--ag-accent-dark', t.accentDark);
+    app.style.setProperty('--ag-panel-border', t.panel);
+  }
+
+  // ========== دەنگ ==========
+  var actx = null;
+  function beep(freq, dur, type, vol){
+    if(!state.sound) return;
+    try{
+      if(!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+      if(actx.state === 'suspended') actx.resume();
+      var o = actx.createOscillator();
+      var g = actx.createGain();
+      o.type = type || 'sine';
+      o.frequency.value = freq;
+      g.gain.value = vol || 0.08;
+      o.connect(g);
+      g.connect(actx.destination);
+      o.start();
+      g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + dur);
+      o.stop(actx.currentTime + dur);
+    }catch(e){}
+  }
+  function sfx(n){
+    if(!state.sound) return;
+    switch(n){
+      case 'move': beep(300, 0.03, 'sine', 0.03); break;
+      case 'wall': beep(120, 0.06, 'square', 0.04); break;
+      case 'hint': beep(660, 0.1, 'sine', 0.06); beep(880, 0.12, 'sine', 0.05); break;
+      case 'win': [523,659,784,1046].forEach(function(f,i){ setTimeout(function(){ beep(f, 0.15, 'sine', 0.07); }, i*100); }); break;
+      case 'click': beep(500, 0.04, 'triangle', 0.04); break;
+    }
+  }
+
+  // ========== مەیز جێنەرەیتەر ==========
+  function generateMaze(size){
+    // grid[size][size] — هەر خانە {top, right, bottom, left} دیوارەکان
+    var grid = [];
+    for(var i = 0; i < size; i++){
+      var row = [];
+      for(var j = 0; j < size; j++){
+        row.push({ top: true, right: true, bottom: true, left: true, visited: false });
+      }
+      grid.push(row);
+    }
+
+    // Recursive backtracker
+    var stack = [];
+    var curX = 0, curY = 0;
+    grid[0][0].visited = true;
+    stack.push({x:0, y:0});
+
+    while(stack.length > 0){
+      var cur = stack[stack.length - 1];
+      curX = cur.x;
+      curY = cur.y;
+
+      var neighbors = [];
+      if(curY > 0 && !grid[curY - 1][curX].visited) neighbors.push({x:curX, y:curY - 1, dir:'top'});
+      if(curY < size - 1 && !grid[curY + 1][curX].visited) neighbors.push({x:curX, y:curY + 1, dir:'bottom'});
+      if(curX > 0 && !grid[curY][curX - 1].visited) neighbors.push({x:curX - 1, y:curY, dir:'left'});
+      if(curX < size - 1 && !grid[curY][curX + 1].visited) neighbors.push({x:curX + 1, y:curY, dir:'right'});
+
+      if(neighbors.length === 0){
+        stack.pop();
+        continue;
+      }
+
+      var next = neighbors[Math.floor(Math.random() * neighbors.length)];
+      var nx = next.x, ny = next.y;
+      grid[ny][nx].visited = true;
+
+      if(next.dir === 'top'){ grid[curY][curX].top = false; grid[ny][nx].bottom = false; }
+      if(next.dir === 'bottom'){ grid[curY][curX].bottom = false; grid[ny][nx].top = false; }
+      if(next.dir === 'left'){ grid[curY][curX].left = false; grid[ny][nx].right = false; }
+      if(next.dir === 'right'){ grid[curY][curX].right = false; grid[ny][nx].left = false; }
+
+      stack.push({x:nx, y:ny});
+    }
+
+    // زیادکردنی هەندێک دیوار لابردنی زیادە بۆ ئاسانترکردن
+    return grid;
+  }
+
+  // ========== پلەیەر ==========
+  var player = {x:0, y:0};
+  var goal = {x:0, y:0};
+  var maze = null;
+  var mazeSize = 5;
+  var hints = 5;
+  var moves = 0;
+  var timeStart = 0;
+  var timeElapsed = 0;
+  var gameActive = false;
+  var hintPath = [];
+  var hintUntil = 0;
+  var peekUntil = 0;
+
+  function levelSize(lvl){
+    if(lvl <= 2) return 5;
+    if(lvl <= 5) return 6;
+    if(lvl <= 9) return 7;
+    if(lvl <= 14) return 8;
+    if(lvl <= 20) return 9;
+    return 10;
+  }
+
+  // ========== کانواس ==========
+  var canvas = null;
+  var cctx = null;
+  var cellSize = 0;
+  var canvasSize = 0;
+
+  function setupCanvas(){
+    canvas = document.getElementById('ag-mazeCanvas');
+    if(!canvas) return false;
+    cctx = canvas.getContext('2d');
+    // اندازه: وەک خۆی دابنێ بۆ ئەوەی خۆکار بگونجێت
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    return true;
+  }
+
+  function resizeCanvas(){
+    if(!canvas) return;
+    var wrap = canvas.parentElement;
+    if(!wrap) return;
+    var w = wrap.clientWidth;
+    var h = wrap.clientHeight;
+    var size = Math.min(w, h);
+    if(size < 100) size = 300;
+    canvasSize = size;
+    canvas.width = size;
+    canvas.height = size;
+    canvas.style.width = size + 'px';
+    canvas.style.height = size + 'px';
+    cellSize = Math.floor(size / mazeSize);
+    // ڕێکخستنی ناوەندی
+    canvas.style.display = 'block';
+    canvas.style.margin = '0 auto';
+  }
+
+  // ========== ڕەسمکردن ==========
+  function draw(){
+    if(!cctx || !maze) return;
+    var t = themes[state.theme] || themes[0];
+    var size = canvasSize;
+    var pad = 4;
+
+    // باکگراوند
+    cctx.fillStyle = t.bg2;
+    cctx.fillRect(0, 0, size, size);
+
+    var cs = (size - pad * 2) / mazeSize;
+    var offX = pad, offY = pad;
+
+    // دیوارەکان
+    cctx.lineCap = 'round';
+    cctx.lineWidth = Math.max(2, cs * 0.10);
+    cctx.strokeStyle = t.wall;
+
+    var now = performance.now();
+
+    for(var y = 0; y < mazeSize; y++){
+      for(var x = 0; x < mazeSize; x++){
+        var cell = maze[y][x];
+        var px = offX + x * cs;
+        var py = offY + y * cs;
+
+        // خانەی ئامانج
+        if(x === goal.x && y === goal.y){
+          cctx.fillStyle = t.goal;
+          cctx.beginPath();
+          cctx.arc(px + cs/2, py + cs/2, cs * 0.28, 0, Math.PI * 2);
+          cctx.fill();
+        }
+
+        // دیوارەکان
+        cctx.beginPath();
+        if(cell.top){ cctx.moveTo(px, py); cctx.lineTo(px + cs, py); }
+        if(cell.right){ cctx.moveTo(px + cs, py); cctx.lineTo(px + cs, py + cs); }
+        if(cell.bottom){ cctx.moveTo(px, py + cs); cctx.lineTo(px + cs, py + cs); }
+        if(cell.left){ cctx.moveTo(px, py); cctx.lineTo(px, py + cs); }
+        cctx.stroke();
+      }
+    }
+
+    // ڕێنمایی (hint)
+    if(hintPath.length > 0 && now < hintUntil){
+      cctx.strokeStyle = t.accent;
+      cctx.lineWidth = Math.max(3, cs * 0.18);
+      cctx.globalAlpha = 0.6;
+      cctx.beginPath();
+      for(var i = 0; i < hintPath.length; i++){
+        var hp = hintPath[i];
+        var hx = offX + hp.x * cs + cs/2;
+        var hy = offY + hp.y * cs + cs/2;
+        if(i === 0) cctx.moveTo(hx, hy);
+        else cctx.lineTo(hx, hy);
+      }
+      cctx.stroke();
+      cctx.globalAlpha = 1;
+    }
+
+    // پلەیەر
+    var ppx = offX + player.x * cs + cs/2;
+    var ppy = offY + player.y * cs + cs/2;
+    var pulse = 1 + Math.sin(now / 200) * 0.08;
+
+    // هالە
+    var grd = cctx.createRadialGradient(ppx, ppy, 1, ppx, ppy, cs * 0.5);
+    grd.addColorStop(0, t.accent);
+    grd.addColorStop(1, 'rgba(0,0,0,0)');
+    cctx.fillStyle = grd;
+    cctx.globalAlpha = 0.4;
+    cctx.beginPath();
+    cctx.arc(ppx, ppy, cs * 0.5, 0, Math.PI * 2);
+    cctx.fill();
+    cctx.globalAlpha = 1;
+
+    // بازنە
+    cctx.fillStyle = t.player;
+    cctx.beginPath();
+    cctx.arc(ppx, ppy, cs * 0.28 * pulse, 0, Math.PI * 2);
+    cctx.fill();
+
+    // چاو
+    cctx.fillStyle = '#fff';
+    cctx.beginPath();
+    cctx.arc(ppx - cs * 0.08, ppy - cs * 0.04, cs * 0.05, 0, Math.PI * 2);
+    cctx.arc(ppx + cs * 0.08, ppy - cs * 0.04, cs * 0.05, 0, Math.PI * 2);
+    cctx.fill();
+
+    // بینین
+    if(peekUntil > 0 && now < peekUntil){
+      cctx.strokeStyle = t.accent;
+      cctx.lineWidth = 3;
+      cctx.strokeRect(2, 2, size - 4, size - 4);
+    }
+  }
+
+  // ========== جوڵە ==========
+  function tryMove(dx, dy){
+    if(!gameActive || !maze) return;
+    var nx = player.x + dx;
+    var ny = player.y + dy;
+    if(nx < 0 || nx >= mazeSize || ny < 0 || ny >= mazeSize){
+      sfx('wall');
+      return;
+    }
+    // پشکنینی دیوار
+    var cur = maze[player.y][player.x];
+    if(dx === 1 && cur.right){ sfx('wall'); return; }
+    if(dx === -1 && cur.left){ sfx('wall'); return; }
+    if(dy === 1 && cur.bottom){ sfx('wall'); return; }
+    if(dy === -1 && cur.top){ sfx('wall'); return; }
+
+    player.x = nx;
+    player.y = ny;
+    moves++;
+    updateHUD();
+    sfx('move');
+
+    if(player.x === goal.x && player.y === goal.y){
+      winLevel();
+    }
+  }
+
+  // ========== HUD ==========
+  var moveEl, timeEl, hintEl, levelEl;
+
+  function updateHUD(){
+    if(moveEl) moveEl.textContent = moves;
+    if(hintEl) hintEl.textContent = hints;
+    if(levelEl) levelEl.textContent = state.level;
+  }
+
+  function updateTime(){
+    if(!gameActive) return;
+    timeElapsed = Math.floor((performance.now() - timeStart) / 1000);
+    var m = Math.floor(timeElapsed / 60);
+    var s = timeElapsed % 60;
+    if(timeEl) timeEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  // ========== لیڤڵ ==========
+  function startLevel(lvl){
+    state.level = lvl;
+    mazeSize = levelSize(lvl);
+    maze = generateMaze(mazeSize);
+    player = {x:0, y:0};
+    goal = {x:mazeSize - 1, y:mazeSize - 1};
+    moves = 0;
+    timeStart = performance.now();
+    timeElapsed = 0;
+    gameActive = true;
+    hintPath = [];
+    hintUntil = 0;
+    peekUntil = 0;
+    resizeCanvas();
+    updateHUD();
+    saveState();
+    showToast('قۆناغ ' + lvl);
+  }
+
+  function winLevel(){
+    gameActive = false;
+    sfx('win');
+    state.completed[state.level] = true;
+    if(state.level >= state.unlocked){
+      state.unlocked = Math.min(state.level + 1, 30);
+    }
+    saveState();
+
+    // ئەستێرەکان بەپێی کاتی بەکارهێنراو و ژمارەی جوڵەکان
+    var ideal = mazeSize * mazeSize;
+    var stars = 3;
+    if(moves > ideal * 3) stars = 1;
+    else if(moves > ideal * 2) stars = 2;
+
+    var starStr = '';
+    for(var i = 0; i < 3; i++) starStr += (i < stars) ? '★' : '☆';
+
+    var winEl = document.getElementById('ag-winLevelNum');
+    if(winEl) winEl.textContent = state.level;
+    var starsRow = document.getElementById('ag-starsRow');
+    if(starsRow) starsRow.textContent = starStr;
+    var statsEl = document.getElementById('ag-winStats');
+    if(statsEl) statsEl.textContent = 'جوڵە: ' + moves + ' | کات: ' + timeElapsed + ' چرکە';
+
+    var winOverlay = document.getElementById('ag-overlayWin');
+    if(winOverlay) winOverlay.classList.add('show');
+  }
+
+  // ========== ئاماژە ==========
+  function useHint(){
+    if(!gameActive || !maze) return;
+    if(hints <= 0){
+      showToast('ئاماژەت نەماوە');
+      return;
+    }
+    hints--;
+    updateHUD();
+
+    // BFS بۆ دۆزینەوەی کورتترین ڕێگا
+    var queue = [{x:player.x, y:player.y, path:[{x:player.x,y:player.y}]}];
+    var visited = {};
+    visited[player.x + ',' + player.y] = true;
+    var found = null;
+
+    while(queue.length > 0){
+      var cur = queue.shift();
+      if(cur.x === goal.x && cur.y === goal.y){
+        found = cur.path;
+        break;
+      }
+      var cell = maze[cur.y][cur.x];
+      var dirs = [];
+      if(!cell.top && cur.y > 0) dirs.push({x:0, y:-1});
+      if(!cell.bottom && cur.y < mazeSize - 1) dirs.push({x:0, y:1});
+      if(!cell.left && cur.x > 0) dirs.push({x:-1, y:0});
+      if(!cell.right && cur.x < mazeSize - 1) dirs.push({x:1, y:0});
+
+      for(var i = 0; i < dirs.length; i++){
+        var nx = cur.x + dirs[i].x;
+        var ny = cur.y + dirs[i].y;
+        var key = nx + ',' + ny;
+        if(!visited[key]){
+          visited[key] = true;
+          queue.push({x:nx, y:ny, path:cur.path.concat([{x:nx,y:ny}])});
+        }
+      }
+    }
+
+    if(found){
+      hintPath = found;
+      hintUntil = performance.now() + 3000;
+      sfx('hint');
+    }
+  }
+
+  function usePeek(){
+    if(!gameActive) return;
+    peekUntil = performance.now() + 3000;
+    sfx('hint');
+  }
+
+  // ========== Toast ==========
+  var toastTimer = null;
+  function showToast(msg){
+    var el = document.getElementById('ag-toast');
+    if(!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    if(toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 1800);
+  }
+
+  // ========== پنێڵی لیڤڵەکان ==========
+  function renderLevelsGrid(){
+    var grid = document.getElementById('ag-levelsGrid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    for(var i = 1; i <= 30; i++){
+      (function(lvl){
+        var cell = document.createElement('div');
+        cell.className = 'ag-lvl-cell';
+        if(state.completed[lvl]) cell.classList.add('done');
+        if(lvl === state.level) cell.classList.add('current');
+        if(lvl > state.unlocked) cell.classList.add('locked');
+        cell.textContent = lvl;
+        if(lvl <= state.unlocked){
+          cell.onclick = function(){
+            sfx('click');
+            closeAllOverlays();
+            startLevel(lvl);
+          };
+        }
+        grid.appendChild(cell);
+      })(i);
+    }
+  }
+
+  // ========== پنێڵی ڕەنگەکان ==========
+  function renderThemes(){
+    var wrap = document.getElementById('ag-themeSwatches');
+    if(!wrap) return;
+    wrap.innerHTML = '';
+    for(var i = 0; i < themes.length; i++){
+      (function(idx){
+        var t = themes[idx];
+        var sw = document.createElement('div');
+        sw.className = 'ag-swatch' + (idx === state.theme ? ' active' : '');
+        sw.style.background = 'linear-gradient(135deg,' + t.bg + ',' + t.accent + ')';
+        sw.onclick = function(){
+          state.theme = idx;
+          applyTheme();
+          renderThemes();
+          saveState();
+          sfx('click');
+        };
+        wrap.appendChild(sw);
+      })(i);
+    }
+  }
+
+  // ========== داخستنەوەکان ==========
+  function closeAllOverlays(){
+    ['ag-overlayLevels', 'ag-overlayTheme', 'ag-overlaySettings', 'ag-overlayWin'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.classList.remove('show');
+    });
+  }
+  function openOverlay(id){
+    closeAllOverlays();
+    var el = document.getElementById(id);
+    if(el) el.classList.add('show');
+  }
+
+  // ========== Touch / Swipe ==========
+  var touchStartX = 0, touchStartY = 0, touchActive = false;
+
+  function setupTouch(){
+    if(!canvas) return;
+
+    canvas.addEventListener('touchstart', function(e){
+      if(e.touches.length !== 1) return;
+      touchActive = true;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      e.preventDefault();
+    }, {passive:false});
+
+    canvas.addEventListener('touchmove', function(e){
+      e.preventDefault();
+    }, {passive:false});
+
+    canvas.addEventListener('touchend', function(e){
+      if(!touchActive) return;
+      touchActive = false;
+      if(e.changedTouches.length === 0) return;
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      var dy = e.changedTouches[0].clientY - touchStartY;
+      var adx = Math.abs(dx), ady = Math.abs(dy);
+      if(adx < 20 && ady < 20) return; // tap — هیچ
+      if(adx > ady){
+        tryMove(dx > 0 ? 1 : -1, 0);
+      } else {
+        tryMove(0, dy > 0 ? 1 : -1);
+      }
+      e.preventDefault();
+    }, {passive:false});
+
+    // کلیکی ئامێری کۆمپیوتەر (tap بۆ جوڵە)
+    // بۆ ئاسانکاری، بە تەنها swipe کار دەکەین — بەڵام دەتوانین کلیکی دوگمەکان دابنێین
+  }
+
+  // ========== کیبۆرد ==========
+  window.addEventListener('keydown', function(e){
+    if(state !== 'p2panel' && state !== 'play' && state !== 'menu'){ /* noop */ }
+    var overlay = document.getElementById('amazeGoOverlay');
+    if(!overlay || overlay.style.display === 'none') return;
+    var k = e.key;
+    if(k === 'ArrowUp' || k === 'w' || k === 'W'){ tryMove(0, -1); e.preventDefault(); }
+    else if(k === 'ArrowDown' || k === 's' || k === 'S'){ tryMove(0, 1); e.preventDefault(); }
+    else if(k === 'ArrowLeft' || k === 'a' || k === 'A'){ tryMove(-1, 0); e.preventDefault(); }
+    else if(k === 'ArrowRight' || k === 'd' || k === 'D'){ tryMove(1, 0); e.preventDefault(); }
+  });
+
+  // ========== ئامادەکردن ==========
+  function setupButtons(){
+    var btnLevels = document.getElementById('ag-btnLevels');
+    var btnTheme = document.getElementById('ag-btnTheme');
+    var btnSettings = document.getElementById('ag-btnSettings');
+    var btnRestart = document.getElementById('ag-btnRestart');
+    var btnHint = document.getElementById('ag-btnHint');
+    var btnPeek = document.getElementById('ag-btnPeek');
+
+    var closeLevels = document.getElementById('ag-closeLevels');
+    var closeTheme = document.getElementById('ag-closeTheme');
+    var closeSettings = document.getElementById('ag-closeSettings');
+
+    var soundToggle = document.getElementById('ag-soundToggle');
+    var resetBtn = document.getElementById('ag-btnResetProgress');
+    var winReplay = document.getElementById('ag-btnWinReplay');
+    var winNext = document.getElementById('ag-btnWinNext');
+
+    if(btnLevels) btnLevels.onclick = function(){ renderLevelsGrid(); openOverlay('ag-overlayLevels'); sfx('click'); };
+    if(btnTheme) btnTheme.onclick = function(){ renderThemes(); openOverlay('ag-overlayTheme'); sfx('click'); };
+    if(btnSettings) btnSettings.onclick = function(){ openOverlay('ag-overlaySettings'); sfx('click'); };
+    if(btnRestart) btnRestart.onclick = function(){ startLevel(state.level); sfx('click'); };
+    if(btnHint) btnHint.onclick = function(){ useHint(); };
+    if(btnPeek) btnPeek.onclick = function(){ usePeek(); };
+
+    if(closeLevels) closeLevels.onclick = function(){ closeAllOverlays(); sfx('click'); };
+    if(closeTheme) closeTheme.onclick = function(){ closeAllOverlays(); sfx('click'); };
+    if(closeSettings) closeSettings.onclick = function(){ closeAllOverlays(); sfx('click'); };
+
+    if(soundToggle){
+      soundToggle.checked = state.sound;
+      soundToggle.onchange = function(){
+        state.sound = soundToggle.checked;
+        saveState();
+      };
+    }
+
+    if(resetBtn){
+      resetBtn.onclick = function(){
+        if(confirm('ئایا دڵنیایت لە سڕینەوەی هەموو پێشکەوتن؟')){
+          state.level = 1;
+          state.unlocked = 1;
+          state.completed = {};
+          hints = 5;
+          saveState();
+          renderLevelsGrid();
+          closeAllOverlays();
+          startLevel(1);
+        }
+      };
+    }
+
+    if(winReplay){
+      winReplay.onclick = function(){
+        closeAllOverlays();
+        startLevel(state.level);
+      };
+    }
+    if(winNext){
+      winNext.onclick = function(){
+        closeAllOverlays();
+        startLevel(Math.min(state.level + 1, 30));
+      };
+    }
+
+    // کلیک لە backdrop ئۆڤەرلەیەک بۆ داخستن
+    ['ag-overlayLevels', 'ag-overlayTheme', 'ag-overlaySettings'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el){
+        el.addEventListener('click', function(e){
+          if(e.target === el) closeAllOverlays();
+        });
+      }
+    });
+  }
+
+  // ========== دەستپێکردن ==========
+  function init(){
+    if(!setupCanvas()){
+      // ئەگەر کانواس نەبوو، دواتر هەوڵبدە
+      setTimeout(init, 300);
+      return;
+    }
+    loadState();
+    applyTheme();
+    setupButtons();
+    setupTouch();
+    hints = 5;
+    // لیڤڵی ئێستا دەستپێبکە
+    startLevel(state.level);
+    // ڕێندەری خۆکار
+    function loop(){
+      draw();
+      updateTime();
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // دڵنیابوون لە ڕێکخستنی قەبارەی کانواس دوای نیشاندان
+    setTimeout(resizeCanvas, 100);
+    setTimeout(resizeCanvas, 500);
+
+    console.log('[Amaze Go] یاری ئامادەیە ✅');
+  }
+
+  // ========== هاککردنی openAmazeGoGame بۆ دڵنیابوون ==========
+  var originalOpen = window.openAmazeGoGame;
+  window.openAmazeGoGame = function(){
+    // دڵنیابوون لەوەی overlay نیشان دەدرێت
+    var overlay = document.getElementById('amazeGoOverlay');
+    if(overlay){
+      overlay.style.display = 'block';
+    }
+    if(originalOpen) originalOpen();
+    // دوای کەمێک، کانواس ڕێکبخە
+    setTimeout(function(){
+      resizeCanvas();
+      startLevel(state.level);
+    }, 250);
+  };
+
+  var originalClose = window.closeAmazeGoGame;
+  window.closeAmazeGoGame = function(){
+    gameActive = false;
+    closeAllOverlays();
+    if(originalClose) originalClose();
+  };
+
+  // لیسنەر بۆ دڵنیابوون لە ڕێکخستنەوە
+  window.addEventListener('load', function(){
+    setTimeout(init, 500);
+  });
+
+  // ئەگەر DOM ئامادە بوو، دەستپێبکە
+  if(document.readyState === 'complete' || document.readyState === 'interactive'){
+    setTimeout(init, 300);
+  } else {
+    document.addEventListener('DOMContentLoaded', function(){
+      setTimeout(init, 300);
+    });
+  }
+
+})();
+</script>
 </body>
 </html>
 </body>
