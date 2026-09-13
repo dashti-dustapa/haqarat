@@ -8705,3 +8705,353 @@ ensurePart2();
 updatePart2UI();
 })();
 </script>
+<!-- PART 10-CLEANUP: پاککردنەوەی UI بۆ مۆبایل -->
+<style>
+/* =========================================================
+   UI CLEANUP — مۆبایل: مەپە لە سەرەوە، شتەکان کەمتر و ڕێکخراو
+   ========================================================= */
+
+/* ===== پنێڵی HUD گشتی — زیاتر ڕێکخراو ===== */
+#legendOfLightGame #hud {
+  display: block;
+}
+
+/* ==== مەپ: دەگوازرێتەوە بۆ لای چەپی سەرەوە، لە ژێر پنێڵی HP ==== */
+#legendOfLightGame #mapBox {
+  position: absolute;
+  top: auto;
+  bottom: auto;
+  left: 8px;
+  right: auto;
+  padding: 4px;
+  border-radius: 12px;
+  background: rgba(10,16,28,.55);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
+  transition: opacity .25s ease;
+}
+
+/* ==== مەپ: بچووکتر ==== */
+#legendOfLightGame #minimap {
+  width: 96px;
+  height: 96px;
+  border-radius: 9px;
+  background: rgba(5,8,14,.75);
+  display: block;
+}
+
+/* ==== پنێڵی HP: دەگوازرێتەوە بۆ سەرەوە لای ڕاست، بچووکتر ==== */
+#legendOfLightGame #pbox {
+  position: absolute;
+  top: calc(8px + env(safe-area-inset-top));
+  right: 8px;
+  left: auto;
+  width: min(240px, 62vw);
+  padding: 8px 10px;
+  border-radius: 12px;
+}
+
+/* ==== قەبارەی فۆنت و بارەکان: بچووکتر ==== */
+#legendOfLightGame #pbox .bar {
+  height: 10px;
+  margin-top: 4px;
+  border-radius: 999px;
+}
+#legendOfLightGame #pbox .smallText {
+  font-size: 10px;
+  margin-top: 1px;
+}
+#legendOfLightGame #pbox .row {
+  font-size: 13px;
+  gap: 4px;
+}
+#legendOfLightGame #pbox .row b {
+  font-size: 12px;
+}
+#legendOfLightGame #pbox #lvl {
+  font-size: 12px;
+  font-weight: 800;
+}
+#legendOfLightGame #pbox .miniBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+/* ==== ئەرک (quest): دەچێتە ژێر پنێڵی HP، بچووکتر ==== */
+#legendOfLightGame #qbox {
+  position: absolute;
+  top: calc(94px + env(safe-area-inset-top));
+  right: 8px;
+  left: auto;
+  width: min(240px, 62vw);
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: #eaf2ff;
+  background: rgba(10,16,28,.55);
+}
+#legendOfLightGame #qbox b {
+  font-size: 10px;
+  color: #ffd76b;
+  letter-spacing: 0.5px;
+}
+#legendOfLightGame #qbox #quest {
+  font-size: 11px;
+  color: #dbe9ff;
+}
+
+/* ==== بۆس: بچووکتر ==== */
+#legendOfLightGame #bossWrap {
+  top: calc(6px + env(safe-area-inset-top));
+  width: min(92vw, 560px);
+}
+#legendOfLightGame #bossBar {
+  height: 12px;
+}
+#legendOfLightGame #bossName {
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+/* ==== پنێڵی سەرەوە (Stage Banner): بچووکتر ==== */
+#legendOfLightGame #ronakiStageBanner { display: none; }
+
+/* ===== شاشەی مۆبایل ===== */
+@media (max-width: 640px) {
+  /* مەپ: زۆر بچووکتر */
+  #legendOfLightGame #minimap {
+    width: 76px;
+    height: 76px;
+  }
+  #legendOfLightGame #mapBox {
+    padding: 3px;
+    border-radius: 10px;
+  }
+  /* پنێڵی HP: بچووکتر */
+  #legendOfLightGame #pbox {
+    width: min(200px, 58vw);
+    padding: 6px 8px;
+  }
+  #legendOfLightGame #pbox .bar {
+    height: 8px;
+    margin-top: 3px;
+  }
+  #legendOfLightGame #pbox .smallText {
+    font-size: 9px;
+  }
+  #legendOfLightGame #pbox .row {
+    font-size: 11px;
+  }
+  #legendOfLightGame #pbox .row b {
+    font-size: 10.5px;
+  }
+  #legendOfLightGame #pbox .miniBtn {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+  /* ئەرک: بچووکتر */
+  #legendOfLightGame #qbox {
+    top: calc(80px + env(safe-area-inset-top));
+    width: min(200px, 58vw);
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+  #legendOfLightGame #qbox b {
+    font-size: 9px;
+  }
+  #legendOfLightGame #qbox #quest {
+    font-size: 10px;
+  }
+  /* پنێڵی سەرەوەی گەمیش: پاککردنەوە */
+  #legendOfLightGame #p2Gear {
+    top: calc(8px + env(safe-area-inset-top));
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    left: auto;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  /* پنێڵی ھێرشی تایبەت */
+  #legendOfLightGame #p2Special {
+    width: 72px;
+    height: 72px;
+    font-size: 20px;
+    bottom: calc(260px + env(safe-area-inset-bottom));
+    right: 10px;
+  }
+  #legendOfLightGame #p2Special small {
+    font-size: 10px;
+  }
+  /* پنێڵە سەرەوەکانی تر: کەمتر لێک نزیک */
+  #legendOfLightGame #p2EndlessHud {
+    font-size: 12px;
+    padding: 5px 10px;
+    top: calc(80px + env(safe-area-inset-top));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  #legendOfLightGame #p4RushHud {
+    font-size: 12px;
+    padding: 5px 10px;
+    top: calc(112px + env(safe-area-inset-top));
+  }
+  #legendOfLightGame #p6Rank {
+    font-size: 11px;
+    padding: 4px 8px;
+    top: calc(144px + env(safe-area-inset-top));
+    max-width: 92vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* مەپ: کاتێک بۆسی هەیە، مەپەکە نەشارێتەوە */
+  #legendOfLightGame #minimap {
+    opacity: 0.92;
+  }
+  /* خۆکار: هەموو پنێڵەکانی تر لە ناوەندەوە نزیک */
+  #legendOfLightGame .hud-top {
+    gap: 4px !important;
+  }
+}
+
+/* ==== شاشەی زۆر بچووک (تەلەفۆنی کۆن) ==== */
+@media (max-width: 400px) {
+  #legendOfLightGame #minimap {
+    width: 66px;
+    height: 66px;
+  }
+  #legendOfLightGame #pbox {
+    width: min(180px, 56vw);
+    padding: 5px 7px;
+  }
+  #legendOfLightGame #qbox {
+    width: min(180px, 56vw);
+    font-size: 9px;
+    padding: 4px 7px;
+    top: calc(72px + env(safe-area-inset-top));
+  }
+  #legendOfLightGame #qbox b {
+    font-size: 8px;
+  }
+  #legendOfLightGame #qbox #quest {
+    font-size: 9px;
+  }
+  #legendOfLightGame #p2Gear {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+}
+
+/* ==== شارەزایی: کاتێک بۆسەکە هەیە، ئەرکەکە نەشارێت ==== */
+#legendOfLightGame #qbox.hidden { display: none; }
+</style>
+
+<script>
+(function(){
+  "use strict";
+  // پاککردنەوەی UI بۆ مۆبایل — مەپ و پنێڵەکان ڕێکدەخات
+  function p10$(id){ return document.getElementById(id); }
+
+  function applyCleanup(){
+    // دڵنیابوون لەوەی مەپەکە لە سەرەوە لای چەپە
+    var mapBox = p10$('mapBox');
+    var minimap = p10$('minimap');
+    if(mapBox && minimap){
+      // لە مۆبایل، مەپەکە ٧٦ پیکسڵە
+      var isMobile = window.matchMedia('(max-width: 640px)').matches;
+      var size = isMobile ? 76 : 96;
+      minimap.style.width = size + 'px';
+      minimap.style.height = size + 'px';
+      minimap.setAttribute('width', size);
+      minimap.setAttribute('height', size);
+    }
+
+    // لە شاشەی زۆر بچووک، ٦٦ پیکسڵە
+    var isTiny = window.matchMedia('(max-width: 400px)').matches;
+    if(isTiny && minimap){
+      minimap.style.width = '66px';
+      minimap.style.height = '66px';
+      minimap.setAttribute('width', 66);
+      minimap.setAttribute('height', 66);
+    }
+  }
+
+  // دەستپێکردن
+  applyCleanup();
+
+  // لە کاتی گۆڕینی قەبارەی شاشە
+  var resizeTimer = null;
+  window.addEventListener('resize', function(){
+    if(resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(applyCleanup, 120);
+  });
+
+  // هەروەها کاتێک پنێڵەکان دەردەکەون (کاتێک یاری دەستپێدەکات)
+  var mapCheck = setInterval(function(){
+    var el = p10$('legendOfLightGame');
+    if(el && el.style.display !== 'none'){
+      applyCleanup();
+    }
+  }, 800);
+  setTimeout(function(){ clearInterval(mapCheck); }, 20000);
+
+  // ============ ڕێکخستنی مینی مەپ: هەمیشە لە سەرەوە لای چەپ ============
+  // ئەمە دڵنیا دەبێتەوە کە مەپەکە هیچ کات لە ژێرەوە نەبێت
+  var styleEl = document.createElement('style');
+  styleEl.textContent = `
+    #legendOfLightGame #mapBox {
+      top: calc(8px + env(safe-area-inset-top)) !important;
+      bottom: auto !important;
+      left: 8px !important;
+      right: auto !important;
+    }
+    @media (max-width: 640px) {
+      #legendOfLightGame #mapBox {
+        top: calc(6px + env(safe-area-inset-top)) !important;
+        left: 6px !important;
+      }
+    }
+  `;
+  document.head.appendChild(styleEl);
+
+  // ============ کەمکردنەوەی شتەکان لە شاشەدا ============
+  // لە مۆبایل: شاردنەوەی پنێڵی زۆر زیاد لە سەرەوە
+  var hudStyle = document.createElement('style');
+  hudStyle.textContent = `
+    @media (max-width: 640px) {
+      /* پنێڵی "قارەمان" بچووکتر */
+      #legendOfLightGame #pbox .glass,
+      #legendOfLightGame #pbox {
+        backdrop-filter: blur(8px);
+      }
+      /* ئایکۆنی گەم (⚙️) لە ناوەند */
+      #legendOfLightGame #p2Gear {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+      }
+      /* کەمکردنەوەی فۆنتی بۆس */
+      #legendOfLightGame #bossName {
+        font-size: 11px;
+      }
+      /* کەمکردنەوەی قەبارەی notification */
+      #legendOfLightGame .notification {
+        font-size: 13px;
+        padding: 8px 12px;
+        border-radius: 12px;
+        max-width: 88vw;
+      }
+    }
+  `;
+  document.head.appendChild(hudStyle);
+
+})();
+</script>
