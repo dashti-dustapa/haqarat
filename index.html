@@ -10500,3 +10500,57 @@ genP8Graphics();
   }, 1200);
 })();
 </script>
+<!-- ============================================== -->
+<!-- PART 13 — کۆتایی فایل + باشترکردنی خێرایی     -->
+<!-- ============================================== -->
+
+<!-- 🔒 Interceptor: بلۆککردنی کیبۆرد کاتێک یارییەکان داخراون -->
+<script>
+(function(){
+  function isAnyGameHidden(){
+    var el = document.getElementById('legendOfLightGame');
+    return !el || el.style.display === 'none';
+  }
+  window.addEventListener('keydown', function(e){
+    if (isAnyGameHidden()) e.stopImmediatePropagation();
+  }, true);
+})();
+</script>
+
+<!-- ⏸️ Wrapper بۆ Legend of Light — کەمکردنەوەی زەحمەتی CPU -->
+<script>
+(function(){
+  window.__lolShowMenu = function(){
+    try{
+      if(typeof state !== 'undefined') state = 'menu';
+      if(typeof show === 'function') show('menu');
+      var hud = document.getElementById('hud');
+      if(hud) hud.classList.add('hidden');
+      var touch = document.getElementById('touch');
+      if(touch) touch.classList.add('hidden');
+    }catch(e){}
+  };
+
+  function wrapFrame(){
+    if(typeof window.frame === 'function' && !window.__lolFrameWrapped){
+      var origFrame = window.frame;
+      window.frame = function(now){
+        var overlay = document.getElementById('legendOfLightGame');
+        if(!overlay || overlay.style.display === 'none'){
+          requestAnimationFrame(window.frame);
+          return;
+        }
+        origFrame(now);
+      };
+      window.__lolFrameWrapped = true;
+    }
+  }
+
+  window.addEventListener('load', function(){
+    setTimeout(wrapFrame, 1500);
+  });
+})();
+</script>
+
+</body>
+</html>
