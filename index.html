@@ -10551,6 +10551,123 @@ genP8Graphics();
   });
 })();
 </script>
+<!-- ============================================== -->
+<!-- PART 13-FIX — چارەسەری ئیدانەی زیادەی یارییەکان -->
+<!-- ============================================== -->
+<script>
+(function(){
+  'use strict';
 
+  // ئەم ئیدانە ئەگەر لە دەرەوەی #legendOfLightGame بن، دەشاردرێنەوە
+  var idsToHide = [
+    'p4Shop',
+    'p4RushHud',
+    'p6Rank',
+    'p8JoyZone',
+    'p8JoyBase',
+    'p8JoyKnob',
+    'p5Flash',
+    'p2EndlessHud',
+    'p2Gear',
+    'p2Special',
+    'p2Panel',
+    'p2Fish',
+    'p2Choice',
+    'p4ShopGold',
+    'p4ShopItems'
+  ];
+
+  function hideOrphans(){
+    var game = document.getElementById('legendOfLightGame');
+    var count = 0;
+
+    for(var i = 0; i < idsToHide.length; i++){
+      var id = idsToHide[i];
+      var els = document.querySelectorAll('#' + id);
+
+      for(var j = 0; j < els.length; j++){
+        var el = els[j];
+        var insideGame = game && game.contains(el);
+
+        if(!insideGame){
+          el.style.setProperty('display', 'none', 'important');
+          el.style.setProperty('visibility', 'hidden', 'important');
+          el.style.setProperty('opacity', '0', 'important');
+          el.style.setProperty('pointer-events', 'none', 'important');
+          el.setAttribute('data-game-orphan', '1');
+          count++;
+        }
+      }
+    }
+
+    return count;
+  }
+
+  // دوای لۆدکردنی لاپەڕە
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){
+      var n = hideOrphans();
+      console.log('%c🛑 ئیدانەی زیادە شاردرانەوە: ' + n, 'color:#10b981;font-weight:bold;');
+    });
+  } else {
+    var n = hideOrphans();
+    console.log('%c🛑 ئیدانەی زیادە شاردرانەوە: ' + n, 'color:#10b981;font-weight:bold;');
+  }
+
+  // پشکنینی دووبارە بۆ دڵنیابوونەوە
+  setTimeout(hideOrphans, 300);
+  setTimeout(hideOrphans, 1000);
+  setTimeout(hideOrphans, 2500);
+  setTimeout(hideOrphans, 5000);
+
+  // پشکنینی خۆکار بۆ ئەگەر دواتر دەرکەوتن
+  try{
+    var observer = new MutationObserver(function(muts){
+      for(var k = 0; k < muts.length; k++){
+        var nodes = muts[k].addedNodes;
+        for(var nn = 0; nn < nodes.length; nn++){
+          var node = nodes[nn];
+          if(node.nodeType === 1 && node.id && idsToHide.indexOf(node.id) !== -1){
+            var game = document.getElementById('legendOfLightGame');
+            if(!game || !game.contains(node)){
+              node.style.setProperty('display', 'none', 'important');
+              node.style.setProperty('visibility', 'hidden', 'important');
+              node.style.setProperty('opacity', '0', 'important');
+              node.style.setProperty('pointer-events', 'none', 'important');
+            }
+          }
+        }
+      }
+    });
+    if(document.body){
+      observer.observe(document.body, { childList: true, subtree: true });
+    } else {
+      document.addEventListener('DOMContentLoaded', function(){
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+    }
+  }catch(e){}
+
+  // ڕاپۆرتی کۆتایی لە کۆنسۆل
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      var stats = {};
+      idsToHide.forEach(function(id){
+        var total = document.querySelectorAll('#' + id).length;
+        var orphans = document.querySelectorAll('#' + id + '[data-game-orphan="1"]').length;
+        if(total > 0){
+          stats[id] = total + ' کۆی' + (orphans > 0 ? ' — ' + orphans + ' شاردراوە' : ' — ✅ باشە');
+        }
+      });
+      console.log('%c🎯 دۆخی ئیدانەکان:', 'color:#38bdf8;font-weight:bold;font-size:13px;');
+      console.table(stats);
+    }, 3000);
+  });
+
+})();
+</script>
+
+</body>
+</html>
 </body>
 </html>
