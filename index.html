@@ -3078,7 +3078,7 @@ function openItemActionSheet(id) {
 
 function startHold(id) {
   if (holdTimer) clearTimeout(holdTimer);
-  holdTimer = setTimeout(() => { openItemActionSheet(id); }, 1000);
+  holdTimer = setTimeout(() => { openItemActionSheet(id); }, 600);
 }
 window.addEventListener('touchmove', cancelHold, { passive: true });
 
