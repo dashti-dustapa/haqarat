@@ -3077,8 +3077,10 @@ function openItemActionSheet(id) {
 }
 
 function startHold(id) {
-  holdTimer = setTimeout(() => { openItemActionSheet(id); }, 600);
+  if (holdTimer) clearTimeout(holdTimer);
+  holdTimer = setTimeout(() => { openItemActionSheet(id); }, 1500);
 }
+window.addEventListener('touchmove', cancelHold, { passive: true });
 
 function cancelHold() {
   if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
