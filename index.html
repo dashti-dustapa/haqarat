@@ -3505,14 +3505,23 @@ function refreshLocationFilterOptions() {
 }
 
 function getNumericPriceSimple(item) {
-  if (!item) return null;
-  if (typeof item.priceNumeric === 'number' && !isNaN(item.priceNumeric)) return item.priceNumeric;
-  const text = String(item.price || '');
-  const matches = text.match(/\d+(?:[.,]\d+)?/g);
-  if (!matches) return null;
-  const nums = matches.map(s => parseFloat(s.replace(/,/g, '')));
-  const big = nums.filter(n => n >= 100);
-  return big.length > 0 ? Math.max(...big) : Math.max(...nums);
+  if (!item || !item.price) return null;
+  const text = String(item.price).replace(/,/g, '');
+  const nums = text.match(/\d+(?:\.\d+)?/g)?.map(Number);
+  if (!nums || nums.length === 0) return null;
+
+  // ئەگەر وشەی دەفتەر هەبوو (ژمارەی یەکەم × 10000)
+  if (text.includes('دەفتەر')) {
+    let total = nums[0] * 10000;
+    if (text.includes('نیو')) total += 5000;
+    else if (nums[1]) total += (nums[1] < 100 ? nums[1] * 100 : nums[1]);
+    return total;
+  }
+  // ئەگەر وشەی وەرەقە هەبوو (ژمارەکە × 100)
+  if (text.includes('وەرەقە')) {
+    return nums[0] * 100;
+  }
+  return Math.max(...nums);
 }
 
 function matchesFilters(item) {
