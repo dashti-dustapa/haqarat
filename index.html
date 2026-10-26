@@ -386,36 +386,7 @@ header {
   border-radius: 8px;
 }
 
-/* ================= NOTIFICATIONS & LOADERS ================= */
-#toastNotificationBox {
-  position: fixed;
-  bottom: 22px;
-  left: 50%;
-  transform: translateX(-50%) translateY(30px);
-  background: #0f172a;
-  color: #38bdf8;
-  border: 1.5px solid #0284c7;
-  padding: 0.75rem 1.25rem;
-  border-radius: 14px;
-  font-size: 0.84rem;
-  font-weight: 800;
-  z-index: 9999999;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  max-width: 92vw;
-  text-align: center;
-}
-#toastNotificationBox.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-
+/* ================= LOADERS ================= */
 #globalLoadingOverlay {
   position: fixed;
   inset: 0;
@@ -1726,8 +1697,6 @@ body.dark-mode .iphone-note {
 </head>
 <body>
 
-<div id="toastNotificationBox">🔔 <span id="toastMsgText">ئاگاداری نوێ</span></div>
-
 <div id="globalLoadingOverlay">
   <div class="loader-box">
     <div class="loader-spin"></div>
@@ -2367,10 +2336,6 @@ body.dark-mode .iphone-note {
         <input type="text" id="setAppPass" placeholder="0000" inputmode="numeric" pattern="[0-9]*">
       </div>
       <div class="form-group">
-        <label>🔔 دەقی ئاگاداری خۆکار:</label>
-        <input type="text" id="setAutoNotifText" placeholder="بەخێربێن بۆ نوسینگەی دەشتی دوستەپە">
-      </div>
-      <div class="form-group">
         <label>لینکی داگرتنی ئەپی ئەندرۆید (APK):</label>
         <input type="text" id="setApkUrl" placeholder="https://...">
       </div>
@@ -2489,7 +2454,6 @@ let customCategories = JSON.parse(localStorage.getItem('dashti_custom_cats')) ||
 let siteSettings = JSON.parse(localStorage.getItem('dashti_master_settings')) || {
   siteName: "عقارات دەشتی دوستەپە",
   appPass: "0000",
-  autoNotifText: "بەخێربێن بۆ نوسینگەی عقارات دەشتی دوستەپە ✨",
   primaryColor: "#0284c7",
   headerBgColor: "#ffffff",
   adminBgColor: "#0f172a",
@@ -2555,7 +2519,6 @@ function closeDownloadModal(doPush = true) {
 function handleDownloadAndroid() {
   closeDownloadModal(false);
   if (siteSettings.apkUrl && siteSettings.apkUrl.trim() !== "") {
-    showToastNotification('📥 داگرتنی ئەپ دەستیپێکرد...');
     window.location.href = siteSettings.apkUrl;
   } else {
     alert("تکایە سەرەتا لینکی داگرتنی APK لە بەشی ڕێکخستنی ماڵپەڕ دابنێ.");
@@ -2639,7 +2602,7 @@ function applyInstallIcons() {
   }
 }
 
-/* ================= LOADING &FIREBASE SYNC ================= */
+/* ================= LOADING & FIREBASE SYNC ================= */
 function showGlobalLoading(text) {
   const overlay = document.getElementById('globalLoadingOverlay');
   const textEl = document.getElementById('globalLoadingText');
@@ -2719,25 +2682,6 @@ async function syncAllToFirebase() {
     }
   }, { passive: true });
 })();
-
-function showToastNotification(msg) {
-  const toast = document.getElementById('toastNotificationBox');
-  const textEl = document.getElementById('toastMsgText');
-  if (!toast || !textEl) return;
-  textEl.innerText = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
-}
-
-function checkAutoNotification() {
-  const lastTime = Number(localStorage.getItem('dashti_last_auto_notif') || 0);
-  const now = Date.now();
-  if (now - lastTime > 2 * 24 * 60 * 60 * 1000) {
-    const msg = siteSettings.autoNotifText || "بەخێربێن بۆ نوسینگەی عقارات دەشتی دوستەپە ✨";
-    setTimeout(() => showToastNotification(msg), 1500);
-    localStorage.setItem('dashti_last_auto_notif', now);
-  }
-}
 
 /* ================= DARK MODE ================= */
 function toggleDarkMode() {
@@ -2856,7 +2800,6 @@ function switchAdminTab(tab, btn) {
 window.addEventListener('load', function() {
   window.history.pushState({ screen: 'home' }, "", "");
   applyDarkModeClass();
-  checkAutoNotification();
   updatePinDisplay();
 });
 
@@ -2997,7 +2940,6 @@ function exportAllDataBackup() {
   document.body.appendChild(a);
   a.click();
   a.remove();
-  showToastNotification('✅ فایلی باکئەپ بە سەرکەوتوویی داگرترا');
 }
 
 function importAllDataBackup(event) {
@@ -3024,7 +2966,6 @@ function importAllDataBackup(event) {
       applyThemeSettings();
       renderCustomCategoriesHub();
       refreshAfterDataChange();
-      showToastNotification('✅ هەموو داتاکان بە سەرکەوتوویی گەڕێندرانەوە!');
       closeModals();
     } catch (err) {
       alert("فایلی باکئەپەکە دروست نییە!");
@@ -3135,7 +3076,6 @@ async function downloadPropertyAsStory(id) {
     document.body.appendChild(a);
     a.click();
     a.remove();
-    showToastNotification('✅ وێنەی ستۆری داگرترا');
   } catch (err) {
     alert("کێشەیەک هەبوو لە دروستکردنی وێنەی ستۆری.");
   } finally {
@@ -3401,7 +3341,6 @@ async function handleSaveCustomCategory(e) {
   document.getElementById('customCatImgData').value = '';
   document.getElementById('customCatIconPreview').innerHTML = '📁';
   document.getElementById('saveCatBtn').innerText = '+ زیادکردنی تاب';
-  showToastNotification('✅ تابەکە پاشەکەوتکرا');
   refreshAfterDataChange({ refreshLocations: false });
 }
 
@@ -3412,7 +3351,6 @@ async function deleteCustomCategory(id) {
     renderCustomCategoriesHub();
     renderCustomTabsManageList();
     refreshAfterDataChange({ refreshLocations: false });
-    showToastNotification('🗑️ تابەکە سڕایەوە');
   }
 }
 
@@ -3510,14 +3448,12 @@ function getNumericPriceSimple(item) {
   const nums = text.match(/\d+(?:\.\d+)?/g)?.map(Number);
   if (!nums || nums.length === 0) return null;
 
-  // ئەگەر وشەی دەفتەر هەبوو (ژمارەی یەکەم × 10000)
   if (text.includes('دەفتەر')) {
     let total = nums[0] * 10000;
     if (text.includes('نیو')) total += 5000;
     else if (nums[1]) total += (nums[1] < 100 ? nums[1] * 100 : nums[1]);
     return total;
   }
-  // ئەگەر وشەی وەرەقە هەبوو (ژمارەکە × 100)
   if (text.includes('وەرەقە')) {
     return nums[0] * 100;
   }
@@ -3683,7 +3619,7 @@ function renderCardView(list) {
               </div>` : ''}
             <div class="card-footer">
               <div class="map-row">
-                ${(item.mapLink || item.location) ? `<a href="${mapHref}" target="_blank" rel="noopener noreferrer" class="btn btn-map">🗺️ نەخشە</a>` : ''}
+                {(item.mapLink || item.location) ? `<a href="${mapHref}" target="_blank" rel="noopener noreferrer" class="btn btn-map">🗺️ نەخشە</a>` : ''}
                 <button class="btn btn-story" onclick="downloadPropertyAsStory('${item.id}')">📸 ستۆری</button>
               </div>
               <span class="added-by-tag">زیادکەر: <b>${item.addedByWho || 'ڕەهەند'}</b></span>
@@ -3949,7 +3885,6 @@ function openEditWantModal(id) {
 function openSettingsModal() {
   document.getElementById('setSiteName').value = siteSettings.siteName || "";
   document.getElementById('setAppPass').value = siteSettings.appPass || "0000";
-  document.getElementById('setAutoNotifText').value = siteSettings.autoNotifText || "";
   document.getElementById('setApkUrl').value = siteSettings.apkUrl || "";
 
   const androidIcon = siteSettings.androidIcon || '🤖';
@@ -4028,10 +3963,8 @@ async function handleFormSubmit(e) {
   if (editId) {
     const idx = properties.findIndex(p => String(p.id) === String(editId));
     if (idx !== -1) properties[idx] = { ...properties[idx], ...propObj, isSold: properties[idx].isSold };
-    showToastNotification(`✏️ دەستکاریکرا: "${title}"`);
   } else {
     properties.unshift(propObj);
-    showToastNotification(`✅ موڵکی نوێ زیادکرا: "${title}"`);
   }
 
   localStorage.setItem('dashti_master_props', JSON.stringify(properties));
@@ -4068,10 +4001,8 @@ async function handleWantFormSubmit(e) {
   if (editId) {
     const idx = properties.findIndex(p => String(p.id) === String(editId));
     if (idx !== -1) properties[idx] = { ...properties[idx], ...wantObj, isSold: properties[idx].isSold };
-    showToastNotification(`✏️ داواکاری دەستکاریکرا: "${title}"`);
   } else {
     properties.unshift(wantObj);
-    showToastNotification(`✅ داواکاری نوێ زیادکرا: "${title}"`);
   }
 
   localStorage.setItem('dashti_master_props', JSON.stringify(properties));
@@ -4086,7 +4017,6 @@ async function toggleSoldStatus(id) {
   if (idx !== -1) {
     properties[idx].isSold = !properties[idx].isSold;
     localStorage.setItem('dashti_master_props', JSON.stringify(properties));
-    showToastNotification(properties[idx].isSold ? '🔒 دۆخ گۆڕدرا بۆ: فرۆشراو' : '✅ دۆخ گۆڕدرا بۆ: بەردەست');
     refreshAfterDataChange({ refreshLocations: false });
   }
 }
@@ -4097,7 +4027,6 @@ async function deleteProperty(id) {
     properties = properties.filter(p => String(p.id) !== String(id));
     localStorage.setItem('dashti_master_props', JSON.stringify(properties));
     refreshAfterDataChange();
-    showToastNotification('🗑️ بابەتەکە سڕایەوە');
     hideGlobalLoading();
   }
 }
@@ -4109,7 +4038,6 @@ async function handleSettingsSubmit(e) {
     ...siteSettings,
     siteName: document.getElementById('setSiteName').value || siteSettings.siteName,
     appPass: document.getElementById('setAppPass').value || "0000",
-    autoNotifText: document.getElementById('setAutoNotifText').value || siteSettings.autoNotifText,
     apkUrl: document.getElementById('setApkUrl').value || "",
     androidIcon: document.getElementById('setAndroidIconImg').value || document.getElementById('setAndroidIconEmoji').value.trim() || '🤖',
     iphoneIcon: document.getElementById('setIphoneIconImg').value || document.getElementById('setIphoneIconEmoji').value.trim() || '🍎',
@@ -4135,7 +4063,6 @@ async function handleSettingsSubmit(e) {
   closeModals();
   await syncAllToFirebase();
   refreshAfterDataChange();
-  showToastNotification('✅ ڕێکخستنەکان نوێکرانەوە');
   hideGlobalLoading();
 }
 
