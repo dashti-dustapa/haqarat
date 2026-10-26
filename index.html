@@ -3619,7 +3619,7 @@ function renderCardView(list) {
               </div>` : ''}
             <div class="card-footer">
               <div class="map-row">
-                {(item.mapLink || item.location) ? `<a href="${mapHref}" target="_blank" rel="noopener noreferrer" class="btn btn-map">🗺️ نەخشە</a>` : ''}
+                ${(item.mapLink || item.location) ? `<a href="${mapHref}" target="_blank" rel="noopener noreferrer" class="btn btn-map">🗺️ نەخشە</a>` : ''}
                 <button class="btn btn-story" onclick="downloadPropertyAsStory('${item.id}')">📸 ستۆری</button>
               </div>
               <span class="added-by-tag">زیادکەر: <b>${item.addedByWho || 'ڕەهەند'}</b></span>
